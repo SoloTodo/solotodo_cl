@@ -1,4 +1,5 @@
 // @mui
+import Image from "next/image";
 import { styled } from "@mui/material/styles";
 import { Box, Stack, AppBar, Toolbar } from "@mui/material";
 // hooks
@@ -12,6 +13,7 @@ import AccountPopover from "./AccountPopover";
 import Searchbar from "./Searchbar";
 import Logo from "../../../components/Logo";
 import SettingsPopover from "./SettingsPopover";
+import useSettings from "src/hooks/useSettings";
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +36,7 @@ const RootStyle = styled(AppBar, {
   }),
   [theme.breakpoints.up("lg")]: {
     height: HEADER.DASHBOARD_DESKTOP_HEIGHT,
-    width: `calc(100% - ${NAVBAR.DASHBOARD_WIDTH + 1}px)`,
+    // width: `calc(100% - ${NAVBAR.DASHBOARD_WIDTH + 1}px)`,
     ...(isCollapse && {
       width: `calc(100% - ${NAVBAR.DASHBOARD_COLLAPSE_WIDTH}px)`,
     }),
@@ -62,6 +64,7 @@ export default function DashboardHeader({
 }: Props) {
   const isOffset =
     useOffSetTop(HEADER.DASHBOARD_DESKTOP_HEIGHT) && !verticalLayout;
+  const settings = useSettings();
 
   return (
     <RootStyle
@@ -75,10 +78,22 @@ export default function DashboardHeader({
           px: { lg: 5 },
         }}
       >
-        <Logo />
-        <Box sx={{ flexGrow: 1 }} />
+        {settings.themeMode === "dark" ? (
+          <Image
+            alt={"Logo"}
+            src="/logo_fondo_oscuro.svg"
+            width={200}
+            height={51}
+          />
+        ) : (
+          <Image
+            alt={"Logo"}
+            src="/logo_fondo_claro.svg"
+            width={200}
+            height={51}
+          />
+        )}
 
-        <Searchbar />
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack
@@ -86,6 +101,7 @@ export default function DashboardHeader({
           alignItems="center"
           spacing={{ xs: 1.5, sm: 2.5 }}
         >
+          <Searchbar />
           <AccountPopover />
           <SettingsPopover />
         </Stack>

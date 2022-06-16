@@ -10,14 +10,14 @@ import {
   MenuItem,
   Avatar,
 } from "@mui/material";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 // components
 import MenuPopover from "../../../components/MenuPopover";
 import { IconButtonAnimate } from "../../../components/animate";
-// import { useAuth } from "src/frontend-utils/nextjs/JWTContext";
-// import { useAppSelector } from "src/store/hooks";
-// import { useUser } from "src/frontend-utils/redux/user";
-// // routes 
+import { useAuth } from "src/frontend-utils/nextjs/JWTContext";
+import { useAppSelector } from "src/store/hooks";
+import { useUser } from "src/frontend-utils/redux/user";
+// // routes
 import { PATH_AUTH } from "../../../routes/paths";
 
 // ----------------------------------------------------------------------
@@ -32,21 +32,18 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
-  // const { logout } = useAuth();
-  // const user = useAppSelector(useUser);
+  const { logout } = useAuth();
+  const user = useAppSelector(useUser);
   const router = useRouter();
 
   const [open, setOpen] = useState<HTMLElement | null>(null);
-
-  // if (!user) return null;
-  // const full_name = `${user.first_name} ${user.last_name}`;
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
     setOpen(event.currentTarget);
   };
 
   const handleClose = (linkTo: string) => {
-    router.push(linkTo)
+    router.push(linkTo);
     setOpen(null);
   };
 
@@ -64,7 +61,8 @@ export default function AccountPopover() {
               height: "100%",
               borderRadius: "50%",
               position: "absolute",
-              bgcolor: (theme: { palette: { grey: string[]; }; }) => alpha(theme.palette.grey[900], 0.8),
+              bgcolor: (theme: { palette: { grey: string[] } }) =>
+                alpha(theme.palette.grey[900], 0.8),
             },
           }),
         }}
@@ -86,30 +84,49 @@ export default function AccountPopover() {
           },
         }}
       >
-        {/* <Box sx={{ my: 1.5, px: 2.5 }}>
-          <Typography variant="subtitle2" noWrap>
-            {full_name}
-          </Typography>
-          <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-            {user.email}
-          </Typography>
-        </Box> */}
+        {user && user.email !== undefined ? (
+          <>
+            <Box sx={{ my: 1.5, px: 2.5 }}>
+              <Typography variant="subtitle2" noWrap>
+                {`${user.first_name} ${user.last_name}`}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+                noWrap
+              >
+                {user.email}
+              </Typography>
+            </Box>
+            <Divider sx={{ borderStyle: "dashed" }} />
 
-        <Divider sx={{ borderStyle: "dashed" }} />
+            <Stack sx={{ p: 1 }}>
+              {MENU_OPTIONS.map((option) => (
+                <MenuItem
+                  key={option.label}
+                  onClick={() => handleClose(option.linkTo)}
+                >
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Stack>
 
-        <Stack sx={{ p: 1 }}>
-          {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={() => handleClose(option.linkTo)}>
-              {option.label}
+            <Divider sx={{ borderStyle: "dashed" }} />
+
+            <MenuItem sx={{ m: 1 }} onClick={() => logout()}>
+              Cerrar Sesión
             </MenuItem>
-          ))}
-        </Stack>
-
-        <Divider sx={{ borderStyle: "dashed" }} />
-
-        {/* <MenuItem sx={{ m: 1 }} onClick={() => logout()}>
-          Logout
-        </MenuItem> */}
+          </>
+        ) : (
+          <>
+            <MenuItem sx={{ m: 1 }} onClick={() => router.push("/login")}>
+              Iniciar Sesión
+            </MenuItem>
+            <MenuItem sx={{ m: 1 }} onClick={() => {}}>
+              Registrarse
+            </MenuItem>
+          </>
+        )}
       </MenuPopover>
     </>
   );

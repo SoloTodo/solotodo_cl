@@ -4,6 +4,7 @@ function path(root: string, sublink: string) {
   }
 
 const ROOTS_AUTH = '/auth';
+const ROOTS_MAIN = '/';
 
 // ----------------------------------------------------------------------
 
@@ -14,3 +15,7 @@ export const PATH_AUTH = {
   reset_password: path(ROOTS_AUTH, '/reset_password'),
   verify: path(ROOTS_AUTH, '/verify')
 };
+
+export const PATH_MAIN = {
+  root: ROOTS_MAIN,
+}

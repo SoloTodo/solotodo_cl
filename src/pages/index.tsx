@@ -6,8 +6,17 @@ const Home: NextPage = () => {
   return (
     <Page title="Inicio">
       <Container maxWidth={false}>
-        <Typography variant="h3" component="h1" paragraph>
-          SoloTodo Cl
+        <Typography variant="h4" component="h1" paragraph>
+          Lo más reciente
+        </Typography>
+        <Typography variant="h4" component="h1" paragraph>
+          Lo más visto
+        </Typography>
+        <Typography variant="h5" component="h1" paragraph>
+          Categorías populares
+        </Typography>
+        <Typography variant="h4" component="h1" paragraph>
+          Ofertas del día
         </Typography>
       </Container>
     </Page>
