@@ -14,6 +14,7 @@ const IconButtonAnimate = forwardRef<HTMLButtonElement, IconButtonProps>(
     </AnimateWrap>
   )
 );
+IconButtonAnimate.displayName = 'IconButtonAnimate';
 
 export default IconButtonAnimate;
 

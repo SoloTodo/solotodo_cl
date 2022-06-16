@@ -10,6 +10,7 @@ import {
   MenuItem,
   Avatar,
 } from "@mui/material";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 // components
 import MenuPopover from "../../../components/MenuPopover";
 import { IconButtonAnimate } from "../../../components/animate";
@@ -68,10 +69,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar alt={'perfil'}>
-          {/* {`${user.first_name[0]}${user.last_name[0]}`} */}
-          AA
-        </Avatar>
+        <AccountCircleIcon />
       </IconButtonAnimate>
 
       <MenuPopover
