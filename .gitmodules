@@ -1,3 +1,0 @@
-[submodule "frontend-utils"]
-	path = frontend-utils
-	url = git@github.com:SoloTodo/frontend-utils.git
