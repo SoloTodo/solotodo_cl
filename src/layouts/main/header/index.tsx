@@ -14,6 +14,7 @@ import Searchbar from "./Searchbar";
 import Logo from "../../../components/Logo";
 import SettingsPopover from "./SettingsPopover";
 import useSettings from "src/hooks/useSettings";
+import NavigationDrawer from "./NavigationDrawer";
 
 // ----------------------------------------------------------------------
 
@@ -102,6 +103,8 @@ export default function DashboardHeader({
           spacing={{ xs: 1.5, sm: 2.5 }}
         >
           <Searchbar />
+          <NavigationDrawer />
+          <Box sx={{ flexGrow: 1 }} />
           <AccountPopover />
           <SettingsPopover />
         </Stack>

@@ -45,3 +45,10 @@ export const defaultSettings: SettingsValueProps = {
   themeLayout: 'horizontal',
   themeStretch: true,
 };
+
+
+// CONSTANTS
+// ----------------------------------------------------------------------
+export const constants = {
+  chileId: 1,
+}

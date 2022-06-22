@@ -20,12 +20,18 @@ import { CollapseDrawerProvider } from "src/contexts/CollapseDrawerContext";
 import MotionLazyContainer from "src/components/animate/MotionLazyContainer";
 import ThemeColorPresets from "src/components/ThemeColorPresets";
 import { apiSettings } from "src/frontend-utils/settings";
+import { constants } from "src/config";
+import {
+  NavigationProps,
+  NavigationProvider,
+} from "src/contexts/NavigationContext";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
 interface MyAppProps extends AppProps {
+  navigation: NavigationProps[];
   settings: SettingsValueProps;
   Component: NextPageWithLayout;
 }
@@ -59,10 +65,10 @@ class MyApp extends App<MyAppProps> {
         deleteAuthTokens(ctx as unknown as GetServerSidePropsContext);
       }
 
-      // const navigation = await jwtFetch(
-      //   ctx as unknown as GetServerSidePropsContext,
-      //   `${apiSettings.apiResourceEndpoints.countries}`
-      // )
+      const navigation = await jwtFetch(
+        ctx as unknown as GetServerSidePropsContext,
+        `${apiSettings.apiResourceEndpoints.countries}${constants.chileId}/navigation/`
+      );
 
       // const store = initializeStore();
       if (user) {
@@ -85,15 +91,15 @@ class MyApp extends App<MyAppProps> {
           initialReduxState: store.getState(),
         };
 
-        return { pageProps: resultProps, settings };
+        return { pageProps: resultProps, settings, navigation };
       } else {
-        return { pageProps: {}, settings };
+        return { pageProps: {}, settings, navigation };
       }
     }
   );
 
   public render() {
-    const { Component, pageProps, settings } = this.props;
+    const { Component, pageProps, settings, navigation } = this.props;
 
     return (
       <>
@@ -108,10 +114,12 @@ class MyApp extends App<MyAppProps> {
                 <CollapseDrawerProvider>
                   <MotionLazyContainer>
                     <ThemeColorPresets>
-                      <ProgressBar />
-                      <Layout>
-                        <Component {...pageProps} />
-                      </Layout>
+                      <NavigationProvider initialNavigation={navigation}>
+                        <ProgressBar />
+                        <Layout>
+                          <Component {...pageProps} />
+                        </Layout>
+                      </NavigationProvider>
                     </ThemeColorPresets>
                   </MotionLazyContainer>
                 </CollapseDrawerProvider>
