@@ -1,14 +1,14 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 // @mui
-import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { styled } from "@mui/material/styles";
+import { Box, Paper } from "@mui/material";
 // hooks
-import useSettings from '../../hooks/useSettings';
-import useCollapseDrawer from '../../hooks/useCollapseDrawer';
+import useSettings from "../../hooks/useSettings";
+import useCollapseDrawer from "../../hooks/useCollapseDrawer";
 // config
-import { HEADER, NAVBAR } from '../../config';
+import { HEADER, NAVBAR } from "../../config";
 //
-import MainHeader from './header';
+import MainHeader from "./header";
 
 // ----------------------------------------------------------------------
 
@@ -16,19 +16,19 @@ type MainStyleProps = {
   collapseClick: boolean;
 };
 
-const MainStyle = styled('main', {
-  shouldForwardProp: (prop) => prop !== 'collapseClick',
+const MainStyle = styled("main", {
+  shouldForwardProp: (prop) => prop !== "collapseClick",
 })<MainStyleProps>(({ collapseClick, theme }) => ({
   flexGrow: 1,
   paddingTop: HEADER.MOBILE_HEIGHT + 24,
   paddingBottom: HEADER.MOBILE_HEIGHT + 24,
-  [theme.breakpoints.up('lg')]: {
+  [theme.breakpoints.up("lg")]: {
     paddingLeft: 16,
     paddingRight: 16,
     paddingTop: HEADER.DASHBOARD_DESKTOP_HEIGHT + 24,
     paddingBottom: HEADER.DASHBOARD_DESKTOP_HEIGHT + 24,
     width: `calc(100% - ${NAVBAR.DASHBOARD_WIDTH}px)`,
-    transition: theme.transitions.create('margin-left', {
+    transition: theme.transitions.create("margin-left", {
       duration: theme.transitions.duration.shorter,
     }),
     ...(collapseClick && {
@@ -48,7 +48,7 @@ export default function DashboardLayout({ children }: Props) {
 
   const { themeLayout } = useSettings();
 
-  const verticalLayout = themeLayout === 'vertical';
+  const verticalLayout = themeLayout === "vertical";
 
   if (verticalLayout) {
     return (
@@ -76,15 +76,17 @@ export default function DashboardLayout({ children }: Props) {
   }
 
   return (
-    <Box
-      sx={{
-        display: { lg: 'flex' },
-        minHeight: { lg: 1 },
-      }}
-    >
-      <MainHeader isCollapse={isCollapse} />
+    <Paper>
+      <Box
+        sx={{
+          display: { lg: "flex" },
+          minHeight: { lg: 1 },
+        }}
+      >
+        <MainHeader isCollapse={isCollapse} />
 
-      <MainStyle collapseClick={collapseClick}>{children}</MainStyle>
-    </Box>
+        <MainStyle collapseClick={collapseClick}>{children}</MainStyle>
+      </Box>
+    </Paper>
   );
 }
