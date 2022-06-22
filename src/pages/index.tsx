@@ -4,7 +4,7 @@ import Page from "../components/Page";
 
 const Home: NextPage = () => {
   return (
-    <Page title="Inicio">
+    <Page title="Cotiza y compara los precios de todas las tiendas">
       <Container maxWidth={false}>
         <Typography variant="h4" component="h1" paragraph>
           Lo más reciente
