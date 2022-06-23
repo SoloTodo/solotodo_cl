@@ -1,4 +1,5 @@
 import { SettingsValueProps } from './components/settings/type';
+import { apiSettings } from './frontend-utils/settings';
 
 // LAYOUT
 // ----------------------------------------------------------------------
@@ -50,5 +51,7 @@ export const defaultSettings: SettingsValueProps = {
 // CONSTANTS
 // ----------------------------------------------------------------------
 export const constants = {
+  ...apiSettings,
   chileId: 1,
+  websiteId: 2
 }

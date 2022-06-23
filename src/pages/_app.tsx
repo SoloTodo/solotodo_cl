@@ -19,12 +19,13 @@ import userSlice from "src/frontend-utils/redux/user";
 import { CollapseDrawerProvider } from "src/contexts/CollapseDrawerContext";
 import MotionLazyContainer from "src/components/animate/MotionLazyContainer";
 import ThemeColorPresets from "src/components/ThemeColorPresets";
-import { apiSettings } from "src/frontend-utils/settings";
 import { constants } from "src/config";
 import {
   NavigationProps,
   NavigationProvider,
 } from "src/contexts/NavigationContext";
+import { fetchJson } from "src/frontend-utils/network/utils";
+import apiResourceObjectsSlice from "src/frontend-utils/redux/api_resources/apiResources";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -65,25 +66,35 @@ class MyApp extends App<MyAppProps> {
         deleteAuthTokens(ctx as unknown as GetServerSidePropsContext);
       }
 
-      const navigation = await jwtFetch(
-        ctx as unknown as GetServerSidePropsContext,
-        `${apiSettings.apiResourceEndpoints.countries}${constants.chileId}/navigation/`
+      const navigation = await fetchJson(
+        `${constants.apiResourceEndpoints.countries}${constants.chileId}/navigation/`
       );
+
+      const resources = [
+        "categories",
+        "countries",
+        "store_types",
+        "currencies",
+        "stores",
+        "store_types",
+        "category_templates",
+      ];
+      const resources_query = resources.reduce((acc, r) => {
+        return (acc = `${acc}&names=${r}`);
+      }, "");
+
+      try {
+        const apiResources = await fetchJson(`resources/?${resources_query}`);
+        store.dispatch(
+          apiResourceObjectsSlice.actions.addApiResourceObjects(apiResources)
+        );
+      } catch (err: any) {
+        ctx.res?.setHeader("error", err.message);
+      }
 
       // const store = initializeStore();
       if (user) {
         // Store in redux api resources
-        // try {
-        //   const apiResources = await jwtFetch(
-        //     ctx as unknown as GetServerSidePropsContext,
-        //     `resources/with_permissions/?${resources_query}`
-        //   );
-        //   store.dispatch(
-        //     apiResourceObjectsSlice.actions.addApiResourceObjects(apiResources)
-        //   );
-        // } catch (err) {
-        //   ctx.res?.setHeader("error", err.message);
-        // }
 
         store.dispatch(userSlice.actions.setUser(user));
         const resultProps = {
