@@ -1,7 +1,7 @@
 // @mui
 import Image from "next/image";
 import { styled } from "@mui/material/styles";
-import { Box, Stack, AppBar, Toolbar } from "@mui/material";
+import { Box, Stack, AppBar, Toolbar, Link } from "@mui/material";
 // hooks
 import useOffSetTop from "../../../hooks/useOffSetTop";
 // utils
@@ -15,6 +15,7 @@ import Logo from "../../../components/Logo";
 import SettingsPopover from "./SettingsPopover";
 import useSettings from "src/hooks/useSettings";
 import NavigationDrawer from "./NavigationDrawer";
+import { PATH_MAIN } from "src/routes/paths";
 
 // ----------------------------------------------------------------------
 
@@ -80,19 +81,23 @@ export default function DashboardHeader({
         }}
       >
         {settings.themeMode === "dark" ? (
-          <Image
-            alt={"Logo"}
-            src="/logo_fondo_oscuro.svg"
-            width={200}
-            height={51}
-          />
+          <Link href={PATH_MAIN.root}>
+            <Image
+              alt={"Logo"}
+              src="/logo_fondo_oscuro.svg"
+              width={200}
+              height={51}
+            />
+          </Link>
         ) : (
-          <Image
-            alt={"Logo"}
-            src="/logo_fondo_claro.svg"
-            width={200}
-            height={51}
-          />
+          <Link href={PATH_MAIN.root}>
+            <Image
+              alt={"Logo"}
+              src="/logo_fondo_claro.svg"
+              width={200}
+              height={51}
+            />
+          </Link>
         )}
 
         <Box sx={{ flexGrow: 1 }} />
