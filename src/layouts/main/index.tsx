@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 // @mui
 import { styled } from "@mui/material/styles";
-import { Box, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 // hooks
 import useSettings from "../../hooks/useSettings";
 import useCollapseDrawer from "../../hooks/useCollapseDrawer";
@@ -76,17 +76,14 @@ export default function DashboardLayout({ children }: Props) {
   }
 
   return (
-    <Paper>
-      <Box
-        sx={{
-          display: { lg: "flex" },
-          minHeight: { lg: 1 },
-        }}
-      >
-        <MainHeader isCollapse={isCollapse} />
-
-        <MainStyle collapseClick={collapseClick}>{children}</MainStyle>
-      </Box>
-    </Paper>
+    <Box
+      sx={{
+        display: { lg: "flex" },
+        minHeight: { lg: 1 },
+      }}
+    >
+      <MainHeader isCollapse={isCollapse} />
+      <MainStyle collapseClick={collapseClick}>{children}</MainStyle>
+    </Box>
   );
 }
