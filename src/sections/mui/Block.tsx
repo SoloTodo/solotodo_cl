@@ -1,7 +1,14 @@
 import { ReactNode } from "react";
 // @mui
 import { Theme, alpha } from "@mui/material/styles";
-import { Paper, CardHeader, Box, Typography, SxProps } from "@mui/material";
+import {
+  Paper,
+  CardHeader,
+  Box,
+  Typography,
+  SxProps,
+  Stack,
+} from "@mui/material";
 
 // ----------------------------------------------------------------------
 
@@ -24,11 +31,17 @@ export function Block({ title, titleVariant, sx, children }: BlockProps) {
         ...sx,
       }}
     >
-      {title && (
-        <Typography variant={titleVariant ? titleVariant : "h4"} component="h1">
-          {title}
-        </Typography>
-      )}
+      <Stack direction="row" justifyContent="space-between">
+        {title && (
+          <Typography
+            variant={titleVariant ? titleVariant : "h2"}
+            component="h1"
+          >
+            {title}
+          </Typography>
+        )}
+        <Typography variant="h5">Ver más</Typography>
+      </Stack>
       {children}
     </Box>
   );

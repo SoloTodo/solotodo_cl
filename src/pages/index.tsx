@@ -25,7 +25,7 @@ const Home = (props: HomeProps) => {
   return (
     <Page title="Cotiza y compara los precios de todas las tiendas">
       <Container maxWidth={false}>
-        <Typography variant="h4" component="h1">
+        <Typography variant="h2" component="h1">
           Lo más reciente
         </Typography>
         <Block title="Lo más visto">
@@ -36,7 +36,7 @@ const Home = (props: HomeProps) => {
             }
           />
         </Block>
-        <Typography variant="h5" component="h1">
+        <Typography variant="h3" component="h1">
           Categorías populares
         </Typography>
         <Block title="Ofertas del día">
