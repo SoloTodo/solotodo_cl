@@ -11,7 +11,6 @@ import { HEADER, NAVBAR } from "../../../config";
 //
 import AccountPopover from "./AccountPopover";
 import Searchbar from "./Searchbar";
-import Logo from "../../../components/Logo";
 import SettingsPopover from "./SettingsPopover";
 import useSettings from "src/hooks/useSettings";
 import NavigationDrawer from "./NavigationDrawer";
