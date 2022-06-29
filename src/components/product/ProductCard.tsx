@@ -55,7 +55,7 @@ export default function ProductCard(props: ProductProps) {
                 display: "inline-block",
               }}
             >
-              <Typography variant="h5" fontWeight={440}>
+              <Typography variant="h5" fontWeight={440} color="#fff">
                 {ribbonFormatter(metadata.score)}
               </Typography>
             </Box>
