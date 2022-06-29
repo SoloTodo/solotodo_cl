@@ -1,0 +1,26 @@
+.product_specs dt {
+    display: inline;
+    color: #637381;
+}
+
+.product_specs dt:after {
+    content: ": "
+}
+
+.product_specs dd {
+    display: inline;
+    color: #919EAB;
+}
+
+.product_specs dd:after {
+    display: block;
+    content: ''
+}
+
+.product_specs h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #3B5D81;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
