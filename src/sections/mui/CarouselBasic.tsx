@@ -7,7 +7,13 @@ import { CarouselArrowIndex } from "../../components/carousel";
 
 // ----------------------------------------------------------------------
 
-export default function CarouselBasic({ images, ratio }: { images: string[] | null, ratio?: ImageRato }) {
+export default function CarouselBasic({
+  images,
+  ratio,
+}: {
+  images: string[] | null;
+  ratio?: ImageRato;
+}) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handlePrevious = () => {
@@ -27,12 +33,12 @@ export default function CarouselBasic({ images, ratio }: { images: string[] | nu
   return (
     <Card>
       <Image
-        alt={images!== null && images.length !== 0 ? images[currentIndex] : ""}
-        src={images!== null && images.length !== 0 ? images[currentIndex] : ""}
+        alt={images !== null && images.length !== 0 ? images[currentIndex] : ""}
+        src={images !== null && images.length !== 0 ? images[currentIndex] : ""}
         ratio={ratio ? ratio : "1/1"}
       />
 
-      {images !== null && images.length !== 0 && (
+      {images !== null && images.length > 1 && (
         <CarouselArrowIndex
           index={currentIndex}
           total={images.length}
