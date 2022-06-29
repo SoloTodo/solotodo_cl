@@ -19,6 +19,7 @@
     "@reduxjs/toolkit": "^1.8.2",
     "atob": "^2.1.2",
     "cookie": "^0.5.0",
+    "currency.js": "^2.0.4",
     "framer-motion": "^6.3.11",
     "js-cookie": "^3.0.1",
     "next": "12.1.6",
