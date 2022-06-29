@@ -1,6 +1,5 @@
 import type { GetServerSideProps } from "next";
 import { Container, Typography } from "@mui/material";
-import { Block } from "src/sections/mui/Block";
 import Page from "../components/Page";
 import ProductsRow from "src/components/product/ProductsRow";
 import { constants } from "src/config";
@@ -28,30 +27,26 @@ const Home = (props: HomeProps) => {
         <Typography variant="h2" component="h1">
           Lo más reciente
         </Typography>
-        <Block title="Lo más visto">
-          <ProductsRow
-            data={leads.slice(0, 4)}
-            ribbonFormatter={(value: string) =>
-              `Visitas: ${parseInt(value, 10)}`
-            }
-          />
-        </Block>
+        <ProductsRow
+          title="Lo más visto"
+          data={leads.slice(0, 4)}
+          ribbonFormatter={(value: string) => `Visitas: ${parseInt(value, 10)}`}
+        />
         <Typography variant="h3" component="h1">
           Categorías populares
         </Typography>
-        <Block title="Ofertas del día">
-          <ProductsRow
-            data={discount.slice(0, 4)}
-            ribbonFormatter={(value: string) =>
-              `Bajó ${currency(value, {
-                separator: ".",
-                precision: 0,
-              })
-                .multiply((clp as Currency).exchange_rate)
-                .format()}`
-            }
-          />
-        </Block>
+        <ProductsRow
+          title="Ofertas del día"
+          data={discount.slice(0, 4)}
+          ribbonFormatter={(value: string) =>
+            `Bajó ${currency(value, {
+              separator: ".",
+              precision: 0,
+            })
+              .multiply((clp as Currency).exchange_rate)
+              .format()}`
+          }
+        />
       </Container>
     </Page>
   );
