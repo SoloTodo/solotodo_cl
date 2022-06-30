@@ -1,3 +1,4 @@
+import { Entity } from "src/frontend-utils/types/entity";
 import { Product } from "src/frontend-utils/types/product";
 
 type PricesPerCurrency = {
@@ -26,4 +27,9 @@ export type ProductsData = {
     metadata: metadata;
     product: ExtendedProduct;
   }[];
+};
+
+export type PricingEntriesProps = {
+  product: Product;
+  entities: Entity[];
 };

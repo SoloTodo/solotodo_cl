@@ -22,6 +22,7 @@
     "currency.js": "^2.0.4",
     "framer-motion": "^6.3.11",
     "js-cookie": "^3.0.1",
+    "lodash": "^4.17.21",
     "next": "12.1.6",
     "next-redux-wrapper": "^7.0.5",
     "nookies": "^2.5.2",
