@@ -38,13 +38,12 @@ export default function ProductVariants({
   const bucketSettings = (constants.bucketCategories as Record<number, Bucket>)[
     category.id
   ];
-
-  // TODO: check variants present for category
-
-  const fields = bucketSettings.fields;
-  const bucketUrl = `products/${product.id}/bucket/?fields=${fields}`;
-
+  
   useMemo(() => {
+    if (typeof bucketSettings === "undefined") return;
+
+    const fields = bucketSettings.fields;
+    const bucketUrl = `products/${product.id}/bucket/?fields=${fields}`;
     const stores = user
       ? user.preferred_stores.map((s) => apiResourceObjects[s])
       : [];
@@ -78,7 +77,7 @@ export default function ProductVariants({
         setPrincingEntries(filteredEntries);
       });
     });
-  }, [apiResourceObjects, bucketUrl, product.id, user]);
+  }, [apiResourceObjects, bucketSettings, product.id, user]);
 
   if (!bucketSettings || pricingEntries.length === 0) return null;
 

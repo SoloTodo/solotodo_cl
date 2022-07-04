@@ -1,10 +1,19 @@
-import { Box, Container, Grid, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { GetServerSideProps } from "next";
 import { useMemo, useState } from "react";
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import Image from "src/components/Image";
 import Page from "src/components/Page";
 import ProductBenchmarks from "src/components/product/ProductBenchmarks";
+import ProductRating from "src/components/product/ProductRating";
+import ProductRatingSummary from "src/components/product/ProductRatingSummary";
 import ProductVariants from "src/components/product/ProductVariants";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
@@ -13,7 +22,7 @@ import { Product } from "src/frontend-utils/types/product";
 import { Category } from "src/frontend-utils/types/store";
 import { PATH_MAIN } from "src/routes/paths";
 import { useAppSelector } from "src/store/hooks";
-import styles from '../../../styles/ProductPage.module.css';
+import styles from "../../../styles/ProductPage.module.css";
 
 export default function ProductPage({ product }: { product: Product }) {
   const [renderSpecs, setRenderSpecs] = useState({
@@ -66,7 +75,7 @@ export default function ProductPage({ product }: { product: Product }) {
           <Grid item xs={12} md={5}>
             <Stack spacing={3}>
               <Typography variant="h2">{product.name}</Typography>
-              <div>ratings</div>
+              <ProductRatingSummary product={product} />
               <ProductVariants product={product} category={category} />
               <ProductBenchmarks product={product} category={category} />
               {renderSpecs.body !== "" ? (
@@ -86,6 +95,8 @@ export default function ProductPage({ product }: { product: Product }) {
             Elige tu tienda
           </Grid>
         </Grid>
+        <Divider variant="middle" sx={{ marginY: 5 }} />
+        <ProductRating product={product} />
       </Container>
     </Page>
   );
