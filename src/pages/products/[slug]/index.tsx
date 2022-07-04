@@ -24,7 +24,11 @@ import { PATH_MAIN } from "src/routes/paths";
 import { useAppSelector } from "src/store/hooks";
 import styles from "../../../styles/ProductPage.module.css";
 
-export default function ProductPage({ product }: { product: Product }) {
+export default function ProductPage({
+  product,
+}: {
+  product: Product;
+}) {
   const [renderSpecs, setRenderSpecs] = useState({
     body: "",
   });
@@ -110,7 +114,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const product = await fetchJson(
       `${constants.apiResourceEndpoints.products}${productId}/`
     );
-
     return {
       props: {
         product: product,
