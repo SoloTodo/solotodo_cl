@@ -41,7 +41,7 @@ export default function ProductRatingDrawer({
   }, [page, product.id]);
 
   return (
-    <Stack spacing={1} width={400} padding={1}>
+    <Stack spacing={1} width={400} padding={2}>
       <IconButton style={{ alignSelf: "end" }} onClick={onClose}>
         <CloseIcon />
       </IconButton>

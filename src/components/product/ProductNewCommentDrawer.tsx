@@ -105,13 +105,15 @@ export default function ProductNewCommentDrawer({
   };
 
   return (
-    <Stack spacing={3} width={400} padding={1}>
+    <Stack spacing={3} width={400} padding={2}>
       <IconButton style={{ alignSelf: "end" }} onClick={onClose}>
         <CloseIcon />
       </IconButton>
-      <Typography variant="h5" fontWeight={600}>{product.name}</Typography>
+      <Typography variant="h5" fontWeight={600}>
+        {product.name}
+      </Typography>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Typography variant="h5" paddingTop={2}>
+        <Typography variant="h5" paddingTop={1}>
           ¿Recibiste el producto?
         </Typography>
         <RHFRadioGroup
@@ -135,7 +137,9 @@ export default function ProductNewCommentDrawer({
               disableClearable
               freeSolo
               onChange={(event, newValue) => field.onChange(newValue)}
-              options={storeChoices.map((option) => option)}
+              options={storeChoices.map(
+                (option: { label: string; value: number }) => option
+              )}
               renderOption={(props, option) => (
                 <li {...props} key={option.value}>
                   {option.label}
