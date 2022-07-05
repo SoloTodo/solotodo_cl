@@ -8,10 +8,12 @@ import ProductComment from "./ProductComment";
 import ProductRatingSummary from "./ProductRatingSummary";
 import ProductRatingDrawer from "./ProductRatingDrawer";
 import ProductNewCommentButton from "./ProductNewCommentButton";
+import ProductNewCommentDrawer from "./ProductNewCommentDrawer";
 
 export default function ProductRating({ product }: { product: Product }) {
   const [ratingsData, setRatingsData] = useState<Rating[]>([]);
   const [openMoreCommentsDrawer, setOpenMoreCommentsDrawer] = useState(false);
+  const [openNewCommentDrawer, setOpenNewCommentDrawer] = useState(false);
 
   useMemo(() => {
     fetchJson(
@@ -43,7 +45,9 @@ export default function ProductRating({ product }: { product: Product }) {
             Ver más comentarios
           </Typography>
         </Button>
-        <ProductNewCommentButton onClick={() => {}} />
+        <ProductNewCommentButton
+          onClick={() => setOpenNewCommentDrawer(true)}
+        />
       </Stack>
       <Drawer
         anchor="right"
@@ -53,7 +57,17 @@ export default function ProductRating({ product }: { product: Product }) {
         <ProductRatingDrawer
           product={product}
           onClose={() => setOpenMoreCommentsDrawer(false)}
-          onNewComment={() => {}}
+          onNewComment={() => setOpenNewCommentDrawer(true)}
+        />
+      </Drawer>
+      <Drawer
+        anchor="right"
+        open={openNewCommentDrawer}
+        onClose={() => setOpenNewCommentDrawer(false)}
+      >
+        <ProductNewCommentDrawer
+          product={product}
+          onClose={() => setOpenNewCommentDrawer(false)}
         />
       </Drawer>
     </Stack>
