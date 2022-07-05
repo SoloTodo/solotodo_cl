@@ -25,12 +25,15 @@ import { useSnackbar } from "notistack";
 import { fData } from "src/utils/formatNumber";
 import Iconify from "../Iconify";
 import { useRef } from "react";
+import { useUser } from "src/frontend-utils/redux/user";
 
 type FormValuesProps = {
   was_product_received: string;
   store_comments: string;
-  store: { label: string; value: number };
   store_rating: string;
+  product_comments: string;
+  product_rating: string;
+  store: { label: string; value: number };
   email_or_phone: string;
   purchase_proof: File | null | undefined;
 };
@@ -45,15 +48,18 @@ export default function ProductNewCommentDrawer({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { enqueueSnackbar } = useSnackbar();
+  const user = useAppSelector(useUser);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const storeChoices = selectApiResourceObjects(apiResourceObjects, "stores");
 
   const defaultValues = {
     was_product_received: "",
     store_comments: "",
-    store: storeChoices[0],
     store_rating: "",
-    email_or_phone: "",
+    product_comments: "",
+    product_rating: "",
+    store: storeChoices[0],
+    email_or_phone: user ? user.email : "",
     purchase_proof: null,
   };
 
@@ -65,8 +71,10 @@ export default function ProductNewCommentDrawer({
     ),
     store_comments: Yup.string(),
     store_rating: Yup.string().required(
-      "Por favor ingrese el numero de estrellas (1 a 5) del producto"
+      "Por favor ingrese el numero de estrellas (1 a 5) de la tienda"
     ),
+    product_comments: Yup.string(),
+    product_rating: Yup.string(),
     email_or_phone: Yup.string().required(
       "Por favor ingrese un correo o teléfono de contacto."
     ),
@@ -96,6 +104,9 @@ export default function ProductNewCommentDrawer({
 
   const onSubmit = (data: FormValuesProps) => {
     console.log(data);
+    const formData = new FormData();
+    formData.append("product", product.id.toString());
+
     enqueueSnackbar("¡Comentario recibido con éxito!");
     reset();
   };
@@ -149,6 +160,22 @@ export default function ProductNewCommentDrawer({
             />
           )}
         />
+        {values.was_product_received === "1" && (
+          <div>
+            <Typography variant="h5" paddingTop={2}>
+              Evaluación del producto
+            </Typography>
+            <RHFRating name="product_rating" />
+            <Typography variant="h5" paddingTop={2}>
+              Comentarios del producto
+            </Typography>
+            <RHFTextField
+              name="product_comments"
+              label=""
+              placeholder="Comentarios de la calidad o rendimiento del producto"
+            />
+          </div>
+        )}
         <Typography variant="h5" paddingTop={2}>
           Evaluación de la tienda
         </Typography>
@@ -169,6 +196,11 @@ export default function ProductNewCommentDrawer({
           label=""
           placeholder="tucorreo@dominio.com o +569 XXXXXXXX"
         />
+        <Typography variant="caption">
+          No vamos a compartir tus datos de contacto con nadie, pero te podemos
+          tratar de contactar si necesitamos validar tu compra o tratar de
+          ayudarte si tuviste algún problema con ella.
+        </Typography>
         <Typography variant="h5" paddingTop={2}>
           Archivos de confirmación
         </Typography>
