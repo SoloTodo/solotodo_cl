@@ -23,12 +23,10 @@ import { Category } from "src/frontend-utils/types/store";
 import { PATH_MAIN } from "src/routes/paths";
 import { useAppSelector } from "src/store/hooks";
 import styles from "../../../styles/ProductPage.module.css";
+import ReactDisqusComments from "react-disqus-comments";
+import ProductPrices from "src/components/product/ProductPrices";
 
-export default function ProductPage({
-  product,
-}: {
-  product: Product;
-}) {
+export default function ProductPage({ product }: { product: Product }) {
   const [renderSpecs, setRenderSpecs] = useState({
     body: "",
   });
@@ -96,11 +94,18 @@ export default function ProductPage({
             </Stack>
           </Grid>
           <Grid item xs={12} md={3}>
-            Elige tu tienda
+            <ProductPrices product={product} category={category} />
           </Grid>
         </Grid>
-        <Divider variant="middle" sx={{ marginY: 5 }} />
+        <Divider variant="fullWidth" sx={{ marginY: 5 }} />
         <ProductRating product={product} />
+        <Divider variant="fullWidth" sx={{ marginY: 5 }} />
+        <ReactDisqusComments
+          shortname={constants.disqusShortName}
+          identifier={product.id.toString()}
+          title={product.name}
+          url={`https://www.solotodo.com/products/${product.id}`}
+        />
       </Container>
     </Page>
   );
