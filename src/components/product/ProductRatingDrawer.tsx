@@ -52,8 +52,7 @@ export default function ProductRatingDrawer({
           data.results.map((result, index) => (
             <Grid key={index} item xs={12}>
               <ProductComment
-                rating={result.product_rating}
-                comment={result.product_comments}
+                rating={result}
               />
             </Grid>
           ))}

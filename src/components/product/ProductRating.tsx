@@ -29,8 +29,7 @@ export default function ProductRating({ product }: { product: Product }) {
         {ratingsData.map((result, index) => (
           <Grid key={index} item xs={12} md={6}>
             <ProductComment
-              rating={result.product_rating}
-              comment={result.product_comments}
+              rating={result}
             />
           </Grid>
         ))}

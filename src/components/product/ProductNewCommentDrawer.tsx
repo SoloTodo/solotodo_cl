@@ -26,6 +26,8 @@ import { fData } from "src/utils/formatNumber";
 import Iconify from "../Iconify";
 import { useRef } from "react";
 import { useUser } from "src/frontend-utils/redux/user";
+import { fetchAuth } from "src/frontend-utils/nextjs/utils";
+import { constants } from "src/config";
 
 type FormValuesProps = {
   was_product_received: string;
@@ -69,20 +71,31 @@ export default function ProductNewCommentDrawer({
     was_product_received: Yup.string().required(
       "Por favor selecciona si recibiste el producto o no"
     ),
-    store_comments: Yup.string(),
+    store_comments: Yup.string().required(
+      "Por favor ingrese un comentario sobre la tienda"
+    ),
     store_rating: Yup.string().required(
       "Por favor ingrese el numero de estrellas (1 a 5) de la tienda"
     ),
     product_comments: Yup.string(),
-    product_rating: Yup.string(),
+    product_rating: Yup.string().when("was_product_received", {
+      is: "1",
+      then: (schema) =>
+        schema.required(
+          "Por favor ingrese el numero de estrellas (1 a 5) del producto"
+        ),
+      otherwise: (schema) => schema.notRequired(),
+    }),
     email_or_phone: Yup.string().required(
-      "Por favor ingrese un correo o teléfono de contacto."
+      "Por favor ingrese un correo o teléfono de contacto"
     ),
-    purchase_proof: Yup.mixed().test(
-      "fileSize",
-      `Archivo tiene que ser menor o igual a ${fData(MAX_FILE_SIZE)}`,
-      (value) => (value && value.size <= MAX_FILE_SIZE) || value === null
-    ),
+    purchase_proof: Yup.mixed()
+      .test(
+        "fileSize",
+        `Archivo tiene que ser menor o igual a ${fData(MAX_FILE_SIZE)}`,
+        (value) => (value && value.size <= MAX_FILE_SIZE) || value === null
+      )
+      .required("Por favor adjunte un archivo relacionado a su compra"),
   });
 
   const methods = useForm<FormValuesProps>({
@@ -97,18 +110,42 @@ export default function ProductNewCommentDrawer({
     register,
     setValue,
     handleSubmit,
-    formState: { errors, isSubmitting, isDirty },
+    formState: { errors, isSubmitting },
   } = methods;
 
   const values = watch();
 
   const onSubmit = (data: FormValuesProps) => {
-    console.log(data);
     const formData = new FormData();
     formData.append("product", product.id.toString());
 
-    enqueueSnackbar("¡Comentario recibido con éxito!");
+    const finalData = {
+      ...data,
+      store: data.store.value
+    }
+
+    Object.entries(finalData).forEach(([k, v]) => {
+      if (typeof v === "string") {
+        formData.append(k, v);
+      } else {
+        formData.append(k, v as Blob);
+      }
+    });
+
+    fetchAuth(null, constants.apiResourceEndpoints.ratings, {
+      method: "POST",
+      body: formData,
+      headers: {
+        "Content-Type": null,
+      },
+    }).then((_) =>
+      enqueueSnackbar(
+        "Rating enviado exitosamente. Gracias! Apenas lo verifiquemos aparecerá publicado en el sitio."
+      )
+    );
+
     reset();
+    onClose();
   };
 
   const handleClickAttachPhoto = () => {
@@ -172,7 +209,7 @@ export default function ProductNewCommentDrawer({
             <RHFTextField
               name="product_comments"
               label=""
-              placeholder="Comentarios de la calidad o rendimiento del producto"
+              placeholder="Comentarios sobre la calidad o rendimiento del producto mismo. ¿Cumplió las expectativas?"
             />
           </div>
         )}
@@ -186,7 +223,7 @@ export default function ProductNewCommentDrawer({
         <RHFTextField
           name="store_comments"
           label=""
-          placeholder="Comentarios de la tienda"
+          placeholder="Comentarios sobre tienda. ¿Te trataron bien? ¿Te atendieron rápido? ¿Cómo fue el despacho?"
         />
         <Typography variant="h5" paddingTop={2}>
           E-mail o teléfono de contacto
@@ -196,7 +233,7 @@ export default function ProductNewCommentDrawer({
           label=""
           placeholder="tucorreo@dominio.com o +569 XXXXXXXX"
         />
-        <Typography variant="caption">
+        <Typography variant="caption" color="text.secondary">
           No vamos a compartir tus datos de contacto con nadie, pero te podemos
           tratar de contactar si necesitamos validar tu compra o tratar de
           ayudarte si tuviste algún problema con ella.
@@ -246,6 +283,13 @@ export default function ProductNewCommentDrawer({
               {errors.purchase_proof.message}
             </FormHelperText>
           )}
+
+          <Typography variant="caption" color="text.secondary">
+            Boleta, factura, correo de confirmación, o cualquier foto o
+            documento que verifique que compraste el producto en esa tienda.
+            Tiene que aparecer el nombre del producto y de la tienda. Puede ser
+            una foto, archivo PDF, o lo que prefieras.
+          </Typography>
         </div>
         <Box textAlign="center" paddingTop={5}>
           <LoadingButton
