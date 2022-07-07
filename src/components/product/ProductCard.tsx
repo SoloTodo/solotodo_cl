@@ -39,11 +39,13 @@ export default function ProductCard(props: ProductProps) {
   const categoryName = apiResourceObjects[product.category].name;
 
   const tags = [categoryName];
-  const priceCurrency = metadata.prices_per_currency.find((p) => p.currency.includes(`/${constants.clpCurrencyId}/`))
+  const priceCurrency = metadata.prices_per_currency.find((p) =>
+    p.currency.includes(`/${constants.clpCurrencyId}/`)
+  );
   const offerPrice = priceCurrency ? priceCurrency.offer_price : 0;
 
   return (
-    <Card sx={{ width: 280, height: '100%' }}>
+    <Card sx={{ width: 280, height: "100%" }}>
       <CardActionArea href={`/products/${product.id}-${product.slug}`}>
         <Box bgcolor="#fff">
           {ribbonFormatter && (
@@ -82,8 +84,7 @@ export default function ProductCard(props: ProductProps) {
             >
               {product.name}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
-            </Typography>
+            <Typography variant="body2" color="text.secondary"></Typography>
           </Stack>
           <Typography variant="h2" component="div" fontWeight={500}>
             {currency(offerPrice, {
@@ -93,21 +94,23 @@ export default function ProductCard(props: ProductProps) {
           </Typography>
         </CardContent>
       </CardActionArea>
-      { options.length > 1 && <CardActions>
-        <Autocomplete
-          value={options[active]}
-          options={options}
-          renderInput={(params) => <TextField {...params} />}
-          renderOption={(props, option) => (
-            <li {...props} key={option.value}>
-              {option.label}
-            </li>
-          )}
-          disableClearable={true}
-          style={{ width: "100%" }}
-          onChange={(_evt, newValues) => setActive(newValues.value)}
-        />
-      </CardActions>}
+      {options.length > 1 && (
+        <CardActions>
+          <Autocomplete
+            value={options[active]}
+            options={options}
+            renderInput={(params) => <TextField {...params} />}
+            renderOption={(props, option) => (
+              <li {...props} key={option.value}>
+                {option.label}
+              </li>
+            )}
+            disableClearable={true}
+            style={{ width: "100%" }}
+            onChange={(_evt, newValues) => setActive(newValues.value)}
+          />
+        </CardActions>
+      )}
     </Card>
   );
 }

@@ -9,18 +9,31 @@ import {
 } from "@mui/material";
 
 export default function ProductPriceCard() {
+  const recommended = false;
   return (
-    <Card>
+    <Card
+      sx={{
+        bgcolor: "transparent",
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: recommended ? "primary.main" : "background.neutral",
+        borderRadius: 1,
+      }}
+    >
       <Stack direction="row" alignItems="center" spacing={1}>
         <Box
           sx={{
-            bgcolor: "#3C5D82",
+            bgcolor: recommended ? "primary.main" : "#7B7B7B",
             p: 0.8,
             borderEndEndRadius: 10,
             display: "inline-block",
           }}
         >
-          <Typography variant="h5" fontWeight={440} color="#fff">
+          <Typography
+            variant="h5"
+            fontWeight={440}
+            color="common.white"
+          >
             Falabella
           </Typography>
         </Box>
@@ -33,19 +46,29 @@ export default function ProductPriceCard() {
         />
         <Typography color="text.secondary">{4.8}</Typography>
       </Stack>
-      <CardContent sx={{ padding: 1 }}>
+      <CardContent style={{ padding: 8 }}>
         <Stack direction="row" spacing={1} justifyContent="space-evenly">
           <Stack>
-            <Typography>Precio normal</Typography>
-            <Typography>$249.990</Typography>
+            <Typography variant="h6" color="text.secondary">
+              Precio normal
+            </Typography>
+            <Typography variant="h2" color="text.extra">
+              $249.990
+            </Typography>
           </Stack>
           <Divider orientation="vertical" />
           <Stack>
-            <Typography>Precio oferta</Typography>
-            <Typography>$229.990</Typography>
+            <Typography variant="h6" color="text.secondary">
+              Precio oferta
+            </Typography>
+            <Typography variant="h2" color="text.extra">
+              $229.990
+            </Typography>
           </Stack>
         </Stack>
-        <Typography color="text.secondary">lista</Typography>
+        <Typography variant="body2" color="text.secondary">
+          Liberado, Incluye audifonos galaxy Buds pro
+        </Typography>
       </CardContent>
     </Card>
   );
