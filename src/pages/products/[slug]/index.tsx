@@ -31,6 +31,7 @@ export default function ProductPage({ product }: { product: Product }) {
     body: "",
   });
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
+  const [openNewCommentDrawer, setOpenNewCommentDrawer] = useState(false);
 
   useMemo(() => {
     fetchJson(
@@ -94,11 +95,15 @@ export default function ProductPage({ product }: { product: Product }) {
             </Stack>
           </Grid>
           <Grid item xs={12} md={3}>
-            <ProductPrices product={product} category={category} />
+            <ProductPrices product={product} category={category} setOpenNewCommentDrawer={setOpenNewCommentDrawer} />
           </Grid>
         </Grid>
         <Divider variant="fullWidth" sx={{ marginY: 5 }} />
-        <ProductRating product={product} />
+        <ProductRating
+          product={product}
+          openNewCommentDrawer={openNewCommentDrawer}
+          setOpenNewCommentDrawer={setOpenNewCommentDrawer}
+        />
         <Divider variant="fullWidth" sx={{ marginY: 5 }} />
         <ReactDisqusComments
           shortname={constants.disqusShortName}

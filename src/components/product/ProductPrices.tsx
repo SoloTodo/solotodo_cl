@@ -1,4 +1,4 @@
-import { Button, Divider, Stack } from "@mui/material";
+import { Button, Divider, Stack, Typography } from "@mui/material";
 import { useMemo, useState } from "react";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
@@ -8,19 +8,21 @@ import { Product } from "src/frontend-utils/types/product";
 import { Category, Store } from "src/frontend-utils/types/store";
 import { useAppSelector } from "src/store/hooks";
 import ProductPriceCard from "./ProductPriceCard";
+import { RatedStore } from "./types";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
+import MessageIcon from "@mui/icons-material/Message";
+import ProductAlertButton from "./ProductAlertButton";
 
 type ProductPricesProps = {
   product: Product;
   category: Category;
-};
-
-type RatedStore = Store & {
-  rating: number;
+  setOpenNewCommentDrawer: Function;
 };
 
 export default function ProductPrices({
   product,
   category,
+  setOpenNewCommentDrawer,
 }: ProductPricesProps) {
   const [entities, setEntities] = useState<Entity[]>([]);
   const [ratedStores, setRatedStores] = useState<Record<string, RatedStore>>(
@@ -64,27 +66,48 @@ export default function ProductPrices({
 
   return (
     <Stack direction="column" spacing={3}>
+      {/* Agregar titulo Elige tienda y ordenar por: precio normal, oferta y rating de la tienda */}
       <Stack direction="column" spacing={1}>
         {entities.map((entity, i) =>
-          !showMore && i >= 5 ? null : <ProductPriceCard key={i} />
+          !showMore && i >= 5 ? null : (
+            <ProductPriceCard
+              key={i}
+              first={i === 0}
+              entity={entity}
+              ratedStores={ratedStores}
+            />
+          )
         )}
       </Stack>
       <Stack direction="column" spacing={1}>
-        <Button
-          variant="outlined"
-          onClick={() => setShowMore(!showMore)}
-          sx={{ borderRadius: 4 }}
-        >
-          {showMore ? "Ver menos precios" : "Ver más precios"}
-        </Button>
+        {entities.length !== 0 ? (
+          <Button
+            variant="outlined"
+            onClick={() => setShowMore(!showMore)}
+            sx={{ borderRadius: 4 }}
+          >
+            {showMore ? "Ver menos precios" : "Ver más precios"}
+          </Button>
+        ) : (
+          <Typography>Este producto no está disponible actualmente</Typography>
+        )}
         <Divider />
-        <Button variant="contained" color="secondary" sx={{ borderRadius: 4 }}>
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{ borderRadius: 4 }}
+          startIcon={<ShowChartIcon />}
+        >
           Precio histórico
         </Button>
-        <Button variant="contained" color="secondary" sx={{ borderRadius: 4 }}>
-          Avísame cuando baje de precio
-        </Button>
-        <Button variant="contained" color="secondary" sx={{ borderRadius: 4 }}>
+        <ProductAlertButton productId={product.id} available={entities.length !== 0} />
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{ borderRadius: 4 }}
+          onClick={() => setOpenNewCommentDrawer(true)}
+          startIcon={<MessageIcon />}
+        >
           ¿Lo compraste? ¡Danos tu opinión!
         </Button>
       </Stack>

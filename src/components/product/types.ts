@@ -1,5 +1,6 @@
 import { Entity } from "src/frontend-utils/types/entity";
 import { Product } from "src/frontend-utils/types/product";
+import { Store } from "src/frontend-utils/types/store";
 
 type PricesPerCurrency = {
   currency: string;
@@ -32,4 +33,8 @@ export type ProductsData = {
 export type PricingEntriesProps = {
   product: Product;
   entities: Entity[];
+};
+
+export type RatedStore = Store & {
+  rating: number;
 };
