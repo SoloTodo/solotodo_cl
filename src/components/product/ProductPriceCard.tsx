@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import currency from "currency.js";
+import { constants } from "src/config";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import { Entity } from "src/frontend-utils/types/entity";
 import { useAppSelector } from "src/store/hooks";
@@ -25,6 +26,11 @@ export default function ProductPriceCard({
   ratedStores: Record<string, RatedStore>;
 }) {
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
+  const store = apiResourceObjects[entity.store];
+  const category = apiResourceObjects[entity.category];
+  const offerPriceLabel = (
+    constants.storeOfferPriceLabel as Record<number, string | undefined>
+  )[store.id];
   return (
     <Card
       sx={{
@@ -33,7 +39,7 @@ export default function ProductPriceCard({
         borderStyle: "solid",
         borderColor: first ? "primary.main" : "background.neutral",
         borderRadius: 1,
-      }}      
+      }}
     >
       <CardActionArea href={entity.external_url} target="_blank">
         <Stack direction="row" alignItems="center" spacing={1}>
@@ -45,13 +51,18 @@ export default function ProductPriceCard({
               display: "inline-block",
             }}
           >
-            <Typography variant="h6" fontWeight={500} color="common.white">
-              {apiResourceObjects[entity.store].name} 
-              {/* usar seller en entidad si hay */}
+            <Typography fontWeight={500} color="common.white">
+              {store.name}
+              {entity.seller ? ` | ${entity.seller}` : null}
             </Typography>
           </Box>
           {ratedStores[entity.store] && (
-            <>
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={0.5}
+              paddingRight={1}
+            >
               <Rating
                 name="read-only"
                 value={ratedStores[entity.store].rating}
@@ -59,50 +70,60 @@ export default function ProductPriceCard({
                 readOnly
                 size="small"
               />
-              <Typography color="text.secondary">
+              <Typography variant="body2" color="text.secondary">
                 {Math.round(ratedStores[entity.store].rating * 10) / 10}
               </Typography>
-            </>
+            </Stack>
           )}
         </Stack>
         <CardContent style={{ padding: 8 }}>
-          <Stack direction="row" spacing={1} justifyContent="space-evenly">
-            <Stack>
-              <Typography variant="h6" color="text.secondary">
-                Precio normal
-              </Typography>
-              <Typography variant="h2" color="text.extra">
-                {currency(entity.active_registry!.normal_price, {
-                  precision: 0,
-                }).format()}
-              </Typography>
-            </Stack>
-            <Divider orientation="vertical" />
-            <Stack>
-              <Typography variant="h6" color="text.secondary">
-                Precio oferta
-              </Typography>
-              <Typography variant="h2" color="text.extra">
-                {currency(entity.active_registry!.offer_price, {
-                  precision: 0,
-                }).format()}
-              </Typography>
+          <Stack spacing={0.5}>
+            {entity.condition !== "https://schema.org/NewCondition" && (
+              <Stack sx={{ alignItems: "end" }}>
+                <Chip
+                  label="Reacondicionado"
+                  color="warning"
+                  size="small"
+                  sx={{ borderRadius: 1 }}
+                />
+              </Stack>
+            )}
+            <Stack direction="row" spacing={1} justifyContent="space-evenly">
+              <Stack>
+                <Typography variant="h6" color="text.secondary">
+                  Precio normal
+                </Typography>
+                <Typography variant="h2" color="text.extra">
+                  {currency(entity.active_registry!.normal_price, {
+                    precision: 0,
+                  }).format()}
+                </Typography>
+              </Stack>
+              <Divider orientation="vertical" />
+              <Stack>
+                <Typography variant="h6" color="text.secondary">
+                  {offerPriceLabel ? offerPriceLabel : "Precio efectivo"}
+                </Typography>
+                <Typography variant="h2" color="text.extra">
+                  {currency(entity.active_registry!.offer_price, {
+                    precision: 0,
+                  }).format()}
+                </Typography>
+              </Stack>
             </Stack>
           </Stack>
-          {entity.condition !== "https://schema.org/NewCondition" && (
-            <Stack sx={{ alignItems: "center" }}>
-              <Chip
-                label="Reacondicionado"
-                color="warning"
-                size="small"
-                sx={{ borderRadius: 1 }}
-              />
-            </Stack>
-          )}
-          {/* <Typography variant="body2" color="text.secondary">
-          Liberado, Incluye audifonos galaxy Buds pro
-        </Typography> */}
-        {/* cell plan y bundle */}
+          <Typography variant="body2" color="text.secondary">
+            {category.id === constants.cellPhoneCategoryId
+              ? entity.cell_plan
+                ? entity.cell_plan.name
+                : "Liberado"
+              : entity.bundle
+              ? `Incluye ${entity.bundle}`
+              : ""}
+            {category.id === constants.cellPhoneCategoryId && entity.bundle
+              ? `, incluye ${entity.bundle.name}`
+              : null}
+          </Typography>
         </CardContent>
       </CardActionArea>
     </Card>

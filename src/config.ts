@@ -205,4 +205,9 @@ export const constants = {
       ]
     },
   },
+  storeOfferPriceLabel: {
+    9: "Precio CMR",
+    18: "Tarjeta Ripley",
+    76: "Precio CMR"
+  }
 }
