@@ -1,4 +1,13 @@
-import { Button, Divider, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  Divider,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useMemo, useState } from "react";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
@@ -9,9 +18,9 @@ import { Category, Store } from "src/frontend-utils/types/store";
 import { useAppSelector } from "src/store/hooks";
 import ProductPriceCard from "./ProductPriceCard";
 import { RatedStore } from "./types";
-import ShowChartIcon from "@mui/icons-material/ShowChart";
 import MessageIcon from "@mui/icons-material/Message";
 import ProductAlertButton from "./ProductAlertButton";
+import ProductPriceHistory from "./ProductPriceHistory";
 
 type ProductPricesProps = {
   product: Product;
@@ -29,6 +38,9 @@ export default function ProductPrices({
     {}
   );
   const [showMore, setShowMore] = useState(false);
+  const [ordering, setOrdering] = useState<"offer_price" | "normal_price">(
+    "offer_price"
+  );
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
 
   useMemo(() => {
@@ -65,22 +77,45 @@ export default function ProductPrices({
   }, [apiResourceObjects, product.id]);
 
   return (
-    <Stack direction="column" spacing={3}>
-      {/* Agregar titulo Elige tienda y ordenar por: precio normal, oferta y rating de la tienda */}
-      <Stack direction="column" spacing={1}>
-        {entities.map((entity, i) =>
-          !showMore && i >= 5 ? null : (
-            <ProductPriceCard
-              key={i}
-              first={i === 0}
-              entity={entity}
-              ratedStores={ratedStores}
-            />
-          )
-        )}
+    <Stack direction="column" spacing={2}>
+      <Stack direction="row" justifyContent="space-between">
+        <Typography variant="h2">Elige tu tienda</Typography>
+        <FormControl>
+          <InputLabel id="demo-simple-select-standard-label">
+            Ordenar por
+          </InputLabel>
+          <Select
+            label="Ordenar por"
+            value={ordering}
+            onChange={(evt) =>
+              setOrdering(evt.target.value as "offer_price" | "normal_price")
+            }
+          >
+            <MenuItem value="offer_price">Precio oferta</MenuItem>
+            <MenuItem value="normal_price">Precio normal</MenuItem>
+          </Select>
+        </FormControl>
       </Stack>
       <Stack direction="column" spacing={1}>
-        {entities.length !== 0 ? (
+        {entities
+          .sort(
+            (a, b) =>
+              Number(a.active_registry![ordering]) -
+              Number(b.active_registry![ordering])
+          )
+          .map((entity, i) =>
+            !showMore && i >= 5 ? null : (
+              <ProductPriceCard
+                key={i}
+                first={i === 0}
+                entity={entity}
+                ratedStores={ratedStores}
+              />
+            )
+          )}
+      </Stack>
+      <Stack direction="column" spacing={1}>
+        {entities.length > 5 ? (
           <Button
             variant="outlined"
             onClick={() => setShowMore(!showMore)}
@@ -92,15 +127,11 @@ export default function ProductPrices({
           <Typography>Este producto no está disponible actualmente</Typography>
         )}
         <Divider />
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={{ borderRadius: 4 }}
-          startIcon={<ShowChartIcon />}
-        >
-          Precio histórico
-        </Button>
-        <ProductAlertButton productId={product.id} available={entities.length !== 0} />
+        <ProductPriceHistory />
+        <ProductAlertButton
+          productId={product.id}
+          available={entities.length !== 0}
+        />
         <Button
           variant="contained"
           color="secondary"
