@@ -26,6 +26,7 @@ import {
 } from "src/contexts/NavigationContext";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import apiResourceObjectsSlice from "src/frontend-utils/redux/api_resources/apiResources";
+import { ChartStyle } from "src/components/chart";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -126,6 +127,7 @@ class MyApp extends App<MyAppProps> {
                   <MotionLazyContainer>
                     <ThemeColorPresets>
                       <NavigationProvider initialNavigation={navigation}>
+                        <ChartStyle />
                         <ProgressBar />
                         <Layout>
                           <Component {...pageProps} />

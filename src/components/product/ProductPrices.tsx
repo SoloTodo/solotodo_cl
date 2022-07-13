@@ -127,7 +127,7 @@ export default function ProductPrices({
           <Typography>Este producto no está disponible actualmente</Typography>
         )}
         <Divider />
-        <ProductPriceHistory />
+        <ProductPriceHistory product={product} />
         <ProductAlertButton
           productId={product.id}
           available={entities.length !== 0}
