@@ -211,3 +211,5 @@ export const constants = {
     76: "Precio CMR"
   }
 }
+
+// Paris, abcdin, la polar, lider, hites
