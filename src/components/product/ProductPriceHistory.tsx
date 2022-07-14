@@ -1,17 +1,36 @@
 import { useMemo, useState } from "react";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { Button, Modal, Stack, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  Stack,
+  Tab,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import { addDays, subDays } from "date-fns";
 import { Product } from "src/frontend-utils/types/product";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
-import { Entity } from "src/frontend-utils/types/entity";
 import currency from "currency.js";
 import { fDate } from "src/utils/formatTime";
 import ReactApexChart, { BaseOptionChart } from "../chart";
 import { merge } from "lodash";
+import {
+  MinimumPricesPerDay,
+  NormalizedPricingData,
+  PricingData,
+} from "./types";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { useAppSelector } from "src/store/hooks";
+import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 
 const style = {
   position: "absolute" as "absolute",
@@ -25,25 +44,12 @@ const style = {
   p: 4,
 };
 
-type PricingHistory = {
-  timestamp: string;
-  normal_price: string;
-  offer_price: string;
-  stock: number;
-  is_available: boolean;
-};
-
-type MinimumPricesPerDay = {
-  normalPrices: {
-    [tiemstamp: string]: { timestamp: string; normalPrice: currency };
-  };
-  offerPrices: {
-    [tiemstamp: string]: { timestamp: string; offerPrice: currency };
-  };
-};
-
 export default function ProductPriceHistory({ product }: { product: Product }) {
+  const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("producto");
+  const [useOfferPrice, setUseOfferPrice] = useState("true");
+  const [pricingData, setPricingData] = useState<NormalizedPricingData[]>([]);
   const [minimumPrices, setMinimumPrices] =
     useState<MinimumPricesPerDay | null>(null);
   const [startDate, setStartDate] = useState<Date | null>(
@@ -63,12 +69,19 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
         offerPrices: {},
       };
 
-      for (const pricingEntry of data as {
-        entity: Entity;
-        pricing_history: PricingHistory[];
-      }[]) {
+      const finalData: NormalizedPricingData[] = [];
+
+      for (const pricingEntry of data as PricingData[]) {
         if (pricingEntry.entity.condition != "https://schema.org/NewCondition")
           continue;
+
+        const newData: NormalizedPricingData = {
+          entity: pricingEntry.entity,
+          normalized_pricing_history: {
+            normalPrices: {},
+            offerPrices: {},
+          },
+        };
 
         for (const priceHistory of pricingEntry.pricing_history) {
           if (!priceHistory.is_available) continue;
@@ -100,14 +113,25 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
               offerPrice,
             };
           }
+
+          newData.normalized_pricing_history.normalPrices[timestamp] = {
+            timestamp,
+            normalPrice,
+          };
+          newData.normalized_pricing_history.offerPrices[timestamp] = {
+            timestamp,
+            offerPrice,
+          };
         }
+
+        finalData.push(newData);
       }
-      console.log(data);
+      setPricingData(finalData);
       setMinimumPrices(minimumPricesPerDay);
     });
   }, [endDate, product.id, startDate]);
 
-  let days = [];
+  let days: Date[] = [];
   if (startDate !== null && endDate !== null) {
     var day = startDate;
     while (day <= endDate) {
@@ -143,6 +167,35 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
     },
   ];
 
+  const ENTITIES_CHART_DATA_OFFER: any = [];
+  const ENTITIES_CHART_DATA_NORMAL: any = [];
+  pricingData.map((d) => {
+    ENTITIES_CHART_DATA_OFFER.push({
+      name: apiResourceObjects[d.entity.store].name,
+      data: days.map((day) => {
+        const pricing = d.normalized_pricing_history.offerPrices[fDate(day)];
+        if (pricing) {
+          return pricing.offerPrice.value;
+        } else {
+          return null;
+        }
+      }),
+      type: "line",
+    });
+    ENTITIES_CHART_DATA_NORMAL.push({
+      name: apiResourceObjects[d.entity.store].name,
+      data: days.map((day) => {
+        const pricing = d.normalized_pricing_history.normalPrices[fDate(day)];
+        if (pricing) {
+          return pricing.normalPrice.value;
+        } else {
+          return null;
+        }
+      }),
+      type: "line",
+    });
+  });
+
   const chartOptions = merge(BaseOptionChart(), {
     markers: {
       size: 3,
@@ -151,22 +204,15 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
       type: "datetime",
       categories: days.map((d) => d.toISOString()),
     },
-    yaxis: [
-      {
-        title: {
-          text: "Precio",
-        },
-        labels: {
-          formatter: (value: number) => currency(value, { precision: 0 }).format(),
-        },
+    yaxis: {
+      title: {
+        text: "Precio",
       },
-      {
-        show: false,
-        labels: {
-          formatter: (value: number) => currency(value, { precision: 0 }).format(),
-        },
+      labels: {
+        formatter: (value: number) =>
+          currency(value, { precision: 0 }).format(),
       },
-    ],
+    },
   });
 
   return (
@@ -180,48 +226,82 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
       >
         Precio histórico
       </Button>
-      <Modal open={open} onClose={() => setOpen(false)}>
-        <Stack sx={style} spacing={1}>
-          <Stack
-            spacing={1}
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography variant="h2" component="h2">
-              Precio histórico
-            </Typography>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <Stack spacing={1} direction="row">
-                <DesktopDatePicker
-                  label="Desde"
-                  value={startDate}
-                  maxDate={endDate || new Date()}
-                  inputFormat="dd/MM/yyyy"
-                  onChange={(newValue) => setStartDate(newValue)}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-                <DesktopDatePicker
-                  label="hasta"
-                  value={endDate}
-                  minDate={startDate}
-                  maxDate={new Date()}
-                  inputFormat="dd/MM/yyyy"
-                  onChange={(newValue) => setEndDate(newValue)}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </Stack>
-            </LocalizationProvider>
-            <Button variant="contained">Ver detalle</Button>
+      <TabContext value={value}>
+        <Modal open={open} onClose={() => setOpen(false)}>
+          <Stack sx={style} spacing={1}>
+            <Stack
+              spacing={1}
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Typography variant="h2" component="h2">
+                {value === "producto"
+                  ? "Precio histórico"
+                  : "Precio histórico por tienda"}
+              </Typography>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <Stack spacing={1} direction="row">
+                  <DesktopDatePicker
+                    label="Desde"
+                    value={startDate}
+                    maxDate={endDate || new Date()}
+                    inputFormat="dd/MM/yyyy"
+                    onChange={(newValue) => setStartDate(newValue)}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                  <DesktopDatePicker
+                    label="hasta"
+                    value={endDate}
+                    minDate={startDate}
+                    maxDate={new Date()}
+                    inputFormat="dd/MM/yyyy"
+                    onChange={(newValue) => setEndDate(newValue)}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </Stack>
+              </LocalizationProvider>
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <TabList onChange={(_, newValue) => setValue(newValue)}>
+                  <Tab label="Producto" value="producto" />
+                  <Tab label="Ver detalle" value="detalle" />
+                </TabList>
+              </Box>
+            </Stack>
+            <TabPanel value="producto">
+              <ReactApexChart
+                type="line"
+                series={CHART_DATA}
+                options={chartOptions}
+              />
+            </TabPanel>
+            <TabPanel value="detalle">
+              <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                <InputLabel id="demo-select-small">Ver por</InputLabel>
+                <Select
+                  labelId="demo-select-small"
+                  id="demo-select-small"
+                  value={useOfferPrice}
+                  label="Ver por"
+                  onChange={(evt) => setUseOfferPrice(evt.target.value)}
+                >
+                  <MenuItem value={"true"}>Precio oferta</MenuItem>
+                  <MenuItem value={"false"}>Precio normal</MenuItem>
+                </Select>
+              </FormControl>
+              <ReactApexChart
+                type="line"
+                series={
+                  useOfferPrice === "true"
+                    ? ENTITIES_CHART_DATA_OFFER
+                    : ENTITIES_CHART_DATA_NORMAL
+                }
+                options={chartOptions}
+              />
+            </TabPanel>
           </Stack>
-          <ReactApexChart
-            type="line"
-            series={CHART_DATA}
-            options={chartOptions}
-            // height={400}
-          />
-        </Stack>
-      </Modal>
+        </Modal>
+      </TabContext>
     </>
   );
 }
