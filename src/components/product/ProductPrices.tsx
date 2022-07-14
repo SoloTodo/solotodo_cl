@@ -123,9 +123,9 @@ export default function ProductPrices({
           >
             {showMore ? "Ver menos precios" : "Ver más precios"}
           </Button>
-        ) : (
+        ) : entities.length === 0 ? (
           <Typography>Este producto no está disponible actualmente</Typography>
-        )}
+        ) : null}
         <Divider />
         <ProductPriceHistory product={product} />
         <ProductAlertButton
