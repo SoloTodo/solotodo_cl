@@ -8,6 +8,7 @@ import currency from "currency.js";
 import { Currency } from "src/frontend-utils/redux/api_resources/types";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import { useAppSelector } from "src/store/hooks";
+import useSettings from "src/hooks/useSettings";
 
 type HomeProps = {
   leads: any[];
@@ -55,11 +56,13 @@ const Home = (props: HomeProps) => {
 export default Home;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const prefExcludeRefurbished = context.req.cookies.prefExcludeRefurbished;
+  
   const leads = await fetchJson(
-    `products/browse/?ordering=leads&websites=` + constants.websiteId
+    `products/browse/?ordering=leads&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}`
   );
   const discount = await fetchJson(
-    `products/browse/?ordering=discount&websites=` + constants.websiteId
+    `products/browse/?ordering=discount&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}`
   );
   return {
     props: {

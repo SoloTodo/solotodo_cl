@@ -62,6 +62,7 @@ export default function CategoryPreview({
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (st) => async (context) => {
+    const prefExcludeRefurbished = context.req.cookies.prefExcludeRefurbished;
     const apiResourceObjects = st.getState().apiResourceObjects;
     const categories = getApiResourceObjects(apiResourceObjects, "categories");
     const category = categories.find(
@@ -73,10 +74,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
       };
     } else {
       const leads = await fetchJson(
-        `products/browse/?ordering=leads&websites=${constants.websiteId}&categories=${category.id}`
+        `products/browse/?ordering=leads&websites=${constants.websiteId}&categories=${category.id}&exclude_refurbished=${prefExcludeRefurbished}`
       );
       const discount = await fetchJson(
-        `products/browse/?ordering=discount&websites=${constants.websiteId}&categories=${category.id}`
+        `products/browse/?ordering=discount&websites=${constants.websiteId}&categories=${category.id}&exclude_refurbished=${prefExcludeRefurbished}`
       );
       return {
         props: {

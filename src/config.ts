@@ -37,6 +37,7 @@ export const cookiesKey = {
   themeColorPresets: 'themeColorPresets',
   themeLayout: 'themeLayout',
   themeStretch: 'themeStretch',
+  prefExcludeRefurbished: 'prefExcludeRefurbished',
 };
 
 export const defaultSettings: SettingsValueProps = {
@@ -45,6 +46,7 @@ export const defaultSettings: SettingsValueProps = {
   themeColorPresets: 'orange',
   themeLayout: 'horizontal',
   themeStretch: true,
+  prefExcludeRefurbished: false,
 };
 
 
@@ -206,10 +208,12 @@ export const constants = {
     },
   },
   storeOfferPriceLabel: {
+    5: "Tarjeta la Polar",
     9: "Precio CMR",
+    11: "Tarjeta Cencosud",
     18: "Tarjeta Ripley",
-    76: "Precio CMR"
+    30: "Tarjeta Abcdin",
+    // 43: "Tarjeta Lider",
+    87: "Tarjeta Hites"
   }
 }
-
-// Paris, abcdin, la polar, lider, hites

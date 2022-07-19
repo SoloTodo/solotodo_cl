@@ -1,10 +1,11 @@
 import { useState } from "react";
 // @mui
-import { Stack } from '@mui/material';
+import { Divider, Stack } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { IconButtonAnimate } from "../../../components/animate";
 import MenuPopover from '../../../components/MenuPopover';
 import SettingMode from "../../../components/settings/SettingMode";
+import SettingPrefExcludeRefurbished from "src/components/settings/SettingPrefExcludeRefurbished";
 
 export default function SettingsPopover() {
   const [open, setOpen] = useState<HTMLElement | null>(null);
@@ -43,7 +44,8 @@ export default function SettingsPopover() {
       >
         <Stack spacing={0.75}>
           <SettingMode />
-          
+          <Divider />
+          <SettingPrefExcludeRefurbished />
         </Stack>
       </MenuPopover>
     </>

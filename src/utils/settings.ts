@@ -1,22 +1,31 @@
 // next
-import { NextApiRequestCookies } from 'next/dist/server/api-utils';
+import { NextApiRequestCookies } from "next/dist/server/api-utils";
 // config
-import { defaultSettings, cookiesKey } from '../config';
+import { defaultSettings, cookiesKey } from "../config";
 
 // ----------------------------------------------------------------------
 
 export const getSettings = (cookies: NextApiRequestCookies) => {
-  const themeMode = getData(cookies[cookiesKey.themeMode]) || defaultSettings.themeMode;
+  const themeMode =
+    getData(cookies[cookiesKey.themeMode]) || defaultSettings.themeMode;
 
   const themeDirection =
-    getData(cookies[cookiesKey.themeDirection]) || defaultSettings.themeDirection;
+    getData(cookies[cookiesKey.themeDirection]) ||
+    defaultSettings.themeDirection;
 
   const themeColorPresets =
-    getData(cookies[cookiesKey.themeColorPresets]) || defaultSettings.themeColorPresets;
+    getData(cookies[cookiesKey.themeColorPresets]) ||
+    defaultSettings.themeColorPresets;
 
-  const themeLayout = getData(cookies[cookiesKey.themeLayout]) || defaultSettings.themeLayout;
+  const themeLayout =
+    getData(cookies[cookiesKey.themeLayout]) || defaultSettings.themeLayout;
 
-  const themeStretch = getData(cookies[cookiesKey.themeStretch]) || defaultSettings.themeStretch;
+  const themeStretch =
+    getData(cookies[cookiesKey.themeStretch]) || defaultSettings.themeStretch;
+
+  const prefExcludeRefurbished =
+    getData(cookies[cookiesKey.prefExcludeRefurbished]) ||
+    defaultSettings.prefExcludeRefurbished;
 
   return {
     themeMode,
@@ -24,17 +33,18 @@ export const getSettings = (cookies: NextApiRequestCookies) => {
     themeColorPresets,
     themeLayout,
     themeStretch,
+    prefExcludeRefurbished,
   };
 };
 
 // ----------------------------------------------------------------------
 
 const getData = (value: string) => {
-  if (value === 'true' || value === 'false') {
+  if (value === "true" || value === "false") {
     return JSON.parse(value);
   }
-  if (value === 'undefined' || !value) {
-    return '';
+  if (value === "undefined" || !value) {
+    return "";
   }
   return value;
 };

@@ -2,7 +2,7 @@ import * as Yup from "yup";
 import { useState } from "react";
 // import { capitalCase } from "change-case";
 // next
-import Image from 'next/image'
+import Image from "next/image";
 import NextLink from "next/link";
 // @mui
 import { styled } from "@mui/material/styles";
@@ -125,8 +125,16 @@ export default function Login() {
         saveAuthTokens(null, authToken);
         authFetch("users/me/", {}).then((user) => {
           dispatch(userSlice.actions.setUser(user));
+          if (
+            settings.prefExcludeRefurbished !==
+            user.preferred_exclude_refurbished
+          ) {
+            settings.onToggleExcludeRefurbished();
+          }
           const nextPath =
-            typeof router.query.next == "string" ? router.query.next : PATH_MAIN.root;
+            typeof router.query.next == "string"
+              ? router.query.next
+              : PATH_MAIN.root;
           router.push(nextPath).then(() => {});
         });
         // jwtFetch(
@@ -140,7 +148,9 @@ export default function Login() {
       })
       .catch(() => {
         if (isMountedRef.current) {
-          setError('afterSubmit', { message: "Email y/o contraseña incorrectos" });
+          setError("afterSubmit", {
+            message: "Email y/o contraseña incorrectos",
+          });
         }
       });
   };

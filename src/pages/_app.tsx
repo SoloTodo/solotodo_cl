@@ -27,6 +27,7 @@ import {
 import { fetchJson } from "src/frontend-utils/network/utils";
 import apiResourceObjectsSlice from "src/frontend-utils/redux/api_resources/apiResources";
 import { ChartStyle } from "src/components/chart";
+import { settings } from "nprogress";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -102,6 +103,8 @@ class MyApp extends App<MyAppProps> {
           user,
           initialReduxState: store.getState(),
         };
+
+        settings.prefExcludeRefurbished = Boolean(user.preferred_exclude_refurbished);
 
         return { pageProps: resultProps, settings, navigation };
       } else {

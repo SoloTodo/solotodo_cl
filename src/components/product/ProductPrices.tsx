@@ -21,6 +21,7 @@ import { RatedStore } from "./types";
 import MessageIcon from "@mui/icons-material/Message";
 import ProductAlertButton from "./ProductAlertButton";
 import ProductPriceHistory from "./ProductPriceHistory";
+import useSettings from "src/hooks/useSettings";
 
 type ProductPricesProps = {
   product: Product;
@@ -33,6 +34,7 @@ export default function ProductPrices({
   category,
   setOpenNewCommentDrawer,
 }: ProductPricesProps) {
+  const { prefExcludeRefurbished } = useSettings();
   const [entities, setEntities] = useState<Entity[]>([]);
   const [ratedStores, setRatedStores] = useState<Record<string, RatedStore>>(
     {}
@@ -45,7 +47,7 @@ export default function ProductPrices({
 
   useMemo(() => {
     fetchJson(
-      `${constants.apiResourceEndpoints.products}available_entities/?ids=${product.id}`
+      `${constants.apiResourceEndpoints.products}available_entities/?ids=${product.id}&exclude_refurbished=${prefExcludeRefurbished}`
     ).then((availableEntities) => {
       const entities: Entity[] = availableEntities.results[0].entities.filter(
         (entity: Entity) =>
@@ -74,7 +76,7 @@ export default function ProductPrices({
         setRatedStores(rStores);
       });
     });
-  }, [apiResourceObjects, product.id]);
+  }, [apiResourceObjects, prefExcludeRefurbished, product.id]);
 
   return (
     <Stack direction="column" spacing={2}>

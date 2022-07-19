@@ -25,6 +25,7 @@ const initialState: SettingsContextProps = {
   onToggleStretch: () => {},
   onChangeLayout: () => {},
   onResetSetting: () => {},
+  onToggleExcludeRefurbished: () => {},
   setColor: defaultPreset,
   colorOption: [],
 };
@@ -91,8 +92,16 @@ function SettingsProvider({
       themeStretch: initialState.themeStretch,
       themeDirection: initialState.themeDirection,
       themeColorPresets: initialState.themeColorPresets,
+      prefExcludeRefurbished: initialState.prefExcludeRefurbished,
     });
   };
+
+  const onToggleExcludeRefurbished = () => {
+    setSettings({
+      ...settings,
+      prefExcludeRefurbished: !settings.prefExcludeRefurbished,
+    });
+  }
 
   return (
     <SettingsContext.Provider
@@ -116,6 +125,8 @@ function SettingsProvider({
         onChangeLayout,
         // Reset Setting
         onResetSetting,
+        // User Preferences
+        onToggleExcludeRefurbished,
       }}
     >
       {children}
@@ -146,6 +157,10 @@ function useSettingCookies(
     });
 
     Cookies.set(cookiesKey.themeStretch, JSON.stringify(settings.themeStretch), {
+      expires: cookiesExpires,
+    });
+
+    Cookies.set(cookiesKey.prefExcludeRefurbished, JSON.stringify(settings.prefExcludeRefurbished), {
       expires: cookiesExpires,
     });
   };

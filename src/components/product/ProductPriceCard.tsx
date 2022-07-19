@@ -37,15 +37,23 @@ export default function ProductPriceCard({
         bgcolor: "transparent",
         borderWidth: 1,
         borderStyle: "solid",
-        borderColor: first ? "primary.main" : "background.neutral",
+        borderColor: "background.neutral",
         borderRadius: 1,
+        '&:hover': {
+          borderColor: 'primary.main',
+          "& $Box": {
+            bgcolor: "primary.main",
+          }
+        },
       }}
     >
       <CardActionArea href={entity.external_url} target="_blank">
         <Stack direction="row" alignItems="center" spacing={1}>
           <Box
+            className="Box"
+            // TODO CHANGE COLOR WHEN CARD HOVERED
             sx={{
-              bgcolor: first ? "primary.main" : "#7B7B7B",
+              bgcolor: "#7B7B7B",
               p: 0.8,
               borderEndEndRadius: 10,
               display: "inline-block",

@@ -5,6 +5,7 @@ export type ThemeDirection = 'rtl' | 'ltr';
 export type ThemeColorPresets = 'default' | 'purple' | 'cyan' | 'blue' | 'orange' | 'red';
 export type ThemeLayout = 'vertical' | 'horizontal';
 export type ThemeStretch = boolean;
+export type PrefExcludeRefurbished = boolean;
 
 type ColorVariants = {
   name: string;
@@ -22,6 +23,7 @@ export type SettingsValueProps = {
   themeColorPresets: ThemeColorPresets;
   themeStretch: ThemeStretch;
   themeLayout: ThemeLayout;
+  prefExcludeRefurbished: PrefExcludeRefurbished;
 };
 
 export type SettingsContextProps = {
@@ -30,11 +32,13 @@ export type SettingsContextProps = {
   themeColorPresets: ThemeColorPresets;
   themeLayout: ThemeLayout;
   themeStretch: boolean;
+  prefExcludeRefurbished: boolean;
   setColor: ColorVariants;
   colorOption: {
     name: string;
     value: string;
   }[];
+  onToggleExcludeRefurbished: VoidFunction;
   onToggleMode: VoidFunction;
   onToggleStretch: VoidFunction;
   onResetSetting: VoidFunction;
