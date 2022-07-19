@@ -1,6 +1,6 @@
-import { ApexOptions } from 'apexcharts';
+import { ApexOptions } from "apexcharts";
 // @mui
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 
 // ----------------------------------------------------------------------
 
@@ -9,7 +9,7 @@ export default function BaseOptionChart(): ApexOptions {
 
   const LABEL_TOTAL = {
     show: true,
-    label: 'Total',
+    label: "Total",
     color: theme.palette.text.secondary,
     fontSize: theme.typography.subtitle2.fontSize as string,
     fontWeight: theme.typography.subtitle2.fontWeight,
@@ -38,7 +38,7 @@ export default function BaseOptionChart(): ApexOptions {
     chart: {
       toolbar: { show: false },
       zoom: { enabled: false },
-      // animations: { enabled: false },
+      animations: { enabled: false },
       foreColor: theme.palette.text.disabled,
       fontFamily: theme.typography.fontFamily,
     },
@@ -47,13 +47,13 @@ export default function BaseOptionChart(): ApexOptions {
     states: {
       hover: {
         filter: {
-          type: 'lighten',
+          type: "lighten",
           value: 0.04,
         },
       },
       active: {
         filter: {
-          type: 'darken',
+          type: "darken",
           value: 0.88,
         },
       },
@@ -63,7 +63,7 @@ export default function BaseOptionChart(): ApexOptions {
     fill: {
       opacity: 1,
       gradient: {
-        type: 'vertical',
+        type: "vertical",
         shadeIntensity: 0,
         opacityFrom: 0.4,
         opacityTo: 0,
@@ -77,8 +77,8 @@ export default function BaseOptionChart(): ApexOptions {
     // Stroke
     stroke: {
       width: 3,
-      curve: 'smooth',
-      lineCap: 'round',
+      curve: "smooth",
+      lineCap: "round",
     },
 
     // Grid
@@ -102,7 +102,7 @@ export default function BaseOptionChart(): ApexOptions {
     // Tooltip
     tooltip: {
       x: {
-        show: false,
+        show: true,
       },
     },
 
@@ -110,8 +110,8 @@ export default function BaseOptionChart(): ApexOptions {
     legend: {
       show: true,
       fontSize: String(13),
-      position: 'top',
-      horizontalAlign: 'right',
+      position: "top",
+      horizontalAlign: "right",
       markers: {
         radius: 12,
       },
@@ -126,7 +126,7 @@ export default function BaseOptionChart(): ApexOptions {
     plotOptions: {
       // Bar
       bar: {
-        columnWidth: '28%',
+        columnWidth: "28%",
         borderRadius: 4,
       },
       // Pie + Donut
@@ -142,7 +142,7 @@ export default function BaseOptionChart(): ApexOptions {
       // Radialbar
       radialBar: {
         track: {
-          strokeWidth: '100%',
+          strokeWidth: "100%",
           background: theme.palette.grey[500_16],
         },
         dataLabels: {
@@ -153,7 +153,7 @@ export default function BaseOptionChart(): ApexOptions {
       // Radar
       radar: {
         polygons: {
-          fill: { colors: ['transparent'] },
+          fill: { colors: ["transparent"] },
           strokeColors: theme.palette.divider,
           connectorColors: theme.palette.divider,
         },
@@ -175,14 +175,14 @@ export default function BaseOptionChart(): ApexOptions {
         // sm
         breakpoint: theme.breakpoints.values.sm,
         options: {
-          plotOptions: { bar: { columnWidth: '40%' } },
+          plotOptions: { bar: { columnWidth: "40%" } },
         },
       },
       {
         // md
         breakpoint: theme.breakpoints.values.md,
         options: {
-          plotOptions: { bar: { columnWidth: '32%' } },
+          plotOptions: { bar: { columnWidth: "32%" } },
         },
       },
     ],
