@@ -3,7 +3,10 @@ import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
+  Grid,
+  IconButton,
   InputLabel,
   MenuItem,
   Modal,
@@ -15,6 +18,7 @@ import {
 } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
+import CloseIcon from "@mui/icons-material/Close";
 import { addDays, subDays } from "date-fns";
 import { Product } from "src/frontend-utils/types/product";
 import { constants } from "src/config";
@@ -47,6 +51,7 @@ const style = {
 export default function ProductPriceHistory({ product }: { product: Product }) {
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [value, setValue] = useState("producto");
   const [useOfferPrice, setUseOfferPrice] = useState("true");
   const [pricingData, setPricingData] = useState<NormalizedPricingData[]>([]);
@@ -59,6 +64,7 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
 
   useMemo(() => {
     if (startDate === null || endDate === null) return;
+    setLoading(true);
     const url =
       `${constants.apiResourceEndpoints.products}${product.id}/pricing_history/` +
       `?timestamp_after=${startDate.toISOString()}&timestamp_before=${endDate.toISOString()}`;
@@ -128,6 +134,7 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
       }
       setPricingData(finalData);
       setMinimumPrices(minimumPricesPerDay);
+      setLoading(false);
     });
   }, [endDate, product.id, startDate]);
 
@@ -213,7 +220,19 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
           currency(value, { precision: 0 }).format(),
       },
     },
+    tooltip:
+      value === "detalle"
+        ? {
+            shared: false,
+            intersect: true,
+          }
+        : {},
   });
+
+  const setTabValue = (value: string) => {
+    setStartDate(subDays(new Date(), 30));
+    setValue(value);
+  };
 
   return (
     <>
@@ -229,8 +248,8 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
       <TabContext value={value}>
         <Modal open={open} onClose={() => setOpen(false)}>
           <Stack sx={style} spacing={1}>
-            <Stack
-              spacing={1}
+            <Grid
+              container
               direction="row"
               justifyContent="space-between"
               alignItems="center"
@@ -245,6 +264,9 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
                   <DesktopDatePicker
                     label="Desde"
                     value={startDate}
+                    minDate={
+                      value === "detalle" ? subDays(startDate!, 60) : null
+                    }
                     maxDate={endDate || new Date()}
                     inputFormat="dd/MM/yyyy"
                     onChange={(newValue) => setStartDate(newValue)}
@@ -262,42 +284,60 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
                 </Stack>
               </LocalizationProvider>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <TabList onChange={(_, newValue) => setValue(newValue)}>
+                <TabList onChange={(_, newValue) => setTabValue(newValue)}>
                   <Tab label="Producto" value="producto" />
                   <Tab label="Ver detalle" value="detalle" />
                 </TabList>
               </Box>
-            </Stack>
+              <IconButton onClick={() => setOpen(false)}>
+                <CloseIcon />
+              </IconButton>
+            </Grid>
+            <br />
             <TabPanel value="producto">
-              <ReactApexChart
-                type="line"
-                series={CHART_DATA}
-                options={chartOptions}
-              />
+              {loading ? (
+                <Box textAlign="center" paddingTop={2}>
+                  <CircularProgress color="inherit" />
+                </Box>
+              ) : (
+                <ReactApexChart
+                  type="line"
+                  series={CHART_DATA}
+                  options={chartOptions}
+                />
+              )}
             </TabPanel>
             <TabPanel value="detalle">
-              <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                <InputLabel id="demo-select-small">Ver por</InputLabel>
-                <Select
-                  labelId="demo-select-small"
-                  id="demo-select-small"
-                  value={useOfferPrice}
-                  label="Ver por"
-                  onChange={(evt) => setUseOfferPrice(evt.target.value)}
-                >
-                  <MenuItem value={"true"}>Precio oferta</MenuItem>
-                  <MenuItem value={"false"}>Precio normal</MenuItem>
-                </Select>
-              </FormControl>
-              <ReactApexChart
-                type="line"
-                series={
-                  useOfferPrice === "true"
-                    ? ENTITIES_CHART_DATA_OFFER
-                    : ENTITIES_CHART_DATA_NORMAL
-                }
-                options={chartOptions}
-              />
+              {loading ? (
+                <Box textAlign="center" paddingTop={2}>
+                  <CircularProgress color="inherit" />
+                </Box>
+              ) : (
+                <>
+                  <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                    <InputLabel id="demo-select-small">Ver por</InputLabel>
+                    <Select
+                      labelId="demo-select-small"
+                      id="demo-select-small"
+                      value={useOfferPrice}
+                      label="Ver por"
+                      onChange={(evt) => setUseOfferPrice(evt.target.value)}
+                    >
+                      <MenuItem value={"true"}>Precio oferta</MenuItem>
+                      <MenuItem value={"false"}>Precio normal</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <ReactApexChart
+                    type="line"
+                    series={
+                      useOfferPrice === "true"
+                        ? ENTITIES_CHART_DATA_OFFER
+                        : ENTITIES_CHART_DATA_NORMAL
+                    }
+                    options={chartOptions}
+                  />
+                </>
+              )}
             </TabPanel>
           </Stack>
         </Modal>
