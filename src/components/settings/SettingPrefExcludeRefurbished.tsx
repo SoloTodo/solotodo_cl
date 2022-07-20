@@ -25,6 +25,8 @@ export default function SettingPrefExcludeRefurbished() {
   return (
     <FormGroup onChange={onChange}>
       <FormControlLabel
+        sx={{ justifyContent: "space-between", fontWeight: 500, width: '100%' }}
+        disableTypography
         checked={prefExcludeRefurbished}
         control={<Switch color="primary" />}
         label="Reacondicionados"
