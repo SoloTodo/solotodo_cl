@@ -13,6 +13,7 @@ import {
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { NavigationProps } from "src/contexts/NavigationContext";
 import useNavigation from "src/hooks/useNavigation";
+import Iconify from "src/components/Iconify";
 
 export default function NavigationDrawer() {
   const navigation = useNavigation();
@@ -43,14 +44,20 @@ export default function NavigationDrawer() {
           <List dense>
             {menu?.sections.map((s, index) => (
               <div key={index}>
-                <ListItem key={s.name} disablePadding>
-                  <ListItemButton href={s.path}>
-                    <ListItemText>{s.name}</ListItemText>
-                    <ListItemIcon>
-                      <ArrowForwardIosIcon />
-                    </ListItemIcon>
-                  </ListItemButton>
-                </ListItem>
+                <ListItemButton
+                  sx={{ textTransform: "capitalize", height: 44 }}
+                  href={s.path}
+                >
+                  <ListItemText
+                    primaryTypographyProps={{ typography: "body1" }}
+                  >
+                    {s.name}
+                  </ListItemText>
+                  <Box
+                    component={Iconify}
+                    icon={"eva:arrow-ios-forward-fill"}
+                  />
+                </ListItemButton>
                 <List dense>
                   {s.items.map((i) => (
                     <ListItem key={`${s.name}-${i.name}`}>
