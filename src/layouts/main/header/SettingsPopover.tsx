@@ -6,6 +6,7 @@ import { IconButtonAnimate } from "../../../components/animate";
 import MenuPopover from '../../../components/MenuPopover';
 import SettingMode from "../../../components/settings/SettingMode";
 import SettingPrefExcludeRefurbished from "src/components/settings/SettingPrefExcludeRefurbished";
+import SettingPrefStores from "src/components/settings/SettingPrefStores";
 
 export default function SettingsPopover() {
   const [open, setOpen] = useState<HTMLElement | null>(null);
@@ -45,6 +46,7 @@ export default function SettingsPopover() {
         <Stack spacing={0.75}>
           <SettingMode />
           <Divider />
+          <SettingPrefStores />
           <SettingPrefExcludeRefurbished />
         </Stack>
       </MenuPopover>

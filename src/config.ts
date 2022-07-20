@@ -55,6 +55,7 @@ export const defaultSettings: SettingsValueProps = {
 export const constants = {
   ...apiSettings,
   chileId: 1,
+  defaultCountryUrl: apiSettings.apiResourceEndpoints.countries + '1/',
   disqusShortName: 'solotodo3',
   websiteId: 2,
   benchmarkCategories: {
