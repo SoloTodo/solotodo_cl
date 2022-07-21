@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
+    "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.9.3",
     "@hookform/resolvers": "^2.9.1",
     "@iconify/react": "^3.2.2",
