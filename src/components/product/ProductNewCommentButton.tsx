@@ -7,7 +7,12 @@ export default function ProductNewCommentButton({
 }) {
   return (
     <Button variant="outlined">
-      <Typography variant="h6" color="text.primary" onClick={onClick}>
+      <Typography
+        variant="h6"
+        color="text.primary"
+        onClick={onClick}
+        sx={{ width: "100%" }}
+      >
         INGRESAR COMENTARIO
       </Typography>
     </Button>

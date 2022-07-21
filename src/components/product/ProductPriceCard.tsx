@@ -43,12 +43,17 @@ export default function ProductPriceCard({
           borderColor: "primary.main",
         },
         "&:hover .box": {
-          bgcolor: "primary.main"
-        }
+          bgcolor: "primary.main",
+        },
       }}
     >
       <CardActionArea href={entity.external_url} target="_blank">
-        <Stack direction="row" alignItems="center" spacing={1}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          spacing={1}
+          justifyContent="space-between"
+        >
           <Box
             className="box"
             sx={{
