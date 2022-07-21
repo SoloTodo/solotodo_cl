@@ -8,7 +8,6 @@ import {
   Typography,
   Stack,
   MenuItem,
-  Avatar,
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 // components
@@ -44,6 +43,11 @@ export default function AccountPopover() {
 
   const handleClose = (linkTo: string) => {
     router.push(linkTo);
+    setOpen(null);
+  };
+
+  const onLogout = () => {
+    logout(false);
     setOpen(null);
   };
 
@@ -113,13 +117,21 @@ export default function AccountPopover() {
 
             <Divider sx={{ borderStyle: "dashed" }} />
 
-            <MenuItem sx={{ m: 1 }} onClick={() => logout()}>
+            <MenuItem sx={{ m: 1 }} onClick={onLogout}>
               Cerrar Sesión
             </MenuItem>
           </>
         ) : (
           <>
-            <MenuItem sx={{ m: 1 }} onClick={() => router.push("/login")}>
+            <MenuItem
+              sx={{ m: 1 }}
+              onClick={() => {
+                setOpen(null);
+                router.push(
+                  `/login?next=${encodeURIComponent(router.asPath || "")}`
+                );
+              }}
+            >
               Iniciar Sesión
             </MenuItem>
             <MenuItem sx={{ m: 1 }} onClick={() => {}}>
