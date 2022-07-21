@@ -10,13 +10,17 @@ import {
   Typography,
 } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useAppSelector } from "src/store/hooks";
+import { useAppDispatch, useAppSelector } from "src/store/hooks";
 import {
   getApiResourceObjects,
   useApiResourceObjects,
 } from "src/frontend-utils/redux/api_resources/apiResources";
 import { constants } from "src/config";
 import { Store } from "src/frontend-utils/types/store";
+import useSettings from "src/hooks/useSettings";
+import userSlice, { useUser } from "src/frontend-utils/redux/user";
+import { fetchAuth } from "src/frontend-utils/nextjs/utils";
+import { useSnackbar } from "notistack";
 
 const style = {
   position: "absolute" as "absolute",
@@ -31,24 +35,31 @@ const style = {
 };
 
 export default function SettingPrefStores() {
-  const [open, setOpen] = useState(false);
-  const [selectedStoreIds, setSelectedStoresIds] = useState<number[]>([]);
+  const dispatch = useAppDispatch();
+  const { prefStores, onChangeStores } = useSettings();
+  const { enqueueSnackbar } = useSnackbar();
+  const user = useAppSelector(useUser);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
-  
+  const [open, setOpen] = useState(false);
+  const [selectedStoreIds, setSelectedStoresIds] =
+    useState<string[]>(prefStores);
+
   const allStores = (
     getApiResourceObjects(apiResourceObjects, "stores") as Store[]
-  ).filter((s) => s.country === constants.defaultCountryUrl);
-  const allStoreIds = allStores.map((s) => s.id);
+  ).filter(
+    (s) => s.country === constants.defaultCountryUrl && s.last_activation
+  );
+  const allStoreIds = allStores.map((s) => s.id.toString());
 
   const selectAll = () => {
     setSelectedStoresIds(allStoreIds);
-  }
+  };
 
   const selectNone = () => {
     setSelectedStoresIds([]);
-  }
+  };
 
-  const onChange = (check: boolean, id: number) => {
+  const onChange = (check: boolean, id: string) => {
     if (check) {
       setSelectedStoresIds([...selectedStoreIds, id]);
     } else {
@@ -57,8 +68,21 @@ export default function SettingPrefStores() {
   };
 
   const onSubmit = () => {
-
-  }
+    if (user) {
+      const userChanges = {
+        preferred_stores: selectedStoreIds.map(
+          (i) => `${constants.apiResourceEndpoints.stores}${i}/`
+        ),
+      };
+      fetchAuth(null, "users/me/", {
+        method: "PATCH",
+        body: JSON.stringify(userChanges),
+      }).then((user) => dispatch(userSlice.actions.setUser(user)));
+    }
+    onChangeStores(selectedStoreIds);
+    enqueueSnackbar("Cambios guardados");
+    setOpen(false);
+  };
 
   return (
     <>
@@ -83,8 +107,12 @@ export default function SettingPrefStores() {
           >
             <Typography variant="h2">Selección de tiendas</Typography>
             <Stack direction="row" spacing={1}>
-              <Button variant="outlined" onClick={selectAll}>Todas</Button>
-              <Button variant="outlined" onClick={selectNone}>Ninguna</Button>
+              <Button variant="outlined" onClick={selectAll}>
+                Todas
+              </Button>
+              <Button variant="outlined" onClick={selectNone}>
+                Ninguna
+              </Button>
             </Stack>
           </Grid>
           <Divider />
@@ -99,20 +127,28 @@ export default function SettingPrefStores() {
               <Grid key={s.id} item xs={2}>
                 <FormControlLabel
                   disableTypography
-                  checked={selectedStoreIds.includes(s.id)}
+                  checked={selectedStoreIds.includes(s.id.toString())}
                   control={<Checkbox />}
                   label={s.name}
-                  onChange={(_, check) => onChange(check, s.id)}
+                  onChange={(_, check) => onChange(check, s.id.toString())}
                 />
               </Grid>
             ))}
           </Grid>
           <Divider />
           <Stack direction="row-reverse" spacing={1}>
-            <Button variant="contained" sx={{ borderRadius: 3 }} onClick={onSubmit}>
+            <Button
+              variant="contained"
+              sx={{ borderRadius: 3 }}
+              onClick={onSubmit}
+            >
               Guardar
             </Button>
-            <Button variant="outlined" sx={{ borderRadius: 3 }} onClick={() => setOpen(false)}>
+            <Button
+              variant="outlined"
+              sx={{ borderRadius: 3 }}
+              onClick={() => setOpen(false)}
+            >
               Cancelar
             </Button>
           </Stack>

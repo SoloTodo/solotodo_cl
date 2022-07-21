@@ -4,7 +4,6 @@ import {
   Button,
   Modal,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
@@ -18,6 +17,7 @@ import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoadingButton } from "@mui/lab";
+import useSettings from "src/hooks/useSettings";
 
 const style = {
   position: "absolute" as "absolute",
@@ -43,6 +43,7 @@ export default function ProductAlertButton({
   available: boolean
 }) {
   const { enqueueSnackbar } = useSnackbar();
+  const { prefStores } = useSettings();
   const user = useAppSelector(useUser);
   const [open, setOpen] = useState(false);
 
@@ -67,14 +68,12 @@ export default function ProductAlertButton({
   };
 
   const onSubmit = (data: FormValuesProps) => {
-    console.log(data);
     fetchJson(constants.apiResourceEndpoints.alerts, {
       method: "POST",
       body: JSON.stringify({
         email: data.email,
         product: productId,
-        stores: [],
-        // TODO: stores key (prefferedCountryStores)
+        stores: prefStores,
       }),
     })
       .then((_) => {
@@ -82,7 +81,6 @@ export default function ProductAlertButton({
         handleClose();
       })
       .catch((err) => {
-        console.log(err);
         err
           .json()
           .then((errorJson: any) => {

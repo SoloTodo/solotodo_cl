@@ -37,11 +37,13 @@ import { jwtFetch, saveAuthTokens } from "src/frontend-utils/nextjs/utils";
 import { useAuth } from "src/frontend-utils/nextjs/JWTContext";
 import userSlice from "src/frontend-utils/redux/user";
 import { useRouter } from "next/router";
-import { useAppDispatch } from "src/store/hooks";
+import { useAppDispatch, useAppSelector } from "src/store/hooks";
 import useSettings from "src/hooks/useSettings";
 // routes
 import { PATH_AUTH, PATH_MAIN } from "src/routes/paths";
-import apiResourceObjectsSlice from "src/frontend-utils/redux/api_resources/apiResources";
+import apiResourceObjectsSlice, {
+  useApiResourceObjects,
+} from "src/frontend-utils/redux/api_resources/apiResources";
 
 // ----------------------------------------------------------------------
 
@@ -90,6 +92,7 @@ type FormValuesProps = {
 export default function Login() {
   const isMountedRef = useIsMountedRef();
   const settings = useSettings();
+  const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -126,25 +129,22 @@ export default function Login() {
         authFetch("users/me/", {}).then((user) => {
           dispatch(userSlice.actions.setUser(user));
           if (
-            settings.prefExcludeRefurbished !==
-            user.preferred_exclude_refurbished
+            Boolean(settings.prefExcludeRefurbished) !==
+            Boolean(user.preferred_exclude_refurbished)
           ) {
             settings.onToggleExcludeRefurbished();
           }
+          settings.onChangeStores(
+            user.preferred_stores.map((s: string) =>
+              apiResourceObjects[s].id.toString()
+            )
+          );
           const nextPath =
             typeof router.query.next == "string"
               ? router.query.next
               : PATH_MAIN.root;
           router.push(nextPath).then(() => {});
         });
-        // jwtFetch(
-        //   null,
-        //   `resources/with_permissions/?${resources_query}`
-        // ).then((apiResources) => {
-        //   dispatch(
-        //     apiResourceObjectsSlice.actions.addApiResourceObjects(apiResources)
-        //   );
-        // });
       })
       .catch(() => {
         if (isMountedRef.current) {

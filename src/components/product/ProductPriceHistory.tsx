@@ -35,6 +35,7 @@ import {
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { useAppSelector } from "src/store/hooks";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
+import useSettings from "src/hooks/useSettings";
 
 const style = {
   position: "absolute" as "absolute",
@@ -49,6 +50,7 @@ const style = {
 };
 
 export default function ProductPriceHistory({ product }: { product: Product }) {
+  const { prefExcludeRefurbished, prefStores } = useSettings();
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -65,9 +67,15 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
   useMemo(() => {
     if (startDate === null || endDate === null) return;
     setLoading(true);
+    
+    let storesUrl = "";
+    for (const store of prefStores) {
+      storesUrl += `&stores=${store}`
+    }
     const url =
       `${constants.apiResourceEndpoints.products}${product.id}/pricing_history/` +
-      `?timestamp_after=${startDate.toISOString()}&timestamp_before=${endDate.toISOString()}`;
+      `?timestamp_after=${startDate.toISOString()}&timestamp_before=${endDate.toISOString()}` +
+      `&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`;
 
     fetchJson(url).then((data) => {
       const minimumPricesPerDay: MinimumPricesPerDay = {
@@ -136,7 +144,7 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
       setMinimumPrices(minimumPricesPerDay);
       setLoading(false);
     });
-  }, [endDate, product.id, startDate]);
+  }, [endDate, prefExcludeRefurbished, prefStores, product.id, startDate]);
 
   let days: Date[] = [];
   if (startDate !== null && endDate !== null) {

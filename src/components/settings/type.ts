@@ -6,6 +6,7 @@ export type ThemeColorPresets = 'default' | 'purple' | 'cyan' | 'blue' | 'orange
 export type ThemeLayout = 'vertical' | 'horizontal';
 export type ThemeStretch = boolean;
 export type PrefExcludeRefurbished = boolean;
+export type PrefStores = string[];
 
 type ColorVariants = {
   name: string;
@@ -24,6 +25,7 @@ export type SettingsValueProps = {
   themeStretch: ThemeStretch;
   themeLayout: ThemeLayout;
   prefExcludeRefurbished: PrefExcludeRefurbished;
+  prefStores: PrefStores;
 };
 
 export type SettingsContextProps = {
@@ -33,6 +35,7 @@ export type SettingsContextProps = {
   themeLayout: ThemeLayout;
   themeStretch: boolean;
   prefExcludeRefurbished: boolean;
+  prefStores: PrefStores;
   setColor: ColorVariants;
   colorOption: {
     name: string;
@@ -46,4 +49,5 @@ export type SettingsContextProps = {
   onChangeDirection: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeColor: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeLayout: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeStores: (newStores: string[]) => void;
 };

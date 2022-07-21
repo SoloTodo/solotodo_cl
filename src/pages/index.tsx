@@ -8,7 +8,6 @@ import currency from "currency.js";
 import { Currency } from "src/frontend-utils/redux/api_resources/types";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import { useAppSelector } from "src/store/hooks";
-import useSettings from "src/hooks/useSettings";
 
 type HomeProps = {
   leads: any[];
@@ -57,12 +56,17 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const prefExcludeRefurbished = context.req.cookies.prefExcludeRefurbished;
+  const prefStores = context.req.cookies.prefStores.split('|');
+  let storesUrl = "";
+    for (const store of prefStores) {
+      storesUrl += `&stores=${store}`
+    }
   
   const leads = await fetchJson(
-    `products/browse/?ordering=leads&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}`
+    `products/browse/?ordering=leads&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
   );
   const discount = await fetchJson(
-    `products/browse/?ordering=discount&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}`
+    `products/browse/?ordering=discount&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
   );
   return {
     props: {

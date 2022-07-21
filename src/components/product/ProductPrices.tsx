@@ -34,7 +34,7 @@ export default function ProductPrices({
   category,
   setOpenNewCommentDrawer,
 }: ProductPricesProps) {
-  const { prefExcludeRefurbished } = useSettings();
+  const { prefExcludeRefurbished, prefStores } = useSettings();
   const [entities, setEntities] = useState<Entity[]>([]);
   const [ratedStores, setRatedStores] = useState<Record<string, RatedStore>>(
     {}
@@ -46,8 +46,12 @@ export default function ProductPrices({
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
 
   useMemo(() => {
+    let storesUrl = "";
+    for (const store of prefStores) {
+      storesUrl += `&stores=${store}`
+    }
     fetchJson(
-      `${constants.apiResourceEndpoints.products}available_entities/?ids=${product.id}&exclude_refurbished=${prefExcludeRefurbished}`
+      `${constants.apiResourceEndpoints.products}available_entities/?ids=${product.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
     ).then((availableEntities) => {
       const entities: Entity[] = availableEntities.results[0].entities.filter(
         (entity: Entity) =>
@@ -76,7 +80,7 @@ export default function ProductPrices({
         setRatedStores(rStores);
       });
     });
-  }, [apiResourceObjects, prefExcludeRefurbished, product.id]);
+  }, [apiResourceObjects, prefExcludeRefurbished, prefStores, product.id]);
 
   return (
     <Stack direction="column" spacing={2}>

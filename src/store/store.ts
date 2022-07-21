@@ -40,6 +40,4 @@ export type AppStore = ReturnType<typeof makeStore>;
 
 export const wrapper = createWrapper<AppStore>(makeStore);
 
-const { dispatch } =  store;
-
-export { store, dispatch }
+export { store }

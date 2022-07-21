@@ -27,7 +27,7 @@ import {
 import { fetchJson } from "src/frontend-utils/network/utils";
 import apiResourceObjectsSlice from "src/frontend-utils/redux/api_resources/apiResources";
 import { ChartStyle } from "src/components/chart";
-import { settings } from "nprogress";
+import { Store } from "src/frontend-utils/types/store";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -90,6 +90,16 @@ class MyApp extends App<MyAppProps> {
         store.dispatch(
           apiResourceObjectsSlice.actions.addApiResourceObjects(apiResources)
         );
+        if (settings.prefStores.length == 0) {
+          settings.prefStores = (apiResources as Store[])
+            .filter(
+              (s) =>
+                s.url.includes("stores") &&
+                s.country === constants.defaultCountryUrl &&
+                s.last_activation
+            )
+            .map((f) => f.id.toString());
+        }
       } catch (err: any) {
         ctx.res?.setHeader("error", err.message);
       }
@@ -104,7 +114,12 @@ class MyApp extends App<MyAppProps> {
           initialReduxState: store.getState(),
         };
 
-        settings.prefExcludeRefurbished = Boolean(user.preferred_exclude_refurbished);
+        settings.prefExcludeRefurbished = Boolean(
+          user.preferred_exclude_refurbished
+        );
+        settings.prefStores = user.preferred_stores.map(
+          (s: string) => s.split("/")[s.split("/").length - 2]
+        );
 
         return { pageProps: resultProps, settings, navigation };
       } else {
