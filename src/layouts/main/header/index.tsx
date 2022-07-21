@@ -108,7 +108,6 @@ export default function DashboardHeader({
         >
           <Searchbar />
           <NavigationDrawer />
-          <Box sx={{ flexGrow: 1 }} />
           <AccountPopover />
           <SettingsPopover />
         </Stack>
