@@ -24,3 +24,7 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
+
+.product_specs ul {
+    padding-left: 20px;
+}

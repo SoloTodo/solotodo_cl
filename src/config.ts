@@ -57,7 +57,9 @@ export const constants = {
   ...apiSettings,
   chileId: 1,
   defaultCountryUrl: apiSettings.apiResourceEndpoints.countries + "1/",
+  detailPurposeUrl: apiSettings.endpoint + 'category_template_purposes/1/',
   disqusShortName: "solotodo3",
+  shortDescriptionPurposeId: apiSettings.endpoint + 'category_template_purposes/2/',
   websiteId: 2,
   benchmarkCategories: {
     1: [

@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { GetServerSideProps } from "next";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import Image from "src/components/Image";
 import Page from "src/components/Page";
@@ -17,34 +17,20 @@ import ProductRatingSummary from "src/components/product/ProductRatingSummary";
 import ProductVariants from "src/components/product/ProductVariants";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
-import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
+import {
+  useApiResourceObjects
+} from "src/frontend-utils/redux/api_resources/apiResources";
 import { Product } from "src/frontend-utils/types/product";
 import { Category } from "src/frontend-utils/types/store";
 import { PATH_MAIN } from "src/routes/paths";
 import { useAppSelector } from "src/store/hooks";
-import styles from "../../../styles/ProductPage.module.css";
 import ReactDisqusComments from "react-disqus-comments";
 import ProductPrices from "src/components/product/ProductPrices";
+import ProductDescription from "src/components/product/ProductDescription";
 
 export default function ProductPage({ product }: { product: Product }) {
-  const [renderSpecs, setRenderSpecs] = useState({
-    body: "",
-  });
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const [openNewCommentDrawer, setOpenNewCommentDrawer] = useState(false);
-
-  useMemo(() => {
-    fetchJson(
-      `${
-        constants.apiResourceEndpoints.category_templates
-      }?website=1&purpose=1&category=${apiResourceObjects[product.category].id}`
-    ).then((category_template) => {
-      category_template.length !== 0 &&
-        fetchJson(
-          `${constants.apiResourceEndpoints.category_templates}${category_template[0].id}/render/?product=${product.id}`
-        ).then((data) => setRenderSpecs(data));
-    });
-  }, [apiResourceObjects, product]);
 
   const category = apiResourceObjects[product.category] as Category;
 
@@ -81,21 +67,15 @@ export default function ProductPage({ product }: { product: Product }) {
               <ProductRatingSummary product={product} />
               <ProductVariants product={product} category={category} />
               <ProductBenchmarks product={product} category={category} />
-              {renderSpecs.body !== "" ? (
-                <div
-                  className={styles.product_specs}
-                  dangerouslySetInnerHTML={{ __html: renderSpecs.body }}
-                />
-              ) : (
-                <Typography>
-                  Las especificaciones técnicas de este producto no están
-                  disponibles por ahora.
-                </Typography>
-              )}
+              <ProductDescription product={product} />
             </Stack>
           </Grid>
           <Grid item xs={12} md={3}>
-            <ProductPrices product={product} category={category} setOpenNewCommentDrawer={setOpenNewCommentDrawer} />
+            <ProductPrices
+              product={product}
+              category={category}
+              setOpenNewCommentDrawer={setOpenNewCommentDrawer}
+            />
           </Grid>
         </Grid>
         <Divider variant="fullWidth" sx={{ marginY: 5 }} />

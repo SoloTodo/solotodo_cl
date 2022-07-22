@@ -12,11 +12,16 @@ import {
 import CustomChip from "src/sections/mui/Chip";
 import Image from "../Image";
 import currency from "currency.js";
-import { ProductsData } from "./types";
-import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
+import { CategoryTemplate, ProductsData } from "./types";
+import {
+  getApiResourceObjects,
+  useApiResourceObjects,
+} from "src/frontend-utils/redux/api_resources/apiResources";
 import { useAppSelector } from "src/store/hooks";
 import { useState } from "react";
 import { constants } from "src/config";
+import styles from "../../styles/ProductPage.module.css";
+import Handlebars from "handlebars";
 
 type ProductProps = {
   productData: ProductsData;
@@ -44,9 +49,35 @@ export default function ProductCard(props: ProductProps) {
   );
   const offerPrice = priceCurrency ? priceCurrency.offer_price : 0;
 
+  const template =
+    (
+      getApiResourceObjects(
+        apiResourceObjects,
+        "category_templates"
+      ) as unknown as CategoryTemplate[]
+    ).filter(
+      (ct) =>
+        ct.category == product.category &&
+        ct.website === `${constants.apiResourceEndpoints.websites}2/` &&
+        ct.purpose === constants.shortDescriptionPurposeUrl
+    )[0] || null;
+
+  const formatSpecs = () => {
+    let html = "";
+    if (template) {
+      const templateHandler = Handlebars.compile(template.body);
+      html = templateHandler(product.specs);
+    }
+
+    return { __html: html };
+  };
+
   return (
     <Card sx={{ width: 280, height: "100%" }}>
-      <CardActionArea href={`/products/${product.id}-${product.slug}`}>
+      <CardActionArea
+        href={`/products/${product.id}-${product.slug}`}
+        sx={options.length > 1 ? { height: "85%" } : { height: "100%" }}
+      >
         <Box bgcolor="#fff">
           {ribbonFormatter && (
             <Box
@@ -84,7 +115,10 @@ export default function ProductCard(props: ProductProps) {
             >
               {product.name}
             </Typography>
-            <Typography variant="body2" color="text.secondary"></Typography>
+              <div
+                className={styles.product_specs}
+                dangerouslySetInnerHTML={formatSpecs()}
+              />
           </Stack>
           <Typography variant="h2" component="div" fontWeight={500}>
             {currency(offerPrice, {
