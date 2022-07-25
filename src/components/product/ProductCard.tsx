@@ -25,10 +25,11 @@ import Handlebars from "handlebars";
 type ProductProps = {
   productData: ProductsData;
   ribbonFormatter?: Function;
+  browsePurpose?: boolean;
 };
 
 export default function ProductCard(props: ProductProps) {
-  const { productData, ribbonFormatter } = props;
+  const { productData, browsePurpose, ribbonFormatter } = props;
   const [active, setActive] = useState(0);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
 
@@ -58,7 +59,10 @@ export default function ProductCard(props: ProductProps) {
       (ct) =>
         ct.category == product.category &&
         ct.website === `${constants.apiResourceEndpoints.websites}2/` &&
-        ct.purpose === constants.shortDescriptionPurposeUrl
+        ct.purpose ===
+          (browsePurpose
+            ? constants.categoryBrowseResultPurposeUrl
+            : constants.shortDescriptionPurposeUrl)
     )[0] || null;
 
   const formatSpecs = () => {
@@ -114,11 +118,12 @@ export default function ProductCard(props: ProductProps) {
             >
               {product.name}
             </Typography>
-              <div
-                className="short-description"
-                dangerouslySetInnerHTML={formatSpecs()}
-                style={{ color: "#757b80" }}
-              />
+            {/* Ver el css en el tipo browse */}
+            <div
+              className="short-description"
+              dangerouslySetInnerHTML={formatSpecs()}
+              style={{ color: "#757b80" }}
+            />
           </Stack>
           <Typography variant="h2" component="div" fontWeight={500}>
             {currency(offerPrice, {
