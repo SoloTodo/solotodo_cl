@@ -84,7 +84,11 @@ export default function NavigationDrawer() {
           }}
           bgcolor="transparent"
         />
-        <Box width={{ xs: 250, lg: 300 }} bgcolor="background.paper">
+        <Box
+          width={{ xs: 250, lg: 300 }}
+          height="100%"
+          bgcolor="background.paper"
+        >
           <List dense>
             {menu?.sections.map((s, index) => (
               <div key={index}>
