@@ -20,7 +20,6 @@ import {
 import { useAppSelector } from "src/store/hooks";
 import { useState } from "react";
 import { constants } from "src/config";
-import styles from "../../styles/ProductPage.module.css";
 import Handlebars from "handlebars";
 
 type ProductProps = {
@@ -116,8 +115,9 @@ export default function ProductCard(props: ProductProps) {
               {product.name}
             </Typography>
               <div
-                className={styles.product_specs}
+                className="short-description"
                 dangerouslySetInnerHTML={formatSpecs()}
+                style={{ color: "#757b80" }}
               />
           </Stack>
           <Typography variant="h2" component="div" fontWeight={500}>
