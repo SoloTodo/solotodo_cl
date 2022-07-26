@@ -1,17 +1,15 @@
 import * as Yup from "yup";
 import { useState } from "react";
-// import { capitalCase } from "change-case";
 // next
-import Image from "next/image";
 import NextLink from "next/link";
 // @mui
 import { styled } from "@mui/material/styles";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
-  Box,
-  // Card,
+  Button,
   Container,
+  Divider,
   IconButton,
   InputAdornment,
   Link,
@@ -22,10 +20,8 @@ import {
 import Page from "src/components/Page";
 import Iconify from "src/components/Iconify";
 // hooks
-import useIsMountedRef from "src/hooks/useIsMountedRef";
 import {
   FormProvider,
-  // RHFCheckbox,
   RHFTextField,
 } from "src/components/hook-form";
 // form
@@ -33,7 +29,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 // auth
 import { authenticate } from "src/frontend-utils/network/auth";
-import { jwtFetch, saveAuthTokens } from "src/frontend-utils/nextjs/utils";
+import { saveAuthTokens } from "src/frontend-utils/nextjs/utils";
 import { useAuth } from "src/frontend-utils/nextjs/JWTContext";
 import userSlice from "src/frontend-utils/redux/user";
 import { useRouter } from "next/router";
@@ -41,9 +37,8 @@ import { useAppDispatch, useAppSelector } from "src/store/hooks";
 import useSettings from "src/hooks/useSettings";
 // routes
 import { PATH_AUTH, PATH_MAIN } from "src/routes/paths";
-import apiResourceObjectsSlice, {
-  useApiResourceObjects,
-} from "src/frontend-utils/redux/api_resources/apiResources";
+import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
+import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 
 // ----------------------------------------------------------------------
 
@@ -53,30 +48,15 @@ const RootStyle = styled("div")(({ theme }) => ({
   },
 }));
 
-const HeaderStyle = styled("header")(({ theme }) => ({
-  top: 0,
-  zIndex: 9,
-  lineHeight: 0,
-  width: "100%",
-  display: "flex",
-  alignItems: "center",
-  position: "absolute",
-  padding: theme.spacing(3),
-  justifyContent: "space-between",
-  [theme.breakpoints.up("md")]: {
-    alignItems: "flex-start",
-    padding: theme.spacing(7, 5, 0, 7),
-  },
-}));
-
 const ContentStyle = styled("div")(({ theme }) => ({
   maxWidth: 480,
   margin: "auto",
   display: "flex",
-  minHeight: "100vh",
   flexDirection: "column",
   justifyContent: "center",
-  padding: theme.spacing(12, 0),
+  padding: theme.spacing(5, 0),
+  border: "1px solid #EFEFEF",
+  borderRadius: 10,
 }));
 
 // ----------------------------------------------------------------------
@@ -90,7 +70,6 @@ type FormValuesProps = {
 // ----------------------------------------------------------------------
 
 export default function Login() {
-  const isMountedRef = useIsMountedRef();
   const settings = useSettings();
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const [showPassword, setShowPassword] = useState(false);
@@ -103,7 +82,7 @@ export default function Login() {
     email: Yup.string()
       .email("Ingresa un Email válido")
       .required("Email requerido"),
-    password: Yup.string().required("Contraseña requerido"),
+    password: Yup.string().required("Contraseña requerida"),
   });
 
   const defaultValues = {
@@ -147,93 +126,131 @@ export default function Login() {
         });
       })
       .catch(() => {
-        if (isMountedRef.current) {
-          setError("afterSubmit", {
-            message: "Email y/o contraseña incorrectos",
-          });
-        }
+        setError("afterSubmit", {
+          message: "Email y/o contraseña incorrectos",
+        });
       });
   };
 
   return (
     <Page title="Login">
-      <RootStyle>
-        {/* <HeaderStyle>
-          {
-            settings.themeMode === 'dark' ?
-              <Image alt={"Logo"} src="/logo_fondo_oscuro.svg" width={200} height={51} />
-            :
-              <Image alt={"Logo"} src="/logo_fondo_claro.svg" width={200} height={51} />
-          }
-        </HeaderStyle> */}
-        <Container maxWidth="sm">
-          <ContentStyle>
-            <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
-              <Box sx={{ flexGrow: 1 }}>
-                <Typography variant="h4" gutterBottom>
-                  Ingresar a SoloTodo
-                </Typography>
-                <Typography sx={{ color: "text.secondary" }}>
-                  Usar credenciales de ingreso.
-                </Typography>
-              </Box>
-            </Stack>
-
-            <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-              <Stack spacing={3}>
-                {!!errors.afterSubmit && (
-                  <Alert severity="error">{errors.afterSubmit.message}</Alert>
-                )}
-
-                <RHFTextField name="email" label="Email" />
-
-                <RHFTextField
-                  name="password"
-                  label="Contraseña"
-                  type={showPassword ? "text" : "password"}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={() => setShowPassword(!showPassword)}
-                          edge="end"
-                        >
-                          <Iconify
-                            icon={
-                              showPassword ? "eva:eye-fill" : "eva:eye-off-fill"
-                            }
-                          />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Stack>
-
+      <Container maxWidth={false}>
+        <HeaderBreadcrumbs
+          heading=""
+          links={[{ name: "Home", href: PATH_MAIN.root }, { name: "Login" }]}
+        />
+        <RootStyle>
+          <Container maxWidth="sm">
+            <ContentStyle>
               <Stack
-                direction="row"
+                direction="column"
                 alignItems="center"
-                justifyContent="space-between"
-                sx={{ my: 2 }}
+                justifyContent="center"
+                sx={{ mb: 5 }}
               >
-                <NextLink href={PATH_AUTH.reset_password} passHref>
-                  <Link variant="subtitle2">Olvidaste tu contraseña?</Link>
-                </NextLink>
+                <Typography
+                  variant="h3"
+                  fontWeight={700}
+                  color="#3C5D82"
+                  gutterBottom
+                >
+                  Bienvenid@ a SoloTodo
+                </Typography>
+                <Typography color="text.secondary">
+                  Porfavor ingresa tus datos para entrar al sitio
+                </Typography>
               </Stack>
 
-              <LoadingButton
-                fullWidth
-                size="large"
-                type="submit"
-                variant="contained"
-                loading={isSubmitting}
-              >
-                Ingresar
-              </LoadingButton>
-            </FormProvider>
-          </ContentStyle>
-        </Container>
-      </RootStyle>
+              <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+                <Stack spacing={3} paddingX={4}>
+                  {!!errors.afterSubmit && (
+                    <Alert severity="error">{errors.afterSubmit.message}</Alert>
+                  )}
+
+                  <RHFTextField name="email" label="Email" />
+
+                  <RHFTextField
+                    name="password"
+                    label="Contraseña"
+                    type={showPassword ? "text" : "password"}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => setShowPassword(!showPassword)}
+                            edge="end"
+                          >
+                            <Iconify
+                              icon={
+                                showPassword
+                                  ? "eva:eye-fill"
+                                  : "eva:eye-off-fill"
+                              }
+                            />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <LoadingButton
+                    fullWidth
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                    loading={isSubmitting}
+                    sx={{ my: 2, borderRadius: 3 }}
+                  >
+                    INICIAR SESIÓN
+                  </LoadingButton>
+                </Stack>
+
+                <Stack
+                  direction="column"
+                  alignItems="center"
+                  justifyContent="center"
+                  sx={{ my: 2, px: 4 }}
+                  spacing={1}
+                >
+                  <NextLink href={PATH_AUTH.reset_password} passHref>
+                    <Link variant="h5" fontWeight={400}>
+                      ¿Olvidaste tu contraseña?
+                    </Link>
+                  </NextLink>
+                  <Typography variant="h6" fontWeight={400}>
+                    ¿Necesitas una cuenta?{" "}
+                    <NextLink href={PATH_AUTH.register} passHref>
+                      <Link>Regístrate</Link>
+                    </NextLink>
+                  </Typography>
+                </Stack>
+
+                <Divider variant="middle" />
+
+                <Stack
+                  direction="column"
+                  alignItems="center"
+                  justifyContent="center"
+                  sx={{ my: 2, px: 4 }}
+                  spacing={1}
+                >
+                  <Typography variant="h5" color="text.secondary">
+                    Si lo prefieres, puedes ingresar con
+                  </Typography>
+                  <Button
+                    fullWidth
+                    color="secondary"
+                    size="large"
+                    variant="contained"
+                    sx={{ borderRadius: 3 }}
+                  >
+                    Facebook
+                  </Button>
+                </Stack>
+              </FormProvider>
+            </ContentStyle>
+          </Container>
+        </RootStyle>
+      </Container>
     </Page>
   );
 }

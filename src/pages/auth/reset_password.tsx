@@ -20,7 +20,11 @@ const RootStyle = styled("div")(({ theme }) => ({
   minHeight: "100%",
   alignItems: "center",
   justifyContent: "center",
-  padding: theme.spacing(12, 0),
+  maxWidth: 480,
+  margin: "auto",
+  padding: theme.spacing(5, 0),
+  border: "1px solid #EFEFEF",
+  borderRadius: 10,
 }));
 
 export default function ResetPassword() {
@@ -31,15 +35,15 @@ export default function ResetPassword() {
     <Page title="Reset Password" sx={{ height: 1 }}>
       <RootStyle>
         <Container>
-          <Box sx={{ maxWidth: 480, mx: "auto" }}>
+          <Box sx={{ maxWidth: 480, mx: "auto", textAlign: "center" }}>
             {!sent ? (
               <>
                 <Typography variant="h3" paragraph>
                   Olvidaste tu contraseña?
                 </Typography>
                 <Typography sx={{ color: "text.secondary", mb: 5 }}>
-                  Por favor ingresar el email asociado a tu cuenta y te enviaremos
-                  un link para restablecer tu contraseña.
+                  Por favor ingresar el email asociado a tu cuenta y te
+                  enviaremos un link para restablecer tu contraseña.
                 </Typography>
 
                 <ResetPasswordForm
@@ -54,7 +58,7 @@ export default function ResetPassword() {
                 </NextLink>
               </>
             ) : (
-              <Box sx={{ textAlign: "center" }}>
+              <Box>
                 <SentIcon sx={{ mb: 5, mx: "auto", height: 160 }} />
 
                 <Typography variant="h3" gutterBottom>

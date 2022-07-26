@@ -6,8 +6,6 @@ import { fetchJson } from 'src/frontend-utils/network/utils';
 // @mui
 import { Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-// hooks
-import useIsMountedRef from '../../../hooks/useIsMountedRef';
 // components
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
 
@@ -23,8 +21,6 @@ type Props = {
 };
 
 export default function ResetPasswordForm({ onSent, onGetEmail }: Props) {
-  const isMountedRef = useIsMountedRef();
-
   const ResetPasswordSchema = Yup.object().shape({
     email: Yup.string().email('Ingresa un Email válido').required('Email requerido'),
   });
@@ -46,10 +42,8 @@ export default function ResetPasswordForm({ onSent, onGetEmail }: Props) {
         method: "post",
         body: JSON.stringify(data)
       })
-      if (isMountedRef.current) {
-        onSent();
-        onGetEmail(data.email);
-      }
+      onSent();
+      onGetEmail(data.email);
     } catch (error) {
       console.error(error);
     }
