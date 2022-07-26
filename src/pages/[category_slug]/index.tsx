@@ -2,16 +2,20 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Card,
-  CardContent,
+  Box,
+  Button,
   Container,
   Divider,
+  Drawer,
   Grid,
+  Stack,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import Page from "src/components/Page";
-import { constants } from "src/config";
+import { constants, HEADER } from "src/config";
 import { ApiFormFieldMetadata } from "src/frontend-utils/api_form/ApiForm";
 import ApiFormComponent from "src/frontend-utils/api_form/ApiFormComponent";
 import ApiFormSelectComponent from "src/frontend-utils/api_form/fields/select/ApiFormSelectComponent";
@@ -33,6 +37,9 @@ import ApiFormTextComponent from "src/frontend-utils/api_form/fields/text/ApiFor
 import ApiFormPaginationComponent from "src/frontend-utils/api_form/fields/pagination/ApiFormPaginationComponent";
 import CategoryBrowse from "src/components/category/CategoryBrowse";
 import CategoryCountSummary from "src/components/category/CategoryCountSummary";
+import CategoryRemoveFieldsButton from "src/components/category/CategoryRemoveFieldsButton";
+import { useState } from "react";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 // ----------------------------------------------------------------------
 
@@ -75,14 +82,14 @@ export default function Browse({
   categorySpecsFormLayout: CategorySpecsFormLayoutProps;
 }) {
   const { prefExcludeRefurbished, prefStores } = useSettings();
+  const theme = useTheme();
+  const [open, setOpen] = useState(false);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
 
   let storesUrl = "";
   for (const store of prefStores) {
     storesUrl += `&stores=${store}`;
   }
-
-  console.log(categorySpecsFormLayout);
 
   const fieldsMetadata: ApiFormFieldMetadata[] = [
     {
@@ -217,6 +224,41 @@ export default function Browse({
     );
   });
 
+  const GridFilters = (
+    <Grid container spacing={{ xs: 2, md: 3 }} style={{ overflow: "visible" }}>
+      <Grid item xs={12}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <CategoryCountSummary />
+          <CategoryRemoveFieldsButton />
+        </Stack>
+        <Divider />
+      </Grid>
+      <Grid item xs={12}>
+        <ApiFormPriceRangeComponent
+          name="offer_price_usd"
+          label="Precio oferta"
+          currencyUsed={
+            apiResourceObjects[
+              `${constants.apiResourceEndpoints.currencies}1/`
+            ] as Currency
+          }
+        />
+        <Divider />
+      </Grid>
+      <Grid item xs={12}>
+        <ApiFormTextComponent name="search" label="Palabras clave" />
+      </Grid>
+      <Grid item xs={12}>
+        <Divider />
+      </Grid>
+      {filterComponents.map((f) => f)}
+    </Grid>
+  );
+
   return (
     <Page title={category.name}>
       <Container maxWidth={false}>
@@ -234,62 +276,82 @@ export default function Browse({
         <ApiFormComponent
           endpoint={`${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`}
           fieldsMetadata={fieldsMetadata}
+          useToken
         >
           <Grid container spacing={{ xs: 2, md: 3 }} alignItems="center">
-            <Grid item xs={6} lg={3}>
+            <Grid item xs={12} lg={3}>
               <Typography variant="h2">{category.name}</Typography>
             </Grid>
-            <Grid item xs={6} lg={3} width="100%">
-              <ApiFormSelectComponent name="ordering" label="Ordenar por" />
-            </Grid>
+            {useMediaQuery(theme.breakpoints.up("lg")) ? (
+              <Grid item xs={3} lg={3} width="100%">
+                <ApiFormSelectComponent name="ordering" label="Ordenar por" />
+              </Grid>
+            ) : (
+              <>
+                <Grid item xs={12} lg={3}>
+                  <Stack direction="row" spacing={2} alignItems="center">
+                    <CategoryCountSummary />
+                    <Box width="30%">
+                      <ApiFormSelectComponent
+                        name="ordering"
+                        label="Ordenar por"
+                      />
+                    </Box>
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        width: "30%",
+                        justifyContent: "space-between",
+                        height: 53.125,
+                      }}
+                      endIcon={<ArrowDropDownIcon />}
+                      onClick={() => setOpen(true)}
+                    >
+                      Filtrar por
+                    </Button>
+                  </Stack>
+                </Grid>
+              </>
+            )}
             <Grid item xs={12} lg={6}>
               <ApiFormPaginationComponent />
             </Grid>
           </Grid>
           <br />
           <Grid container spacing={{ xs: 4, md: 6 }}>
-            <Grid item xs={0} lg={3}>
-              <Grid
-                container
-                spacing={{ xs: 2, md: 3 }}
-                style={{ overflow: "visible" }}
-              >
-                <Grid item xs={6}>
-                  <CategoryCountSummary />
-                </Grid>
-                <Grid item xs={6}>
-                  Borrar filtros
-                </Grid>
-                <Grid item xs={12}>
-                  <Divider />
-                </Grid>
-                <Grid item xs={12}>
-                  <ApiFormPriceRangeComponent
-                    name="offer_price_usd"
-                    label="Precio oferta"
-                    currencyUsed={
-                      apiResourceObjects[
-                        `${constants.apiResourceEndpoints.currencies}1/`
-                      ] as Currency
-                    }
-                  />
-                  <Divider />
-                </Grid>
-                <Grid item xs={12}>
-                  <ApiFormTextComponent name="search" label="Palabras clave" />
-                </Grid>
-                <Grid item xs={12}>
-                  <Divider />
-                </Grid>
-                {filterComponents.map((f) => f)}
+            {useMediaQuery(theme.breakpoints.up("lg")) && (
+              <Grid item lg={3}>
+                {GridFilters}
               </Grid>
-            </Grid>
+            )}
             <Grid item xs={12} lg={9}>
               <CategoryBrowse />
               <br />
               <ApiFormPaginationComponent />
             </Grid>
           </Grid>
+          <Drawer
+            anchor="left"
+            open={open}
+            onClose={() => setOpen(false)}
+            PaperProps={{ sx: { backgroundColor: "transparent" } }}
+          >
+            <Box
+              pt={{
+                xs: `${HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT}px`,
+                lg: `${HEADER.DASHBOARD_DESKTOP_HEIGHT}px`,
+              }}
+              bgcolor="transparent"
+            />
+            <Box
+              width={{ xs: 300, md: 500 }}
+              height="100%"
+              bgcolor="background.paper"
+              padding={2}
+            >
+              {GridFilters}
+            </Box>
+          </Drawer>
         </ApiFormComponent>
       </Container>
     </Page>
