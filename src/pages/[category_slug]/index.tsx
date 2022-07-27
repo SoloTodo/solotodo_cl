@@ -276,7 +276,6 @@ export default function Browse({
         <ApiFormComponent
           endpoint={`${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`}
           fieldsMetadata={fieldsMetadata}
-          useToken
         >
           <Grid container spacing={{ xs: 2, md: 3 }} alignItems="center">
             <Grid item xs={12} lg={3}>
