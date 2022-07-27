@@ -16,33 +16,9 @@ import { PATH_MAIN } from "src/routes/paths";
 // components
 import SocialsButton from "../../../components/SocialsButton";
 import useSettings from "src/hooks/useSettings";
+import useNavigation from "src/hooks/useNavigation";
 
 // ----------------------------------------------------------------------
-
-const LINKS = [
-  {
-    headline: "Minimal",
-    children: [
-      { name: "About us", href: "#" },
-      { name: "Contact us", href: "#" },
-      { name: "FAQs", href: "#" },
-    ],
-  },
-  {
-    headline: "Legal",
-    children: [
-      { name: "Terms and Condition", href: "#" },
-      { name: "Privacy Policy", href: "#" },
-    ],
-  },
-  {
-    headline: "Contact",
-    children: [
-      { name: "support@minimals.cc", href: "#" },
-      { name: "Los Angeles, 359  Hidden Valley Road", href: "#" },
-    ],
-  },
-];
 
 const RootStyle = styled("div")(({ theme }) => ({
   position: "relative",
@@ -53,6 +29,29 @@ const RootStyle = styled("div")(({ theme }) => ({
 
 export default function MainFooter() {
   const settings = useSettings();
+  const navigation = useNavigation();
+
+  const LINKS = [
+    {
+      headline: "Navega",
+      children: navigation.map((n) => ({ name: n.name, href: "#" })),
+    },
+    {
+      headline: "Legal",
+      children: [
+        { name: "Términos y condiciones", href: `${PATH_MAIN.legal_information}?tab=0` },
+        { name: "Preguntas frecuentes", href: `${PATH_MAIN.legal_information}?tab=1` },
+        { name: "Sobre nosotros", href: `${PATH_MAIN.legal_information}?tab=2` },
+      ],
+    },
+    {
+      headline: "Contacto",
+      children: [
+        { name: "support@minimals.cc", href: "#" },
+        { name: "Los Angeles, 359  Hidden Valley Road", href: "#" },
+      ],
+    },
+  ];
 
   return (
     <RootStyle>
@@ -60,7 +59,7 @@ export default function MainFooter() {
       <Container sx={{ pt: 10 }}>
         <Grid
           container
-          justifyContent={{ xs: "center", md: "space-between" }}
+          justifyContent={{ xs: "center", md: "space-around" }}
           sx={{ textAlign: { xs: "center", md: "left" } }}
         >
           <Grid item xs={12} sx={{ mb: 3 }}>
@@ -95,7 +94,7 @@ export default function MainFooter() {
               justifyContent={{ xs: "center", md: "flex-start" }}
               sx={{ mt: 5, mb: { xs: 5, md: 0 } }}
             >
-              <SocialsButton sx={{ mx: 0.5 }} />
+              <SocialsButton sx={{ mx: 0.5 }} simple={false} />
             </Stack>
           </Grid>
 
@@ -127,11 +126,12 @@ export default function MainFooter() {
           </Grid>
         </Grid>
 
+        <Divider sx={{ mt: 5 }} />
         <Typography
           component="p"
           variant="h6"
           sx={{
-            mt: 10,
+            mt: 5,
             pb: 5,
             textAlign: "center",
           }}

@@ -37,30 +37,30 @@ export default function SocialsButton({
   ...other
 }: Props) {
   const SOCIALS = [
-    {
-      name: 'FaceBook',
-      icon: 'eva:facebook-fill',
-      socialColor: '#1877F2',
-      path: links.facebook || '#facebook-link',
-    },
+    // {
+    //   name: 'FaceBook',
+    //   icon: 'eva:facebook-fill',
+    //   socialColor: '#1877F2',
+    //   path: links.facebook || '#facebook-link',
+    // },
     {
       name: 'Instagram',
       icon: 'ant-design:instagram-filled',
       socialColor: '#E02D69',
       path: links.instagram || '#instagram-link',
     },
-    {
-      name: 'Linkedin',
-      icon: 'eva:linkedin-fill',
-      socialColor: '#007EBB',
-      path: links.linkedin || '#linkedin-link',
-    },
-    {
-      name: 'Twitter',
-      icon: 'eva:twitter-fill',
-      socialColor: '#00AAEC',
-      path: links.twitter || '#twitter-link',
-    },
+    // {
+    //   name: 'Linkedin',
+    //   icon: 'eva:linkedin-fill',
+    //   socialColor: '#007EBB',
+    //   path: links.linkedin || '#linkedin-link',
+    // },
+    // {
+    //   name: 'Twitter',
+    //   icon: 'eva:twitter-fill',
+    //   socialColor: '#00AAEC',
+    //   path: links.twitter || '#twitter-link',
+    // },
   ];
 
   return (

@@ -19,4 +19,5 @@ export const PATH_AUTH = {
 
 export const PATH_MAIN = {
   root: ROOTS_MAIN,
+  legal_information: path(ROOTS_MAIN, 'legal_information'),
 }
