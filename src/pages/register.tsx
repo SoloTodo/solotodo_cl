@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 // next
 import NextLink from "next/link";
 // @mui
@@ -19,24 +19,17 @@ import {
 // components
 import Page from "src/components/Page";
 import Iconify from "src/components/Iconify";
-import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 // hooks
 import { FormProvider, RHFTextField } from "src/components/hook-form";
 // form
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-// auth
-import { authenticate } from "src/frontend-utils/network/auth";
-import { saveAuthTokens } from "src/frontend-utils/nextjs/utils";
-import { useAuth } from "src/frontend-utils/nextjs/JWTContext";
-import userSlice from "src/frontend-utils/redux/user";
-import { useRouter } from "next/router";
-import { useAppDispatch, useAppSelector } from "src/store/hooks";
-import useSettings from "src/hooks/useSettings";
 // routes
+import { useRouter } from "next/router";
 import { PATH_AUTH, PATH_MAIN } from "src/routes/paths";
-import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
+import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import { useSnackbar } from "notistack";
+import { fetchJson } from "src/frontend-utils/network/utils";
 
 // ----------------------------------------------------------------------
 
@@ -61,46 +54,38 @@ const ContentStyle = styled("div")(({ theme }) => ({
 
 type FormValuesProps = {
   email: string;
-  password: string;
+  password1: string;
+  password2: string;
   afterSubmit?: string;
 };
 
 // ----------------------------------------------------------------------
 
-export default function Login() {
+export default function Register() {
   const { enqueueSnackbar } = useSnackbar();
-  const settings = useSettings();
-  const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const [showPassword, setShowPassword] = useState(false);
 
-  const dispatch = useAppDispatch();
   const router = useRouter();
-  const { authFetch } = useAuth();
 
-  useEffect(() => {
-    const params = router.query;
-    const justVerifiedEmail = parseInt(params.post_verify as string, 10);
-    if (justVerifiedEmail)
-      enqueueSnackbar(
-        "Cuenta verificada, por favor ingrese con su correo y contraseña.",
-        { persist: true, variant: "info" }
-      );
-  }, [enqueueSnackbar, router.query]);
-
-  const LoginSchema = Yup.object().shape({
+  const RegisterSchema = Yup.object().shape({
     email: Yup.string()
       .email("Ingresa un Email válido")
       .required("Email requerido"),
-    password: Yup.string().required("Contraseña requerida"),
+    password1: Yup.string().required("Contraseña requerida"),
+    password2: Yup.string().oneOf(
+      [Yup.ref("password1"), null],
+      "Contraseña debe coincidir"
+    ),
   });
 
   const defaultValues = {
     email: "",
-    password: "",
+    password1: "",
+    password2: "",
   };
 
   const methods = useForm<FormValuesProps>({
-    resolver: yupResolver(LoginSchema),
+    resolver: yupResolver(RegisterSchema),
     defaultValues,
   });
 
@@ -110,43 +95,53 @@ export default function Login() {
     formState: { errors, isSubmitting },
   } = methods;
 
-  const onSubmit = (data: FormValuesProps) => {
-    authenticate(data.email, data.password)
-      .then((authToken) => {
-        saveAuthTokens(null, authToken);
-        authFetch("users/me/", {}).then((user) => {
-          dispatch(userSlice.actions.setUser(user));
-          if (
-            Boolean(settings.prefExcludeRefurbished) !==
-            Boolean(user.preferred_exclude_refurbished)
-          ) {
-            settings.onToggleExcludeRefurbished();
-          }
-          settings.onChangeStores(
-            user.preferred_stores.map((s: string) =>
-              apiResourceObjects[s].id.toString()
-            )
-          );
-          const nextPath =
-            typeof router.query.next == "string"
-              ? router.query.next
-              : PATH_MAIN.root;
-          router.push(nextPath).then(() => {});
-        });
-      })
-      .catch(() => {
+  const onSubmit = async (data: FormValuesProps) => {
+    console.log(data);
+    try {
+      const _ = await fetchJson("rest-auth/registration/", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+      enqueueSnackbar(
+        <div>
+          <Typography fontWeight={700}>Registro exitoso</Typography>
+          <Typography>¡Gracias por registrarte en SoloTodo!</Typography>
+          <Typography>
+            Te hemos enviado un correo para que puedas validar tu cuenta y así
+            puedas empezar a usarla
+          </Typography>
+        </div>,
+        { persist: true }
+      );
+      const nextPath =
+        typeof router.query.next == "string"
+          ? router.query.next
+          : PATH_MAIN.root;
+      router.push(nextPath).then(() => {});
+    } catch (err: any) {
+      err.json().then((errJson: { [a: string]: string[] }) => {
+        const messageError = Object.values(errJson).reduce(
+          (acc: string, a: string[]) => {
+            return acc + " " + a.reduce((acc2, a2) => acc2 + " " + a2);
+          },
+          ""
+        );
         setError("afterSubmit", {
-          message: "Email y/o contraseña incorrectos",
+          message: messageError,
         });
       });
+    }
   };
 
   return (
-    <Page title="Login">
+    <Page title="Registro">
       <Container maxWidth={false}>
         <HeaderBreadcrumbs
           heading=""
-          links={[{ name: "Home", href: PATH_MAIN.root }, { name: "Login" }]}
+          links={[
+            { name: "Home", href: PATH_MAIN.root },
+            { name: "Crear tu cuenta" },
+          ]}
         />
         <RootStyle>
           <Container maxWidth="sm">
@@ -166,7 +161,7 @@ export default function Login() {
                   Bienvenid@ a SoloTodo
                 </Typography>
                 <Typography color="text.secondary">
-                  Porfavor ingresa tus datos para entrar al sitio
+                  Porfavor ingresa tus datos para crear tu cuenta
                 </Typography>
               </Stack>
 
@@ -179,8 +174,33 @@ export default function Login() {
                   <RHFTextField name="email" label="Email" />
 
                   <RHFTextField
-                    name="password"
+                    name="password1"
                     label="Contraseña"
+                    helperText="A lo menos 8 letras, una Mayúscula, un número y un símbolo"
+                    type={showPassword ? "text" : "password"}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => setShowPassword(!showPassword)}
+                            edge="end"
+                          >
+                            <Iconify
+                              icon={
+                                showPassword
+                                  ? "eva:eye-fill"
+                                  : "eva:eye-off-fill"
+                              }
+                            />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+
+                  <RHFTextField
+                    name="password2"
+                    label="Confirmar contraseña"
                     type={showPassword ? "text" : "password"}
                     InputProps={{
                       endAdornment: (
@@ -209,7 +229,7 @@ export default function Login() {
                     loading={isSubmitting}
                     sx={{ my: 2, borderRadius: 3 }}
                   >
-                    INICIAR SESIÓN
+                    CREAR CUENTA
                   </LoadingButton>
                 </Stack>
 
@@ -220,15 +240,10 @@ export default function Login() {
                   sx={{ my: 2, px: 4 }}
                   spacing={1}
                 >
-                  <NextLink href={PATH_AUTH.reset_password} passHref>
-                    <Link variant="h5" fontWeight={400}>
-                      ¿Olvidaste tu contraseña?
-                    </Link>
-                  </NextLink>
                   <Typography variant="h6" fontWeight={400}>
-                    ¿Necesitas una cuenta?{" "}
-                    <NextLink href={PATH_AUTH.register} passHref>
-                      <Link>Regístrate</Link>
+                    ¿Ya tienes una cuenta?{" "}
+                    <NextLink href={PATH_AUTH.login} passHref>
+                      <Link>Inicia sesión</Link>
                     </NextLink>
                   </Typography>
                 </Stack>
@@ -243,7 +258,7 @@ export default function Login() {
                   spacing={1}
                 >
                   <Typography variant="h5" color="text.secondary">
-                    Si lo prefieres, puedes ingresar con
+                    Si lo prefieres, puedes crear tu cuenta con
                   </Typography>
                   <Button
                     fullWidth

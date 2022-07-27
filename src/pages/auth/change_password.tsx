@@ -81,8 +81,8 @@ export default function ChangePassword() {
 
   return (
     <Page title="Cambiar Contraseña">
-      <Container>
-        <Card sx={{ p: 3 }}>
+      <Container sx={{ justifyContent: "center", display: "flex" }}>
+        <Card sx={{ p: 3, width: { sx: '100%', md: '75%' } }}>
           <Typography variant="h4" component="h1" paragraph>
             Cambiar Contraseña
           </Typography>

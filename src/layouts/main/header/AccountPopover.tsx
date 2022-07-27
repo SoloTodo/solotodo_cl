@@ -2,13 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 // @mui
 import { alpha } from "@mui/material/styles";
-import {
-  Box,
-  Divider,
-  Typography,
-  Stack,
-  MenuItem,
-} from "@mui/material";
+import { Box, Divider, Typography, Stack, MenuItem } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 // components
 import MenuPopover from "../../../components/MenuPopover";
@@ -134,7 +128,15 @@ export default function AccountPopover() {
             >
               Iniciar Sesión
             </MenuItem>
-            <MenuItem sx={{ m: 1 }} onClick={() => {}}>
+            <MenuItem
+              sx={{ m: 1 }}
+              onClick={() => {
+                setOpen(null);
+                router.push(
+                  `/register?next=${encodeURIComponent(router.asPath || "")}`
+                );
+              }}
+            >
               Registrarse
             </MenuItem>
           </>
