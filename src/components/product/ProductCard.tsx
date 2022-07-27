@@ -8,8 +8,6 @@ import {
   Stack,
   TextField,
   Typography,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import CustomChip from "src/sections/mui/Chip";
 import Image from "../Image";
@@ -33,7 +31,6 @@ type ProductProps = {
 
 export default function ProductCard(props: ProductProps) {
   const { productData, browsePurpose, ribbonFormatter } = props;
-  const theme = useTheme();
   const [active, setActive] = useState(0);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
 
@@ -113,6 +110,12 @@ export default function ProductCard(props: ProductProps) {
                 <CustomChip key={index} label={t} />
               ))}
             </Stack>
+            <Typography variant="h2" component="div" fontWeight={500}>
+              {currency(offerPrice, {
+                separator: ".",
+                precision: 0,
+              }).format()}
+            </Typography>
             <Typography
               gutterBottom
               variant="h5"
@@ -122,21 +125,14 @@ export default function ProductCard(props: ProductProps) {
             >
               {product.name}
             </Typography>
-            <Typography variant="h2" component="div" fontWeight={500}>
-              {currency(offerPrice, {
-                separator: ".",
-                precision: 0,
-              }).format()}
-            </Typography>
-            {useMediaQuery(theme.breakpoints.up("sm")) && (
-              <div
-                className={
-                  browsePurpose ? styles.product_specs : "short-description"
-                }
-                dangerouslySetInnerHTML={formatSpecs()}
-                style={{ color: "#757b80" }}
-              />
-            )}
+
+            <div
+              className={
+                browsePurpose ? styles.product_specs : "short-description"
+              }
+              dangerouslySetInnerHTML={formatSpecs()}
+              style={{ color: "#757b80" }}
+            />
           </Stack>
         </CardContent>
       </CardActionArea>
