@@ -16,7 +16,7 @@ import { PATH_MAIN } from "src/routes/paths";
 // components
 import SocialsButton from "../../../components/SocialsButton";
 import useSettings from "src/hooks/useSettings";
-import useNavigation from "src/hooks/useNavigation";
+import NavigationDrawer from "../header/NavigationDrawer";
 
 // ----------------------------------------------------------------------
 
@@ -29,26 +29,31 @@ const RootStyle = styled("div")(({ theme }) => ({
 
 export default function MainFooter() {
   const settings = useSettings();
-  const navigation = useNavigation();
 
   const LINKS = [
     {
-      headline: "Navega",
-      children: navigation.map((n) => ({ name: n.name, href: "#" })),
-    },
-    {
       headline: "Legal",
       children: [
-        { name: "Términos y condiciones", href: `${PATH_MAIN.legal_information}?tab=0` },
-        { name: "Preguntas frecuentes", href: `${PATH_MAIN.legal_information}?tab=1` },
-        { name: "Sobre nosotros", href: `${PATH_MAIN.legal_information}?tab=2` },
+        {
+          name: "Términos y condiciones",
+          href: `${PATH_MAIN.legal_information}?tab=0`,
+        },
+        {
+          name: "Preguntas frecuentes",
+          href: `${PATH_MAIN.legal_information}?tab=1`,
+        },
+        {
+          name: "Sobre nosotros",
+          href: `${PATH_MAIN.legal_information}?tab=2`,
+        },
       ],
     },
     {
       headline: "Contacto",
       children: [
-        { name: "support@minimals.cc", href: "#" },
-        { name: "Los Angeles, 359  Hidden Valley Road", href: "#" },
+        { name: "Formulario web", href: PATH_MAIN.contacto },
+        // { name: "support@minimals.cc", href: "#" },
+        // { name: "Los Angeles, 359  Hidden Valley Road", href: "#" },
       ],
     },
   ];
@@ -104,6 +109,12 @@ export default function MainFooter() {
               direction={{ xs: "column", md: "row" }}
               justifyContent="space-between"
             >
+              <Stack key="Navega" spacing={2}>
+                <Typography component="p" variant="overline">
+                  Navega
+                </Typography>
+                <NavigationDrawer inFooter />
+              </Stack>
               {LINKS.map((list) => (
                 <Stack key={list.headline} spacing={2}>
                   <Typography component="p" variant="overline">

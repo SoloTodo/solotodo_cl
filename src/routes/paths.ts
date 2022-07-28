@@ -20,4 +20,7 @@ export const PATH_AUTH = {
 export const PATH_MAIN = {
   root: ROOTS_MAIN,
   legal_information: path(ROOTS_MAIN, 'legal_information'),
+  contacto: path(ROOTS_MAIN, 'contacto'),
+  data_deletion: path(ROOTS_MAIN, 'data_deletion'),
+  budgets: path(ROOTS_MAIN, 'budgets'),
 }

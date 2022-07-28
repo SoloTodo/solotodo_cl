@@ -107,7 +107,7 @@ export default function DashboardHeader({
           spacing={{ xs: 1.5, sm: 2.5 }}
         >
           <Searchbar />
-          <NavigationDrawer />
+          <NavigationDrawer isOffset={isOffset} />
           <AccountPopover />
           <SettingsPopover />
         </Stack>
