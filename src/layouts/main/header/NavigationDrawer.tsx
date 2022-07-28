@@ -8,6 +8,8 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
+  Link,
+  styled,
 } from "@mui/material";
 import { NavigationProps } from "src/contexts/NavigationContext";
 import useNavigation from "src/hooks/useNavigation";
@@ -17,7 +19,22 @@ import { IconButtonAnimate } from "src/components/animate";
 import MenuPopover from "src/components/MenuPopover";
 import { HEADER } from "src/config";
 
-export default function NavigationDrawer() {
+const RootStyle = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "isOffset",
+})<{ isOffset: boolean }>(({ isOffset, theme }) => ({
+  height: HEADER.MOBILE_HEIGHT,
+  [theme.breakpoints.up("lg")]: {
+    height: HEADER.DASHBOARD_DESKTOP_HEIGHT,
+    ...(isOffset && {
+      height: HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT,
+    }),
+  },
+}));
+
+export default function NavigationDrawer({
+  isOffset = true,
+  inFooter = false,
+}) {
   const navigation = useNavigation();
   const isDesktop = useResponsive("up", "md");
   const [open, setOpen] = useState(false);
@@ -41,9 +58,23 @@ export default function NavigationDrawer() {
     </Button>
   ));
 
+  const textButtons = navigation.map((n, index) => (
+    <Link
+      key={index}
+      color="inherit"
+      variant="body2"
+      sx={{ display: "block" }}
+      onClick={() => openDrawer(index)}
+    >
+      {n.name}
+    </Link>
+  ));
+
   return (
     <>
-      {isDesktop ? (
+      {inFooter ? (
+        textButtons
+      ) : isDesktop ? (
         <Stack direction="row" spacing={2}>
           {buttons}
         </Stack>
@@ -77,47 +108,39 @@ export default function NavigationDrawer() {
         onClose={closeDrawer}
         PaperProps={{ sx: { backgroundColor: "transparent" } }}
       >
-        <Box
-          pt={{
-            xs: `${HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT}px`,
-            lg: `${HEADER.DASHBOARD_DESKTOP_HEIGHT}px`,
-          }}
-          bgcolor="transparent"
-        />
-        <Box
-          width={{ xs: 250, lg: 300 }}
-          height="100%"
-          bgcolor="background.paper"
-        >
-          <List dense>
-            {menu?.sections.map((s, index) => (
-              <div key={index}>
-                <ListItemButton
-                  sx={{ textTransform: "capitalize", height: 44 }}
-                  href={s.path}
-                >
-                  <ListItemText
-                    primaryTypographyProps={{ typography: "body1" }}
+        <RootStyle isOffset={isOffset} />
+        <Box height="90%" bgcolor="background.paper">
+          <Box width={{ xs: 250, lg: 300 }} bgcolor="background.paper">
+            <List dense>
+              {menu?.sections.map((s, index) => (
+                <div key={index}>
+                  <ListItemButton
+                    sx={{ textTransform: "capitalize" }}
+                    href={s.path}
                   >
-                    {s.name}
-                  </ListItemText>
-                  <Box
-                    component={Iconify}
-                    icon={"eva:arrow-ios-forward-fill"}
-                  />
-                </ListItemButton>
-                <List dense>
-                  {s.items.map((i) => (
-                    <ListItem key={`${s.name}-${i.name}`}>
-                      <ListItemButton href={i.path}>
-                        <ListItemText>{i.name}</ListItemText>
-                      </ListItemButton>
-                    </ListItem>
-                  ))}
-                </List>
-              </div>
-            ))}
-          </List>
+                    <ListItemText
+                      primaryTypographyProps={{ typography: "body1" }}
+                    >
+                      {s.name}
+                    </ListItemText>
+                    <Box
+                      component={Iconify}
+                      icon={"eva:arrow-ios-forward-fill"}
+                    />
+                  </ListItemButton>
+                  <List dense sx={{ padding: 0 }}>
+                    {s.items.map((i) => (
+                      <ListItem key={`${s.name}-${i.name}`}>
+                        <ListItemButton href={i.path}>
+                          <ListItemText>{i.name}</ListItemText>
+                        </ListItemButton>
+                      </ListItem>
+                    ))}
+                  </List>
+                </div>
+              ))}
+            </List>
+          </Box>
         </Box>
       </Drawer>
     </>
