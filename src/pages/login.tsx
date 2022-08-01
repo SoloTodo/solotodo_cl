@@ -85,6 +85,13 @@ export default function Login() {
         "Cuenta verificada, por favor ingrese con su correo y contraseña.",
         { persist: true, variant: "info" }
       );
+    const singInRequired = params.budget_sign_in_required;
+    if (singInRequired) {
+      enqueueSnackbar(
+        "Por favor inicia sesion para poder acceder a las cotizaciones.",
+        { persist: true, variant: "info" }
+      );
+    }
   }, [enqueueSnackbar, router.query]);
 
   const LoginSchema = Yup.object().shape({

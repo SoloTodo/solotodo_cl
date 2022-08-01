@@ -1,86 +1,67 @@
-import NextLink from "next/link";
-import { Box, Button, Grid, Link, MenuItem, Select } from "@mui/material";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { Entry } from "./types";
+import { PricingEntriesProps } from "../product/types";
+import { useAppSelector } from "src/store/hooks";
+import {
+  getApiResourceObjects,
+  useApiResourceObjects,
+} from "src/frontend-utils/redux/api_resources/apiResources";
+import { Category, Store } from "src/frontend-utils/types/store";
+import BudgetRowDesktopComponent from "./BudgetRowDesktopComponent";
+import { Entity } from "src/frontend-utils/types/entity";
 
-export default function BudgetRow() {
-  const category = { slug: "video_cards", name: "Tarjeta de video" };
+export default function BudgetRow({
+  budgetEntry,
+  setBudget,
+  pricingEntries,
+}: {
+  budgetEntry: Entry;
+  setBudget: Function;
+  pricingEntries: PricingEntriesProps[];
+}) {
+  const apiResourceObjects = useAppSelector(useApiResourceObjects);
+  const stores = getApiResourceObjects(apiResourceObjects, "stores") as Store[];
+  const category = apiResourceObjects[budgetEntry.category] as Category;
+
+  const selectedProduct = budgetEntry.selected_product;
+  const pricingEntriesSameCategory = pricingEntries.filter(
+    (productEntry) => budgetEntry.category === productEntry.product.category
+  );
+  const matchingPricingEntry = pricingEntriesSameCategory.filter(
+    (pricingEntry) => pricingEntry.product.url === selectedProduct
+  )[0];
+  const matchingEntities = matchingPricingEntry
+    ? matchingPricingEntry.entities
+    : [];
+  const filteredEntities: Entity[] = [];
+
+  for (const entity of matchingEntities) {
+    if (
+      !filteredEntities.some(
+        (filteredEntity) => filteredEntity.store === entity.store
+      )
+    ) {
+      filteredEntities.push(entity);
+    }
+  }
+
+  const matchingEntity = filteredEntities.filter(
+    (entity) => entity.store === budgetEntry.selected_store
+  )[0];
+  const selectedProductHref = matchingPricingEntry
+    ? `/products/${matchingPricingEntry.product.id}`
+    : "";
 
   return (
-    <Box
-      sx={{
-        border: "1px solid #F2F2F2",
-        borderRadius: "4px",
-      }}
-    >
-      <Box
-        sx={{
-          bgcolor: "#F2F2F2",
-          p: 0.5,
-          borderEndEndRadius: 4,
-          display: "inline-block",
-        }}
-      >
-        <NextLink
-          href={`/browse?category_slug=${category.slug}`}
-          as={`/${category.slug}`}
-          passHref
-        >
-          <Link color="secondary">{category.name}</Link>
-        </NextLink>
-      </Box>
-      <Grid container spacing={2} padding={3} paddingTop={2}>
-        <Grid item xs={4}>
-          <Select name="Producto" fullWidth inputProps={{ sx: { padding: 1 } }}>
-            <MenuItem>Producto 1</MenuItem>
-            <MenuItem>Producto 2</MenuItem>
-          </Select>
-        </Grid>
-        <Grid item xs={1.5}>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="small"
-            fullWidth
-            sx={{ textTransform: "none", height: "100%" }}
-          >
-            Ir al producto
-          </Button>
-        </Grid>
-        <Grid item xs={4}>
-          <Select
-            name="Tienda"
-            fullWidth
-            native
-            inputProps={{ sx: { padding: 1 } }}
-          >
-            <option>Tienda 1</option>
-            <option>Tienda 2</option>
-          </Select>
-        </Grid>
-        <Grid item xs={1.5}>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="small"
-            fullWidth
-            sx={{ textTransform: "none", height: "100%" }}
-          >
-            Ir a la tienda
-          </Button>
-        </Grid>
-        <Grid item xs={1}>
-          <Button
-            variant="contained"
-            color="error"
-            size="small"
-            fullWidth
-            sx={{ textTransform: "none", height: "100%" }}
-            endIcon={<ArrowDropDownIcon />}
-          >
-            Eliminar
-          </Button>
-        </Grid>
-      </Grid>
-    </Box>
+    <BudgetRowDesktopComponent
+      budgetEntry={budgetEntry}
+      category={category}
+      stores={stores}
+      pricingEntries={pricingEntriesSameCategory}
+      matchingPricingEntry={matchingPricingEntry}
+      filteredEntities={filteredEntities}
+      matchingEntity={matchingEntity}
+      selectedProduct={selectedProduct}
+      selectedProductHref={selectedProductHref}
+    />
   );
 }

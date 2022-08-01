@@ -1,18 +1,60 @@
-import { GetServerSideProps } from "next/types";
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import {
+  Box,
+  CircularProgress,
+  Container,
+} from "@mui/material";
 // components
 import Page from "src/components/Page";
 import BudgetRow from "src/components/budget/BudgetRow";
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
-// types 
+// types
 import { Budget } from "src/components/budget/types";
 import { PATH_MAIN } from "src/routes/paths";
 import { constants } from "src/config";
 import { jwtFetch } from "src/frontend-utils/nextjs/utils";
+import { wrapper } from "src/store/store";
+import { useEffect, useState } from "react";
+import { PricingEntriesProps } from "src/components/product/types";
+import useSettings from "src/hooks/useSettings";
+import { fetchJson } from "src/frontend-utils/network/utils";
+import BudgetEditDesktop from "src/components/budget/BudgetEditDesktop";
 
-export default function BudgetEdit({ budget }: { budget: Budget }) {
-  console.log(budget)
+export default function BudgetEdit({
+  initialBudget,
+}: {
+  initialBudget: Budget;
+}) {
+  const { prefExcludeRefurbished, prefStores } = useSettings();
+  const [budget, setBudget] = useState(initialBudget);
+  const [pricingEntries, setPricingEntries] = useState<
+    PricingEntriesProps[] | null
+  >(null);
+
+  useEffect(() => {
+    if (budget.products_pool.length) {
+      let url = "products/available_entities/?";
+      for (const product of budget.products_pool) {
+        url += `ids=${product.id}&`;
+      }
+
+      for (const store of prefStores) {
+        url += `&stores=${store}`;
+      }
+
+      url += `&exclude_refurbished=${prefExcludeRefurbished}`;
+
+      fetchJson(url).then((response) => {
+        const pricingEntries: PricingEntriesProps[] = response.results;
+        pricingEntries.sort((a, b) =>
+          a.product.name <= b.product.name ? -1 : 1
+        );
+        setPricingEntries(pricingEntries);
+      });
+    }
+  }, [budget.products_pool, prefExcludeRefurbished, prefStores]);
+
+  console.log(budget);
+  console.log(pricingEntries);
   return (
     <Page title="Cotización">
       <Container maxWidth={false}>
@@ -24,87 +66,46 @@ export default function BudgetEdit({ budget }: { budget: Budget }) {
             { name: budget.name },
           ]}
         />
-        <Stack spacing={3}>
-          <Stack
-            direction="row"
-            alignContent="center"
-            justifyContent="space-between"
-          >
-            <Typography variant="h5">{budget.name}</Typography>
-            <Typography variant="h5" fontWeight={600} color="primary">
-              Total: $249.990
-            </Typography>
-          </Stack>
-
-          <BudgetRow />
-          <BudgetRow />
-          <BudgetRow />
-          <BudgetRow />
-          <BudgetRow />
-
-          <Stack alignItems="center" spacing={2}>
-            <Typography variant="h2" fontWeight={600} color="primary">
-              Total: $249.990
-            </Typography>
-            <Box
-              sx={{
-                border: "1px solid #F2F2F2",
-                borderRadius: "4px",
-                width: "100%",
-              }}
-            >
-              <Stack
-                direction="row"
-                spacing={2}
-                padding={3}
-                paddingTop={4}
-                justifyContent="center"
-              >
-                <Button variant="outlined" color="secondary">
-                  Seleccionar mejores precios
-                </Button>
-                <Button variant="outlined" color="secondary">
-                  Agregar componente
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  endIcon={<ArrowDropDownIcon />}
-                >
-                  Exportar
-                </Button>
-                <Button variant="outlined" color="secondary">
-                  Obtener pantallazo
-                </Button>
-                <Button variant="contained" color="success">
-                  Chequear compatibilidad
-                </Button>
-                <Button variant="contained" color="error">
-                  Eliminar
-                </Button>
-              </Stack>
-            </Box>
-          </Stack>
-        </Stack>
+        {pricingEntries === null ? (
+          <Box textAlign="center">
+            <CircularProgress color="inherit" />
+          </Box>
+        ) : (
+         <BudgetEditDesktop budget={budget} setBudget={setBudget} pricingEntries={pricingEntries} />
+        )}
       </Container>
     </Page>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  try {
-    const budget = await jwtFetch(
-      context,
-      `${constants.apiResourceEndpoints.budgets}${context.params?.id}/`
-    );
-    return {
-      props: {
-        budget: budget,
-      },
-    };
-  } catch {
-    return {
-      notFound: true,
-    };
+export const getServerSideProps = wrapper.getServerSideProps(
+  (st) => async (context) => {
+    try {
+      const budget = await jwtFetch(
+        context,
+        `${constants.apiResourceEndpoints.budgets}${context.params?.id}/`
+      );
+      const user = st.getState().user;
+      if (!user || (!user.is_superuser && budget.user.id !== user.id)) {
+        return {
+          redirect: {
+            permanent: false,
+            destination: "/",
+          },
+        };
+      }
+      return {
+        props: {
+          initialBudget: budget,
+        },
+      };
+    } catch {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/login?budget_sign_in_required=True",
+        },
+      };
+    }
   }
-};
+);
