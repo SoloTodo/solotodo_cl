@@ -43,6 +43,7 @@ export default function AccountPopover() {
   const onLogout = () => {
     logout(false);
     setOpen(null);
+    router.push('/')
   };
 
   return (
