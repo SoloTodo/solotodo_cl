@@ -1,8 +1,4 @@
-import {
-  Box,
-  CircularProgress,
-  Container,
-} from "@mui/material";
+import { Box, CircularProgress, Container } from "@mui/material";
 // components
 import Page from "src/components/Page";
 import BudgetRow from "src/components/budget/BudgetRow";
@@ -11,13 +7,19 @@ import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import { Budget } from "src/components/budget/types";
 import { PATH_MAIN } from "src/routes/paths";
 import { constants } from "src/config";
-import { jwtFetch } from "src/frontend-utils/nextjs/utils";
+import { fetchAuth, jwtFetch } from "src/frontend-utils/nextjs/utils";
 import { wrapper } from "src/store/store";
 import { useEffect, useState } from "react";
 import { PricingEntriesProps } from "src/components/product/types";
 import useSettings from "src/hooks/useSettings";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import BudgetEditDesktop from "src/components/budget/BudgetEditDesktop";
+import { Category } from "src/frontend-utils/types/store";
+import {
+  getApiResourceObjects,
+  useApiResourceObjects,
+} from "src/frontend-utils/redux/api_resources/apiResources";
+import { useAppSelector } from "src/store/hooks";
 
 export default function BudgetEdit({
   initialBudget,
@@ -29,6 +31,11 @@ export default function BudgetEdit({
   const [pricingEntries, setPricingEntries] = useState<
     PricingEntriesProps[] | null
   >(null);
+  const apiResourceObjects = useAppSelector(useApiResourceObjects);
+  const categories = getApiResourceObjects(
+    apiResourceObjects,
+    "categories"
+  ) as Category[];
 
   useEffect(() => {
     if (budget.products_pool.length) {
@@ -50,11 +57,30 @@ export default function BudgetEdit({
         );
         setPricingEntries(pricingEntries);
       });
+    } else {
+      setPricingEntries([]);
     }
   }, [budget.products_pool, prefExcludeRefurbished, prefStores]);
 
-  console.log(budget);
-  console.log(pricingEntries);
+  const setFullBudget = () => {
+    fetchAuth(null, budget.url).then((newBudget) => setBudget(newBudget));
+  };
+
+  const budgetCategories = categories.filter((c) => c.budget_ordering);
+  budgetCategories.sort(function (category1, category2) {
+    let category1ordering = category1.budget_ordering as string;
+    let category2ordering = category2.budget_ordering as string;
+    if (category1ordering < category2ordering) {
+      return -1;
+    } else if (category1ordering > category2ordering) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+
+  // console.log(budget);
+  // console.log(pricingEntries);
   return (
     <Page title="Cotización">
       <Container maxWidth={false}>
@@ -71,7 +97,12 @@ export default function BudgetEdit({
             <CircularProgress color="inherit" />
           </Box>
         ) : (
-         <BudgetEditDesktop budget={budget} setBudget={setBudget} pricingEntries={pricingEntries} />
+          <BudgetEditDesktop
+            budget={budget}
+            setBudget={setFullBudget}
+            budgetCategories={budgetCategories}
+            pricingEntries={pricingEntries}
+          />
         )}
       </Container>
     </Page>

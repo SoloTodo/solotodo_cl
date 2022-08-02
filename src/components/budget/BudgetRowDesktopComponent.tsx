@@ -1,11 +1,19 @@
 import NextLink from "next/link";
-import { Box, Button, Grid, Link, Select, Typography } from "@mui/material";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import {
+  Box,
+  Button,
+  Grid,
+  Link,
+  Select,
+  SelectChangeEvent,
+  Typography,
+} from "@mui/material";
 import { Category, Store } from "src/frontend-utils/types/store";
 import { Entry } from "./types";
 import { PricingEntriesProps } from "../product/types";
 import { Entity } from "src/frontend-utils/types/entity";
 import currency from "currency.js";
+import BudgetEntryDeleteButton from "./BudgetEntryDeleteButton";
 
 type BudgetRowDesktopProps = {
   budgetEntry: Entry;
@@ -17,19 +25,27 @@ type BudgetRowDesktopProps = {
   selectedProduct: string;
   selectedProductHref: string;
   stores: Store[];
+  handleProductSelect: (e: SelectChangeEvent<string>) => void;
+  handleStoreSelect: (e: SelectChangeEvent<string>) => void;
+  setBudget: Function;
 };
 
 export default function BudgetRowDesktopComponent(
   props: BudgetRowDesktopProps
 ) {
   const {
+    budgetEntry,
     category,
     filteredEntities,
     matchingEntity,
+    matchingPricingEntry,
     pricingEntries,
     selectedProduct,
     selectedProductHref,
     stores,
+    handleProductSelect,
+    handleStoreSelect,
+    setBudget,
   } = props;
 
   return (
@@ -55,7 +71,13 @@ export default function BudgetRowDesktopComponent(
           <Link color="secondary">{category.name}</Link>
         </NextLink>
       </Box>
-      <Grid container spacing={2} padding={3} paddingTop={2}>
+      <Grid
+        container
+        spacing={2}
+        padding={3}
+        paddingTop={2}
+        alignItems="center"
+      >
         {pricingEntries.length ? (
           <>
             <Grid item xs={4}>
@@ -65,6 +87,7 @@ export default function BudgetRowDesktopComponent(
                 native
                 inputProps={{ sx: { padding: 1 } }}
                 value={selectedProduct || ""}
+                onChange={handleProductSelect}
               >
                 {pricingEntries.map((pricingEntry) => (
                   <option
@@ -82,7 +105,7 @@ export default function BudgetRowDesktopComponent(
                 color="secondary"
                 size="small"
                 fullWidth
-                sx={{ textTransform: "none", height: "100%" }}
+                sx={{ textTransfsorm: "none", padding: 1 }}
                 href={selectedProductHref}
               >
                 Ir al producto
@@ -96,6 +119,8 @@ export default function BudgetRowDesktopComponent(
                     fullWidth
                     native
                     inputProps={{ sx: { padding: 1 } }}
+                    value={budgetEntry.selected_store || ""}
+                    onChange={handleStoreSelect}
                   >
                     {filteredEntities.map((entity) => {
                       const store = stores.filter(
@@ -121,7 +146,7 @@ export default function BudgetRowDesktopComponent(
                     color="secondary"
                     size="small"
                     fullWidth
-                    sx={{ textTransform: "none", height: "100%" }}
+                    sx={{ textTransform: "none", padding: 1 }}
                   >
                     Ir a la tienda
                   </Button>
@@ -143,16 +168,12 @@ export default function BudgetRowDesktopComponent(
           </Grid>
         )}
         <Grid item xs={1}>
-          <Button
-            variant="contained"
-            color="error"
-            size="small"
-            fullWidth
-            sx={{ textTransform: "none", height: "100%" }}
-            endIcon={<ArrowDropDownIcon />}
-          >
-            Eliminar
-          </Button>
+          <BudgetEntryDeleteButton
+            matchingPricingEntry={matchingPricingEntry}
+            budgetEntry={budgetEntry}
+            category={category}
+            setBudget={setBudget}
+          />
         </Grid>
       </Grid>
     </Box>

@@ -4,14 +4,21 @@ import BudgetRow from "./BudgetRow";
 import { Budget } from "./types";
 import { PricingEntriesProps } from "../product/types";
 import currency from "currency.js";
+import BudgetSelectBestPricesButton from "./BudgetSelectBestPricesButton";
+import BudgetEntryCreateButton from "./BudgetEntryCreateButton";
+import { Category } from "src/frontend-utils/types/store";
+import BudgetExportButton from "./BudgetExportButton";
+import BudgetScreenshotButton from "./BudgetScreenshotButton";
 
 export default function BudgetEditDesktop({
   budget,
   setBudget,
+  budgetCategories,
   pricingEntries,
 }: {
   budget: Budget;
   setBudget: Function;
+  budgetCategories: Category[];
   pricingEntries: PricingEntriesProps[];
 }) {
   let totalPrice = new currency(0, { precision: 0 });
@@ -38,7 +45,9 @@ export default function BudgetEditDesktop({
       typeof matchingEntity.active_registry !== "undefined"
     ) {
       totalPrice = totalPrice.add(
-        new currency(matchingEntity.active_registry.offer_price, { precision: 0 })
+        new currency(matchingEntity.active_registry.offer_price, {
+          precision: 0,
+        })
       );
     }
   }
@@ -83,22 +92,17 @@ export default function BudgetEditDesktop({
             paddingTop={4}
             justifyContent="center"
           >
-            <Button variant="outlined" color="secondary">
-              Seleccionar mejores precios
-            </Button>
-            <Button variant="outlined" color="secondary">
-              Agregar componente
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              endIcon={<ArrowDropDownIcon />}
-            >
-              Exportar
-            </Button>
-            <Button variant="outlined" color="secondary">
-              Obtener pantallazo
-            </Button>
+            <BudgetSelectBestPricesButton
+              budget={budget}
+              setBudget={setBudget}
+            />
+            <BudgetEntryCreateButton
+              budget={budget}
+              budgetCategories={budgetCategories}
+              setBudget={setBudget}
+            />
+            <BudgetExportButton budget={budget} />
+            <BudgetScreenshotButton budget={budget} />
             <Button variant="contained" color="success">
               Chequear compatibilidad
             </Button>
