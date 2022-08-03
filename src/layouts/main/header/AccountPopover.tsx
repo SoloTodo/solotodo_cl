@@ -2,16 +2,26 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 // @mui
 import { alpha } from "@mui/material/styles";
-import { Box, Divider, Typography, Stack, MenuItem } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Typography,
+  Stack,
+  MenuItem,
+  Modal,
+  Button,
+  TextField,
+} from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 // components
 import MenuPopover from "../../../components/MenuPopover";
 import { IconButtonAnimate } from "../../../components/animate";
 import { useAuth } from "src/frontend-utils/nextjs/JWTContext";
-import { useAppSelector } from "src/store/hooks";
-import { useUser } from "src/frontend-utils/redux/user";
+import { useAppDispatch, useAppSelector } from "src/store/hooks";
+import userSlice, { useUser } from "src/frontend-utils/redux/user";
 // // routes
-import { PATH_AUTH } from "../../../routes/paths";
+import { PATH_AUTH, PATH_MAIN } from "../../../routes/paths";
+import { fetchAuth } from "src/frontend-utils/nextjs/utils";
 
 // ----------------------------------------------------------------------
 
@@ -24,12 +34,27 @@ const MENU_OPTIONS = [
 
 // ----------------------------------------------------------------------
 
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
 export default function AccountPopover() {
-  const { logout } = useAuth();
+  const { authFetch, logout } = useAuth();
+  const dispatch = useAppDispatch();
   const user = useAppSelector(useUser);
   const router = useRouter();
 
   const [open, setOpen] = useState<HTMLElement | null>(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [value, setValue] = useState("");
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
     setOpen(event.currentTarget);
@@ -40,10 +65,31 @@ export default function AccountPopover() {
     setOpen(null);
   };
 
+  const handleModalClose = () => {
+    setOpen(null);
+    setOpenModal(false);
+    setValue("");
+  };
+
   const onLogout = () => {
     logout(false);
     setOpen(null);
-    router.push('/')
+    router.push("/");
+  };
+
+  const onSubmit = () => {
+    if (value !== "") {
+      fetchAuth(null, "budgets/", {
+        method: "POST",
+        body: JSON.stringify({ name: value }),
+      }).then((newBudget) => {
+        authFetch("users/me/", {}).then((newUser) => {
+          dispatch(userSlice.actions.setUser(newUser));
+        });
+        handleModalClose();
+        router.push(`/budgets/${newBudget.id}/edit`);
+      });
+    }
   };
 
   return (
@@ -100,6 +146,27 @@ export default function AccountPopover() {
             <Divider sx={{ borderStyle: "dashed" }} />
 
             <Stack sx={{ p: 1 }}>
+              {user.budgets.map((b) => (
+                <MenuItem
+                  key={b.name}
+                  onClick={() =>
+                    handleClose(`${PATH_MAIN.budgets}/${b.id}/edit`)
+                  }
+                >
+                  {b.name}
+                </MenuItem>
+              ))}
+              <MenuItem
+                key={"newCotizacion"}
+                onClick={() => setOpenModal(true)}
+              >
+                <b>Nueva Cotización</b>
+              </MenuItem>
+            </Stack>
+
+            <Divider sx={{ borderStyle: "dashed" }} />
+
+            <Stack sx={{ p: 1 }}>
               {MENU_OPTIONS.map((option) => (
                 <MenuItem
                   key={option.label}
@@ -115,6 +182,43 @@ export default function AccountPopover() {
             <MenuItem sx={{ m: 1 }} onClick={onLogout}>
               Cerrar Sesión
             </MenuItem>
+
+            <Modal open={openModal} onClose={handleModalClose}>
+              <Box sx={style}>
+                <Stack spacing={1}>
+                  <Typography
+                    id="modal-modal-title"
+                    variant="h3"
+                    component="h2"
+                  >
+                    Crear nueva cotización
+                  </Typography>
+                  <TextField
+                    name="name"
+                    label="Nombre"
+                    fullWidth
+                    onChange={(e) => setValue(e.target.value)}
+                  />
+                </Stack>
+                <br />
+                <Stack direction="row-reverse" spacing={1}>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={handleModalClose}
+                  >
+                    Cerrar
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    onClick={onSubmit}
+                  >
+                    Crear
+                  </Button>
+                </Stack>
+              </Box>
+            </Modal>
           </>
         ) : (
           <>
