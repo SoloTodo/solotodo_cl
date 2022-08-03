@@ -1,7 +1,6 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { Alert, Box, Button, Stack, Typography } from "@mui/material";
 import BudgetRow from "./BudgetRow";
-import { Budget } from "./types";
+import { Budget, CompatibilityOrNull } from "./types";
 import { PricingEntriesProps } from "../product/types";
 import currency from "currency.js";
 import BudgetSelectBestPricesButton from "./BudgetSelectBestPricesButton";
@@ -9,6 +8,10 @@ import BudgetEntryCreateButton from "./BudgetEntryCreateButton";
 import { Category } from "src/frontend-utils/types/store";
 import BudgetExportButton from "./BudgetExportButton";
 import BudgetScreenshotButton from "./BudgetScreenshotButton";
+import BudgetDeleteButton from "./BudgetDeleteButton";
+import { useState } from "react";
+import BudgetCompatibilityButton from "./BudgetCompatibilityButton";
+import BudgetCompatibilityContainer from "./BudgetCompatibilityContainer";
 
 export default function BudgetEditDesktop({
   budget,
@@ -21,6 +24,8 @@ export default function BudgetEditDesktop({
   budgetCategories: Category[];
   pricingEntries: PricingEntriesProps[];
 }) {
+  const [compatibility, setCompatibility] = useState<CompatibilityOrNull>(null);
+
   let totalPrice = new currency(0, { precision: 0 });
   for (const budgetEntry of budget.entries) {
     if (!budgetEntry.selected_store) {
@@ -65,6 +70,13 @@ export default function BudgetEditDesktop({
         </Typography>
       </Stack>
 
+      {pricingEntries.length === 0 && (
+        <Alert severity="info">
+          ¡Tu cotización está vacía! Navega por los productos de SoloTodo y haz
+          click en &quot;Agregar a cotización&quot; para incluirlos.
+        </Alert>
+      )}
+
       {budget.entries.map((e) => (
         <BudgetRow
           key={e.id}
@@ -83,13 +95,13 @@ export default function BudgetEditDesktop({
             border: "1px solid #F2F2F2",
             borderRadius: "4px",
             width: "100%",
+            padding: 2,
           }}
         >
           <Stack
             direction="row"
             spacing={2}
-            padding={3}
-            paddingTop={4}
+            paddingY={3}
             justifyContent="center"
           >
             <BudgetSelectBestPricesButton
@@ -103,13 +115,13 @@ export default function BudgetEditDesktop({
             />
             <BudgetExportButton budget={budget} />
             <BudgetScreenshotButton budget={budget} />
-            <Button variant="contained" color="success">
-              Chequear compatibilidad
-            </Button>
-            <Button variant="contained" color="error">
-              Eliminar
-            </Button>
+            <BudgetCompatibilityButton
+              budget={budget}
+              setCompatibility={setCompatibility}
+            />
+            <BudgetDeleteButton budget={budget} />
           </Stack>
+          <BudgetCompatibilityContainer compatibility={compatibility} />
         </Box>
       </Stack>
     </Stack>

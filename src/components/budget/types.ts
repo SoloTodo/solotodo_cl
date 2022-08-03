@@ -21,3 +21,11 @@ export type Budget = {
   products_pool: InLineProduct[];
   entries: Entry[];
 };
+
+type Compatibility = {
+  success: string[];
+  warnings: string[];
+  errors: string[];
+};
+
+export type CompatibilityOrNull = Compatibility | null;
