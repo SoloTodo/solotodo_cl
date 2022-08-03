@@ -35,8 +35,8 @@ export default function BudgetRow({
   const matchingEntities = matchingPricingEntry
     ? matchingPricingEntry.entities
     : [];
-  const filteredEntities: Entity[] = [];
 
+  const filteredEntities: Entity[] = [];
   for (const entity of matchingEntities) {
     if (
       !filteredEntities.some(
@@ -54,68 +54,30 @@ export default function BudgetRow({
     ? `/products/${matchingPricingEntry.product.id}`
     : "";
 
-  // useEffect(() => {
-  //   console.log(budgetEntry)
-  //   const pricingEntriesSameCat = pricingEntries.filter(
-  //     (productEntry) => budgetEntry.category === productEntry.product.category
-  //   );
-  //   let matchingPricingEntry = null;
-
-  //   if (budgetEntry.selected_product) {
-  //     matchingPricingEntry = pricingEntriesSameCat.filter(
-  //       (pricingEntry) =>
-  //         pricingEntry.product.url === budgetEntry.selected_product
-  //     )[0];
-  //   }
-
-  //   if (!matchingPricingEntry && pricingEntriesSameCat.length) {
-  //     matchingPricingEntry = pricingEntriesSameCat[0];
-  //   }
-
-  //   let matchingEntity = null;
-
-  //   if (matchingPricingEntry) {
-  //     const entities = matchingPricingEntry.entities;
-
-  //     if (budgetEntry.selected_store) {
-  //       matchingEntity =
-  //         entities.filter(
-  //           (entity) => entity.store === budgetEntry.selected_store
-  //         )[0] || null;
-  //     }
-
-  //     if (!matchingEntity && entities.length) {
-  //       matchingEntity = entities[0];
-  //     }
-  //   }
-
-  //   const matchingProductUrl =
-  //     matchingPricingEntry && matchingPricingEntry.product.url;
-
-  //   const matchingStore = (matchingEntity && matchingEntity.store) || null;
-  //   if (
-  //     budgetEntry.selected_product !== matchingProductUrl ||
-  //     budgetEntry.selected_store !== matchingStore
-  //   ) {
-  //     const formData = {
-  //       selected_product: matchingProductUrl,
-  //       selected_store: matchingEntity && matchingEntity.store,
-  //     };
-  //     fetchAuth(null, `budget_entries/${budgetEntry.id}/`, {
-  //       method: "PATCH",
-  //       body: JSON.stringify(formData),
-  //     }).then(() => {
-  //       setBudget();
-  //     });
-  //   }
-  // }, [
-  //   budgetEntry.category,
-  //   budgetEntry.id,
-  //   budgetEntry.selected_product,
-  //   budgetEntry.selected_store,
-  //   pricingEntries,
-  //   setBudget,
-  // ]);
+  useEffect(() => {
+    if (
+      typeof matchingPricingEntry === "undefined" &&
+      pricingEntriesSameCategory.length !== 0
+    ) {
+      const firstProduct = pricingEntriesSameCategory[0];
+      const formData = {
+        selected_product: firstProduct.product.url,
+        selected_store:
+          firstProduct.entities[0] && firstProduct.entities[0].store,
+      };
+      fetchAuth(null, `budget_entries/${budgetEntry.id}/`, {
+        method: "PATCH",
+        body: JSON.stringify(formData),
+      }).then(() => {
+        setBudget();
+      });
+    }
+  }, [
+    budgetEntry.id,
+    matchingPricingEntry,
+    pricingEntriesSameCategory,
+    setBudget,
+  ]);
 
   const handleProductSelect = (e: SelectChangeEvent<string>) => {
     const newProductUrl = e.target.value;
