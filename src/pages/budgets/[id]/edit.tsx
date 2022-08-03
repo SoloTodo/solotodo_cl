@@ -1,7 +1,6 @@
 import { Box, CircularProgress, Container } from "@mui/material";
 // components
 import Page from "src/components/Page";
-import BudgetRow from "src/components/budget/BudgetRow";
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 // types
 import { Budget } from "src/components/budget/types";
@@ -37,6 +36,10 @@ export default function BudgetEdit({
     "categories"
   ) as Category[];
 
+  if (initialBudget.id !== budget.id) {
+    setBudget(initialBudget);
+  }
+  
   useEffect(() => {
     if (budget.products_pool.length) {
       let url = "products/available_entities/?";
@@ -79,8 +82,6 @@ export default function BudgetEdit({
     }
   });
 
-  // console.log(budget);
-  // console.log(pricingEntries);
   return (
     <Page title="Cotización">
       <Container maxWidth={false}>
