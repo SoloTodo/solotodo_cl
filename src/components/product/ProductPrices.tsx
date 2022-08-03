@@ -22,6 +22,8 @@ import MessageIcon from "@mui/icons-material/Message";
 import ProductAlertButton from "./ProductAlertButton";
 import ProductPriceHistory from "./ProductPriceHistory";
 import useSettings from "src/hooks/useSettings";
+import { useUser } from "src/frontend-utils/redux/user";
+import ProductAddToBudgetButton from "./ProductAddToBudgetButton";
 
 type ProductPricesProps = {
   product: Product;
@@ -35,6 +37,7 @@ export default function ProductPrices({
   setOpenNewCommentDrawer,
 }: ProductPricesProps) {
   const { prefExcludeRefurbished, prefStores } = useSettings();
+  const user = useAppSelector(useUser);
   const [entities, setEntities] = useState<Entity[]>([]);
   const [ratedStores, setRatedStores] = useState<Record<string, RatedStore>>(
     {}
@@ -48,7 +51,7 @@ export default function ProductPrices({
   useMemo(() => {
     let storesUrl = "";
     for (const store of prefStores) {
-      storesUrl += `&stores=${store}`
+      storesUrl += `&stores=${store}`;
     }
     fetchJson(
       `${constants.apiResourceEndpoints.products}available_entities/?ids=${product.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
@@ -133,6 +136,10 @@ export default function ProductPrices({
           <Typography>Este producto no está disponible actualmente</Typography>
         ) : null}
         <Divider />
+        {user && user.is_staff && <Typography>aaaa</Typography>}
+        {category.budget_ordering && (
+          <ProductAddToBudgetButton product={product} />
+        )}
         <ProductPriceHistory product={product} />
         <ProductAlertButton
           productId={product.id}
@@ -151,3 +158,4 @@ export default function ProductPrices({
     </Stack>
   );
 }
+9;
