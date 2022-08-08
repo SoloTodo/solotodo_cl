@@ -31,7 +31,12 @@ export default function BudgetCompatibilityButton({
   };
 
   return (
-    <Button variant="contained" color="success" onClick={compatibilityCheck}>
+    <Button
+      variant="contained"
+      color="success"
+      onClick={compatibilityCheck}
+      fullWidth
+    >
       Chequear compatibilidad
     </Button>
   );

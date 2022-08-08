@@ -64,6 +64,7 @@ export default function BudgetEntryCreateButton({
         variant="outlined"
         color="secondary"
         onClick={() => setOpenModal(true)}
+        fullWidth
       >
         Agreagr componente
       </Button>

@@ -47,7 +47,12 @@ export default function BudgetScreenshotButton({ budget }: { budget: Budget }) {
 
   return (
     <>
-      <Button variant="outlined" color="secondary" onClick={exportToImage}>
+      <Button
+        variant="outlined"
+        color="secondary"
+        onClick={exportToImage}
+        fullWidth
+      >
         Obtener pantallazo
       </Button>
       <Modal open={openModal} onClose={toggleExportedImageModal}>

@@ -78,6 +78,7 @@ export default function BudgetExportButton({ budget }: { budget: Budget }) {
         }}
         endIcon={<ArrowDropDownIcon />}
         onClick={handleOpen}
+        fullWidth
       >
         Exportar
       </Button>

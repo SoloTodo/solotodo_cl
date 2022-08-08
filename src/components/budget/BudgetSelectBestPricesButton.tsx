@@ -13,15 +13,20 @@ export default function BudgetSelectBestPricesButton({
   const { prefStores } = useSettings();
 
   const selectBestPrices = () => {
-    const formData = {stores: prefStores};
+    const formData = { stores: prefStores };
     fetchAuth(null, `budgets/${budget.id}/select_cheapest_stores/`, {
-      method: 'POST',
-      body: JSON.stringify(formData)
-    }).then(() => setBudget())
+      method: "POST",
+      body: JSON.stringify(formData),
+    }).then(() => setBudget());
   };
 
   return (
-    <Button variant="outlined" color="secondary" onClick={selectBestPrices}>
+    <Button
+      variant="outlined"
+      color="secondary"
+      onClick={selectBestPrices}
+      fullWidth
+    >
       Seleccionar mejores precios
     </Button>
   );

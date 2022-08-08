@@ -52,6 +52,7 @@ export default function BudgetDeleteButton({ budget }: { budget: Budget }) {
         variant="contained"
         color="error"
         onClick={() => setOpenModal(true)}
+        fullWidth
       >
         Eliminar
       </Button>
