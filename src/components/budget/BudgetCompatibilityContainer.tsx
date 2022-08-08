@@ -30,7 +30,6 @@ export default function BudgetCompatibilityContainer({
         . (tl;dr: La herramienta no es perfecta y no verifica todos los casos,
         no nos hacemos responsables).
       </Alert>
-      <br />
       {!compatibility.success && (
         <Typography>
           Tu cotización tiene las siguientes observaciones:

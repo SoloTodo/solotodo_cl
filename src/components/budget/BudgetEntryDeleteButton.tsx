@@ -65,7 +65,6 @@ export default function BudgetEntryDeleteButton(props: BudgetEntryDeleteProps) {
         size="small"
         fullWidth
         sx={{
-          textTransform: "none",
           padding: 1,
           ...(open && { bgcolor: "error.dark" }),
         }}

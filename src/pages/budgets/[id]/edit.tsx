@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { PricingEntriesProps } from "src/components/product/types";
 import useSettings from "src/hooks/useSettings";
 import { fetchJson } from "src/frontend-utils/network/utils";
-import BudgetEditDesktop from "src/components/budget/BudgetEditDesktop";
+import BudgetEditComponent from "src/components/budget/BudgetEditComponent";
 import { Category } from "src/frontend-utils/types/store";
 import {
   getApiResourceObjects,
@@ -89,7 +89,7 @@ export default function BudgetEdit({
           heading=""
           links={[
             { name: "Home", href: PATH_MAIN.root },
-            { name: "Cotizaciones", href: `${PATH_MAIN.budgets}/1232939` },
+            { name: "Cotizaciones", href: `${PATH_MAIN.budgets}/${budget.id}` },
             { name: budget.name },
           ]}
         />
@@ -98,7 +98,7 @@ export default function BudgetEdit({
             <CircularProgress color="inherit" />
           </Box>
         ) : (
-          <BudgetEditDesktop
+          <BudgetEditComponent
             budget={budget}
             setBudget={setFullBudget}
             budgetCategories={budgetCategories}

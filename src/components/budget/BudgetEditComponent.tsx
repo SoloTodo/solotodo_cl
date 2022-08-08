@@ -1,4 +1,13 @@
-import { Alert, Box, Button, Stack, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import BudgetRow from "./BudgetRow";
 import { Budget, CompatibilityOrNull } from "./types";
 import { PricingEntriesProps } from "../product/types";
@@ -12,8 +21,10 @@ import BudgetDeleteButton from "./BudgetDeleteButton";
 import { useState } from "react";
 import BudgetCompatibilityButton from "./BudgetCompatibilityButton";
 import BudgetCompatibilityContainer from "./BudgetCompatibilityContainer";
+import MenuPopover from "../MenuPopover";
+import BudgetEditName from "./BudgetEditName";
 
-export default function BudgetEditDesktop({
+export default function BudgetEditComponent({
   budget,
   setBudget,
   budgetCategories,
@@ -25,6 +36,17 @@ export default function BudgetEditDesktop({
   pricingEntries: PricingEntriesProps[];
 }) {
   const [compatibility, setCompatibility] = useState<CompatibilityOrNull>(null);
+  const [open, setOpen] = useState<HTMLElement | null>(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+  const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setOpen(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setOpen(null);
+  };
 
   let totalPrice = new currency(0, { precision: 0 });
   for (const budgetEntry of budget.entries) {
@@ -57,6 +79,28 @@ export default function BudgetEditDesktop({
     }
   }
 
+  const buttons = (isDesktop: boolean) => (
+    <Stack
+      direction={isDesktop ? "row" : "column"}
+      spacing={2}
+      justifyContent="center"
+    >
+      <BudgetSelectBestPricesButton budget={budget} setBudget={setBudget} />
+      <BudgetEntryCreateButton
+        budget={budget}
+        budgetCategories={budgetCategories}
+        setBudget={setBudget}
+      />
+      <BudgetExportButton budget={budget} />
+      <BudgetScreenshotButton budget={budget} />
+      <BudgetCompatibilityButton
+        budget={budget}
+        setCompatibility={setCompatibility}
+      />
+      <BudgetDeleteButton budget={budget} />
+    </Stack>
+  );
+
   return (
     <Stack spacing={3}>
       <Stack
@@ -64,7 +108,7 @@ export default function BudgetEditDesktop({
         alignContent="center"
         justifyContent="space-between"
       >
-        <Typography variant="h5">{budget.name}</Typography>
+        <BudgetEditName budget={budget} setBudget={setBudget} />
         <Typography variant="h5" fontWeight={600} color="primary">
           Total: {totalPrice.format()}
         </Typography>
@@ -98,30 +142,37 @@ export default function BudgetEditDesktop({
             padding: 2,
           }}
         >
-          <Stack
-            direction="row"
-            spacing={2}
-            paddingY={3}
-            justifyContent="center"
-          >
-            <BudgetSelectBestPricesButton
-              budget={budget}
-              setBudget={setBudget}
-            />
-            <BudgetEntryCreateButton
-              budget={budget}
-              budgetCategories={budgetCategories}
-              setBudget={setBudget}
-            />
-            <BudgetExportButton budget={budget} />
-            <BudgetScreenshotButton budget={budget} />
-            <BudgetCompatibilityButton
-              budget={budget}
-              setCompatibility={setCompatibility}
-            />
-            <BudgetDeleteButton budget={budget} />
+          <Stack paddingTop={3} spacing={3}>
+            {isMobile ? (
+              <Button
+                variant="outlined"
+                color="info"
+                size="small"
+                fullWidth
+                sx={{
+                  padding: 1,
+                }}
+                endIcon={<ArrowDropDownIcon />}
+                onClick={handleOpen}
+              >
+                Opciones
+              </Button>
+            ) : (
+              buttons(true)
+            )}
+            <MenuPopover
+              open={Boolean(open)}
+              anchorEl={open}
+              onClose={handleClose}
+              sx={{
+                mt: 1.5,
+                ml: 0.75,
+              }}
+            >
+              {buttons(false)}
+            </MenuPopover>
+            <BudgetCompatibilityContainer compatibility={compatibility} />
           </Stack>
-          <BudgetCompatibilityContainer compatibility={compatibility} />
         </Box>
       </Stack>
     </Stack>

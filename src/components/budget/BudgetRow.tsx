@@ -7,7 +7,7 @@ import {
   useApiResourceObjects,
 } from "src/frontend-utils/redux/api_resources/apiResources";
 import { Category, Store } from "src/frontend-utils/types/store";
-import BudgetRowDesktopComponent from "./BudgetRowDesktopComponent";
+import BudgetRowComponent from "./BudgetRowComponent";
 import { Entity } from "src/frontend-utils/types/entity";
 import { SelectChangeEvent } from "@mui/material";
 import { fetchAuth } from "src/frontend-utils/nextjs/utils";
@@ -115,7 +115,7 @@ export default function BudgetRow({
   };
 
   return (
-    <BudgetRowDesktopComponent
+    <BudgetRowComponent
       budgetEntry={budgetEntry}
       category={category}
       stores={stores}

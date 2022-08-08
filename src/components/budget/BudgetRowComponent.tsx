@@ -7,6 +7,8 @@ import {
   Select,
   SelectChangeEvent,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { Category, Store } from "src/frontend-utils/types/store";
 import { Entry } from "./types";
@@ -14,8 +16,10 @@ import { PricingEntriesProps } from "../product/types";
 import { Entity } from "src/frontend-utils/types/entity";
 import currency from "currency.js";
 import BudgetEntryDeleteButton from "./BudgetEntryDeleteButton";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import LinkIcon from "@mui/icons-material/Link";
 
-type BudgetRowDesktopProps = {
+type BudgetRowComponentProps = {
   budgetEntry: Entry;
   category: Category;
   pricingEntries: PricingEntriesProps[];
@@ -30,9 +34,7 @@ type BudgetRowDesktopProps = {
   setBudget: Function;
 };
 
-export default function BudgetRowDesktopComponent(
-  props: BudgetRowDesktopProps
-) {
+export default function BudgetRowComponent(props: BudgetRowComponentProps) {
   const {
     budgetEntry,
     category,
@@ -47,6 +49,8 @@ export default function BudgetRowDesktopComponent(
     handleStoreSelect,
     setBudget,
   } = props;
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (
     <Box
@@ -77,10 +81,11 @@ export default function BudgetRowDesktopComponent(
         padding={3}
         paddingTop={2}
         alignItems="center"
+        justifyContent="flex-end"
       >
         {pricingEntries.length ? (
           <>
-            <Grid item xs={4}>
+            <Grid item xs={10} md={4} lg={3.5}>
               <Select
                 name="Producto"
                 fullWidth
@@ -99,21 +104,21 @@ export default function BudgetRowDesktopComponent(
                 ))}
               </Select>
             </Grid>
-            <Grid item xs={1.5}>
+            <Grid item xs={2} md={1} lg={1.5}>
               <Button
                 variant="contained"
                 color="secondary"
                 size="small"
                 fullWidth
-                sx={{ textTransfsorm: "none", padding: 1 }}
+                sx={{ textTransform: "none", padding: 1, textAlign: "center" }}
                 href={selectedProductHref}
               >
-                Ir al producto
+                {isMobile ? <ArrowForwardIosIcon /> : "Ir al producto"}
               </Button>
             </Grid>
             {matchingEntity ? (
               <>
-                <Grid item xs={4}>
+                <Grid item xs={10} md={4} lg={3.5}>
                   <Select
                     name="Tienda"
                     fullWidth
@@ -140,7 +145,7 @@ export default function BudgetRowDesktopComponent(
                     })}
                   </Select>
                 </Grid>
-                <Grid item xs={1.5}>
+                <Grid item xs={2} md={1} lg={1.5}>
                   <Button
                     variant="contained"
                     color="secondary"
@@ -148,12 +153,12 @@ export default function BudgetRowDesktopComponent(
                     fullWidth
                     sx={{ textTransform: "none", padding: 1 }}
                   >
-                    Ir a la tienda
+                    {isMobile ? <LinkIcon /> : "Ir a la tienda"}
                   </Button>
                 </Grid>
               </>
             ) : (
-              <Grid item xs={5.5}>
+              <Grid item xs={12} md={5}>
                 <Typography>
                   Este producto no esta disponible actualmente
                 </Typography>
@@ -161,13 +166,13 @@ export default function BudgetRowDesktopComponent(
             )}
           </>
         ) : (
-          <Grid item xs={11}>
+          <Grid item xs={9} md={10}>
             <Typography>
               No hay productos ingresados para esta categoría
             </Typography>
           </Grid>
         )}
-        <Grid item xs={1}>
+        <Grid item xs={3} md={2}>
           <BudgetEntryDeleteButton
             matchingPricingEntry={matchingPricingEntry}
             budgetEntry={budgetEntry}
