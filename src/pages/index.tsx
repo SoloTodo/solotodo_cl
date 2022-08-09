@@ -56,12 +56,13 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const prefExcludeRefurbished = context.req.cookies.prefExcludeRefurbished;
-  const prefStores = context.req.cookies.prefStores.split('|');
+  const preStoresCookie = context.req.cookies.prefStores;
+  const prefStores = preStoresCookie ? preStoresCookie.split("|") : [];
   let storesUrl = "";
-    for (const store of prefStores) {
-      storesUrl += `&stores=${store}`
-    }
-  
+  for (const store of prefStores) {
+    storesUrl += `&stores=${store}`;
+  }
+
   const leads = await fetchJson(
     `products/browse/?ordering=leads&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
   );
