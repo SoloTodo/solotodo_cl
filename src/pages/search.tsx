@@ -42,7 +42,7 @@ export default function Search() {
   ];
 
   return (
-    <Page title="Cotización">
+    <Page title="Búsqueda">
       <Container maxWidth={false}>
         <HeaderBreadcrumbs
           heading=""
@@ -57,7 +57,11 @@ export default function Search() {
               <Typography variant="h2">Resultados de la búsqueda</Typography>
             </Grid>
             <Grid item md={3} width="100%">
-              <ApiFormSelectComponent name="categories" label="Categorías" />
+              <ApiFormSelectComponent
+                name="categories"
+                label="Categorías"
+                exact
+              />
             </Grid>
             <Grid item xs={12} md={9}>
               <ApiFormPaginationComponent />
