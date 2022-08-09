@@ -85,7 +85,7 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
       >
         {pricingEntries.length ? (
           <>
-            <Grid item xs={10} md={4} lg={3.5}>
+            <Grid item xs={10} md={4} lg={4}>
               <Select
                 name="Producto"
                 fullWidth
@@ -118,7 +118,7 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
             </Grid>
             {matchingEntity ? (
               <>
-                <Grid item xs={10} md={4} lg={3.5}>
+                <Grid item xs={10} md={4} lg={4}>
                   <Select
                     name="Tienda"
                     fullWidth
@@ -172,7 +172,7 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
             </Typography>
           </Grid>
         )}
-        <Grid item xs={3} md={2}>
+        <Grid item xs={3} md={2} lg={1}>
           <BudgetEntryDeleteButton
             matchingPricingEntry={matchingPricingEntry}
             budgetEntry={budgetEntry}
