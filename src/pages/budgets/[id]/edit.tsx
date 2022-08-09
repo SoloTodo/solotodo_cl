@@ -89,8 +89,8 @@ export default function BudgetEdit({
           heading=""
           links={[
             { name: "Home", href: PATH_MAIN.root },
-            { name: "Cotizaciones", href: `${PATH_MAIN.budgets}/${budget.id}` },
-            { name: budget.name },
+            { name: "Cotización", href: `${PATH_MAIN.budgets}/${budget.id}` },
+            { name: "Editar" },
           ]}
         />
         {pricingEntries === null ? (
