@@ -104,7 +104,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const product = await fetchJson(
       `${constants.apiResourceEndpoints.products}${productId}/`
     );
-    // TODO: redirect to correct url is slug !== from product.slug
+    if (slug !== product.slug) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: `/products/${product.id}-${product.slug}`,
+        },
+      }
+    }
     return {
       props: {
         product: product,
