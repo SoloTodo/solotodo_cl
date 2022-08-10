@@ -118,7 +118,7 @@ export default function Searchbar() {
                 onChange={(evt) => setKeywords(evt.target.value)}
               />
               <Button variant="contained" type="submit">
-                Search
+                Buscar
               </Button>
             </SearchbarStyle>
           </Slide>
