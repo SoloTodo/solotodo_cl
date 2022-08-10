@@ -116,7 +116,7 @@ export default function NavigationDrawer({
                 <div key={index}>
                   <ListItemButton
                     sx={{ textTransform: "capitalize" }}
-                    href={s.path}
+                    href={`${s.path}/preview`}
                   >
                     <ListItemText
                       primaryTypographyProps={{ typography: "body1" }}
@@ -136,6 +136,13 @@ export default function NavigationDrawer({
                         </ListItemButton>
                       </ListItem>
                     ))}
+                    <ListItem key={s.name}>
+                      <ListItemButton href={s.path}>
+                        <ListItemText sx={{ color: "primary.main" }}>
+                          Ver todo
+                        </ListItemText>
+                      </ListItemButton>
+                    </ListItem>
                   </List>
                 </div>
               ))}
