@@ -28,3 +28,7 @@
 .product_specs ul {
     padding-left: 20px;
 }
+
+.product_specs a {
+    color: #cd5029;
+}
