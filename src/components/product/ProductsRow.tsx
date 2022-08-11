@@ -8,13 +8,15 @@ export default function ProductsRow({
   title,
   data,
   ribbonFormatter,
+  actionHref,
 }: {
   title: string;
   data: ProductsData[];
+  actionHref?: string;
   ribbonFormatter?: Function;
 }) {
   return (
-    <Block title={title}>
+    <Block title={title} actionHref={actionHref ? actionHref : "#"}>
       <Grid
         container
         spacing={2}

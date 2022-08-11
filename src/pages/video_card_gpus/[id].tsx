@@ -1,5 +1,6 @@
-import { Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import { GetServerSideProps } from "next/types";
+import { ReactNode } from "react";
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import Page from "src/components/Page";
 import ProductsRow from "src/components/product/ProductsRow";
@@ -66,6 +67,12 @@ type Gpu = {
   unicode: string;
 };
 
+const Title = ({ children }: { children: ReactNode }) => (
+  <Typography variant="h5" gutterBottom mt={3} color="#3B5D81">
+    {children}
+  </Typography>
+);
+
 export default function VideoCardGpus({
   gpu,
   videoCardsWithGpu,
@@ -73,40 +80,76 @@ export default function VideoCardGpus({
   gpu: Gpu;
   videoCardsWithGpu: any;
 }) {
-  console.log(gpu);
-  console.log(videoCardsWithGpu);
   return (
-    <Page title={"aaa"}>
+    <Page title={gpu.unicode}>
       <Container maxWidth={false}>
         <HeaderBreadcrumbs
           heading=""
           links={[
             { name: "Home", href: PATH_MAIN.root },
             { name: "Tarjetas de video", href: `${PATH_MAIN.root}video_card` },
-            { name: "aa" },
+            { name: gpu.unicode },
           ]}
         />
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Typography variant="h4" color="#3B5D81">
+            <Typography variant="h5" color="#3B5D81">
               {gpu.unicode}
             </Typography>
           </Grid>
-          <Grid item xs={4}>
-            <Typography>Especificaciones</Typography>
+          <Grid item xs={1} md={1} lg={2}></Grid>
+          <Grid item xs={11} md={3}>
+            <Title>Especificaciones</Title>
             <Typography>Núcleo: {gpu.core_unicode}</Typography>
             <Typography>Stream processors: {gpu.stream_processors}</Typography>
             <Typography>Texture units: {gpu.texture_units}</Typography>
             <Typography>ROPs: {gpu.rops}</Typography>
             <Typography>Ray tracing cores: {gpu.ray_tracing_cores}</Typography>
+            <Typography>Frecuencias:</Typography>
+            <Box paddingBottom={1} paddingLeft={6}>
+              <ul>
+                <li>Core Base: {gpu.default_core_clock} MHz</li>
+                <li>Core Boost: {gpu.boost_core_clock} MHz</li>
+                <li>Memorias: {gpu.default_memory_clock} MHz</li>
+              </ul>
+            </Box>
+
+            <Title>Especificaciones Secundarias</Title>
+            <Typography>
+              Número de transistores: {gpu.transistor_count} millones
+            </Typography>
+            <Typography>TDP: {gpu.tdp}W</Typography>
+            <Typography>
+              Procesos de manufactura: {gpu.manufacturing_process_unicode}
+            </Typography>
+            <Typography>
+              SLI/Crossfire: {gpu.has_multi_gpu_support ? "Sí" : "No"}
+            </Typography>
+            <Typography>DirectX: {gpu.dx_version_unicode}</Typography>
+            <Typography>OpenGL: {gpu.ogl_version_unicode}</Typography>
+
+            <Title>Puntajes Estimados</Title>
+            <Typography>
+              3DMark Fire Strike: {gpu.tdmark_fire_strike_score}
+            </Typography>
+            <Typography>
+              3DMark Time Spy: {gpu.tdmark_fire_strike_score}
+            </Typography>
+            <Typography>
+              3DMark Port Royal (Ray tracing): {gpu.tdmark_fire_strike_score}
+            </Typography>
+            <Typography>
+              3DMark VR Room Orange (VR): {gpu.tdmark_fire_strike_score}
+            </Typography>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} md={8} lg={6}>
             <ProductsRow
-              title="Lo más visto"
+              title="Productos similares"
               data={videoCardsWithGpu.results.slice(0, 2)}
               ribbonFormatter={(value: string) =>
                 `Visitas: ${parseInt(value, 10)}`
               }
+              actionHref={`/video_cards/?gpus=${gpu.id}`}
             />
           </Grid>
         </Grid>
