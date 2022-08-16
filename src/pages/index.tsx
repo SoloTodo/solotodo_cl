@@ -8,14 +8,19 @@ import currency from "currency.js";
 import { Currency } from "src/frontend-utils/redux/api_resources/types";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import { useAppSelector } from "src/store/hooks";
+import RecentSlidesRow from "src/components/website-slides/RecentSlidesRow";
+import CategorySlidesRow from "src/components/website-slides/CaregorySlidesRow";
+import { Slide } from "src/components/website-slides/types";
 
 type HomeProps = {
   leads: any[];
   discount: any[];
+  recentSlides: Slide[];
+  categorySlides: Slide[];
 };
 
 const Home = (props: HomeProps) => {
-  const { leads, discount } = props;
+  const { leads, discount, recentSlides, categorySlides } = props;
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const clp =
     apiResourceObjects[
@@ -24,17 +29,19 @@ const Home = (props: HomeProps) => {
   return (
     <Page title="Cotiza y compara los precios de todas las tiendas">
       <Container maxWidth={false}>
-        <Typography variant="h2" component="h1">
+        <Typography variant="h2" component="h1" gutterBottom>
           Lo más reciente
         </Typography>
+        <RecentSlidesRow recentSlides={recentSlides} />
         <ProductsRow
           title="Lo más visto"
           data={leads.slice(0, 4)}
           ribbonFormatter={(value: string) => `Visitas: ${parseInt(value, 10)}`}
         />
-        <Typography variant="h3" component="h1">
+        <Typography variant="h3" component="h1" gutterBottom>
           Categorías populares
         </Typography>
+        <CategorySlidesRow categorySlides={categorySlides} />
         <ProductsRow
           title="Ofertas del día"
           data={discount.slice(0, 4)}
@@ -69,10 +76,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const discount = await fetchJson(
     `products/browse/?ordering=discount&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
   );
+  const recentSlides = await fetchJson("website_slides/?only_active_home=1");
+  const categorySlides = await fetchJson(
+    "website_slides/?categories=6&only_active_categories=1"
+  );
   return {
     props: {
       leads: leads.results,
       discount: discount.results,
+      recentSlides: recentSlides,
+      categorySlides: categorySlides,
     },
   };
 };

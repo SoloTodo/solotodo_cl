@@ -1,4 +1,4 @@
-import { Container, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import Page from "src/components/Page";
 import ProductsRow from "src/components/product/ProductsRow";
 import {
@@ -12,17 +12,24 @@ import currency from "currency.js";
 import { useAppSelector } from "src/store/hooks";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
+import { Slide } from "src/components/website-slides/types";
+import RecentSlidesRow from "src/components/website-slides/RecentSlidesRow";
+import CategorySlidesRow from "src/components/website-slides/CaregorySlidesRow";
 
 type CategoryPreviewProps = {
   category: Category;
   leads: any[];
   discount: any[];
+  recentSlides: Slide[];
+  categorySlides: Slide[];
 };
 
 export default function CategoryPreview({
   category,
   leads,
   discount,
+  recentSlides,
+  categorySlides,
 }: CategoryPreviewProps) {
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const clp =
@@ -32,12 +39,15 @@ export default function CategoryPreview({
   return (
     <Page title={category.name}>
       <Container maxWidth={false}>
-        <Typography variant="h2" component="h1">
+        <Typography variant="h2" component="h1" gutterBottom>
           Lo más reciente
         </Typography>
-        <Typography variant="h3" component="h1">
+        <RecentSlidesRow recentSlides={recentSlides} />
+        <Box height={42} />
+        <Typography variant="h3" component="h1" gutterBottom>
           {category.name}
         </Typography>
+        <CategorySlidesRow categorySlides={categorySlides} />
         <ProductsRow
           title="Lo más visto"
           data={leads.slice(0, 4)}
@@ -85,11 +95,19 @@ export const getServerSideProps = wrapper.getServerSideProps(
       const discount = await fetchJson(
         `products/browse/?ordering=discount&websites=${constants.websiteId}&categories=${category.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
       );
+      const recentSlides = await fetchJson(
+        "website_slides/?only_active_home=1"
+      );
+      const categorySlides = await fetchJson(
+        `website_slides/?categories=${category.id}&only_active_categories=1`
+      );
       return {
         props: {
           category: category,
           leads: leads.results,
           discount: discount.results,
+          recentSlides: recentSlides,
+          categorySlides: categorySlides,
         },
       };
     }
