@@ -13,11 +13,12 @@ import {
 import { Category, Store } from "src/frontend-utils/types/store";
 import { Entry } from "./types";
 import { PricingEntriesProps } from "../product/types";
-import { Entity } from "src/frontend-utils/types/entity";
+import { Entity, InLineProduct } from "src/frontend-utils/types/entity";
 import currency from "currency.js";
 import BudgetEntryDeleteButton from "./BudgetEntryDeleteButton";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import LinkIcon from "@mui/icons-material/Link";
+import SoloTodoLeadLink from "../SoloTodoLeadLink";
 
 type BudgetRowComponentProps = {
   budgetEntry: Entry;
@@ -153,7 +154,14 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
                     fullWidth
                     sx={{ textTransform: "none", padding: 1 }}
                   >
-                    {isMobile ? <LinkIcon /> : "Ir a la tienda"}
+                    <SoloTodoLeadLink
+                      entity={matchingEntity}
+                      storeEntry={stores.filter(store => store.url === matchingEntity.store)[0]}
+                      product={matchingEntity.product as InLineProduct}
+                      buttonType={true}
+                    >
+                      {isMobile ? <LinkIcon /> : "Ir a la tienda"}
+                    </SoloTodoLeadLink>
                   </Button>
                 </Grid>
               </>

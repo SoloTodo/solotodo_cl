@@ -117,7 +117,6 @@ export default function ProductPrices({
             !showMore && i >= 5 ? null : (
               <ProductPriceCard
                 key={i}
-                first={i === 0}
                 entity={entity}
                 ratedStores={ratedStores}
               />

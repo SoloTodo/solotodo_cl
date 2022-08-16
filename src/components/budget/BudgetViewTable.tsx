@@ -192,7 +192,6 @@ export default function BudgetViewTable({
               entity={m}
               storeEntry={store}
               product={product}
-              category={apiResourceObjects[m.category] as Category}
             >
               {store.name}
             </SoloTodoLeadLink>
