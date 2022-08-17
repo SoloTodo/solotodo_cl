@@ -147,7 +147,7 @@ export default function MainFooter() {
             textAlign: "center",
           }}
         >
-          SOLOTODO 2022 | Todos los derechos reservados | Holanda #321,
+          SOLOTODO 2022 | Todos los derechos reservados | Holanda #895,
           Providencia, Santiago de Chile
         </Typography>
       </Container>
