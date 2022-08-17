@@ -22,14 +22,6 @@ const RootStyle = styled('div')(({ theme }) => ({
   paddingBottom: theme.spacing(10),
 }));
 
-// ----------------------------------------------------------------------
-
-Page500.getLayout = function getLayout(page: React.ReactElement) {
-  return <Layout variant="logoOnly">{page}</Layout>;
-};
-
-// ----------------------------------------------------------------------
-
 export default function Page500() {
   return (
     <Page title="500 Internal Server Error" sx={{ height: 1 }}>

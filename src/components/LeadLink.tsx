@@ -1,5 +1,5 @@
 import { Link } from "@mui/material";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { constants } from "src/config";
 import { getAuthTokens } from "src/frontend-utils/nextjs/utils";
 import { Entity } from "src/frontend-utils/types/entity";
@@ -29,9 +29,9 @@ export default function LeadLink(props: LeadLinkProps) {
     buttonType,
   } = props;
 
-  const resetUuid = () => {
+  useEffect(() => {
     setUuid(uuidv4());
-  };
+  }, []);
 
   const handleClick = () => {
     // TODO: This condition is for ignoring registering leads on harcoded stores. Ideally it should be removed soon
