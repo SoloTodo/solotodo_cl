@@ -12,12 +12,11 @@ export default function CategorySlidesRow({
       container
       spacing={1}
       justifyContent="space-between"
-      wrap="nowrap"
       overflow="scroll"
     >
       {categorySlides.map((d, index) => {
         return (
-          <Grid item key={index} xs={12} sm={6}>
+          <Grid item key={index} xs={12} md={6}>
             <CategoryCard categoryData={d} />
           </Grid>
         );

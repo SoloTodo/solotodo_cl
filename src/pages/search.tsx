@@ -67,7 +67,7 @@ export default function Search() {
               <ApiFormPaginationComponent />
             </Grid>
             <Grid item>
-              <CategoryBrowse />
+              <CategoryBrowse gridWith={3} />
             </Grid>
             <Grid item xs={12}>
               <ApiFormPaginationComponent />

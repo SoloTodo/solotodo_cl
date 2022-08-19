@@ -11,16 +11,16 @@ import { useAppSelector } from "src/store/hooks";
 import RecentSlidesRow from "src/components/website-slides/RecentSlidesRow";
 import CategorySlidesRow from "src/components/website-slides/CaregorySlidesRow";
 import { Slide } from "src/components/website-slides/types";
+import { categorySlides } from "src/categorySlides";
 
 type HomeProps = {
   leads: any[];
   discount: any[];
   recentSlides: Slide[];
-  categorySlides: Slide[];
 };
 
 const Home = (props: HomeProps) => {
-  const { leads, discount, recentSlides, categorySlides } = props;
+  const { leads, discount, recentSlides } = props;
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const clp =
     apiResourceObjects[
@@ -77,15 +77,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     `products/browse/?ordering=discount&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
   );
   const recentSlides = await fetchJson("website_slides/?only_active_home=1");
-  const categorySlides = await fetchJson(
-    "website_slides/?categories=6&only_active_categories=1"
-  );
   return {
     props: {
       leads: leads.results,
       discount: discount.results,
       recentSlides: recentSlides,
-      categorySlides: categorySlides,
     },
   };
 };

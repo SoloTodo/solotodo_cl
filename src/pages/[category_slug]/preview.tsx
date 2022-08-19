@@ -15,13 +15,13 @@ import { fetchJson } from "src/frontend-utils/network/utils";
 import { Slide } from "src/components/website-slides/types";
 import RecentSlidesRow from "src/components/website-slides/RecentSlidesRow";
 import CategorySlidesRow from "src/components/website-slides/CaregorySlidesRow";
+import { categorySlides } from "src/categorySlides";
 
 type CategoryPreviewProps = {
   category: Category;
   leads: any[];
   discount: any[];
   recentSlides: Slide[];
-  categorySlides: Slide[];
 };
 
 export default function CategoryPreview({
@@ -29,7 +29,6 @@ export default function CategoryPreview({
   leads,
   discount,
   recentSlides,
-  categorySlides,
 }: CategoryPreviewProps) {
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const clp =
@@ -47,7 +46,11 @@ export default function CategoryPreview({
         <Typography variant="h3" component="h1" gutterBottom>
           {category.name}
         </Typography>
-        <CategorySlidesRow categorySlides={categorySlides} />
+        <CategorySlidesRow
+          categorySlides={categorySlides.filter((c) =>
+            c.categories.includes(category.id.toString())
+          )}
+        />
         <ProductsRow
           title="Lo más visto"
           data={leads.slice(0, 4)}
@@ -98,16 +101,12 @@ export const getServerSideProps = wrapper.getServerSideProps(
       const recentSlides = await fetchJson(
         "website_slides/?only_active_home=1"
       );
-      const categorySlides = await fetchJson(
-        `website_slides/?categories=${category.id}&only_active_categories=1`
-      );
       return {
         props: {
           category: category,
           leads: leads.results,
           discount: discount.results,
           recentSlides: recentSlides,
-          categorySlides: categorySlides,
         },
       };
     }
