@@ -6,7 +6,7 @@ export const categorySlides: Slide[] = [
     asset: {
       id: 1,
       picture:
-        "https://publicapi.solotodo.com/products/82150/picture/?width=300&height=200",
+        "https://media.solotodo.com/media/website_slides/asset4.png",
       theme_color: "",
     },
     categories: ["33"],
@@ -21,7 +21,7 @@ export const categorySlides: Slide[] = [
     asset: {
       id: 1,
       picture:
-        "https://publicapi.solotodo.com/products/90884/picture/?width=300&height=200",
+        "https://media.solotodo.com/media/website_slides/asset3_cwthiXO.png",
       theme_color: "",
     },
     categories: ["6"],
@@ -36,7 +36,7 @@ export const categorySlides: Slide[] = [
     asset: {
       id: 1,
       picture:
-        "https://publicapi.solotodo.com/products/118188/picture/?width=300&height=200",
+        "https://media.solotodo.com/media/website_slides/asset2_ZM50yds.png",
       theme_color: "",
     },
     categories: ["6"],
@@ -51,7 +51,7 @@ export const categorySlides: Slide[] = [
     asset: {
       id: 1,
       picture:
-        "https://media.solotodo.com/media/products/1184515_picture_1592495760.jpg",
+        "https://media.solotodo.com/media/website_slides/asset4.png",
       theme_color: "",
     },
     categories: ["11"],
