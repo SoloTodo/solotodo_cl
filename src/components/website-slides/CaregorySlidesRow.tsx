@@ -12,7 +12,7 @@ export default function CategorySlidesRow({
       container
       spacing={1}
       justifyContent="space-between"
-      overflow="scroll"
+      overflow="auto"
     >
       {categorySlides.map((d, index) => {
         return (

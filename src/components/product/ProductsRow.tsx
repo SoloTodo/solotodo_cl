@@ -22,7 +22,7 @@ export default function ProductsRow({
         spacing={2}
         justifyContent="space-between"
         wrap="nowrap"
-        overflow="scroll"
+        overflow="auto"
       >
         {data.map((d, index) => {
           return (

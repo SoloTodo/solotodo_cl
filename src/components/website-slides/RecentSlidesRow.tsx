@@ -13,7 +13,7 @@ export default function RecentSlidesRow({
       spacing={1}
       justifyContent="space-between"
       wrap="nowrap"
-      overflow="scroll"
+      overflow="auto"
     >
       {recentSlides.map((d, index) => {
         return (
