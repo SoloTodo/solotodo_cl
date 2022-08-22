@@ -9,7 +9,7 @@ import { Box, Button, Typography, Container, Grid } from "@mui/material";
 import Page from "../components/Page";
 import { MotionContainer, varBounce } from "../components/animate";
 // assets
-import { PageNotFoundIllustration } from "../assets";
+import Image from "next/image";
 
 // ----------------------------------------------------------------------
 
@@ -48,16 +48,34 @@ export default function Page404() {
                 </Typography>
                 <br />
                 <NextLink href="/">
-                  <Button size="large" variant="contained">
-                    Go to Home
+                  <Button
+                    size="large"
+                    variant="contained"
+                    color="secondary"
+                    sx={{ backgroundColor: "#D98E2C", borderRadius: 3 }}
+                  >
+                    VOLVER AL HOME
                   </Button>
                 </NextLink>
               </Box>
             </Grid>
             <Grid item>
               <m.div variants={varBounce().in}>
-                <PageNotFoundIllustration
-                  sx={{ height: 260, my: { xs: 5, sm: 10 } }}
+                <Box
+                  borderRadius={15}
+                  marginTop={5}
+                  sx={{
+                    position: "absolute",
+                    width: "240px",
+                    height: "240px",
+                    background: "rgba(205, 97, 49, 0.2)",
+                  }}
+                />
+                <Image
+                  src={"/BasicMoves2.png"}
+                  alt={"Página no encontrada"}
+                  width={"257px"}
+                  height={"395px"}
                 />
               </m.div>
             </Grid>
