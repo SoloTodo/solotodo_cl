@@ -99,7 +99,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
         `products/browse/?ordering=discount&websites=${constants.websiteId}&categories=${category.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
       );
       const recentSlides = await fetchJson(
-        "website_slides/?only_active_home=1"
+        `website_slides/?categories=${category.id}&only_active_categories=1`
       );
       return {
         props: {
