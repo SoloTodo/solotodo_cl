@@ -73,7 +73,7 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
           as={`/${category.slug}`}
           passHref
         >
-          <Link color="secondary">{category.name}</Link>
+          <Link color="info.main">{category.name}</Link>
         </NextLink>
       </Box>
       <Grid
@@ -108,7 +108,7 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
             <Grid item xs={2} md={1} lg={1.5}>
               <Button
                 variant="contained"
-                color="secondary"
+                color="info"
                 size="small"
                 fullWidth
                 sx={{ textTransform: "none", padding: 1, textAlign: "center" }}
@@ -149,7 +149,7 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
                 <Grid item xs={2} md={1} lg={1.5}>
                   <Button
                     variant="contained"
-                    color="secondary"
+                    color="info"
                     size="small"
                     fullWidth
                     sx={{ textTransform: "none", padding: 1 }}

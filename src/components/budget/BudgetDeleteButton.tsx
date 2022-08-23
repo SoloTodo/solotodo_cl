@@ -66,7 +66,7 @@ export default function BudgetDeleteButton({ budget }: { budget: Budget }) {
           </Typography>
           <br />
           <Stack direction="row-reverse" spacing={1}>
-            <Button variant="contained" color="secondary" onClick={handleClose}>
+            <Button variant="contained" color="info" onClick={handleClose}>
               Cancelar
             </Button>
             <Button variant="contained" color="error" onClick={handleSubmit}>

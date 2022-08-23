@@ -101,7 +101,7 @@ export default function ProductAlertButton({
     <>
       <Button
         variant="contained"
-        color="secondary"
+        color="info"
         sx={{ borderRadius: 4 }}
         startIcon={<EmailIcon />}
         onClick={() => setOpen(true)}

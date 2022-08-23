@@ -166,7 +166,7 @@ export default function LeadLink(props: LeadLinkProps) {
       {children}
     </a>
   ) : (
-    <Link {...generateUrl()} rel="noopener nofollow" color="secondary">
+    <Link {...generateUrl()} rel="noopener nofollow" color="info.main">
       {children}
     </Link>
   );

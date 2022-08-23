@@ -141,8 +141,12 @@ export default function Contacto() {
                     size="large"
                     type="submit"
                     variant="contained"
+                    color="secondary"
                     loading={isSubmitting}
-                    sx={{ my: 2, borderRadius: 3 }}
+                    sx={{
+                      my: 2,
+                      borderRadius: 3,
+                    }}
                   >
                     ENVIAR
                   </LoadingButton>

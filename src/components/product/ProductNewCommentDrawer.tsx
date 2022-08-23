@@ -244,7 +244,7 @@ export default function ProductNewCommentDrawer({
         <div>
           <Stack direction="row" alignItems="center" spacing={3}>
             <Button
-              color="warning"
+              color="info"
               variant="contained"
               onClick={handleClickAttachPhoto}
               startIcon={<Iconify icon={"eva:cloud-upload-fill"} />}
@@ -296,6 +296,7 @@ export default function ProductNewCommentDrawer({
             type="submit"
             variant="contained"
             size="large"
+            color="secondary"
             loading={isSubmitting}
             sx={{ borderRadius: 10, width: "100%" }}
           >

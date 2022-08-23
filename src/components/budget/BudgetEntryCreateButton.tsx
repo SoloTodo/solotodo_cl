@@ -62,11 +62,11 @@ export default function BudgetEntryCreateButton({
     <>
       <Button
         variant="outlined"
-        color="secondary"
+        color="info"
         onClick={() => setOpenModal(true)}
         fullWidth
       >
-        Agreagr componente
+        Agregar componente
       </Button>
       <Modal open={openModal} onClose={handleClose}>
         <Box sx={style}>

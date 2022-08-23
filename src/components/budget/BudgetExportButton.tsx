@@ -70,7 +70,7 @@ export default function BudgetExportButton({ budget }: { budget: Budget }) {
     <>
       <Button
         variant="outlined"
-        color="secondary"
+        color="info"
         sx={{
           textTransform: "none",
           padding: 1,
@@ -133,7 +133,7 @@ export default function BudgetExportButton({ budget }: { budget: Budget }) {
                 >
                   <Button
                     variant="contained"
-                    color="secondary"
+                    color="info"
                     startIcon={<ContentCopyIcon />}
                   >
                     Copiar código

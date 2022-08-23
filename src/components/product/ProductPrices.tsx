@@ -127,6 +127,7 @@ export default function ProductPrices({
         {entities.length > 5 ? (
           <Button
             variant="outlined"
+            color="secondary"
             onClick={() => setShowMore(!showMore)}
             sx={{ borderRadius: 4 }}
           >
@@ -149,7 +150,7 @@ export default function ProductPrices({
         />
         <Button
           variant="contained"
-          color="secondary"
+          color="info"
           sx={{ borderRadius: 4 }}
           onClick={() => setOpenNewCommentDrawer(true)}
           startIcon={<MessageIcon />}

@@ -77,7 +77,12 @@ export default function ProductCard(props: ProductProps) {
   };
 
   return (
-    <Card sx={{ width: { xs: 175, sm: 270, md: 292 }, height: "100%" }}>
+    <Card
+      sx={{
+        width: { xs: browsePurpose ? "100%" : 250, sm: 270, md: 292 },
+        height: "100%",
+      }}
+    >
       <CardActionArea
         href={`/products/${product.id}-${product.slug}`}
         sx={options.length > 1 ? { height: "87%" } : { height: "100%" }}

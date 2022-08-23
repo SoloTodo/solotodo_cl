@@ -49,7 +49,7 @@ export default function BudgetScreenshotButton({ budget }: { budget: Budget }) {
     <>
       <Button
         variant="outlined"
-        color="secondary"
+        color="info"
         onClick={exportToImage}
         fullWidth
       >
@@ -92,7 +92,7 @@ export default function BudgetScreenshotButton({ budget }: { budget: Budget }) {
                 >
                   <Button
                     variant="contained"
-                    color="secondary"
+                    color="info"
                     startIcon={<ContentCopyIcon />}
                   >
                     Copiar URL de imagen

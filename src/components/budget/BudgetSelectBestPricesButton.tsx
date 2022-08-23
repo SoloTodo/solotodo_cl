@@ -23,7 +23,7 @@ export default function BudgetSelectBestPricesButton({
   return (
     <Button
       variant="outlined"
-      color="secondary"
+      color="info"
       onClick={selectBestPrices}
       fullWidth
     >

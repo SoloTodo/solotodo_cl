@@ -71,14 +71,14 @@ const PRIMARY = {
 const SECONDARY = {
   lighter: '#D6E4FF',
   light: '#84A9FF',
-  main: '#3B5D81',
+  main: '#D98E2C',
   dark: '#344ba3',
   darker: '#091A7A',
 };
 const INFO = {
   lighter: '#D0F2FF',
   light: '#74CAFF',
-  main: '#1890FF',
+  main: '#3B5D81',
   dark: '#0C53B7',
   darker: '#04297A',
 };

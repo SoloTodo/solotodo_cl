@@ -157,6 +157,7 @@ export default function ChangePassword() {
               <LoadingButton
                 type="submit"
                 variant="contained"
+                color="secondary"
                 loading={isSubmitting}
               >
                 Guardar cambios

@@ -6,7 +6,7 @@ export default function ProductNewCommentButton({
   onClick: VoidFunction;
 }) {
   return (
-    <Button variant="outlined">
+    <Button variant="outlined" color="secondary">
       <Typography
         variant="h6"
         color="text.primary"

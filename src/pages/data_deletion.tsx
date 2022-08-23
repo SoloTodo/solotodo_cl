@@ -126,6 +126,7 @@ export default function DataDeletion() {
                     size="large"
                     type="submit"
                     variant="contained"
+                    color="secondary"
                     loading={isSubmitting}
                     sx={{ my: 2, borderRadius: 3 }}
                   >

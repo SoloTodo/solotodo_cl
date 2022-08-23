@@ -52,7 +52,7 @@ export default function Page404() {
                     size="large"
                     variant="contained"
                     color="secondary"
-                    sx={{ backgroundColor: "#D98E2C", borderRadius: 3 }}
+                    sx={{ borderRadius: 3 }}
                   >
                     VOLVER AL HOME
                   </Button>

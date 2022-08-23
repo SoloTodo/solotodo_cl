@@ -226,6 +226,7 @@ export default function Register() {
                     size="large"
                     type="submit"
                     variant="contained"
+                    color="secondary"
                     loading={isSubmitting}
                     sx={{ my: 2, borderRadius: 3 }}
                   >
@@ -262,7 +263,7 @@ export default function Register() {
                   </Typography>
                   <Button
                     fullWidth
-                    color="secondary"
+                    color="info"
                     size="large"
                     variant="contained"
                     sx={{ borderRadius: 3 }}

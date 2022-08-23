@@ -52,7 +52,12 @@ export default function ResetPassword() {
                 />
 
                 <NextLink href={PATH_AUTH.login} passHref>
-                  <Button fullWidth size="large" sx={{ mt: 1 }}>
+                  <Button
+                    fullWidth
+                    size="large"
+                    color="secondary"
+                    sx={{ mt: 1 }}
+                  >
                     Volver
                   </Button>
                 </NextLink>
@@ -72,7 +77,12 @@ export default function ResetPassword() {
                 </Typography>
 
                 <NextLink href={PATH_AUTH.login} passHref>
-                  <Button size="large" variant="contained" sx={{ mt: 5 }}>
+                  <Button
+                    size="large"
+                    variant="contained"
+                    color="secondary"
+                    sx={{ mt: 5 }}
+                  >
                     Volver
                   </Button>
                 </NextLink>

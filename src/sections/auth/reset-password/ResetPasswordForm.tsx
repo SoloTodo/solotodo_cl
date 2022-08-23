@@ -1,13 +1,13 @@
-import * as Yup from 'yup';
+import * as Yup from "yup";
 // form
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import { fetchJson } from 'src/frontend-utils/network/utils';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { fetchJson } from "src/frontend-utils/network/utils";
 // @mui
-import { Stack } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { Stack } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 // components
-import { FormProvider, RHFTextField } from '../../../components/hook-form';
+import { FormProvider, RHFTextField } from "../../../components/hook-form";
 
 // ----------------------------------------------------------------------
 
@@ -22,12 +22,14 @@ type Props = {
 
 export default function ResetPasswordForm({ onSent, onGetEmail }: Props) {
   const ResetPasswordSchema = Yup.object().shape({
-    email: Yup.string().email('Ingresa un Email válido').required('Email requerido'),
+    email: Yup.string()
+      .email("Ingresa un Email válido")
+      .required("Email requerido"),
   });
 
   const methods = useForm<FormValuesProps>({
     resolver: yupResolver(ResetPasswordSchema),
-    defaultValues: { email: '' },
+    defaultValues: { email: "" },
   });
 
   const {
@@ -40,8 +42,8 @@ export default function ResetPasswordForm({ onSent, onGetEmail }: Props) {
       await fetchJson("rest-auth/password/reset/", {
         headers: {},
         method: "post",
-        body: JSON.stringify(data)
-      })
+        body: JSON.stringify(data),
+      });
       onSent();
       onGetEmail(data.email);
     } catch (error) {
@@ -59,6 +61,7 @@ export default function ResetPasswordForm({ onSent, onGetEmail }: Props) {
           size="large"
           type="submit"
           variant="contained"
+          color="secondary"
           loading={isSubmitting}
         >
           Restablecer Contraseña

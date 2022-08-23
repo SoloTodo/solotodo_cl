@@ -213,6 +213,7 @@ export default function Login() {
                     size="large"
                     type="submit"
                     variant="contained"
+                    color="secondary"
                     loading={isSubmitting}
                     sx={{ my: 2, borderRadius: 3 }}
                   >
@@ -254,7 +255,7 @@ export default function Login() {
                   </Typography>
                   <Button
                     fullWidth
-                    color="secondary"
+                    color="info"
                     size="large"
                     variant="contained"
                     sx={{ borderRadius: 3 }}
