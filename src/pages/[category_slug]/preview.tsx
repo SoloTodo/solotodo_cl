@@ -16,6 +16,8 @@ import { Slide } from "src/components/website-slides/types";
 import RecentSlidesRow from "src/components/website-slides/RecentSlidesRow";
 import CategorySlidesRow from "src/components/website-slides/CaregorySlidesRow";
 import { categorySlides } from "src/categorySlides";
+import useNavigation from "src/hooks/useNavigation";
+import { NavigationItemProps } from "src/contexts/NavigationContext";
 
 type CategoryPreviewProps = {
   category: Category;
@@ -31,10 +33,21 @@ export default function CategoryPreview({
   recentSlides,
 }: CategoryPreviewProps) {
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
+  const navigation = useNavigation();
   const clp =
     apiResourceObjects[
       `${constants.apiResourceEndpoints.currencies}${constants.clpCurrencyId}/`
     ];
+
+  let items: NavigationItemProps[] = [];
+  navigation.some((nav) => {
+    let s = nav.sections.find((n) => n.path === `/${category.slug}`);
+    if (s) {
+      items = s.items;
+      return;
+    }
+  });
+
   return (
     <Page title={category.name}>
       <Container maxWidth={false}>
@@ -47,8 +60,8 @@ export default function CategoryPreview({
           {category.name}
         </Typography>
         <CategorySlidesRow
-          categorySlides={categorySlides.filter((c) =>
-            c.categories.includes(category.id.toString())
+          categorySlides={items.filter(
+            (i) => typeof i.picture !== "undefined" && i.picture !== null
           )}
         />
         <ProductsRow

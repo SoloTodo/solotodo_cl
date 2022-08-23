@@ -1,19 +1,14 @@
 import { Grid } from "@mui/material";
+import { NavigationItemProps } from "src/contexts/NavigationContext";
 import CategoryCard from "./CategoryCard";
-import { Slide } from "./types";
 
 export default function CategorySlidesRow({
   categorySlides,
 }: {
-  categorySlides: Slide[];
+  categorySlides: NavigationItemProps[];
 }) {
   return (
-    <Grid
-      container
-      spacing={1}
-      justifyContent="space-between"
-      overflow="auto"
-    >
+    <Grid container spacing={1} justifyContent="space-between" overflow="auto">
       {categorySlides.map((d, index) => {
         return (
           <Grid item key={index} xs={12} md={6}>

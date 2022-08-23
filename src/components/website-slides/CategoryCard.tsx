@@ -1,12 +1,12 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Image from "../Image";
-import { Slide } from "./types";
+import { NavigationItemProps } from "src/contexts/NavigationContext";
 
 export default function CategoryCard({
   categoryData,
 }: {
-  categoryData: Slide;
+  categoryData: NavigationItemProps;
 }) {
   return (
     <Box
@@ -22,15 +22,22 @@ export default function CategoryCard({
       <Stack
         justifyContent="space-between"
         paddingY={2}
-        width={{xs: "45%", sm: "50%"}}
+        width={{ xs: "42%", sm: "50%" }}
         height="100%"
       >
-        <Typography variant="h4" fontWeight={600} color="text.extra">
-          {categoryData.label}
-        </Typography>
+        <Stack direction="column">
+          <Typography variant="h4" fontWeight={600} color="text.extra">
+            {categoryData.name}
+          </Typography>
+          {categoryData.subtitle && (
+            <Typography variant="subtitle1" fontWeight={600} color="text.extra">
+              {categoryData.subtitle}
+            </Typography>
+          )}
+        </Stack>
         <Button
           variant="outlined"
-          href={categoryData.destination_url}
+          href={categoryData.path}
           sx={{ borderRadius: 3 }}
           endIcon={<ArrowForwardIcon />}
         >
@@ -50,8 +57,8 @@ export default function CategoryCard({
         }}
       />
       <Image
-        src={categoryData.asset.picture}
-        alt={categoryData.label}
+        src={categoryData.picture !== null ? categoryData.picture : ""}
+        alt={categoryData.name}
         sx={{
           height: "180px",
           width: "180px",

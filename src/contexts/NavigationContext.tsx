@@ -1,14 +1,18 @@
 import { createContext, ReactNode, useState } from "react";
 
+export type NavigationItemProps = {
+  name: string;
+  path: string;
+  picture: string | null;
+  subtitle: string | null;
+};
+
 export type NavigationProps = {
   name: string;
   sections: {
     name: string;
     path: string;
-    items: {
-      name: string;
-      path: string;
-    }[];
+    items: NavigationItemProps[];
   }[];
 };
 
@@ -31,4 +35,4 @@ function NavigationProvider({
   );
 }
 
-export { NavigationProvider, NavigationContext }; 
+export { NavigationProvider, NavigationContext };
