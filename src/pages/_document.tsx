@@ -8,6 +8,7 @@ import createEmotionServer from "@emotion/server/create-instance";
 // theme
 import palette from "../theme/palette";
 import { constants } from "src/config";
+import getColorPresets from "src/utils/getColorPresets";
 
 // ----------------------------------------------------------------------
 
@@ -49,7 +50,7 @@ export default class MyDocument extends Document {
             href="/favicon/favicon-16x16.png"
           />
 
-          <meta name="theme-color" content={palette.light.primary.main} />
+          <meta name="theme-color" content={getColorPresets("orange").main} />
           {/* <link rel="manifest" href="/manifest.json" /> */}
 
           <link rel="preconnect" href="https://fonts.gstatic.com" />

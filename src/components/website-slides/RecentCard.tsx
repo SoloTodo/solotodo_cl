@@ -37,6 +37,7 @@ export default function RecentCard({ recentData }: { recentData: Slide }) {
         alt={recentData.label}
         sx={{
           height: "180px",
+          width: "180px",
           position: "absolute",
           right: "0px",
           bottom: "0px",

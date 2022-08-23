@@ -22,7 +22,7 @@ export default function CategoryCard({
       <Stack
         justifyContent="space-between"
         paddingY={2}
-        width={200}
+        width={{xs: "45%", sm: "50%"}}
         height="100%"
       >
         <Typography variant="h4" fontWeight={600} color="text.extra">
@@ -38,7 +38,7 @@ export default function CategoryCard({
         </Button>
       </Stack>
       <Box
-        width={200}
+        width={180}
         height={170}
         sx={{
           backgroundColor: "primary.main",
@@ -46,7 +46,7 @@ export default function CategoryCard({
           right: "0px",
           bottom: "0px",
           borderTopRightRadius: 16,
-          borderEndEndRadius: 16,
+          borderBottomRightRadius: 16,
         }}
       />
       <Image
@@ -54,6 +54,7 @@ export default function CategoryCard({
         alt={categoryData.label}
         sx={{
           height: "180px",
+          width: "180px",
           position: "absolute",
           right: "0px",
           bottom: "0px",
