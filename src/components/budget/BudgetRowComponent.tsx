@@ -86,7 +86,7 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
       >
         {pricingEntries.length ? (
           <>
-            <Grid item xs={10} md={4} lg={4}>
+            <Grid item xs={9} md={4} lg={4}>
               <Select
                 name="Producto"
                 fullWidth
@@ -105,7 +105,7 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
                 ))}
               </Select>
             </Grid>
-            <Grid item xs={2} md={1} lg={1.5}>
+            <Grid item xs={3} md={1} lg={1.5}>
               <Button
                 variant="contained"
                 color="info"
@@ -119,7 +119,7 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
             </Grid>
             {matchingEntity ? (
               <>
-                <Grid item xs={10} md={4} lg={4}>
+                <Grid item xs={9} md={4} lg={4}>
                   <Select
                     name="Tienda"
                     fullWidth
@@ -146,23 +146,27 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
                     })}
                   </Select>
                 </Grid>
-                <Grid item xs={2} md={1} lg={1.5}>
-                  <Button
-                    variant="contained"
-                    color="info"
-                    size="small"
-                    fullWidth
-                    sx={{ textTransform: "none", padding: 1 }}
+                <Grid item xs={3} md={1} lg={1.5}>
+                  <SoloTodoLeadLink
+                    entity={matchingEntity}
+                    storeEntry={
+                      stores.filter(
+                        (store) => store.url === matchingEntity.store
+                      )[0]
+                    }
+                    product={matchingEntity.product as InLineProduct}
+                    buttonType={true}
                   >
-                    <SoloTodoLeadLink
-                      entity={matchingEntity}
-                      storeEntry={stores.filter(store => store.url === matchingEntity.store)[0]}
-                      product={matchingEntity.product as InLineProduct}
-                      buttonType={true}
+                    <Button
+                      variant="contained"
+                      color="info"
+                      size="small"
+                      fullWidth
+                      sx={{ textTransform: "none", padding: 1 }}
                     >
                       {isMobile ? <LinkIcon /> : "Ir a la tienda"}
-                    </SoloTodoLeadLink>
-                  </Button>
+                    </Button>
+                  </SoloTodoLeadLink>
                 </Grid>
               </>
             ) : (
@@ -174,13 +178,13 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
             )}
           </>
         ) : (
-          <Grid item xs={9} md={10}>
+          <Grid item xs={12} md={10}>
             <Typography>
               No hay productos ingresados para esta categoría
             </Typography>
           </Grid>
         )}
-        <Grid item xs={3} md={2} lg={1}>
+        <Grid item xs={4} md={2} lg={1}>
           <BudgetEntryDeleteButton
             matchingPricingEntry={matchingPricingEntry}
             budgetEntry={budgetEntry}
