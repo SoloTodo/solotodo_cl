@@ -30,6 +30,7 @@ import { PATH_AUTH, PATH_MAIN } from "src/routes/paths";
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import { useSnackbar } from "notistack";
 import { fetchJson } from "src/frontend-utils/network/utils";
+import FacebookButton from "src/components/FacebookButton";
 
 // ----------------------------------------------------------------------
 
@@ -261,15 +262,7 @@ export default function Register() {
                   <Typography variant="h5" color="text.secondary">
                     Si lo prefieres, puedes crear tu cuenta con
                   </Typography>
-                  <Button
-                    fullWidth
-                    color="info"
-                    size="large"
-                    variant="contained"
-                    sx={{ borderRadius: 3 }}
-                  >
-                    Facebook
-                  </Button>
+                  <FacebookButton />
                 </Stack>
               </FormProvider>
             </ContentStyle>

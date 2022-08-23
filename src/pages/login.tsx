@@ -37,6 +37,7 @@ import useSettings from "src/hooks/useSettings";
 import { PATH_AUTH, PATH_MAIN } from "src/routes/paths";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import { useSnackbar } from "notistack";
+import FacebookButton from "src/components/FacebookButton";
 
 // ----------------------------------------------------------------------
 
@@ -253,15 +254,7 @@ export default function Login() {
                   <Typography variant="h5" color="text.secondary">
                     Si lo prefieres, puedes ingresar con
                   </Typography>
-                  <Button
-                    fullWidth
-                    color="info"
-                    size="large"
-                    variant="contained"
-                    sx={{ borderRadius: 3 }}
-                  >
-                    Facebook
-                  </Button>
+                  <FacebookButton />
                 </Stack>
               </FormProvider>
             </ContentStyle>
