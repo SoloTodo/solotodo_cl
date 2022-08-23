@@ -1,7 +1,6 @@
 import { Link } from "@mui/material";
 import { ReactNode, useEffect, useState } from "react";
 import { constants } from "src/config";
-import { getAuthTokens } from "src/frontend-utils/nextjs/utils";
 import { Entity } from "src/frontend-utils/types/entity";
 import { Store } from "src/frontend-utils/types/store";
 import { registerLead } from "src/utils/registerLead";
@@ -36,8 +35,7 @@ export default function LeadLink(props: LeadLinkProps) {
   const handleClick = () => {
     // TODO: This condition is for ignoring registering leads on harcoded stores. Ideally it should be removed soon
     if (Number.isInteger(entity.id)) {
-      const tokens = getAuthTokens(null);
-      registerLead(tokens.access, websiteId, entity, uuid);
+      registerLead(websiteId, entity, uuid);
     }
 
     if (callback) {
