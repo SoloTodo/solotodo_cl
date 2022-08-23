@@ -1,5 +1,5 @@
 import { Divider, Rating, Stack, Typography } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import { Product } from "src/frontend-utils/types/product";
 
@@ -9,7 +9,7 @@ export default function ProductRatingSummary({ product }: { product: Product }) 
     count?: number;
   } | null>(null);
 
-  useMemo(() => {
+  useEffect(() => {
     fetchJson(`${product.url}average_rating/`).then((res) =>
       setRatingsData(res)
     );
