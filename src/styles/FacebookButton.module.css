@@ -1,0 +1,19 @@
+.kep_login_facebook {
+    color: #fff;
+    background-color: #3B5D81;
+    font-weight: 500;
+    padding: 8px 22px;
+    height: 48px;
+    align-items: center;
+    width: 100%;
+    margin: auto 0;
+    border-width: 0;
+    box-shadow: 0 8px 16px 0 rgb(59 93 129 / 24%);
+    margin-top: 8px;
+    border-radius: 24px;
+}
+
+.kep_login_facebook:hover {
+    background-color: #0C53B7;
+    box-shadow: 0px 2px 4px -1pxrgba(0, 0, 0, 0.2),0px 4px 5px 0pxrgba(0, 0, 0, 0.14),0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+}
