@@ -1,9 +1,8 @@
 import { Product } from "src/frontend-utils/types/product";
 import { constants } from "src/config";
 import { Category } from "src/frontend-utils/types/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Entity } from "src/frontend-utils/types/entity";
-import { useMemo } from "react";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import { useAppSelector } from "src/store/hooks";
 import { useUser } from "src/frontend-utils/redux/user";
@@ -39,7 +38,7 @@ export default function ProductVariants({
     category.id
   ];
   
-  useMemo(() => {
+  useEffect(() => {
     if (typeof bucketSettings === "undefined") return;
 
     const fields = bucketSettings.fields;

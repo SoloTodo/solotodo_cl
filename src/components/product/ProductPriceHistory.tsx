@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import {
   Box,
@@ -64,7 +64,7 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
   );
   const [endDate, setEndDate] = useState<Date | null>(new Date());
 
-  useMemo(() => {
+  useEffect(() => {
     if (startDate === null || endDate === null) return;
     setLoading(true);
     

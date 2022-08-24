@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Drawer, Grid, Stack, Typography } from "@mui/material";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
@@ -22,7 +22,7 @@ export default function ProductRating({
   const [ratingsData, setRatingsData] = useState<Rating[]>([]);
   const [openMoreCommentsDrawer, setOpenMoreCommentsDrawer] = useState(false);
 
-  useMemo(() => {
+  useEffect(() => {
     fetchJson(
       `${constants.apiResourceEndpoints.ratings}?page_size=6&with_product_rating_only=1&products=${product.id}`
     ).then((res) => setRatingsData(res.results));
@@ -42,7 +42,7 @@ export default function ProductRating({
             ))}
           </Grid>
           <Stack spacing={2} mt={2} alignItems="center">
-            <Button>
+            <Button color="secondary" sx={{ borderRadius: 3 }}>
               <Typography
                 variant="h5"
                 color="text.primary"

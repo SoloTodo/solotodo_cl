@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
@@ -49,7 +49,7 @@ export default function ProductPrices({
   );
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
 
-  useMemo(() => {
+  useEffect(() => {
     let storesUrl = "";
     for (const store of prefStores) {
       storesUrl += `&stores=${store}`;
@@ -129,7 +129,7 @@ export default function ProductPrices({
             variant="outlined"
             color="secondary"
             onClick={() => setShowMore(!showMore)}
-            sx={{ borderRadius: 4 }}
+            sx={{ borderRadius: 4, color: "text.primary" }}
           >
             {showMore ? "Ver menos precios" : "Ver más precios"}
           </Button>
