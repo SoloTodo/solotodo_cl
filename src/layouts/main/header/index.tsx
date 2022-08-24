@@ -85,7 +85,7 @@ export default function DashboardHeader({
               alt={"Logo"}
               src="/logo_fondo_oscuro.svg"
               width={200}
-              height={51}
+              height={61}
             />
           </Link>
         ) : (
@@ -94,7 +94,7 @@ export default function DashboardHeader({
               alt={"Logo"}
               src="/logo_fondo_claro.svg"
               width={200}
-              height={51}
+              height={61}
             />
           </Link>
         )}

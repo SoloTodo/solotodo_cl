@@ -41,7 +41,7 @@ export default function ProductRatingDrawer({
   }, [page, product.id]);
 
   return (
-    <Stack spacing={1} width={400} padding={2}>
+    <Stack spacing={1} width={{ sx: "100%", sm: 400 }} padding={2}>
       <IconButton style={{ alignSelf: "end" }} onClick={onClose}>
         <CloseIcon />
       </IconButton>
@@ -51,9 +51,7 @@ export default function ProductRatingDrawer({
         {data &&
           data.results.map((result, index) => (
             <Grid key={index} item xs={12}>
-              <ProductComment
-                rating={result}
-              />
+              <ProductComment rating={result} />
             </Grid>
           ))}
       </Grid>

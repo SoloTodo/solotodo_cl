@@ -121,8 +121,8 @@ export default function ProductNewCommentDrawer({
 
     const finalData = {
       ...data,
-      store: data.store.value
-    }
+      store: data.store.value,
+    };
 
     Object.entries(finalData).forEach(([k, v]) => {
       if (typeof v === "string") {
@@ -153,7 +153,7 @@ export default function ProductNewCommentDrawer({
   };
 
   return (
-    <Stack spacing={3} width={400} padding={2}>
+    <Stack spacing={3} width={{ sx: "100%", sm: 400 }} padding={2}>
       <IconButton style={{ alignSelf: "end" }} onClick={onClose}>
         <CloseIcon />
       </IconButton>

@@ -10,7 +10,7 @@ export default function RecentSlidesRow({
   return (
     <Grid
       container
-      spacing={1}
+      spacing={3}
       justifyContent="space-between"
       wrap="nowrap"
       overflow="auto"

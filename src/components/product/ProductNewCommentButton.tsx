@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 
 export default function ProductNewCommentButton({
   onClick,
@@ -6,15 +6,13 @@ export default function ProductNewCommentButton({
   onClick: VoidFunction;
 }) {
   return (
-    <Button variant="outlined" color="secondary">
-      <Typography
-        variant="h6"
-        color="text.primary"
-        onClick={onClick}
-        sx={{ width: "100%" }}
-      >
-        INGRESAR COMENTARIO
-      </Typography>
+    <Button
+      variant="outlined"
+      color="secondary"
+      onClick={onClick}
+      sx={{ color: "text.primary", borderRadius: 3 }}
+    >
+      INGRESAR COMENTARIO
     </Button>
   );
 }

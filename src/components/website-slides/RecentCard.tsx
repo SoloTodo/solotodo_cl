@@ -15,6 +15,7 @@ export default function RecentCard({ recentData }: { recentData: Slide }) {
       }}
     >
       <Stack
+        alignItems="flex-start"
         justifyContent="space-between"
         paddingY={2}
         width={200}

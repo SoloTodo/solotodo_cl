@@ -8,7 +8,12 @@ export default function CategorySlidesRow({
   categorySlides: NavigationItemProps[];
 }) {
   return (
-    <Grid container spacing={1} justifyContent="space-between" overflow="auto">
+    <Grid
+      container
+      spacing={{ xs: 3, md: 4 }}
+      justifyContent="space-between"
+      overflow="auto"
+    >
       {categorySlides.map((d, index) => {
         return (
           <Grid item key={index} xs={12} md={6}>

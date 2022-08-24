@@ -1,4 +1,11 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Image from "../Image";
 import { NavigationItemProps } from "src/contexts/NavigationContext";
@@ -8,10 +15,13 @@ export default function CategoryCard({
 }: {
   categoryData: NavigationItemProps;
 }) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Box
       sx={{
-        height: 170,
+        height: { xs: 145, sm: 170 },
         paddingX: 2,
         borderRadius: 2,
         backgroundColor: "background.paper",
@@ -20,33 +30,43 @@ export default function CategoryCard({
       }}
     >
       <Stack
+        alignItems="flex-start"
         justifyContent="space-between"
         paddingY={2}
-        width={{ xs: "42%", sm: "50%" }}
+        width={"50%"}
         height="100%"
       >
         <Stack direction="column">
-          <Typography variant="h4" fontWeight={600} color="text.extra">
+          <Typography
+            variant={isMobile ? "h4" : "h2"}
+            fontWeight={600}
+            color="text.extra"
+          >
             {categoryData.name}
           </Typography>
           {categoryData.subtitle && (
-            <Typography variant="subtitle1" fontWeight={600} color="text.extra">
+            <Typography
+              variant={isMobile ? "subtitle2" : "subtitle1"}
+              fontWeight={600}
+              color="text.extra"
+            >
               {categoryData.subtitle}
             </Typography>
           )}
         </Stack>
         <Button
           variant="outlined"
+          color="secondary"
           href={categoryData.path}
-          sx={{ borderRadius: 3 }}
+          sx={{ borderRadius: 3, color: "text.primary" }}
           endIcon={<ArrowForwardIcon />}
         >
           VER OFERTAS
         </Button>
       </Stack>
       <Box
-        width={180}
-        height={170}
+        width={{ xs: 150, md: 180 }}
+        height={{ xs: 145, md: 170 }}
         sx={{
           backgroundColor: "primary.main",
           position: "absolute",
@@ -60,8 +80,8 @@ export default function CategoryCard({
         src={categoryData.picture !== null ? categoryData.picture : ""}
         alt={categoryData.name}
         sx={{
-          height: "180px",
-          width: "180px",
+          width: { xs: 165, md: 220 },
+          height: { xs: 155, md: 180 },
           position: "absolute",
           right: "0px",
           bottom: "0px",
