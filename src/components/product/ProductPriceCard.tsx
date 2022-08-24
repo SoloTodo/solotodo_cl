@@ -136,7 +136,7 @@ export default function ProductPriceCard({
                   ? entity.cell_plan.name
                   : "Liberado"
                 : entity.bundle
-                ? `Incluye ${entity.bundle}`
+                ? `Incluye ${entity.bundle.name}`
                 : ""}
               {category.id === constants.cellPhoneCategoryId && entity.bundle
                 ? `, incluye ${entity.bundle.name}`
