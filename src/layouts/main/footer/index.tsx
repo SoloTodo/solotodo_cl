@@ -99,7 +99,11 @@ export default function MainFooter() {
               justifyContent={{ xs: "center", md: "flex-start" }}
               sx={{ mt: 5, mb: { xs: 5, md: 0 } }}
             >
-              <SocialsButton sx={{ mx: 0.5 }} simple={false} />
+              <SocialsButton
+                sx={{ mx: 0.5 }}
+                simple={false}
+                links={{ instagram: "https://www.instagram.com/solotodo_cl/" }}
+              />
             </Stack>
           </Grid>
 
@@ -147,8 +151,7 @@ export default function MainFooter() {
             textAlign: "center",
           }}
         >
-          SOLOTODO 2022 | Todos los derechos reservados | Holanda #895,
-          Providencia, Santiago de Chile
+          SOLOTODO 2022 | Todos los derechos reservados | Santiago de Chile
         </Typography>
       </Container>
     </RootStyle>
