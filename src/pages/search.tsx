@@ -39,6 +39,24 @@ export default function Search() {
       name: "categories",
       choices: categories,
     },
+    {
+      fieldType: "select" as "select",
+      name: "ordering",
+      choices: [
+        {
+          value: "relevance",
+          label: "Relevancia",
+        },
+        {
+          value: "leads",
+          label: "Popularidad",
+        },
+        {
+          value: "discount",
+          label: "Descuento",
+        },
+      ],
+    },
   ];
 
   return (
@@ -63,7 +81,14 @@ export default function Search() {
                 exact
               />
             </Grid>
-            <Grid item xs={12} md={9}>
+            <Grid item md={3} width="100%">
+              <ApiFormSelectComponent
+                name="ordering"
+                label="Ordenar por"
+                exact
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
               <ApiFormPaginationComponent />
             </Grid>
             <Grid item>
