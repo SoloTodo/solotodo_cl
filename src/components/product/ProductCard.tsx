@@ -42,9 +42,13 @@ export default function ProductCard(props: ProductProps) {
   }));
 
   const { product, metadata } = product_entries[active];
-  const categoryName = apiResourceObjects[product.category].name;
+  const tags: string[] = [];
 
-  const tags = [categoryName];
+  if (typeof apiResourceObjects[product.category] !== "undefined") {
+    const categoryName = apiResourceObjects[product.category].name;
+    tags.push(categoryName);
+  }
+
   const priceCurrency = metadata.prices_per_currency.find((p) =>
     p.currency.includes(`/${constants.clpCurrencyId}/`)
   );
