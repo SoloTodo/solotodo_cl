@@ -37,6 +37,7 @@ const Home = (props: HomeProps) => {
           title="Lo más visto"
           data={leads.slice(0, 4)}
           ribbonFormatter={(value: string) => `Visitas: ${parseInt(value, 10)}`}
+          actionHref={`/search?ordering=leads`}
         />
         <Typography variant="h3" component="h1" gutterBottom>
           Categorías populares
@@ -53,6 +54,7 @@ const Home = (props: HomeProps) => {
               .multiply((clp as Currency).exchange_rate)
               .format()}`
           }
+          actionHref={`/search?ordering=discount`}
         />
       </Container>
     </Page>

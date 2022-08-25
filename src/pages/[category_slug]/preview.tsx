@@ -68,6 +68,7 @@ export default function CategoryPreview({
           title="Lo más visto"
           data={leads.slice(0, 4)}
           ribbonFormatter={(value: string) => `Visitas: ${parseInt(value, 10)}`}
+          actionHref={`/${category.slug}?ordering=leads`}
         />
         <ProductsRow
           title="Ofertas del día"
@@ -80,6 +81,7 @@ export default function CategoryPreview({
               .multiply((clp as Currency).exchange_rate)
               .format()}`
           }
+          actionHref={`/${category.slug}?ordering=discount`}
         />
       </Container>
     </Page>
