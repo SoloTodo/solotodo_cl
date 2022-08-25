@@ -36,10 +36,19 @@ export default function ProductCard(props: ProductProps) {
 
   const { product_entries } = productData;
 
-  const options = product_entries.map((e, index) => ({
-    label: e.product.name,
-    value: index,
-  }));
+  const options = product_entries.map((e, index) => {
+    const categoryId = apiResourceObjects[e.product.category].id;
+    const specName = (
+      constants.categoryBrowseParameters as Record<number, any>
+    )[categoryId];
+    return {
+      label:
+        typeof specName === "undefined"
+          ? e.product.name
+          : e.product.specs[specName.bucketProductLabelField],
+      value: index,
+    };
+  });
 
   const { product, metadata } = product_entries[active];
   const tags: string[] = [];

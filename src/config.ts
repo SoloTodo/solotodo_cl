@@ -214,6 +214,16 @@ export const constants = {
       ],
     },
   },
+  categoryBrowseParameters: {
+    6: {
+      bucketField: 'specs.base_model_internal_storage_ram_key',
+      bucketProductLabelField: 'color_unicode'
+    },
+    14: {
+      bucketField: 'specs.base_model_internal_storage_cell_connectivity_key',
+      bucketProductLabelField: 'color_unicode'
+    }
+  },
   storeOfferPriceLabel: {
     5: "Tarjeta la Polar",
     9: "Precio CMR",
