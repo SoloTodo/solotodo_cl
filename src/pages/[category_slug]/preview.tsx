@@ -67,7 +67,7 @@ export default function CategoryPreview({
         <ProductsRow
           title="Lo más visto"
           data={leads.slice(0, 4)}
-          ribbonFormatter={(value: string) => `Visitas: ${parseInt(value, 10)}`}
+          ribbonFormatter={(value: string) => `${parseInt(value, 10)} visitas`}
           actionHref={`/${category.slug}?ordering=leads`}
         />
         <ProductsRow

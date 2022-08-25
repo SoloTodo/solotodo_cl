@@ -36,7 +36,7 @@ const Home = (props: HomeProps) => {
         <ProductsRow
           title="Lo más visto"
           data={leads.slice(0, 4)}
-          ribbonFormatter={(value: string) => `Visitas: ${parseInt(value, 10)}`}
+          ribbonFormatter={(value: string) => `${parseInt(value, 10)} visitas`}
           actionHref={`/search?ordering=leads`}
         />
         <Typography variant="h3" component="h1" gutterBottom>
