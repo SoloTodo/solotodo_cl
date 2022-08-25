@@ -10,13 +10,13 @@ export const categorySlides: NavigationItemProps[] = [
   {
     name: "iPhone",
     path: "https://www.solotodo.cl/cells?brands=149039",
-    picture: "https://media.solotodo.com/media/website_slides/asset3_cwthiXO.png",
+    picture: "https://media.solotodo.com/media/nav_items/iphone.png",
     subtitle: "El futuro es hoy",
   },
   {
     name: "Smartphones con 5G",
     path: "https://www.solotodo.cl/cells?min_network_generation_start=1123014",
-    picture: "https://media.solotodo.com/media/website_slides/asset2_ZM50yds.png",
+    picture: "https://media.solotodo.com/media/nav_items/5g_W16hqGL.png",
     subtitle: "",
   },
   {
