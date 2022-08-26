@@ -17,9 +17,7 @@ import ProductRatingSummary from "src/components/product/ProductRatingSummary";
 import ProductVariants from "src/components/product/ProductVariants";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
-import {
-  useApiResourceObjects
-} from "src/frontend-utils/redux/api_resources/apiResources";
+import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import { Product } from "src/frontend-utils/types/product";
 import { Category } from "src/frontend-utils/types/store";
 import { PATH_MAIN } from "src/routes/paths";
@@ -64,7 +62,7 @@ export default function ProductPage({ product }: { product: Product }) {
           <Grid item xs={12} md={5}>
             <Stack spacing={3}>
               <Typography variant="h2">{product.name}</Typography>
-              <ProductRatingSummary product={product} />
+              <ProductRatingSummary productOrStore={product} />
               <ProductVariants product={product} category={category} />
               <ProductBenchmarks product={product} category={category} />
               <ProductDescription product={product} />
@@ -110,7 +108,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           permanent: false,
           destination: `/products/${product.id}-${product.slug}`,
         },
-      }
+      };
     }
     return {
       props: {

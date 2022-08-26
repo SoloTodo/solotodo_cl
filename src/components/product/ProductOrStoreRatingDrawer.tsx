@@ -14,6 +14,7 @@ import ProductRatingSummary from "./ProductRatingSummary";
 import ProductNewCommentButton from "./ProductNewCommentButton";
 import { useEffect } from "react";
 import { fetchJson } from "src/frontend-utils/network/utils";
+import { Store } from "src/frontend-utils/types/store";
 
 export type PagintationData = {
   count: number;
@@ -22,31 +23,36 @@ export type PagintationData = {
   results: any[];
 };
 
-export default function ProductRatingDrawer({
-  product,
+export default function ProductOrStoreRatingDrawer({
+  productOrStore,
   onClose,
   onNewComment,
+  isStore,
 }: {
-  product: Product;
+  productOrStore: Product | Store;
   onClose: VoidFunction;
-  onNewComment: VoidFunction;
+  onNewComment?: VoidFunction;
+  isStore?: boolean;
 }) {
   const [page, setPage] = useState(1);
   const [data, setData] = useState<PagintationData | null>(null);
 
   useEffect(() => {
+    const urlExtension = isStore
+      ? `stores=${productOrStore.id}`
+      : `with_product_rating_only=1&products=${productOrStore.id}`;
     fetchJson(
-      `${constants.apiResourceEndpoints.ratings}?with_product_rating_only=1&products=${product.id}&page_size=5&page=${page}`
+      `${constants.apiResourceEndpoints.ratings}?${urlExtension}&page_size=5&page=${page}`
     ).then((res) => setData(res));
-  }, [page, product.id]);
+  }, [isStore, page, productOrStore.id]);
 
   return (
     <Stack spacing={1} width={{ sx: "100%", sm: 400 }} padding={2}>
       <IconButton style={{ alignSelf: "end" }} onClick={onClose}>
         <CloseIcon />
       </IconButton>
-      <Typography variant="h5">{product.name}</Typography>
-      <ProductRatingSummary product={product} />
+      <Typography variant="h5">{productOrStore.name}</Typography>
+      {!isStore && <ProductRatingSummary productOrStore={productOrStore} />}
       <Grid container>
         {data &&
           data.results.map((result, index) => (
@@ -63,7 +69,7 @@ export default function ProductRatingDrawer({
         onPageChange={(_e, v) => setPage(v + 1)}
         component="div"
       />
-      <ProductNewCommentButton onClick={onNewComment} />
+      {onNewComment && <ProductNewCommentButton onClick={onNewComment} />}
     </Stack>
   );
 }

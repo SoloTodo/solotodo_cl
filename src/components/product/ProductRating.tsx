@@ -6,7 +6,7 @@ import { Product } from "src/frontend-utils/types/product";
 import { Rating } from "src/frontend-utils/types/ratings";
 import ProductComment from "./ProductComment";
 import ProductRatingSummary from "./ProductRatingSummary";
-import ProductRatingDrawer from "./ProductRatingDrawer";
+import ProductOrStoreRatingDrawer from "./ProductOrStoreRatingDrawer";
 import ProductNewCommentButton from "./ProductNewCommentButton";
 import ProductNewCommentDrawer from "./ProductNewCommentDrawer";
 
@@ -33,7 +33,7 @@ export default function ProductRating({
       {ratingsData.length !== 0 ? (
         <>
           <Typography variant="h5">{product.name}</Typography>
-          <ProductRatingSummary product={product} />
+          <ProductRatingSummary productOrStore={product} />
           <Grid container>
             {ratingsData.map((result, index) => (
               <Grid key={index} item xs={12} md={6}>
@@ -60,8 +60,8 @@ export default function ProductRating({
             open={openMoreCommentsDrawer}
             onClose={() => setOpenMoreCommentsDrawer(false)}
           >
-            <ProductRatingDrawer
-              product={product}
+            <ProductOrStoreRatingDrawer
+              productOrStore={product}
               onClose={() => setOpenMoreCommentsDrawer(false)}
               onNewComment={() => setOpenNewCommentDrawer(true)}
             />

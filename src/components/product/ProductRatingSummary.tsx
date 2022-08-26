@@ -2,18 +2,19 @@ import { Divider, Rating, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import { Product } from "src/frontend-utils/types/product";
+import { Store } from "src/frontend-utils/types/store";
 
-export default function ProductRatingSummary({ product }: { product: Product }) {
+export default function ProductRatingSummary({ productOrStore }: { productOrStore: Product | Store }) {
   const [ratingsData, setRatingsData] = useState<{
     average: number;
     count?: number;
   } | null>(null);
 
   useEffect(() => {
-    fetchJson(`${product.url}average_rating/`).then((res) =>
+    fetchJson(`${productOrStore.url}average_rating/`).then((res) =>
       setRatingsData(res)
     );
-  }, [product.url]);
+  }, [productOrStore.url]);
 
   if (!ratingsData || !ratingsData.count) return null;
   const roundedAverage = Math.round(ratingsData.average * 10) / 10;

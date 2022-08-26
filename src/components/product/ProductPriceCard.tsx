@@ -1,21 +1,25 @@
 import {
   Box,
+  Button,
   Card,
   CardActionArea,
   CardContent,
   Chip,
   Divider,
+  Drawer,
   Rating,
   Stack,
   Typography,
 } from "@mui/material";
 import currency from "currency.js";
+import { useState } from "react";
 import { constants } from "src/config";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import { Entity, InLineProduct } from "src/frontend-utils/types/entity";
 import { Store } from "src/frontend-utils/types/store";
 import { useAppSelector } from "src/store/hooks";
 import SoloTodoLeadLink from "../SoloTodoLeadLink";
+import ProductOrStoreRatingDrawer from "./ProductOrStoreRatingDrawer";
 import { RatedStore } from "./types";
 
 export default function ProductPriceCard({
@@ -25,6 +29,7 @@ export default function ProductPriceCard({
   entity: Entity;
   ratedStores: Record<string, RatedStore>;
 }) {
+  const [openStoreComments, setOpenStoreComments] = useState(false);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const store = apiResourceObjects[entity.store] as Store;
   const category = apiResourceObjects[entity.category];
@@ -47,19 +52,31 @@ export default function ProductPriceCard({
         },
       }}
     >
-      <SoloTodoLeadLink
-        entity={entity}
-        storeEntry={store}
-        product={entity.product as InLineProduct}
-        buttonType={true}
+      <Drawer
+        anchor="right"
+        open={openStoreComments}
+        onClose={() => setOpenStoreComments(false)}
       >
-        <CardActionArea>
-          <Stack
-            direction="row"
-            alignItems="center"
-            spacing={1}
-            justifyContent="space-between"
-          >
+        <ProductOrStoreRatingDrawer
+          productOrStore={store}
+          onClose={() => setOpenStoreComments(false)}
+          isStore
+        />
+      </Drawer>
+
+      <Stack
+        direction="row"
+        alignItems="center"
+        spacing={1}
+        justifyContent="space-between"
+      >
+        <SoloTodoLeadLink
+          entity={entity}
+          storeEntry={store}
+          product={entity.product as InLineProduct}
+          buttonType={true}
+        >
+          <CardActionArea>
             <Box
               className="box"
               sx={{
@@ -74,26 +91,40 @@ export default function ProductPriceCard({
                 {entity.seller ? ` | ${entity.seller}` : null}
               </Typography>
             </Box>
-            {ratedStores[entity.store] && (
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={0.5}
-                paddingRight={1}
-              >
-                <Rating
-                  name="read-only"
-                  value={ratedStores[entity.store].rating}
-                  precision={0.5}
-                  readOnly
-                  size="small"
-                />
-                <Typography variant="body2" color="text.secondary">
-                  {Math.round(ratedStores[entity.store].rating * 10) / 10}
-                </Typography>
-              </Stack>
-            )}
-          </Stack>
+          </CardActionArea>
+        </SoloTodoLeadLink>
+        {ratedStores[entity.store] && (
+          <Button
+            onClick={() => setOpenStoreComments(true)}
+            sx={{ padding: 0 }}
+          >
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={0.5}
+              paddingRight={1}
+            >
+              <Rating
+                name="read-only"
+                value={ratedStores[entity.store].rating}
+                precision={0.5}
+                readOnly
+                size="small"
+              />
+              <Typography variant="body2" color="text.secondary">
+                {Math.round(ratedStores[entity.store].rating * 10) / 10}
+              </Typography>
+            </Stack>
+          </Button>
+        )}
+      </Stack>
+      <SoloTodoLeadLink
+        entity={entity}
+        storeEntry={store}
+        product={entity.product as InLineProduct}
+        buttonType={true}
+      >
+        <CardActionArea>
           <CardContent style={{ padding: 8 }}>
             <Stack spacing={0.5}>
               {entity.condition !== "https://schema.org/NewCondition" && (
