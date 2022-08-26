@@ -86,6 +86,7 @@ export default function Search() {
                 name="ordering"
                 label="Ordenar por"
                 exact
+                selectOnly
               />
             </Grid>
             <Grid item xs={12} md={6}>
