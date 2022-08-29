@@ -4,7 +4,7 @@ export const categorySlides: NavigationItemProps[] = [
   {
     name: "PS5",
     path: "https://www.solotodo.cl/consoles?families=1182932",
-    picture: "https://media.solotodo.com/media/website_slides/asset4.png",
+    picture: "https://media.solotodo.com/media/nav_items/ps5.png",
     subtitle: "El futuro es hoy",
   },
   {
