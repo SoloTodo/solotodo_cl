@@ -50,6 +50,7 @@ export default function ProductPriceCard({
         "&:hover .box": {
           bgcolor: "primary.main",
         },
+        position: "relative",
       }}
     >
       <Drawer
@@ -64,117 +65,102 @@ export default function ProductPriceCard({
         />
       </Drawer>
 
-      <Stack
-        direction="row"
-        alignItems="center"
-        spacing={1}
-        justifyContent="space-between"
-      >
-        <SoloTodoLeadLink
-          entity={entity}
-          storeEntry={store}
-          product={entity.product as InLineProduct}
-          buttonType={true}
+      {ratedStores[entity.store] && (
+        <Button
+          onClick={() => setOpenStoreComments(true)}
+          sx={{ position: "absolute", right: "0px", paddingRight: 0 }}
         >
-          <CardActionArea>
-            <Box
-              className="box"
-              sx={{
-                bgcolor: "#7B7B7B",
-                p: 0.8,
-                borderEndEndRadius: 10,
-                display: "inline-block",
-              }}
-            >
-              <Typography fontWeight={500} color="common.white">
-                {store.name}
-                {entity.seller ? ` | ${entity.seller}` : null}
-              </Typography>
-            </Box>
-          </CardActionArea>
-        </SoloTodoLeadLink>
-        {ratedStores[entity.store] && (
-          <Button
-            onClick={() => setOpenStoreComments(true)}
-            sx={{ padding: 0 }}
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={0.5}
+            paddingRight={1}
           >
-            <Stack
-              direction="row"
-              alignItems="center"
-              spacing={0.5}
-              paddingRight={1}
-            >
-              <Rating
-                name="read-only"
-                value={ratedStores[entity.store].rating}
-                precision={0.5}
-                readOnly
-                size="small"
-              />
-              <Typography variant="body2" color="text.secondary">
-                {Math.round(ratedStores[entity.store].rating * 10) / 10}
-              </Typography>
-            </Stack>
-          </Button>
-        )}
-      </Stack>
+            <Rating
+              name="read-only"
+              value={ratedStores[entity.store].rating}
+              precision={0.5}
+              readOnly
+              size="small"
+            />
+            <Typography variant="body2" color="text.secondary">
+              {Math.round(ratedStores[entity.store].rating * 10) / 10}
+            </Typography>
+          </Stack>
+        </Button>
+      )}
+
       <SoloTodoLeadLink
         entity={entity}
         storeEntry={store}
         product={entity.product as InLineProduct}
         buttonType={true}
       >
-        <CardActionArea>
-          <CardContent style={{ padding: 8 }}>
-            <Stack spacing={0.5}>
-              {entity.condition !== "https://schema.org/NewCondition" && (
-                <Stack sx={{ alignItems: "end" }}>
-                  <Chip
-                    label="Reacondicionado"
-                    color="warning"
-                    size="small"
-                    sx={{ borderRadius: 1 }}
-                  />
-                </Stack>
-              )}
-              <Stack direction="row" spacing={1} justifyContent="space-evenly">
-                <Stack>
-                  <Typography variant="h6" color="text.secondary">
-                    Precio normal
-                  </Typography>
-                  <Typography variant="h2" color="text.extra">
-                    {currency(entity.active_registry!.normal_price, {
-                      precision: 0,
-                    }).format()}
-                  </Typography>
-                </Stack>
-                <Divider orientation="vertical" />
-                <Stack>
-                  <Typography variant="h6" color="text.secondary">
-                    {offerPriceLabel ? offerPriceLabel : "Precio efectivo"}
-                  </Typography>
-                  <Typography variant="h2" color="text.extra">
-                    {currency(entity.active_registry!.offer_price, {
-                      precision: 0,
-                    }).format()}
-                  </Typography>
-                </Stack>
+        <Box
+          className="box"
+          sx={{
+            bgcolor: "#7B7B7B",
+            p: 0.8,
+            borderEndEndRadius: 10,
+            display: "inline-block",
+            maxWidth: '55%'
+          }}
+        >
+          <Typography fontWeight={500} color="common.white" noWrap>
+            {store.name}
+            {entity.seller ? ` | ${entity.seller}` : null}
+          </Typography>
+        </Box>
+
+        <CardContent style={{ padding: 8 }}>
+          <Stack spacing={0.5}>
+            {entity.condition !== "https://schema.org/NewCondition" && (
+              <Stack sx={{ alignItems: "end" }}>
+                <Chip
+                  label="Reacondicionado"
+                  color="warning"
+                  size="small"
+                  sx={{ borderRadius: 1 }}
+                />
+              </Stack>
+            )}
+            <Stack direction="row" spacing={1} justifyContent="space-evenly">
+              <Stack>
+                <Typography variant="h6" color="text.secondary">
+                  Precio normal
+                </Typography>
+                <Typography variant="h2" color="text.extra">
+                  {currency(entity.active_registry!.normal_price, {
+                    precision: 0,
+                  }).format()}
+                </Typography>
+              </Stack>
+              <Divider orientation="vertical" />
+              <Stack>
+                <Typography variant="h6" color="text.secondary">
+                  {offerPriceLabel ? offerPriceLabel : "Precio efectivo"}
+                </Typography>
+                <Typography variant="h2" color="text.extra">
+                  {currency(entity.active_registry!.offer_price, {
+                    precision: 0,
+                  }).format()}
+                </Typography>
               </Stack>
             </Stack>
-            <Typography variant="body2" color="text.secondary">
-              {category.id === constants.cellPhoneCategoryId
-                ? entity.cell_plan
-                  ? entity.cell_plan.name
-                  : "Liberado"
-                : entity.bundle
-                ? `Incluye ${entity.bundle.name}`
-                : ""}
-              {category.id === constants.cellPhoneCategoryId && entity.bundle
-                ? `, incluye ${entity.bundle.name}`
-                : null}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
+          </Stack>
+          <Typography variant="body2" color="text.secondary">
+            {category.id === constants.cellPhoneCategoryId
+              ? entity.cell_plan
+                ? entity.cell_plan.name
+                : "Liberado"
+              : entity.bundle
+              ? `Incluye ${entity.bundle.name}`
+              : ""}
+            {category.id === constants.cellPhoneCategoryId && entity.bundle
+              ? `, incluye ${entity.bundle.name}`
+              : null}
+          </Typography>
+        </CardContent>
       </SoloTodoLeadLink>
     </Card>
   );
