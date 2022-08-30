@@ -6,7 +6,7 @@ export default function RecentCard({ recentData }: { recentData: Slide }) {
   return (
     <Box
       sx={{
-        width: 400,
+        width: 395,
         height: 170,
         paddingX: 2,
         borderRadius: 2,
