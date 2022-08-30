@@ -40,6 +40,7 @@ import CategoryCountSummary from "src/components/category/CategoryCountSummary";
 import CategoryRemoveFieldsButton from "src/components/category/CategoryRemoveFieldsButton";
 import { useState } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ApiFormTreeComponent from "src/frontend-utils/api_form/fields/tree/ApiFormTreeComponent";
 
 // ----------------------------------------------------------------------
 
@@ -148,8 +149,22 @@ export default function Browse({
       } else {
         filterChoices = filterChoices || [];
       }
-
-      if (filter.type === "exact") {
+      if (filter.name === "grocery_categories") {
+        fieldsMetadata.push({
+          fieldType: "tree" as "tree",
+          name: filter.name,
+          multiple: false,
+          choices: filterChoices,
+        });
+        fieldFilters.push(
+          <AccordionDetails key={filter.id}>
+            <ApiFormTreeComponent
+              name={filter.name}
+              label={filter.label}
+            />
+          </AccordionDetails>
+        );
+      } else if (filter.type === "exact") {
         fieldsMetadata.push({
           fieldType: "select" as "select",
           name: filter.name,
