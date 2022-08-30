@@ -23,4 +23,5 @@ export const PATH_MAIN = {
   contacto: path(ROOTS_MAIN, 'contacto'),
   data_deletion: path(ROOTS_MAIN, 'data_deletion'),
   budgets: path(ROOTS_MAIN, 'budgets'),
+  products: path(ROOTS_MAIN, 'products')
 }
