@@ -14,7 +14,7 @@ export default function CategoryBrowse({ gridWith }: { gridWith?: number }) {
     <Grid container spacing={3}>
       {(currentResult.results as ProductsData[]).map((r, index) => (
         <Grid key={index} item xs={6} md={4} lg={gridWith ? gridWith : 4}>
-          <ProductCard productData={r} browsePurpose={true} />
+          <ProductCard productData={r} browsePurpose={true} loading={context.isLoading} />
         </Grid>
       ))}
     </Grid>

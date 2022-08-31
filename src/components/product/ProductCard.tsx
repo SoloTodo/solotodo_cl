@@ -25,12 +25,13 @@ import styles from "../../styles/ProductPage.module.css";
 
 type ProductProps = {
   productData: ProductsData;
+  loading?: boolean;
   ribbonFormatter?: Function;
   browsePurpose?: boolean;
 };
 
 export default function ProductCard(props: ProductProps) {
-  const { productData, browsePurpose, ribbonFormatter } = props;
+  const { productData, loading, browsePurpose, ribbonFormatter } = props;
   const [active, setActive] = useState(0);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
 
@@ -112,8 +113,13 @@ export default function ProductCard(props: ProductProps) {
           )}
           <Image
             ratio="4/3"
-            src={`${product.url}picture/?width=300&height=200`}
+            src={
+              loading
+                ? "https://zone-assets-api.vercel.app/assets/img_placeholder.svg"
+                : `${product.url}picture/?width=300&height=200`
+            }
             alt=""
+            loading="eager"
           />
         </Box>
         <CardContent sx={{ p: "1rem" }}>
