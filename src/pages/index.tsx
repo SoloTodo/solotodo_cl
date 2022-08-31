@@ -12,20 +12,39 @@ import RecentSlidesRow from "src/components/website-slides/RecentSlidesRow";
 import CategorySlidesRow from "src/components/website-slides/CaregorySlidesRow";
 import { Slide } from "src/components/website-slides/types";
 import { categorySlides } from "src/categorySlides";
+import { useEffect, useState } from "react";
+import { ProductsData } from "src/components/product/types";
+import useSettings from "src/hooks/useSettings";
 
 type HomeProps = {
-  leads: any[];
-  discount: any[];
   recentSlides: Slide[];
 };
 
 const Home = (props: HomeProps) => {
-  const { leads, discount, recentSlides } = props;
+  const { recentSlides } = props;
+  const { prefExcludeRefurbished, prefStores } = useSettings();
+  const [leads, setLeads] = useState<ProductsData[]>([]);
+  const [discount, setDiscount] = useState<ProductsData[]>([]);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const clp =
     apiResourceObjects[
       `${constants.apiResourceEndpoints.currencies}${constants.clpCurrencyId}/`
     ];
+
+  useEffect(() => {
+    let storesUrl = "";
+    for (const store of prefStores) {
+      storesUrl += `&stores=${store}`;
+    }
+
+    fetchJson(
+      `products/browse/?ordering=leads&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
+    ).then((response) => setLeads(response.results));
+    fetchJson(
+      `products/browse/?ordering=discount&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
+    ).then((response) => setDiscount(response.results));
+  }, [prefExcludeRefurbished, prefStores]);
+
   return (
     <Page title="Cotiza y compara los precios de todas las tiendas">
       <Container maxWidth={false}>
@@ -64,25 +83,9 @@ const Home = (props: HomeProps) => {
 export default Home;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const prefExcludeRefurbished = context.req.cookies.prefExcludeRefurbished;
-  const preStoresCookie = context.req.cookies.prefStores;
-  const prefStores = preStoresCookie ? preStoresCookie.split("|") : [];
-  let storesUrl = "";
-  for (const store of prefStores) {
-    storesUrl += `&stores=${store}`;
-  }
-
-  const leads = await fetchJson(
-    `products/browse/?ordering=leads&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
-  );
-  const discount = await fetchJson(
-    `products/browse/?ordering=discount&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
-  );
   const recentSlides = await fetchJson("website_slides/?only_active_home=1");
   return {
     props: {
-      leads: leads.results,
-      discount: discount.results,
       recentSlides: recentSlides,
     },
   };

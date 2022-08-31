@@ -15,29 +15,44 @@ import { fetchJson } from "src/frontend-utils/network/utils";
 import { Slide } from "src/components/website-slides/types";
 import RecentSlidesRow from "src/components/website-slides/RecentSlidesRow";
 import CategorySlidesRow from "src/components/website-slides/CaregorySlidesRow";
-import { categorySlides } from "src/categorySlides";
 import useNavigation from "src/hooks/useNavigation";
 import { NavigationItemProps } from "src/contexts/NavigationContext";
+import { useEffect, useState } from "react";
+import useSettings from "src/hooks/useSettings";
+import { ProductsData } from "src/components/product/types";
 
 type CategoryPreviewProps = {
   category: Category;
-  leads: any[];
-  discount: any[];
   recentSlides: Slide[];
 };
 
 export default function CategoryPreview({
   category,
-  leads,
-  discount,
   recentSlides,
 }: CategoryPreviewProps) {
+  const { prefExcludeRefurbished, prefStores } = useSettings();
+  const [leads, setLeads] = useState<ProductsData[]>([]);
+  const [discount, setDiscount] = useState<ProductsData[]>([]);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const navigation = useNavigation();
   const clp =
     apiResourceObjects[
       `${constants.apiResourceEndpoints.currencies}${constants.clpCurrencyId}/`
     ];
+
+    useEffect(() => {
+      let storesUrl = "";
+      for (const store of prefStores) {
+        storesUrl += `&stores=${store}`;
+      }
+  
+      fetchJson(
+        `products/browse/?ordering=leads&websites=${constants.websiteId}&categories=${category.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
+      ).then((response) => setLeads(response.results));
+      fetchJson(
+        `products/browse/?ordering=discount&websites=${constants.websiteId}&categories=${category.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
+      ).then((response) => setDiscount(response.results));
+    }, [category.id, prefExcludeRefurbished, prefStores]);
 
   let items: NavigationItemProps[] = [];
   navigation.some((nav) => {
@@ -90,13 +105,6 @@ export default function CategoryPreview({
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (st) => async (context) => {
-    const prefExcludeRefurbished = context.req.cookies.prefExcludeRefurbished;
-    const prefStores = context.req.cookies.prefStores.split("|");
-    let storesUrl = "";
-    for (const store of prefStores) {
-      storesUrl += `&stores=${store}`;
-    }
-
     const apiResourceObjects = st.getState().apiResourceObjects;
     const categories = getApiResourceObjects(apiResourceObjects, "categories");
     const category = categories.find(
@@ -107,20 +115,12 @@ export const getServerSideProps = wrapper.getServerSideProps(
         notFound: true,
       };
     } else {
-      const leads = await fetchJson(
-        `products/browse/?ordering=leads&websites=${constants.websiteId}&categories=${category.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
-      );
-      const discount = await fetchJson(
-        `products/browse/?ordering=discount&websites=${constants.websiteId}&categories=${category.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
-      );
       const recentSlides = await fetchJson(
         `website_slides/?categories=${category.id}&only_active_categories=1`
       );
       return {
         props: {
           category: category,
-          leads: leads.results,
-          discount: discount.results,
           recentSlides: recentSlides,
         },
       };
