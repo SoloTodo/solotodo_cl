@@ -79,7 +79,7 @@ class MyApp extends App<MyAppProps> {
         "currencies",
         "stores",
         "store_types",
-        "category_templates",
+        // "category_templates",
       ];
       const resources_query = resources.reduce((acc, r) => {
         return (acc = `${acc}&names=${r}`);

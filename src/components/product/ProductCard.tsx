@@ -12,16 +12,14 @@ import {
 import CustomChip from "src/sections/mui/Chip";
 import Image from "../Image";
 import currency from "currency.js";
-import { CategoryTemplate, ProductsData } from "./types";
-import {
-  getApiResourceObjects,
-  useApiResourceObjects,
-} from "src/frontend-utils/redux/api_resources/apiResources";
+import { ProductsData } from "./types";
+import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import { useAppSelector } from "src/store/hooks";
 import { useState } from "react";
 import { constants } from "src/config";
 import Handlebars from "handlebars";
 import styles from "../../styles/ProductPage.module.css";
+import { Category } from "src/frontend-utils/types/store";
 
 type ProductProps = {
   productData: ProductsData;
@@ -59,26 +57,13 @@ export default function ProductCard(props: ProductProps) {
   );
   const offerPrice = priceCurrency ? priceCurrency.offer_price : 0;
 
-  const template =
-    (
-      getApiResourceObjects(
-        apiResourceObjects,
-        "category_templates"
-      ) as unknown as CategoryTemplate[]
-    ).filter(
-      (ct) =>
-        ct.category == product.category &&
-        ct.website === `${constants.apiResourceEndpoints.websites}2/` &&
-        ct.purpose ===
-          (browsePurpose
-            ? constants.categoryBrowseResultPurposeUrl
-            : constants.shortDescriptionPurposeUrl)
-    )[0] || null;
+  const template = (apiResourceObjects[product.category] as Category)
+    .short_description_template;
 
   const formatSpecs = () => {
     let html = "";
     if (template) {
-      const templateHandler = Handlebars.compile(template.body);
+      const templateHandler = Handlebars.compile(template);
       html = templateHandler(product.specs);
     }
 
