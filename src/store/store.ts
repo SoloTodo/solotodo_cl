@@ -17,15 +17,15 @@ const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 
-export const initializeStore = (preloadedState?: RootState) => {
-    return configureStore({
-        reducer: {
-            user: userSlice.reducer,
-            apiResourceObjects: apiResourceObjectsSlice.reducer
-        },
-        preloadedState: preloadedState
-    })
-}
+// export const initializeStore = (preloadedState?: RootState) => {
+//     return configureStore({
+//         reducer: {
+//             user: userSlice.reducer,
+//             apiResourceObjects: apiResourceObjectsSlice.reducer
+//         },
+//         preloadedState: preloadedState
+//     })
+// }
 
 const makeStore = () =>
     configureStore({
