@@ -79,7 +79,6 @@ class MyApp extends App<MyAppProps> {
         "currencies",
         "stores",
         "store_types",
-        "category_templates",
       ];
       const resources_query = resources.reduce((acc, r) => {
         return (acc = `${acc}&names=${r}`);
@@ -104,15 +103,8 @@ class MyApp extends App<MyAppProps> {
         ctx.res?.setHeader("error", err.message);
       }
 
-      // const store = initializeStore();
       if (user) {
-        // Store in redux api resources
-
         store.dispatch(userSlice.actions.setUser(user));
-        const resultProps = {
-          user,
-          initialReduxState: store.getState(),
-        };
 
         settings.prefExcludeRefurbished = Boolean(
           user.preferred_exclude_refurbished
@@ -120,11 +112,8 @@ class MyApp extends App<MyAppProps> {
         settings.prefStores = user.preferred_stores.map(
           (s: string) => s.split("/")[s.split("/").length - 2]
         );
-
-        return { pageProps: resultProps, settings, navigation };
-      } else {
-        return { pageProps: {}, settings, navigation };
       }
+      return { pageProps: {}, settings, navigation };
     }
   );
 

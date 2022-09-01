@@ -26,7 +26,7 @@ import { fetchJson } from "src/frontend-utils/network/utils";
 import currency from "currency.js";
 import { fDate } from "src/utils/formatTime";
 import ReactApexChart, { BaseOptionChart } from "../chart";
-import { merge } from "lodash";
+import merge from "lodash/merge";
 import {
   MinimumPricesPerDay,
   NormalizedPricingData,

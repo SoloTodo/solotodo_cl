@@ -66,10 +66,3 @@ export type NormalizedPricingData = {
   entity: Entity;
   normalized_pricing_history: MinimumPricesPerDay;
 };
-
-export type CategoryTemplate = {
-  category: string;
-  website: string;
-  purpose: string;
-  body: string;
-};
