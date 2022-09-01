@@ -1,12 +1,12 @@
 import {
-  Autocomplete,
   Box,
   Card,
   CardActionArea,
   CardActions,
   CardContent,
+  MenuItem,
+  Select,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
 import CustomChip from "src/sections/mui/Chip";
@@ -114,12 +114,6 @@ export default function ProductCard(props: ProductProps) {
                 <CustomChip key={index} label={t} />
               ))}
             </Stack>
-            <Typography variant="h2" component="div" fontWeight={500}>
-              {currency(offerPrice, {
-                separator: ".",
-                precision: 0,
-              }).format()}
-            </Typography>
             <Typography
               gutterBottom
               variant="h5"
@@ -137,24 +131,28 @@ export default function ProductCard(props: ProductProps) {
               dangerouslySetInnerHTML={formatSpecs()}
               style={{ color: "#757b80" }}
             />
+            <Typography variant="h2" component="div" fontWeight={500}>
+              {currency(offerPrice, {
+                separator: ".",
+                precision: 0,
+              }).format()}
+            </Typography>
           </Stack>
         </CardContent>
       </CardActionArea>
       {options.length > 1 && (
         <CardActions>
-          <Autocomplete
-            value={options[active]}
-            options={options}
-            renderInput={(params) => <TextField {...params} />}
-            renderOption={(props, option) => (
-              <li {...props} key={option.value}>
-                {option.label}
-              </li>
-            )}
-            disableClearable={true}
+          <Select
+            value={options[active].value}
             style={{ width: "100%" }}
-            onChange={(_evt, newValues) => setActive(newValues.value)}
-          />
+            onChange={(evt) => setActive(Number(evt.target.value))}
+          >
+            {options.map((c) => (
+              <MenuItem key={c.value} value={c.value}>
+                {c.label}
+              </MenuItem>
+            ))}
+          </Select>
         </CardActions>
       )}
     </Card>
