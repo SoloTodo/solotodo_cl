@@ -171,6 +171,7 @@ const palette = {
     text: { primary: GREY[800], secondary: GREY[600], extra: "#3B5D81", disabled: GREY[500] },
     background: { paper: GREY[200], default: '#fff', neutral: GREY[200] },
     action: { active: GREY[600], ...COMMON.action },
+    header: "#F8F8F8"
   },
   dark: {
     ...COMMON,
@@ -178,6 +179,7 @@ const palette = {
     text: { primary: '#fff', secondary: GREY[500], extra: "#fff", disabled: GREY[600] },
     background: { paper: GREY[900], default: GREY[800], neutral: GREY[500_16] },
     action: { active: GREY[500], ...COMMON.action },
+    header: alpha(GREY[900], 0.7)
   },
 } as const;
 

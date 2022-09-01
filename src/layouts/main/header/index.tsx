@@ -15,6 +15,7 @@ import SettingsPopover from "./SettingsPopover";
 import useSettings from "src/hooks/useSettings";
 import NavigationDrawer from "./NavigationDrawer";
 import { PATH_MAIN } from "src/routes/paths";
+import { Palette } from "@mui/material";
 
 // ----------------------------------------------------------------------
 
@@ -24,13 +25,17 @@ type RootStyleProps = {
   verticalLayout: boolean;
 };
 
+type PaletteExtended = Palette & {
+  header: string;
+}
+
 const RootStyle = styled(AppBar, {
   shouldForwardProp: (prop) =>
     prop !== "isCollapse" && prop !== "isOffset" && prop !== "verticalLayout",
 })<RootStyleProps>(({ isCollapse, isOffset, verticalLayout, theme }) => ({
   ...cssStyles(theme).bgBlur({
     opacity: 0.3,
-    color: theme.palette.background.paper,
+    color: (theme.palette as PaletteExtended).header,
   }),
   boxShadow: "none",
   height: HEADER.MOBILE_HEIGHT,
