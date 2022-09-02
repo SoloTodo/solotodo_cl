@@ -2,7 +2,6 @@
 import NextLink from "next/link";
 import Image from "next/image";
 // @mui
-import { styled } from "@mui/material/styles";
 import {
   Grid,
   Link,
@@ -10,22 +9,16 @@ import {
   Container,
   Typography,
   Stack,
+  Box,
+  IconButton,
 } from "@mui/material";
+import InstagramIcon from "@mui/icons-material/Instagram";
 // routes
 import { PATH_MAIN } from "src/routes/paths";
 // components
 import SocialsButton from "../../../components/SocialsButton";
 import useSettings from "src/hooks/useSettings";
 import NavigationDrawer from "../header/NavigationDrawer";
-
-// ----------------------------------------------------------------------
-
-const RootStyle = styled("div")(({ theme }) => ({
-  position: "relative",
-  backgroundColor: theme.palette.background.default,
-}));
-
-// ----------------------------------------------------------------------
 
 export default function MainFooter() {
   const settings = useSettings();
@@ -59,7 +52,14 @@ export default function MainFooter() {
   ];
 
   return (
-    <RootStyle>
+    <Box
+      sx={{
+        position: "relative",
+        backgroundColor:
+          settings.themeMode === "light" ? "#303D53" : "background.paper",
+        color: "white",
+      }}
+    >
       <Divider />
       <Container sx={{ pt: 10 }}>
         <Grid
@@ -153,7 +153,26 @@ export default function MainFooter() {
         >
           SOLOTODO 2022 | Todos los derechos reservados | Santiago de Chile
         </Typography>
+        <Stack
+          direction="row"
+          spacing={1}
+          justifyContent="center"
+          alignItems="center"
+          sx={{
+            pb: 5,
+          }}
+        >
+          <Typography component="p" variant="h6">
+            Diseñado por Elias Arias
+          </Typography>
+          <IconButton
+            href="https://www.instagram.com/eliasisdead/"
+            color="inherit"
+          >
+            <InstagramIcon />
+          </IconButton>
+        </Stack>
       </Container>
-    </RootStyle>
+    </Box>
   );
 }

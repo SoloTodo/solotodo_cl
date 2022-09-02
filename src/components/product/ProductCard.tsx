@@ -1,12 +1,12 @@
 import {
-  Autocomplete,
   Box,
   Card,
   CardActionArea,
   CardActions,
   CardContent,
+  MenuItem,
+  Select,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
 import CustomChip from "src/sections/mui/Chip";
@@ -109,23 +109,30 @@ export default function ProductCard(props: ProductProps) {
         </Box>
         <CardContent sx={{ p: "1rem" }}>
           <Stack spacing={1}>
-            <Stack direction="row" spacing={1}>
+            <Stack
+              direction="row"
+              spacing={1}
+              height={24}
+              sx={{ overflow: "auto", flexWrap: "nowrap" }}
+            >
               {tags.map((t, index) => (
                 <CustomChip key={index} label={t} />
               ))}
             </Stack>
-            <Typography variant="h2" component="div" fontWeight={500}>
-              {currency(offerPrice, {
-                separator: ".",
-                precision: 0,
-              }).format()}
-            </Typography>
             <Typography
               gutterBottom
               variant="h5"
               component="div"
-              color="text.secondary"
+              color="text.primary"
               fontWeight={500}
+              height={45}
+              sx={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                display: "-webkit-box",
+                WebkitLineClamp: "2",
+                WebkitBoxOrient: "vertical",
+              }}
             >
               {product.name}
             </Typography>
@@ -135,26 +142,38 @@ export default function ProductCard(props: ProductProps) {
                 browsePurpose ? styles.product_specs : "short-description"
               }
               dangerouslySetInnerHTML={formatSpecs()}
-              style={{ color: "#757b80" }}
+              style={{
+                height: 40,
+                color: "#757b80",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                display: "-webkit-box",
+                WebkitLineClamp: "2",
+                WebkitBoxOrient: "vertical",
+              }}
             />
+            <Typography variant="h2" component="div" fontWeight={500}>
+              {currency(offerPrice, {
+                separator: ".",
+                precision: 0,
+              }).format()}
+            </Typography>
           </Stack>
         </CardContent>
       </CardActionArea>
       {options.length > 1 && (
         <CardActions>
-          <Autocomplete
-            value={options[active]}
-            options={options}
-            renderInput={(params) => <TextField {...params} />}
-            renderOption={(props, option) => (
-              <li {...props} key={option.value}>
-                {option.label}
-              </li>
-            )}
-            disableClearable={true}
+          <Select
+            value={options[active].value}
             style={{ width: "100%" }}
-            onChange={(_evt, newValues) => setActive(newValues.value)}
-          />
+            onChange={(evt) => setActive(Number(evt.target.value))}
+          >
+            {options.map((c) => (
+              <MenuItem key={c.value} value={c.value}>
+                {c.label}
+              </MenuItem>
+            ))}
+          </Select>
         </CardActions>
       )}
     </Card>

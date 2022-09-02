@@ -23,6 +23,7 @@ export default function SettingsPopover() {
     <>
       <IconButtonAnimate
         onClick={handleOpen}
+        color="secondary"
         sx={{
           width: 40,
           height: 40,

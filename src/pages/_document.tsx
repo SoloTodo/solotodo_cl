@@ -57,11 +57,15 @@ export default class MyDocument extends Document {
           />
 
           <meta
+            name="title"
+            content="Cotiza y ahorra cotizando todos tus productos de tecnología en un sólo lugar - SoloTodo"
+          />
+          <meta
             name="description"
-            content="Sitio de administración de SoloTodo"
+            content="Ahorra tiempo y dinero cotizando celulares, notebooks, etc. en un sólo lugar y comparando el precio de todas las tiendas."
           />
           <meta name="keywords" content="solotodo" />
-          <meta name="author" content="Staff SoloTodo" />
+          <meta name="author" content="SoloTodo" />
 
           <script
             async

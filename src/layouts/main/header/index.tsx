@@ -2,6 +2,8 @@
 import Image from "next/image";
 import { styled } from "@mui/material/styles";
 import { Box, Stack, AppBar, Toolbar, Link } from "@mui/material";
+// next
+import NextLink from "next/link";
 // hooks
 import useOffSetTop from "../../../hooks/useOffSetTop";
 // utils
@@ -15,6 +17,7 @@ import SettingsPopover from "./SettingsPopover";
 import useSettings from "src/hooks/useSettings";
 import NavigationDrawer from "./NavigationDrawer";
 import { PATH_MAIN } from "src/routes/paths";
+import { Palette } from "@mui/material";
 
 // ----------------------------------------------------------------------
 
@@ -24,13 +27,17 @@ type RootStyleProps = {
   verticalLayout: boolean;
 };
 
+type PaletteExtended = Palette & {
+  header: string;
+};
+
 const RootStyle = styled(AppBar, {
   shouldForwardProp: (prop) =>
     prop !== "isCollapse" && prop !== "isOffset" && prop !== "verticalLayout",
 })<RootStyleProps>(({ isCollapse, isOffset, verticalLayout, theme }) => ({
   ...cssStyles(theme).bgBlur({
     opacity: 0.3,
-    color: theme.palette.background.paper,
+    color: (theme.palette as PaletteExtended).header,
   }),
   boxShadow: "none",
   height: HEADER.MOBILE_HEIGHT,
@@ -83,23 +90,27 @@ export default function DashboardHeader({
         }}
       >
         {settings.themeMode === "dark" ? (
-          <Link href={PATH_MAIN.root}>
-            <Image
-              alt={"Logo"}
-              src="/logo_fondo_oscuro.svg"
-              width={200}
-              height={61}
-            />
-          </Link>
+          <NextLink href={PATH_MAIN.root} passHref>
+            <Link>
+              <Image
+                alt={"Logo"}
+                src="/logo_fondo_oscuro.svg"
+                width={200}
+                height={61}
+              />
+            </Link>
+          </NextLink>
         ) : (
-          <Link href={PATH_MAIN.root}>
-            <Image
-              alt={"Logo"}
-              src="/logo_fondo_claro.svg"
-              width={200}
-              height={61}
-            />
-          </Link>
+          <NextLink href={PATH_MAIN.root} passHref>
+            <Link>
+              <Image
+                alt={"Logo"}
+                src="/logo_fondo_claro.svg"
+                width={200}
+                height={61}
+              />
+            </Link>
+          </NextLink>
         )}
 
         <Box sx={{ flexGrow: 1 }} />

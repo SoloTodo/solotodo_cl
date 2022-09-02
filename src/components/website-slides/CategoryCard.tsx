@@ -1,6 +1,8 @@
 import {
   Box,
   Button,
+  Chip,
+  Link,
   Stack,
   Typography,
   useMediaQuery,
@@ -29,32 +31,42 @@ export default function CategoryCard({
         position: "relative",
       }}
     >
-      <Stack
-        alignItems="flex-start"
-        justifyContent="space-between"
-        paddingY={2}
-        width={"50%"}
-        height="100%"
+      <Link
+        href={categoryData.path}
+        underline="none"
+        // sx={{
+        //   ":hover": {
+        //     backgroundColor: "primary"
+        //   }
+        // }}
+        // sx={{ padding: 0, height: { xs: 145, sm: 170 } }}
       >
-        <Stack direction="column">
-          <Typography
-            variant={isMobile ? "h4" : "h2"}
-            fontWeight={600}
-            color="text.extra"
-          >
-            {categoryData.name}
-          </Typography>
-          {categoryData.subtitle && (
+        <Stack
+          alignItems="flex-start"
+          justifyContent="space-between"
+          paddingY={2}
+          width={"50%"}
+          height="100%"
+        >
+          <Stack direction="column">
             <Typography
-              variant={isMobile ? "subtitle2" : "subtitle1"}
+              variant={isMobile ? "h4" : "h2"}
               fontWeight={600}
               color="text.extra"
             >
-              {categoryData.subtitle}
+              {categoryData.name}
             </Typography>
-          )}
-        </Stack>
-        <Button
+            {categoryData.subtitle && (
+              <Typography
+                variant={isMobile ? "subtitle2" : "subtitle1"}
+                fontWeight={600}
+                color="text.extra"
+              >
+                {categoryData.subtitle}
+              </Typography>
+            )}
+          </Stack>
+          {/* <Button
           variant="outlined"
           color="secondary"
           href={categoryData.path}
@@ -62,31 +74,48 @@ export default function CategoryCard({
           endIcon={<ArrowForwardIcon />}
         >
           VER OFERTAS
-        </Button>
-      </Stack>
-      <Box
-        width={{ xs: 150, md: 180 }}
-        height={{ xs: 145, md: 170 }}
-        sx={{
-          backgroundColor: "primary.main",
-          position: "absolute",
-          right: "0px",
-          bottom: "0px",
-          borderTopRightRadius: 16,
-          borderBottomRightRadius: 16,
-        }}
-      />
-      <Image
-        src={categoryData.picture !== null ? categoryData.picture : ""}
-        alt={categoryData.name}
-        sx={{
-          width: { xs: 165, md: 220 },
-          height: { xs: 155, md: 180 },
-          position: "absolute",
-          right: "0px",
-          bottom: "0px",
-        }}
-      />
+        </Button> */}
+          <Chip
+            // sx={{
+            //   backgroundColor: "white",
+            //   color: "black",
+            //   ":hover": { backgroundColor: "#DFE3E8" },
+            // }}
+            color="secondary"
+            sx={{
+              color: "text.primary",
+            }}
+            label="VER OFERTAS"
+            variant="outlined"
+            clickable
+            onDelete={() => {}}
+            deleteIcon={<ArrowForwardIcon />}
+          />
+        </Stack>
+        <Box
+          width={{ xs: 150, md: 180 }}
+          height={{ xs: 145, md: 170 }}
+          sx={{
+            backgroundColor: "primary.main",
+            position: "absolute",
+            right: "0px",
+            bottom: "0px",
+            borderTopRightRadius: 16,
+            borderBottomRightRadius: 16,
+          }}
+        />
+        <Image
+          src={categoryData.picture !== null ? categoryData.picture : ""}
+          alt={categoryData.name}
+          sx={{
+            width: { xs: 165, md: 220 },
+            height: { xs: 155, md: 180 },
+            position: "absolute",
+            right: "0px",
+            bottom: "0px",
+          }}
+        />
+      </Link>
     </Box>
   );
 }

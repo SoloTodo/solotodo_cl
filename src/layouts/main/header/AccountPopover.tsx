@@ -96,6 +96,7 @@ export default function AccountPopover() {
     <>
       <IconButtonAnimate
         onClick={handleOpen}
+        color="secondary"
         sx={{
           p: 0,
           ...(open && {
