@@ -18,6 +18,7 @@ import useResponsive from "src/hooks/useResponsive";
 import { IconButtonAnimate } from "src/components/animate";
 import MenuPopover from "src/components/MenuPopover";
 import { HEADER } from "src/config";
+import useSettings from "src/hooks/useSettings";
 
 const RootStyle = styled(Box, {
   shouldForwardProp: (prop) => prop !== "isOffset",
@@ -35,6 +36,7 @@ export default function NavigationDrawer({
   isOffset = true,
   inFooter = false,
 }) {
+  const settings = useSettings();
   const navigation = useNavigation();
   const isDesktop = useResponsive("up", "md");
   const [open, setOpen] = useState(false);
@@ -53,7 +55,14 @@ export default function NavigationDrawer({
   };
 
   const buttons = navigation.map((n, index) => (
-    <Button key={index} variant="text" onClick={() => openDrawer(index)}>
+    <Button
+      key={index}
+      variant="text"
+      sx={{
+        color: settings.themeMode === "light" ? "#303D53" : "text.primary",
+      }}
+      onClick={() => openDrawer(index)}
+    >
       {n.name}
     </Button>
   ));

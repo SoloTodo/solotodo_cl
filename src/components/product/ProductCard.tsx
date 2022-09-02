@@ -109,7 +109,12 @@ export default function ProductCard(props: ProductProps) {
         </Box>
         <CardContent sx={{ p: "1rem" }}>
           <Stack spacing={1}>
-            <Stack direction="row" spacing={1}>
+            <Stack
+              direction="row"
+              spacing={1}
+              height={24}
+              sx={{ overflow: "auto", flexWrap: "nowrap" }}
+            >
               {tags.map((t, index) => (
                 <CustomChip key={index} label={t} />
               ))}
@@ -118,8 +123,16 @@ export default function ProductCard(props: ProductProps) {
               gutterBottom
               variant="h5"
               component="div"
-              color="text.secondary"
+              color="text.primary"
               fontWeight={500}
+              height={45}
+              sx={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                display: "-webkit-box",
+                WebkitLineClamp: "2",
+                WebkitBoxOrient: "vertical",
+              }}
             >
               {product.name}
             </Typography>
@@ -129,7 +142,15 @@ export default function ProductCard(props: ProductProps) {
                 browsePurpose ? styles.product_specs : "short-description"
               }
               dangerouslySetInnerHTML={formatSpecs()}
-              style={{ color: "#757b80" }}
+              style={{
+                height: 40,
+                color: "#757b80",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                display: "-webkit-box",
+                WebkitLineClamp: "2",
+                WebkitBoxOrient: "vertical",
+              }}
             />
             <Typography variant="h2" component="div" fontWeight={500}>
               {currency(offerPrice, {
