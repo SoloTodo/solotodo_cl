@@ -159,6 +159,7 @@ export default function ChangePassword() {
                 variant="contained"
                 color="secondary"
                 loading={isSubmitting}
+                sx={{ borderRadius: 3 }}
               >
                 Guardar cambios
               </LoadingButton>

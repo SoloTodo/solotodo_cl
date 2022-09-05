@@ -63,6 +63,7 @@ export default function ResetPasswordForm({ onSent, onGetEmail }: Props) {
           variant="contained"
           color="secondary"
           loading={isSubmitting}
+          sx={{ borderRadius: 3 }}
         >
           Restablecer Contraseña
         </LoadingButton>

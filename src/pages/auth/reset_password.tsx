@@ -56,7 +56,7 @@ export default function ResetPassword() {
                     fullWidth
                     size="large"
                     color="secondary"
-                    sx={{ mt: 1 }}
+                    sx={{ mt: 1, borderRadius: 3 }}
                   >
                     Volver
                   </Button>
@@ -81,7 +81,7 @@ export default function ResetPassword() {
                     size="large"
                     variant="contained"
                     color="secondary"
-                    sx={{ mt: 5 }}
+                    sx={{ mt: 5, borderRadius: 3 }}
                   >
                     Volver
                   </Button>

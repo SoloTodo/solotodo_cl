@@ -45,15 +45,10 @@ export function Block({
           </Typography>
         )}
         <NextLink href={actionHref} as={actionHref} passHref>
-          <Link underline="none">
-            <Typography
-              variant="h5"
-              color={
-                settings.themeMode === "light" ? "#3B5D81" : "text.primary"
-              }
-            >
-              Ver más
-            </Typography>
+          <Link
+            color={settings.themeMode === "light" ? "#3B5D81" : "text.primary"}
+          >
+            <Typography variant="h5">Ver más</Typography>
           </Link>
         </NextLink>
       </Stack>
