@@ -3,7 +3,6 @@ import NextLink from "next/link";
 // @mui
 import { Theme } from "@mui/material/styles";
 import { Box, Link, Typography, SxProps, Stack } from "@mui/material";
-import useSettings from "src/hooks/useSettings";
 
 // ----------------------------------------------------------------------
 
@@ -22,8 +21,6 @@ export function Block({
   actionHref,
   children,
 }: BlockProps) {
-  const settings = useSettings();
-
   return (
     <Box
       sx={{
@@ -45,9 +42,7 @@ export function Block({
           </Typography>
         )}
         <NextLink href={actionHref} as={actionHref} passHref>
-          <Link
-            color={settings.themeMode === "light" ? "#3B5D81" : "text.primary"}
-          >
+          <Link color={"text.extra"}>
             <Typography variant="h5">Ver más</Typography>
           </Link>
         </NextLink>
