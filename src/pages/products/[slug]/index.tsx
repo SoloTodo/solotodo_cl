@@ -61,7 +61,7 @@ export default function ProductPage({ product }: { product: Product }) {
           </Grid>
           <Grid item xs={12} md={5}>
             <Stack spacing={3}>
-              <Typography variant="h2">{product.name}</Typography>
+              <Typography variant="h2" color="text.extra">{product.name}</Typography>
               <ProductRatingSummary productOrStore={product} />
               <ProductVariants product={product} category={category} />
               <ProductBenchmarks product={product} category={category} />
