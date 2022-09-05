@@ -40,19 +40,19 @@ export default function CategoryPreview({
       `${constants.apiResourceEndpoints.currencies}${constants.clpCurrencyId}/`
     ];
 
-    useEffect(() => {
-      let storesUrl = "";
-      for (const store of prefStores) {
-        storesUrl += `&stores=${store}`;
-      }
-  
-      fetchJson(
-        `products/browse/?ordering=leads&websites=${constants.websiteId}&categories=${category.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
-      ).then((response) => setLeads(response.results));
-      fetchJson(
-        `products/browse/?ordering=discount&websites=${constants.websiteId}&categories=${category.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
-      ).then((response) => setDiscount(response.results));
-    }, [category.id, prefExcludeRefurbished, prefStores]);
+  useEffect(() => {
+    let storesUrl = "";
+    for (const store of prefStores) {
+      storesUrl += `&stores=${store}`;
+    }
+
+    fetchJson(
+      `products/browse/?ordering=leads&websites=${constants.websiteId}&categories=${category.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
+    ).then((response) => setLeads(response.results));
+    fetchJson(
+      `products/browse/?ordering=discount&websites=${constants.websiteId}&categories=${category.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
+    ).then((response) => setDiscount(response.results));
+  }, [category.id, prefExcludeRefurbished, prefStores]);
 
   let items: NavigationItemProps[] = [];
   navigation.some((nav) => {
@@ -67,7 +67,7 @@ export default function CategoryPreview({
     <Page title={category.name}>
       <Container maxWidth={false}>
         <Typography variant="h2" component="h1" gutterBottom>
-          Lo más reciente
+          {recentSlides.length !== 0 && "Lo más reciente"}
         </Typography>
         <RecentSlidesRow recentSlides={recentSlides} />
         <Box height={42} />
