@@ -13,6 +13,7 @@ import {
   IconButton,
 } from "@mui/material";
 import InstagramIcon from "@mui/icons-material/Instagram";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 // routes
 import { PATH_MAIN } from "src/routes/paths";
 // components
@@ -67,7 +68,7 @@ export default function MainFooter() {
           justifyContent={{ xs: "center", md: "space-around" }}
           sx={{ textAlign: { xs: "center", md: "left" } }}
         >
-          <Grid item xs={12} sx={{ mb: 3 }}>
+          <Grid item xs={11} sx={{ mb: 3 }}>
             {settings.themeMode === "dark" ? (
               <Link href={PATH_MAIN.root}>
                 <Image
@@ -87,6 +88,19 @@ export default function MainFooter() {
                 />
               </Link>
             )}
+          </Grid>
+          <Grid item xs={1} sx={{ mb: 3 }} alignSelf="center">
+            <IconButton
+              color="inherit"
+              onClick={() => {
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+              }}
+            >
+              <ArrowUpwardIcon />
+            </IconButton>
           </Grid>
           <Grid item xs={8} md={3}>
             <Typography variant="h6" sx={{ pr: { md: 5 } }}>
