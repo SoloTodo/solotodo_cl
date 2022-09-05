@@ -139,6 +139,7 @@ export default function SettingPrefStores() {
           <Stack direction="row-reverse" spacing={1}>
             <Button
               variant="contained"
+              color="secondary"
               sx={{ borderRadius: 3 }}
               onClick={onSubmit}
             >
@@ -146,6 +147,7 @@ export default function SettingPrefStores() {
             </Button>
             <Button
               variant="outlined"
+              color="secondary"
               sx={{ borderRadius: 3 }}
               onClick={() => setOpen(false)}
             >
