@@ -68,20 +68,27 @@ export default function SettingPrefStores() {
   };
 
   const onSubmit = () => {
-    if (user) {
-      const userChanges = {
-        preferred_stores: selectedStoreIds.map(
-          (i) => `${constants.apiResourceEndpoints.stores}${i}/`
-        ),
-      };
-      fetchAuth(null, "users/me/", {
-        method: "PATCH",
-        body: JSON.stringify(userChanges),
-      }).then((user) => dispatch(userSlice.actions.setUser(user)));
+    if (selectedStoreIds.length === 0) {
+      enqueueSnackbar("Debes seleccionar al menos una tienda", {
+        variant: "error",
+      });
+      setSelectedStoresIds(prefStores);
+    } else {
+      if (user) {
+        const userChanges = {
+          preferred_stores: selectedStoreIds.map(
+            (i) => `${constants.apiResourceEndpoints.stores}${i}/`
+          ),
+        };
+        fetchAuth(null, "users/me/", {
+          method: "PATCH",
+          body: JSON.stringify(userChanges),
+        }).then((user) => dispatch(userSlice.actions.setUser(user)));
+      }
+      onChangeStores(selectedStoreIds);
+      enqueueSnackbar("Cambios guardados");
+      setOpen(false);
     }
-    onChangeStores(selectedStoreIds);
-    enqueueSnackbar("Cambios guardados");
-    setOpen(false);
   };
 
   return (
