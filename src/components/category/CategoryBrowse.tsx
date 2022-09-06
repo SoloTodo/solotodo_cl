@@ -4,20 +4,16 @@ import ApiFormContext from "src/frontend-utils/api_form/ApiFormContext";
 import ProductCard from "../product/ProductCard";
 import { ProductsData } from "../product/types";
 
-export default function CategoryBrowse({
-  gridWith,
-}: {
-  gridWith?: number;
-}) {
+export default function CategoryBrowse() {
   const context = useContext(ApiFormContext);
 
   let currentResult = context.currentResult;
   if (currentResult === null) currentResult = { results: [] };
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} justifyContent="space-evenly">
       {(currentResult.results as ProductsData[]).map((r, index) => (
-        <Grid key={index} item xs={6} md={4} lg={gridWith ? gridWith : 4}>
+        <Grid key={index} item>
           <ProductCard
             productData={r}
             browsePurpose={true}
