@@ -22,7 +22,7 @@ export const categorySlides: NavigationItemProps[] = [
   {
     name: "Smart TV",
     path: "https://www.solotodo.cl/televisions",
-    picture: "https://media.solotodo.com/media/website_slides/asset4.png",
+    picture: "https://media.solotodo.com/media/nav_items/ledtv.png",
     subtitle: "El futuro es hoy",
   },
 ];
