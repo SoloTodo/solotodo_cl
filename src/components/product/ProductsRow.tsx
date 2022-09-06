@@ -15,12 +15,13 @@ export default function ProductsRow({
   actionHref?: string;
   ribbonFormatter?: Function;
 }) {
-  return data.length !== 0 && data[0].product_entries[0].metadata.score === 0 ? null : (
+  return data.length !== 0 &&
+    data[0].product_entries[0].metadata.score === 0 ? null : (
     <Block title={title} actionHref={actionHref ? actionHref : "#"}>
       <Grid
         container
         spacing={{ xs: 2, lg: 3 }}
-        // justifyContent="space-between"
+        justifyContent="center"
         wrap="nowrap"
         overflow="auto"
       >
