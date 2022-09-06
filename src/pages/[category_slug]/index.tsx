@@ -78,9 +78,13 @@ type CategorySpecsFormLayoutProps = {
 export default function Browse({
   category,
   categorySpecsFormLayout,
+  initialData,
+  initialResult,
 }: {
   category: Category;
   categorySpecsFormLayout: CategorySpecsFormLayoutProps;
+  initialData: Record<string, string>;
+  initialResult: any;
 }) {
   const { prefExcludeRefurbished, prefStores } = useSettings();
   const theme = useTheme();
@@ -158,10 +162,7 @@ export default function Browse({
         });
         fieldFilters.push(
           <AccordionDetails key={filter.id}>
-            <ApiFormTreeComponent
-              name={filter.name}
-              label={filter.label}
-            />
+            <ApiFormTreeComponent name={filter.name} label={filter.label} />
           </AccordionDetails>
         );
       } else if (filter.type === "exact") {
@@ -291,6 +292,10 @@ export default function Browse({
         <ApiFormComponent
           endpoint={`${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`}
           fieldsMetadata={fieldsMetadata}
+          initialState={{
+            initialData: initialData,
+            initialResult: initialResult,
+          }}
         >
           <Grid container spacing={{ xs: 2, md: 3 }} alignItems="center">
             <Grid item xs={12} lg={3}>
@@ -298,7 +303,11 @@ export default function Browse({
             </Grid>
             {useMediaQuery(theme.breakpoints.up("lg")) ? (
               <Grid item xs={3} lg={3} width="100%">
-                <ApiFormSelectComponent name="ordering" label="Ordenar por" />
+                <ApiFormSelectComponent
+                  name="ordering"
+                  label="Ordenar por"
+                  selectOnly
+                />
               </Grid>
             ) : (
               <>
@@ -309,6 +318,7 @@ export default function Browse({
                       <ApiFormSelectComponent
                         name="ordering"
                         label="Ordenar por"
+                        selectOnly
                       />
                     </Box>
                     <Button
@@ -374,6 +384,14 @@ export default function Browse({
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (st) => async (context) => {
+    const prefExcludeRefurbished = context.req.cookies.prefExcludeRefurbished;
+    const preStoresCookie = context.req.cookies.prefStores;
+    const prefStores = preStoresCookie ? preStoresCookie.split("|") : [];
+    let storesUrl = "";
+    for (const store of prefStores) {
+      storesUrl += `&stores=${store}`;
+    }
+
     const apiResourceObjects = st.getState().apiResourceObjects;
     const categories = getApiResourceObjects(apiResourceObjects, "categories");
     const category = categories.find(
@@ -395,10 +413,24 @@ export const getServerSideProps = wrapper.getServerSideProps(
         )
           categorySpecsFormLayout = res;
       });
+      const queries: Record<string, string> = {
+        page_size: "20",
+        ...context.query,
+      };
+      delete queries.category_slug;
+      let queriesUrl = "";
+      for (const q of Object.keys(queries)) {
+        queriesUrl += `&${q}=${queries[q]}`;
+      }
+      const results = await fetchJson(
+        `${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}${queriesUrl}`
+      );
       return {
         props: {
           category: category,
           categorySpecsFormLayout: categorySpecsFormLayout,
+          initialData: queries,
+          initialResult: results,
         },
       };
     }
