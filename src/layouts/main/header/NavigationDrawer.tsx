@@ -1,4 +1,11 @@
-import { useState } from "react";
+import {
+  JSXElementConstructor,
+  ReactElement,
+  ReactFragment,
+  ReactPortal,
+  useState,
+} from "react";
+import NextLink from "next/link";
 import {
   Stack,
   Button,
@@ -123,34 +130,53 @@ export default function NavigationDrawer({
             <List dense>
               {menu?.sections.map((s, index) => (
                 <div key={index}>
-                  <ListItemButton
-                    sx={{ textTransform: "capitalize" }}
-                    href={`${s.path}/preview`}
-                  >
-                    <ListItemText
-                      primaryTypographyProps={{ typography: "body1" }}
+                  {s.path === "/" ? (
+                    <ListItemButton
+                      sx={{ textTransform: "capitalize" }}
+                      disabled
                     >
-                      {s.name}
-                    </ListItemText>
-                    <Box
-                      component={Iconify}
-                      icon={"eva:arrow-ios-forward-fill"}
-                    />
-                  </ListItemButton>
+                      <ListItemText
+                        primaryTypographyProps={{ typography: "body1" }}
+                      >
+                        {s.name}
+                      </ListItemText>
+                    </ListItemButton>
+                  ) : (
+                    <NextLink href={`${s.path}/preview`} passHref>
+                      <ListItemButton
+                        sx={{ textTransform: "capitalize" }}
+                        onClick={closeDrawer}
+                      >
+                        <ListItemText
+                          primaryTypographyProps={{ typography: "body1" }}
+                        >
+                          {s.name}
+                        </ListItemText>
+                        <Box
+                          component={Iconify}
+                          icon={"eva:arrow-ios-forward-fill"}
+                        />
+                      </ListItemButton>
+                    </NextLink>
+                  )}
                   <List dense sx={{ padding: 0 }}>
                     {s.items.map((i) => (
                       <ListItem key={`${s.name}-${i.name}`}>
-                        <ListItemButton href={i.path}>
-                          <ListItemText>{i.name}</ListItemText>
-                        </ListItemButton>
+                        <NextLink href={i.path} passHref>
+                          <ListItemButton onClick={closeDrawer}>
+                            <ListItemText>{i.name}</ListItemText>
+                          </ListItemButton>
+                        </NextLink>
                       </ListItem>
                     ))}
                     <ListItem key={s.name}>
-                      <ListItemButton href={s.path}>
-                        <ListItemText sx={{ color: "primary.main" }}>
-                          Ver todos
-                        </ListItemText>
-                      </ListItemButton>
+                      <NextLink href={s.path} passHref>
+                        <ListItemButton onClick={closeDrawer}>
+                          <ListItemText sx={{ color: "primary.main" }}>
+                            Ver todos
+                          </ListItemText>
+                        </ListItemButton>
+                      </NextLink>
                     </ListItem>
                   </List>
                 </div>
