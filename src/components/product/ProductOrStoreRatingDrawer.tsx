@@ -51,7 +51,9 @@ export default function ProductOrStoreRatingDrawer({
       <IconButton style={{ alignSelf: "end" }} onClick={onClose}>
         <CloseIcon />
       </IconButton>
-      <Typography variant="h5">{productOrStore.name}</Typography>
+      <Typography variant="h5" color="text.extra" fontWeight={700}>
+        {productOrStore.name}
+      </Typography>
       {!isStore && <ProductRatingSummary productOrStore={productOrStore} />}
       <Grid container>
         {data &&

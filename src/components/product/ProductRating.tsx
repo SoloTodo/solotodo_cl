@@ -32,7 +32,9 @@ export default function ProductRating({
     <Stack spacing={1}>
       {ratingsData.length !== 0 ? (
         <>
-          <Typography variant="h5">{product.name}</Typography>
+          <Typography variant="h5" color="text.extra" fontWeight={700}>
+            {product.name}
+          </Typography>
           <ProductRatingSummary productOrStore={product} />
           <Grid container>
             {ratingsData.map((result, index) => (
@@ -45,7 +47,7 @@ export default function ProductRating({
             <Button color="secondary" sx={{ borderRadius: 3 }}>
               <Typography
                 variant="h5"
-                color="text.primary"
+                color="text.extra"
                 onClick={() => setOpenMoreCommentsDrawer(true)}
               >
                 Ver más comentarios

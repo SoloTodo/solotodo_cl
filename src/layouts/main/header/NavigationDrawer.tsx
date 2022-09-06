@@ -148,7 +148,7 @@ export default function NavigationDrawer({
                     <ListItem key={s.name}>
                       <ListItemButton href={s.path}>
                         <ListItemText sx={{ color: "primary.main" }}>
-                          Ver todo
+                          Ver todos
                         </ListItemText>
                       </ListItemButton>
                     </ListItem>

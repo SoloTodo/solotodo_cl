@@ -26,10 +26,17 @@ type ProductProps = {
   loading?: boolean;
   ribbonFormatter?: Function;
   browsePurpose?: boolean;
+  categoryBrowseResult?: Boolean;
 };
 
 export default function ProductCard(props: ProductProps) {
-  const { productData, loading, browsePurpose, ribbonFormatter } = props;
+  const {
+    productData,
+    loading,
+    browsePurpose,
+    ribbonFormatter,
+    categoryBrowseResult,
+  } = props;
   const [active, setActive] = useState(0);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
 
@@ -50,6 +57,8 @@ export default function ProductCard(props: ProductProps) {
   });
 
   const { product, metadata } = product_entries[active];
+  const category = apiResourceObjects[product.category] as Category;
+
   const tags: string[] = product.specs.tags ? product.specs.tags : [];
 
   const priceCurrency = metadata.prices_per_currency.find((p) =>
@@ -57,8 +66,9 @@ export default function ProductCard(props: ProductProps) {
   );
   const offerPrice = priceCurrency ? priceCurrency.offer_price : 0;
 
-  const template = (apiResourceObjects[product.category] as Category)
-    .short_description_template;
+  const template = categoryBrowseResult
+    ? category.browse_result_template
+    : category.short_description_template;
 
   const formatSpecs = () => {
     let html = "";
@@ -70,7 +80,7 @@ export default function ProductCard(props: ProductProps) {
     return { __html: html };
   };
 
-  return (
+  return metadata.score === 0 ? (null) : (
     <Card
       sx={{
         width: { xs: browsePurpose ? "100%" : 250, sm: 270, md: 292 },
@@ -142,15 +152,26 @@ export default function ProductCard(props: ProductProps) {
                 browsePurpose ? styles.product_specs : "short-description"
               }
               dangerouslySetInnerHTML={formatSpecs()}
-              style={{
-                height: 40,
-                color: "#757b80",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                display: "-webkit-box",
-                WebkitLineClamp: "2",
-                WebkitBoxOrient: "vertical",
-              }}
+              style={
+                categoryBrowseResult
+                  ? {
+                      height: 150,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      display: "-webkit-box",
+                      WebkitLineClamp: "7",
+                      WebkitBoxOrient: "vertical",
+                    }
+                  : {
+                      height: 40,
+                      color: "#757b80",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      display: "-webkit-box",
+                      WebkitLineClamp: "2",
+                      WebkitBoxOrient: "vertical",
+                    }
+              }
             />
             <Typography variant="h2" component="div" fontWeight={500}>
               {currency(offerPrice, {

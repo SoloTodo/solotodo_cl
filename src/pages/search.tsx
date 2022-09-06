@@ -44,6 +44,10 @@ export default function Search() {
       name: "ordering",
       choices: [
         {
+          value: "offer_price_usd",
+          label: "Precio",
+        },
+        {
           value: "relevance",
           label: "Relevancia",
         },
