@@ -39,6 +39,7 @@ export const cookiesKey = {
   themeStretch: "themeStretch",
   prefExcludeRefurbished: "prefExcludeRefurbished",
   prefStores: "prefStores",
+  refurbishedReminder: "refurbishedReminder"
 };
 
 export const defaultSettings: SettingsValueProps = {

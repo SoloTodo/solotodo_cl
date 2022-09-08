@@ -1,15 +1,18 @@
 import {
+  Alert,
+  Box,
   Button,
   Divider,
   FormControl,
   InputLabel,
   MenuItem,
+  Modal,
   Select,
   Stack,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { constants } from "src/config";
+import { constants, cookiesExpires, cookiesKey } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import { Entity } from "src/frontend-utils/types/entity";
@@ -25,6 +28,7 @@ import useSettings from "src/hooks/useSettings";
 import { useUser } from "src/frontend-utils/redux/user";
 import ProductAddToBudgetButton from "./ProductAddToBudgetButton";
 import ProductStaffActionButton from "./ProductStaffActionButton";
+import Cookies from "js-cookie";
 
 type ProductPricesProps = {
   product: Product;
@@ -32,13 +36,27 @@ type ProductPricesProps = {
   setOpenNewCommentDrawer: Function;
 };
 
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
 export default function ProductPrices({
   product,
   category,
   setOpenNewCommentDrawer,
 }: ProductPricesProps) {
-  const { prefExcludeRefurbished, prefStores } = useSettings();
+  const { prefExcludeRefurbished, prefStores, onToggleExcludeRefurbished } =
+    useSettings();
   const user = useAppSelector(useUser);
+  const [openModal, setOpenModal] = useState(false);
   const [entities, setEntities] = useState<Entity[]>([]);
   const [ratedStores, setRatedStores] = useState<Record<string, RatedStore>>(
     {}
@@ -80,11 +98,32 @@ export default function ProductPrices({
             rating: storeRating.rating,
           };
         }
+        const refurbishedPresent = entities.filter(
+          (e) => e.condition !== "https://schema.org/NewCondition"
+        );
         setEntities(entities);
         setRatedStores(rStores);
+        if (
+          !Cookies.get(cookiesKey.refurbishedReminder) &&
+          refurbishedPresent.length > 0
+        ) {
+          setOpenModal(true);
+        }
       });
     });
   }, [apiResourceObjects, prefExcludeRefurbished, prefStores, product.id]);
+
+  const hideRifurbished = () => {
+    onToggleExcludeRefurbished();
+    setOpenModal(false);
+  };
+
+  const setRefurbushedReminderCookie = () => {
+    Cookies.set(cookiesKey.refurbishedReminder, "active", {
+      expires: cookiesExpires * 10,
+    });
+    setOpenModal(false);
+  };
 
   return (
     <Stack direction="column" spacing={2}>
@@ -158,6 +197,32 @@ export default function ProductPrices({
           ¿Lo compraste? ¡Danos tu opinión!
         </Button>
       </Stack>
+      <Modal open={openModal} onClose={hideRifurbished}>
+        <Box sx={style}>
+          <Stack spacing={2}>
+            <Alert severity="warning">
+              Este producto contiene precios de artículos reacondicionados.
+              ¿Quieres continuar viendo estas opciones o esconderlas?
+            </Alert>
+            <Stack direction="row-reverse" spacing={1}>
+              <Button
+                variant="contained"
+                color="info"
+                onClick={setRefurbushedReminderCookie}
+              >
+                Continuar
+              </Button>
+              <Button
+                variant="outlined"
+                color="warning"
+                onClick={hideRifurbished}
+              >
+                Esconder Reacondicionados
+              </Button>
+            </Stack>
+          </Stack>
+        </Box>
+      </Modal>
     </Stack>
   );
 }
