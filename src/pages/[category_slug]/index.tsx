@@ -83,7 +83,7 @@ export default function Browse({
 }: {
   category: Category;
   categorySpecsFormLayout: CategorySpecsFormLayoutProps;
-  initialData: Record<string, string>;
+  initialData: string;
   initialResult: any;
 }) {
   const { prefExcludeRefurbished, prefStores } = useSettings();
@@ -293,7 +293,7 @@ export default function Browse({
           endpoint={`${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`}
           fieldsMetadata={fieldsMetadata}
           initialState={{
-            initialData: initialData,
+            initialData: new URLSearchParams(initialData),
             initialResult: initialResult,
           }}
         >
@@ -384,54 +384,68 @@ export default function Browse({
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (st) => async (context) => {
-    const prefExcludeRefurbished = context.req.cookies.prefExcludeRefurbished;
-    const preStoresCookie = context.req.cookies.prefStores;
-    const prefStores = preStoresCookie ? preStoresCookie.split("|") : [];
-    let storesUrl = "";
-    for (const store of prefStores) {
-      storesUrl += `&stores=${store}`;
-    }
+    try {
+      const prefExcludeRefurbished = context.req.cookies.prefExcludeRefurbished;
+      const preStoresCookie = context.req.cookies.prefStores;
+      const prefStores = preStoresCookie ? preStoresCookie.split("|") : [];
+      let storesUrl = "";
+      for (const store of prefStores) {
+        storesUrl += `&stores=${store}`;
+      }
 
-    const apiResourceObjects = st.getState().apiResourceObjects;
-    const categories = getApiResourceObjects(apiResourceObjects, "categories");
-    const category = categories.find(
-      (c) => (c as Category).slug === context.params?.category_slug
-    );
-    if (typeof category === "undefined") {
+      const apiResourceObjects = st.getState().apiResourceObjects;
+      const categories = getApiResourceObjects(
+        apiResourceObjects,
+        "categories"
+      );
+      const category = categories.find(
+        (c) => (c as Category).slug === context.params?.category_slug
+      );
+      if (typeof category === "undefined") {
+        return {
+          notFound: true,
+        };
+      } else {
+        const response = await fetchJson(
+          `${constants.apiResourceEndpoints.category_specs_form_layouts}?category=${category.id}`
+        );
+        let categorySpecsFormLayout = response[0];
+        response.forEach((res: { website: string }) => {
+          if (
+            res.website ==
+            `${constants.apiResourceEndpoints.websites}${constants.websiteId}/`
+          )
+            categorySpecsFormLayout = res;
+        });
+        const queries: Record<string, string> = {
+          page_size: "20",
+          ...context.query,
+        };
+        delete queries.category_slug;
+        let queriesUrl = "";
+        let apiUrl = "";
+        for (const q of Object.keys(queries)) {
+          let apiQ = q;
+          if (apiQ.endsWith("_start")) apiQ = apiQ.replace("_start", "_min");
+          if (apiQ.endsWith("_end")) apiQ = apiQ.replace("_end", "_max");
+          queriesUrl += `&${q}=${queries[q]}`;
+          apiUrl += `&${apiQ}=${queries[q]}`;
+        }
+        const results = await fetchJson(
+          `${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}${apiUrl}`
+        );
+        return {
+          props: {
+            category: category,
+            categorySpecsFormLayout: categorySpecsFormLayout,
+            initialData: queriesUrl,
+            initialResult: results,
+          },
+        };
+      }
+    } catch {
       return {
         notFound: true,
-      };
-    } else {
-      const response = await fetchJson(
-        `${constants.apiResourceEndpoints.category_specs_form_layouts}?category=${category.id}`
-      );
-      let categorySpecsFormLayout = response[0];
-      response.forEach((res: { website: string }) => {
-        if (
-          res.website ==
-          `${constants.apiResourceEndpoints.websites}${constants.websiteId}/`
-        )
-          categorySpecsFormLayout = res;
-      });
-      const queries: Record<string, string> = {
-        page_size: "20",
-        ...context.query,
-      };
-      delete queries.category_slug;
-      let queriesUrl = "";
-      for (const q of Object.keys(queries)) {
-        queriesUrl += `&${q}=${queries[q]}`;
-      }
-      const results = await fetchJson(
-        `${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}${queriesUrl}`
-      );
-      return {
-        props: {
-          category: category,
-          categorySpecsFormLayout: categorySpecsFormLayout,
-          initialData: queries,
-          initialResult: results,
-        },
       };
     }
   }
