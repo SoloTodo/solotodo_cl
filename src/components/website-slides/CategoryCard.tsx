@@ -23,7 +23,7 @@ export default function CategoryCard({
   return (
     <Box
       sx={{
-        height: { xs: 145, sm: 170 },
+        height: { xs: 145, md: 170 },
         paddingX: 2,
         borderRadius: 2,
         backgroundColor: "background.paper",
@@ -34,12 +34,6 @@ export default function CategoryCard({
       <Link
         href={categoryData.path}
         underline="none"
-        // sx={{
-        //   ":hover": {
-        //     backgroundColor: "primary"
-        //   }
-        // }}
-        // sx={{ padding: 0, height: { xs: 145, sm: 170 } }}
       >
         <Stack
           alignItems="flex-start"
@@ -66,21 +60,7 @@ export default function CategoryCard({
               </Typography>
             )}
           </Stack>
-          {/* <Button
-          variant="outlined"
-          color="secondary"
-          href={categoryData.path}
-          sx={{ borderRadius: 3, color: "text.primary" }}
-          endIcon={<ArrowForwardIcon />}
-        >
-          VER OFERTAS
-        </Button> */}
           <Chip
-            // sx={{
-            //   backgroundColor: "white",
-            //   color: "black",
-            //   ":hover": { backgroundColor: "#DFE3E8" },
-            // }}
             color="secondary"
             sx={{
               color: "text.primary",
