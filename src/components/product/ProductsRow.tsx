@@ -21,7 +21,7 @@ export default function ProductsRow({
       <Grid
         container
         spacing={{ xs: 2, lg: 3 }}
-        justifyContent="center"
+        justifyContent={{ xs: "start", xl: "center" }}
         wrap="nowrap"
         overflow="auto"
       >
