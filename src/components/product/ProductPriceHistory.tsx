@@ -110,8 +110,8 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
 
           if (
             !minimumPricesPerDay.normalPrices[timestamp] ||
-            normalPrice <
-              minimumPricesPerDay.normalPrices[timestamp].normalPrice
+            normalPrice.value <
+              minimumPricesPerDay.normalPrices[timestamp].normalPrice.value
           ) {
             minimumPricesPerDay.normalPrices[timestamp] = {
               timestamp,
@@ -120,7 +120,7 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
           }
           if (
             !minimumPricesPerDay.offerPrices[timestamp] ||
-            offerPrice < minimumPricesPerDay.offerPrices[timestamp].offerPrice
+            offerPrice.value < minimumPricesPerDay.offerPrices[timestamp].offerPrice.value
           ) {
             minimumPricesPerDay.offerPrices[timestamp] = {
               timestamp,
