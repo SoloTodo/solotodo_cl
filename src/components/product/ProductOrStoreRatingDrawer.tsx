@@ -38,12 +38,19 @@ export default function ProductOrStoreRatingDrawer({
   const [data, setData] = useState<PagintationData | null>(null);
 
   useEffect(() => {
+    const myAbortController = new AbortController();
     const urlExtension = isStore
       ? `stores=${productOrStore.id}`
       : `with_product_rating_only=1&products=${productOrStore.id}`;
     fetchJson(
-      `${constants.apiResourceEndpoints.ratings}?${urlExtension}&page_size=5&page=${page}`
-    ).then((res) => setData(res));
+      `${constants.apiResourceEndpoints.ratings}?${urlExtension}&page_size=5&page=${page}`,
+      { signal: myAbortController.signal }
+    )
+      .then((res) => setData(res))
+      .catch((_) => {});
+    return () => {
+      myAbortController.abort();
+    };
   }, [isStore, page, productOrStore.id]);
 
   return (

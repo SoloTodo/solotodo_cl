@@ -38,6 +38,7 @@ export default function BudgetViewTable({
   }
 
   useEffect(() => {
+    const myAbortController = new AbortController();
     const selectedProductUrls = budget.entries
       .map((entry) => entry.selected_product)
       .filter((productUrl) => productUrl);
@@ -58,16 +59,21 @@ export default function BudgetViewTable({
 
       url += `&exclude_refurbished=${prefExcludeRefurbished}`;
 
-      fetchJson(url).then((response) => {
-        const pricingEntries: PricingEntriesProps[] = response.results;
-        pricingEntries.sort((a, b) =>
-          a.product.name <= b.product.name ? -1 : 1
-        );
-        setPricingEntries(pricingEntries);
-      });
+      fetchJson(url, { signal: myAbortController.signal })
+        .then((response) => {
+          const pricingEntries: PricingEntriesProps[] = response.results;
+          pricingEntries.sort((a, b) =>
+            a.product.name <= b.product.name ? -1 : 1
+          );
+          setPricingEntries(pricingEntries);
+        })
+        .catch((_) => {});
     } else {
       setPricingEntries([]);
     }
+    return () => {
+      myAbortController.abort();
+    };
   }, [
     budget.entries,
     budget.products_pool,
@@ -188,11 +194,7 @@ export default function BudgetViewTable({
         const m = getMatchingEntity(params.row);
         return store ? (
           m ? (
-            <SoloTodoLeadLink
-              entity={m}
-              storeEntry={store}
-              product={product}
-            >
+            <SoloTodoLeadLink entity={m} storeEntry={store} product={product}>
               {store.name}
             </SoloTodoLeadLink>
           ) : (

@@ -68,49 +68,59 @@ export default function ProductPrices({
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
 
   useEffect(() => {
+    const myAbortController = new AbortController();
     let storesUrl = "";
     for (const store of prefStores) {
       storesUrl += `&stores=${store}`;
     }
     fetchJson(
-      `${constants.apiResourceEndpoints.products}available_entities/?ids=${product.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
-    ).then((availableEntities) => {
-      const entities: Entity[] = availableEntities.results[0].entities.filter(
-        (entity: Entity) =>
-          entity.active_registry!.cell_monthly_payment === null
-      );
-      const stores = entities.map(
-        (entity) => apiResourceObjects[entity.store] as Store
-      );
-
-      // Get ratings
-      let storesRatingsUrl = "";
-      for (const store of stores) {
-        storesRatingsUrl += "ids=" + store.id + "&";
-      }
-      fetchJson(
-        `${constants.apiResourceEndpoints.stores}average_ratings/?${storesRatingsUrl}`
-      ).then((storesRatings) => {
-        const rStores: Record<string, RatedStore> = {};
-        for (const storeRating of storesRatings) {
-          rStores[storeRating.store] = {
-            ...stores[storeRating.store],
-            rating: storeRating.rating,
-          };
-        }
-        const refurbishedPresent = entities.filter(
-          (e) => e.condition !== "https://schema.org/NewCondition"
+      `${constants.apiResourceEndpoints.products}available_entities/?ids=${product.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`,
+      { signal: myAbortController.signal }
+    )
+      .then((availableEntities) => {
+        const entities: Entity[] = availableEntities.results[0].entities.filter(
+          (entity: Entity) =>
+            entity.active_registry!.cell_monthly_payment === null
         );
-        setEntities(entities);
-        setRatedStores(rStores);
-        if (
-          !Cookies.get(cookiesKey.refurbishedReminder) &&
-          refurbishedPresent.length > 0
-        ) {
-          setOpenModal(true);
+        const stores = entities.map(
+          (entity) => apiResourceObjects[entity.store] as Store
+        );
+
+        // Get ratings
+        let storesRatingsUrl = "";
+        for (const store of stores) {
+          storesRatingsUrl += "ids=" + store.id + "&";
         }
-      });
-    });
+        fetchJson(
+          `${constants.apiResourceEndpoints.stores}average_ratings/?${storesRatingsUrl}`,
+          { signal: myAbortController.signal }
+        )
+          .then((storesRatings) => {
+            const rStores: Record<string, RatedStore> = {};
+            for (const storeRating of storesRatings) {
+              rStores[storeRating.store] = {
+                ...stores[storeRating.store],
+                rating: storeRating.rating,
+              };
+            }
+            const refurbishedPresent = entities.filter(
+              (e) => e.condition !== "https://schema.org/NewCondition"
+            );
+            setEntities(entities);
+            setRatedStores(rStores);
+            if (
+              !Cookies.get(cookiesKey.refurbishedReminder) &&
+              refurbishedPresent.length > 0
+            ) {
+              setOpenModal(true);
+            }
+          })
+          .catch((_) => {});
+      })
+      .catch((_) => {});
+    return () => {
+      myAbortController.abort();
+    };
   }, [apiResourceObjects, prefExcludeRefurbished, prefStores, product.id]);
 
   const hideRifurbished = () => {

@@ -32,17 +32,27 @@ const Home = (props: HomeProps) => {
     ];
 
   useEffect(() => {
+    const myAbortController = new AbortController();
     let storesUrl = "";
     for (const store of prefStores) {
       storesUrl += `&stores=${store}`;
     }
 
     fetchJson(
-      `products/browse/?ordering=leads&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
-    ).then((response) => setLeads(response.results));
+      `products/browse/?ordering=leads&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`,
+      { signal: myAbortController.signal }
+    )
+      .then((response) => setLeads(response.results))
+      .catch((_) => {});
     fetchJson(
-      `products/browse/?ordering=discount&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
-    ).then((response) => setDiscount(response.results));
+      `products/browse/?ordering=discount&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`,
+      { signal: myAbortController.signal }
+    )
+      .then((response) => setDiscount(response.results))
+      .catch((_) => {});
+    return () => {
+      myAbortController.abort();
+    };
   }, [prefExcludeRefurbished, prefStores]);
 
   return (

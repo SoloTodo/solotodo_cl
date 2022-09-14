@@ -55,6 +55,7 @@ export default function BudgetRow({
     : "";
 
   useEffect(() => {
+    const myAbortController = new AbortController();
     if (
       typeof matchingPricingEntry === "undefined" &&
       pricingEntriesSameCategory.length !== 0
@@ -68,9 +69,15 @@ export default function BudgetRow({
       fetchAuth(null, `budget_entries/${budgetEntry.id}/`, {
         method: "PATCH",
         body: JSON.stringify(formData),
-      }).then(() => {
-        setBudget();
-      });
+        signal: myAbortController.signal,
+      })
+        .then(() => {
+          setBudget();
+        })
+        .catch((_) => {});
+      return () => {
+        myAbortController.abort();
+      };
     }
   }, [
     budgetEntry.id,

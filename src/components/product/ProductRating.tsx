@@ -23,9 +23,16 @@ export default function ProductRating({
   const [openMoreCommentsDrawer, setOpenMoreCommentsDrawer] = useState(false);
 
   useEffect(() => {
+    const myAbortController = new AbortController();
     fetchJson(
-      `${constants.apiResourceEndpoints.ratings}?page_size=6&with_product_rating_only=1&products=${product.id}`
-    ).then((res) => setRatingsData(res.results));
+      `${constants.apiResourceEndpoints.ratings}?page_size=6&with_product_rating_only=1&products=${product.id}`,
+      { signal: myAbortController.signal }
+    )
+      .then((res) => setRatingsData(res.results))
+      .catch((_) => {});
+    return () => {
+      myAbortController.abort();
+    };
   }, [product.id]);
 
   return (

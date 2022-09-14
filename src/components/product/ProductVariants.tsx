@@ -37,8 +37,9 @@ export default function ProductVariants({
   const bucketSettings = (constants.bucketCategories as Record<number, Bucket>)[
     category.id
   ];
-  
+
   useEffect(() => {
+    const myAbortController = new AbortController();
     if (typeof bucketSettings === "undefined") return;
 
     const fields = bucketSettings.fields;
@@ -47,35 +48,42 @@ export default function ProductVariants({
       ? user.preferred_stores.map((s) => apiResourceObjects[s])
       : [];
 
-    fetchJson(bucketUrl).then((products) => {
-      let pricingEntriesUrl = `products/available_entities/?`;
+    fetchJson(bucketUrl, { signal: myAbortController.signal })
+      .then((products) => {
+        let pricingEntriesUrl = `products/available_entities/?`;
 
-      for (const product of products) {
-        pricingEntriesUrl += `ids=${product.id}&`;
-      }
+        for (const product of products) {
+          pricingEntriesUrl += `ids=${product.id}&`;
+        }
 
-      for (const store of stores) {
-        pricingEntriesUrl += `stores=${store.id}&`;
-      }
+        for (const store of stores) {
+          pricingEntriesUrl += `stores=${store.id}&`;
+        }
 
-      fetchJson(pricingEntriesUrl).then((response) => {
-        const filteredEntries = (response.results as PricingEntriesProps[])
-          .map((pricingEntry) => ({
-            product: pricingEntry.product,
-            entities: pricingEntry.entities.filter(
-              (entity: Entity) =>
-                entity.active_registry &&
-                entity.active_registry.cell_monthly_payment === null
-            ),
-          }))
-          .filter(
-            (pricingEntry) =>
-              pricingEntry.entities.length ||
-              pricingEntry.product.id === product.id
-          );
-        setPrincingEntries(filteredEntries);
-      });
-    });
+        fetchJson(pricingEntriesUrl, { signal: myAbortController.signal })
+          .then((response) => {
+            const filteredEntries = (response.results as PricingEntriesProps[])
+              .map((pricingEntry) => ({
+                product: pricingEntry.product,
+                entities: pricingEntry.entities.filter(
+                  (entity: Entity) =>
+                    entity.active_registry &&
+                    entity.active_registry.cell_monthly_payment === null
+                ),
+              }))
+              .filter(
+                (pricingEntry) =>
+                  pricingEntry.entities.length ||
+                  pricingEntry.product.id === product.id
+              );
+            setPrincingEntries(filteredEntries);
+          })
+          .catch((_) => {});
+      })
+      .catch((_) => {});
+    return () => {
+      myAbortController.abort();
+    };
   }, [apiResourceObjects, bucketSettings, product.id, user]);
 
   if (!bucketSettings || pricingEntries.length === 0) return null;

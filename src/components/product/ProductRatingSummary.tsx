@@ -4,16 +4,26 @@ import { fetchJson } from "src/frontend-utils/network/utils";
 import { Product } from "src/frontend-utils/types/product";
 import { Store } from "src/frontend-utils/types/store";
 
-export default function ProductRatingSummary({ productOrStore }: { productOrStore: Product | Store }) {
+export default function ProductRatingSummary({
+  productOrStore,
+}: {
+  productOrStore: Product | Store;
+}) {
   const [ratingsData, setRatingsData] = useState<{
     average: number;
     count?: number;
   } | null>(null);
 
   useEffect(() => {
-    fetchJson(`${productOrStore.url}average_rating/`).then((res) =>
-      setRatingsData(res)
-    );
+    const myAbortController = new AbortController();
+    fetchJson(`${productOrStore.url}average_rating/`, {
+      signal: myAbortController.signal,
+    })
+      .then((res) => setRatingsData(res))
+      .catch((_) => {});
+    return () => {
+      myAbortController.abort();
+    };
   }, [productOrStore.url]);
 
   if (!ratingsData || !ratingsData.count) return null;

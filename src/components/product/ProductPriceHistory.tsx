@@ -65,85 +65,94 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
   const [endDate, setEndDate] = useState<Date | null>(new Date());
 
   useEffect(() => {
+    const myAbortController = new AbortController();
     if (startDate === null || endDate === null) return;
     setLoading(true);
-    
+
     let storesUrl = "";
     for (const store of prefStores) {
-      storesUrl += `&stores=${store}`
+      storesUrl += `&stores=${store}`;
     }
     const url =
       `${constants.apiResourceEndpoints.products}${product.id}/pricing_history/` +
       `?timestamp_after=${startDate.toISOString()}&timestamp_before=${endDate.toISOString()}` +
       `&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`;
 
-    fetchJson(url).then((data) => {
-      const minimumPricesPerDay: MinimumPricesPerDay = {
-        normalPrices: {},
-        offerPrices: {},
-      };
-
-      const finalData: NormalizedPricingData[] = [];
-
-      for (const pricingEntry of data as PricingData[]) {
-        if (pricingEntry.entity.condition != "https://schema.org/NewCondition")
-          continue;
-
-        const newData: NormalizedPricingData = {
-          entity: pricingEntry.entity,
-          normalized_pricing_history: {
-            normalPrices: {},
-            offerPrices: {},
-          },
+    fetchJson(url, { signal: myAbortController.signal })
+      .then((data) => {
+        const minimumPricesPerDay: MinimumPricesPerDay = {
+          normalPrices: {},
+          offerPrices: {},
         };
 
-        for (const priceHistory of pricingEntry.pricing_history) {
-          if (!priceHistory.is_available) continue;
+        const finalData: NormalizedPricingData[] = [];
 
-          const timestamp = fDate(new Date(priceHistory.timestamp));
-          const normalPrice = currency(priceHistory.normal_price, {
-            precision: 0,
-          });
-          const offerPrice = currency(priceHistory.offer_price, {
-            precision: 0,
-          });
-
+        for (const pricingEntry of data as PricingData[]) {
           if (
-            !minimumPricesPerDay.normalPrices[timestamp] ||
-            normalPrice.value <
-              minimumPricesPerDay.normalPrices[timestamp].normalPrice.value
-          ) {
-            minimumPricesPerDay.normalPrices[timestamp] = {
+            pricingEntry.entity.condition != "https://schema.org/NewCondition"
+          )
+            continue;
+
+          const newData: NormalizedPricingData = {
+            entity: pricingEntry.entity,
+            normalized_pricing_history: {
+              normalPrices: {},
+              offerPrices: {},
+            },
+          };
+
+          for (const priceHistory of pricingEntry.pricing_history) {
+            if (!priceHistory.is_available) continue;
+
+            const timestamp = fDate(new Date(priceHistory.timestamp));
+            const normalPrice = currency(priceHistory.normal_price, {
+              precision: 0,
+            });
+            const offerPrice = currency(priceHistory.offer_price, {
+              precision: 0,
+            });
+
+            if (
+              !minimumPricesPerDay.normalPrices[timestamp] ||
+              normalPrice.value <
+                minimumPricesPerDay.normalPrices[timestamp].normalPrice.value
+            ) {
+              minimumPricesPerDay.normalPrices[timestamp] = {
+                timestamp,
+                normalPrice,
+              };
+            }
+            if (
+              !minimumPricesPerDay.offerPrices[timestamp] ||
+              offerPrice.value <
+                minimumPricesPerDay.offerPrices[timestamp].offerPrice.value
+            ) {
+              minimumPricesPerDay.offerPrices[timestamp] = {
+                timestamp,
+                offerPrice,
+              };
+            }
+
+            newData.normalized_pricing_history.normalPrices[timestamp] = {
               timestamp,
               normalPrice,
             };
-          }
-          if (
-            !minimumPricesPerDay.offerPrices[timestamp] ||
-            offerPrice.value < minimumPricesPerDay.offerPrices[timestamp].offerPrice.value
-          ) {
-            minimumPricesPerDay.offerPrices[timestamp] = {
+            newData.normalized_pricing_history.offerPrices[timestamp] = {
               timestamp,
               offerPrice,
             };
           }
 
-          newData.normalized_pricing_history.normalPrices[timestamp] = {
-            timestamp,
-            normalPrice,
-          };
-          newData.normalized_pricing_history.offerPrices[timestamp] = {
-            timestamp,
-            offerPrice,
-          };
+          finalData.push(newData);
         }
-
-        finalData.push(newData);
-      }
-      setPricingData(finalData);
-      setMinimumPrices(minimumPricesPerDay);
-      setLoading(false);
-    });
+        setPricingData(finalData);
+        setMinimumPrices(minimumPricesPerDay);
+        setLoading(false);
+      })
+      .catch((_) => {});
+    return () => {
+      myAbortController.abort();
+    };
   }, [endDate, prefExcludeRefurbished, prefStores, product.id, startDate]);
 
   let days: Date[] = [];
