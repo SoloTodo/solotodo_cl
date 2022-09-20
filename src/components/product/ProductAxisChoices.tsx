@@ -74,7 +74,7 @@ export default function ProductAxisChoices({
   );
 
   return (
-    <Stack spacing={1} direction="row">
+    <Stack spacing={1} direction="row" overflow="auto">
       {axesChoices.map((choice) => {
         if (choice.originalProductMatches) {
           return (
