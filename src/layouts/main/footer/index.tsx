@@ -69,25 +69,27 @@ export default function MainFooter() {
           sx={{ textAlign: { xs: "center", md: "left" } }}
         >
           <Grid item xs={11} sx={{ mb: 3 }}>
-            {settings.themeMode === "dark" ? (
-              <Link href={PATH_MAIN.root}>
-                <Image
-                  alt={"Logo"}
-                  src="/logo_fondo_oscuro.svg"
-                  width={200}
-                  height={51}
-                />
-              </Link>
-            ) : (
-              <Link href={PATH_MAIN.root}>
-                <Image
-                  alt={"Logo"}
-                  src="/logo_fondo_claro.svg"
-                  width={200}
-                  height={51}
-                />
-              </Link>
-            )}
+            <NextLink href={PATH_MAIN.root} passHref>
+              {settings.themeMode === "dark" ? (
+                <Link>
+                  <Image
+                    alt={"Logo"}
+                    src="/logo_fondo_oscuro.svg"
+                    width={200}
+                    height={51}
+                  />
+                </Link>
+              ) : (
+                <Link>
+                  <Image
+                    alt={"Logo"}
+                    src="/logo_fondo_claro.svg"
+                    width={200}
+                    height={51}
+                  />
+                </Link>
+              )}
+            </NextLink>
           </Grid>
           <Grid item xs={1} sx={{ mb: 3 }} alignSelf="center">
             <IconButton
