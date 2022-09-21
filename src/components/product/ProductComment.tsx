@@ -45,7 +45,9 @@ export default function ProductComment({
           </Button>
         </Stack>
       )}
-      <Typography variant="body2">{rating.product_comments}</Typography>
+      <Typography variant="body2">
+        {isStore ? rating.store_comments : rating.product_comments}
+      </Typography>
     </Stack>
   );
 }
