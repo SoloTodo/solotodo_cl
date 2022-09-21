@@ -9,6 +9,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import NextLink from "next/link";
 import CustomChip from "src/sections/mui/Chip";
 import Image from "../Image";
 import currency from "currency.js";
@@ -80,108 +81,122 @@ export default function ProductCard(props: ProductProps) {
     return { __html: html };
   };
 
-  return metadata.score === 0 ? (null) : (
+  return metadata.score === 0 ? null : (
     <Card
       sx={{
         width: { xs: browsePurpose ? "100%" : 250, sm: 270, md: 292 },
         height: "100%",
       }}
     >
-      <CardActionArea
-        href={`/products/${product.id}-${product.slug}`}
-        sx={options.length > 1 ? { height: "87%" } : { height: "100%" }}
-      >
-        <Box bgcolor="#fff">
-          {ribbonFormatter && (
-            <Box
-              sx={{
-                bgcolor: "#3C5D82",
-                p: 0.8,
-                borderEndEndRadius: 10,
-                display: "inline-block",
-              }}
-            >
-              <Typography variant="h5" fontWeight={440} color="#fff">
-                {ribbonFormatter(metadata.score)}
-              </Typography>
-            </Box>
-          )}
-          <Image
-            ratio="4/3"
-            src={
-              loading
-                ? "https://zone-assets-api.vercel.app/assets/img_placeholder.svg"
-                : `${product.url}picture/?width=300&height=200`
-            }
-            alt=""
-            loading="eager"
-          />
-        </Box>
-        <CardContent sx={{ p: "1rem" }}>
-          <Stack spacing={1}>
-            <Stack
-              direction="row"
-              spacing={1}
-              height={24}
-              sx={{ overflow: "auto", flexWrap: "nowrap" }}
-            >
-              {tags.map((t, index) => (
-                <CustomChip key={index} label={t} />
-              ))}
-            </Stack>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="div"
-              color="text.primary"
-              fontWeight={500}
-              height={45}
-              sx={{
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                display: "-webkit-box",
-                WebkitLineClamp: "2",
-                WebkitBoxOrient: "vertical",
-              }}
-            >
-              {product.name}
-            </Typography>
-
-            <div
-              className={
-                browsePurpose ? styles.product_specs : "short-description"
+      <NextLink href={`/products/${product.id}-${product.slug}`} passHref>
+        <CardActionArea
+          sx={options.length > 1 ? { height: "87%" } : { height: "100%" }}
+        >
+          <Box bgcolor="#fff">
+            {ribbonFormatter && (
+              <Box
+                sx={{
+                  bgcolor: "#3C5D82",
+                  p: 0.8,
+                  borderEndEndRadius: 10,
+                  display: "inline-block",
+                }}
+              >
+                <Typography variant="h5" fontWeight={440} color="#fff">
+                  {ribbonFormatter(metadata.score)}
+                </Typography>
+              </Box>
+            )}
+            <Image
+              ratio="4/3"
+              src={
+                loading
+                  ? "https://zone-assets-api.vercel.app/assets/img_placeholder.svg"
+                  : `${product.url}picture/?width=300&height=200`
               }
-              dangerouslySetInnerHTML={formatSpecs()}
-              style={
-                categoryBrowseResult
-                  ? {
-                      height: 150,
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      display: "-webkit-box",
-                      WebkitLineClamp: "7",
-                      WebkitBoxOrient: "vertical",
-                    }
-                  : {
-                      height: 40,
-                      color: "#757b80",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      display: "-webkit-box",
-                      WebkitLineClamp: "2",
-                      WebkitBoxOrient: "vertical",
-                    }
-              }
+              alt=""
+              loading="eager"
             />
-            <Typography variant="h2" component="div" fontWeight={500}>
-              {currency(offerPrice, {
-                separator: ".",
-                precision: 0,
-              }).format()}
-            </Typography>
-          </Stack>
-        </CardContent>
-      </CardActionArea>
+          </Box>
+          <CardContent sx={{ p: "1rem" }}>
+            <Stack justifyContent="space-between">
+              <Stack spacing={1}>
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  height={24}
+                  sx={{ overflow: "auto", flexWrap: "nowrap" }}
+                >
+                  {tags.map((t, index) => (
+                    <CustomChip key={index} label={t} />
+                  ))}
+                </Stack>
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="div"
+                  color="text.primary"
+                  fontWeight={500}
+                  height={45}
+                  sx={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: "-webkit-box",
+                    WebkitLineClamp: "2",
+                    WebkitBoxOrient: "vertical",
+                  }}
+                >
+                  {product.name}
+                </Typography>
+
+                <div
+                  className={
+                    browsePurpose ? styles.product_specs : "short-description"
+                  }
+                  dangerouslySetInnerHTML={formatSpecs()}
+                  style={
+                    categoryBrowseResult
+                      ? {
+                          // height: 170,
+                          // overflow: "hidden",
+                          // textOverflow: "ellipsis",
+                          // display: "-webkit-box",
+                          // WebkitLineClamp: "8",
+                          // WebkitBoxOrient: "vertical",
+                        }
+                      : {
+                          height: 40,
+                          color: "#757b80",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          display: "-webkit-box",
+                          WebkitLineClamp: "2",
+                          WebkitBoxOrient: "vertical",
+                        }
+                  }
+                />
+              </Stack>
+
+              <Typography
+                variant="h2"
+                component="div"
+                fontWeight={500}
+                sx={
+                  {
+                    // position: "absolute",
+                    // bottom: 0,
+                  }
+                }
+              >
+                {currency(offerPrice, {
+                  separator: ".",
+                  precision: 0,
+                }).format()}
+              </Typography>
+            </Stack>
+          </CardContent>
+        </CardActionArea>
+      </NextLink>
       {options.length > 1 && (
         <CardActions>
           <Select
