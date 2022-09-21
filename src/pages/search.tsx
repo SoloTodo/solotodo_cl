@@ -83,6 +83,7 @@ export default function Search() {
                 name="categories"
                 label="Categorías"
                 exact
+                selectOnly
               />
             </Grid>
             <Grid item md={3} width="100%">
