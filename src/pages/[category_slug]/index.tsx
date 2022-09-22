@@ -41,6 +41,7 @@ import CategoryRemoveFieldsButton from "src/components/category/CategoryRemoveFi
 import { useState } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ApiFormTreeComponent from "src/frontend-utils/api_form/fields/tree/ApiFormTreeComponent";
+import { stringify, parse } from "zipson";
 
 // ----------------------------------------------------------------------
 
@@ -73,19 +74,22 @@ type CategorySpecsFormLayoutProps = {
   website: string;
 };
 
-// ----------------------------------------------------------------------
-
-export default function Browse({
-  category,
-  categorySpecsFormLayout,
-  initialData,
-  initialResult,
-}: {
+type PropTypes = {
   category: Category;
   categorySpecsFormLayout: CategorySpecsFormLayoutProps;
   initialData: string;
   initialResult: any;
-}) {
+};
+
+// ----------------------------------------------------------------------
+
+export default function Browse({ data }: { data: string }) {
+  const {
+    category,
+    categorySpecsFormLayout,
+    initialData,
+    initialResult,
+  }: PropTypes = parse(data);
   const { prefExcludeRefurbished, prefStores } = useSettings();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -436,10 +440,15 @@ export const getServerSideProps = wrapper.getServerSideProps(
         );
         return {
           props: {
-            category: category,
-            categorySpecsFormLayout: categorySpecsFormLayout,
-            initialData: queriesUrl,
-            initialResult: results,
+            data: stringify(
+              {
+                category: category,
+                categorySpecsFormLayout: categorySpecsFormLayout,
+                initialData: queriesUrl,
+                initialResult: results,
+              },
+              { detectUtcTimestamps: true }
+            ),
           },
         };
       }
