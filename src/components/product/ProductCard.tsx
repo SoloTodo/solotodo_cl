@@ -39,6 +39,7 @@ export default function ProductCard(props: ProductProps) {
     categoryBrowseResult,
   } = props;
   const [active, setActive] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(loading);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
 
   const { product_entries } = productData;
@@ -81,7 +82,7 @@ export default function ProductCard(props: ProductProps) {
     return { __html: html };
   };
 
-  return metadata.score === 0 ? null : (
+  return metadata.score === 0 && !browsePurpose && active === 0 ? null : (
     <Card
       sx={{
         width: { xs: browsePurpose ? "100%" : 250, sm: 270, md: 292 },
@@ -110,12 +111,17 @@ export default function ProductCard(props: ProductProps) {
             <Image
               ratio="4/3"
               src={
-                loading
+                isLoaded
                   ? "https://zone-assets-api.vercel.app/assets/img_placeholder.svg"
                   : `${product.url}picture/?width=300&height=200`
               }
-              alt=""
+              alt={
+                isLoaded
+                  ? "https://zone-assets-api.vercel.app/assets/img_placeholder.svg"
+                  : `${product.url}picture/?width=300&height=200`
+              }
               loading="eager"
+              onLoad={() => setIsLoaded(false)}
             />
           </Box>
           <CardContent sx={{ p: "1rem" }}>
@@ -157,12 +163,12 @@ export default function ProductCard(props: ProductProps) {
                   style={
                     categoryBrowseResult
                       ? {
-                          // height: 170,
-                          // overflow: "hidden",
-                          // textOverflow: "ellipsis",
-                          // display: "-webkit-box",
-                          // WebkitLineClamp: "8",
-                          // WebkitBoxOrient: "vertical",
+                          height: 190,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          display: "-webkit-box",
+                          WebkitLineClamp: "9",
+                          WebkitBoxOrient: "vertical",
                         }
                       : {
                           height: 40,
@@ -177,17 +183,7 @@ export default function ProductCard(props: ProductProps) {
                 />
               </Stack>
 
-              <Typography
-                variant="h2"
-                component="div"
-                fontWeight={500}
-                sx={
-                  {
-                    // position: "absolute",
-                    // bottom: 0,
-                  }
-                }
-              >
+              <Typography variant="h2" component="div" fontWeight={500}>
                 {currency(offerPrice, {
                   separator: ".",
                   precision: 0,
@@ -202,7 +198,10 @@ export default function ProductCard(props: ProductProps) {
           <Select
             value={options[active].value}
             style={{ width: "100%" }}
-            onChange={(evt) => setActive(Number(evt.target.value))}
+            onChange={(evt) => {
+              setIsLoaded(true);
+              setActive(Number(evt.target.value));
+            }}
           >
             {options.map((c) => (
               <MenuItem key={c.value} value={c.value}>
