@@ -29,6 +29,7 @@ import { useUser } from "src/frontend-utils/redux/user";
 import ProductAddToBudgetButton from "./ProductAddToBudgetButton";
 import ProductStaffActionButton from "./ProductStaffActionButton";
 import Cookies from "js-cookie";
+import { useSnackbar } from "notistack";
 
 type ProductPricesProps = {
   product: Product;
@@ -53,6 +54,7 @@ export default function ProductPrices({
   category,
   setOpenNewCommentDrawer,
 }: ProductPricesProps) {
+  const { enqueueSnackbar } = useSnackbar();
   const { prefExcludeRefurbished, prefStores, onToggleExcludeRefurbished } =
     useSettings();
   const user = useAppSelector(useUser);
@@ -126,6 +128,10 @@ export default function ProductPrices({
   const hideRifurbished = () => {
     onToggleExcludeRefurbished();
     setOpenModal(false);
+    enqueueSnackbar(
+      "Se han escondido los productos reacondicionados exitosamente. Puedes volver a mostrarlos en el menú superior del sitio",
+      { persist: true }
+    );
   };
 
   const setRefurbushedReminderCookie = () => {
@@ -207,7 +213,7 @@ export default function ProductPrices({
           ¿Lo compraste? ¡Danos tu opinión!
         </Button>
       </Stack>
-      <Modal open={openModal} onClose={hideRifurbished}>
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
         <Box sx={style}>
           <Stack spacing={2}>
             <Alert severity="warning">
