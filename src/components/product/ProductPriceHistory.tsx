@@ -161,6 +161,7 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
     while (day <= endDate) {
       days.push(day);
       day = addDays(day, 1);
+      day.setHours(0, 0, 0);
     }
   }
 
