@@ -71,7 +71,7 @@ export default function NotebookVideoCards({
   function CustomPagination() {
     const apiRef = useGridApiContext();
     const pageCount = useGridSelector(apiRef, gridPageCountSelector);
-  
+
     return (
       <Pagination
         color="primary"
@@ -83,20 +83,28 @@ export default function NotebookVideoCards({
   }
 
   return (
-    <Page title={matchingVideoCard.unicode}>
+    <Page
+      title={
+        matchingVideoCard
+          ? `${matchingVideoCard.unicode} | Tarjetas de video de notebooks`
+          : "Tarjetas de video de notebooks"
+      }
+    >
       <Container maxWidth={false}>
         <HeaderBreadcrumbs
           heading=""
           links={[
             { name: "Home", href: PATH_MAIN.root },
             { name: "Tarjetas de video", href: `${PATH_MAIN.root}video_card` },
-            { name: matchingVideoCard.unicode },
+            { name: matchingVideoCard ? matchingVideoCard.unicode : "Ranking" },
           ]}
         />
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Typography variant="h5" color="#3B5D81">
-              {matchingVideoCard.unicode}
+              {matchingVideoCard
+                ? matchingVideoCard.unicode
+                : "Ranking Tarjetas de video Notebooks"}
             </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -117,11 +125,13 @@ export default function NotebookVideoCards({
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <ProductsRow
-              title="Productos con la tarjeta de video"
-              data={notebooksWithMC.slice(0, 2)}
-              actionHref={`/notebooks/?video_cards=${matchingVideoCard.id}`}
-            />
+            {notebooksWithMC && (
+              <ProductsRow
+                title="Productos con la tarjeta de video"
+                data={notebooksWithMC.slice(0, 2)}
+                actionHref={`/notebooks/?video_cards=${matchingVideoCard.id}`}
+              />
+            )}
           </Grid>
         </Grid>
       </Container>
@@ -163,18 +173,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       notebooksWithMC = await fetchJson(
         `categories/1/browse?${storesUrl}page_size=3&ordering=offer_price_usd&video_cards=${matchingVideoCard.id}`
       );
-    } else {
-      return {
-        notFound: true,
-      };
     }
 
     return {
       props: {
         videoCardList: videoCardList,
-        matchingVideoCard: matchingVideoCard,
+        matchingVideoCard: matchingVideoCard || null,
         initialPage: page,
-        notebooksWithMC: notebooksWithMC.results,
+        notebooksWithMC: notebooksWithMC.results || null,
       },
     };
   } catch {

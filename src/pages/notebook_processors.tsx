@@ -67,20 +67,28 @@ export default function NotebookProcessors({
   }
 
   return (
-    <Page title={matchingProcessor.unicode}>
+    <Page
+      title={
+        matchingProcessor
+          ? `${matchingProcessor.unicode} | Procesadores de notebooks`
+          : "Procesadores de notebooks"
+      }
+    >
       <Container maxWidth={false}>
         <HeaderBreadcrumbs
           heading=""
           links={[
             { name: "Home", href: PATH_MAIN.root },
             { name: "Procesadores", href: `${PATH_MAIN.root}processors` },
-            { name: matchingProcessor.unicode },
+            { name: matchingProcessor ? matchingProcessor.unicode : "Ranking" },
           ]}
         />
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Typography variant="h5" color="#3B5D81">
-              {matchingProcessor.unicode}
+              {matchingProcessor
+                ? matchingProcessor.unicode
+                : "Ranking Procesadores Notebooks"}
             </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -101,11 +109,13 @@ export default function NotebookProcessors({
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <ProductsRow
-              title="Productos con el procesador"
-              data={notebooksWithMC.slice(0, 2)}
-              actionHref={`/notebooks/?processors=${matchingProcessor.id}`}
-            />
+            {notebooksWithMC && (
+              <ProductsRow
+                title="Productos con el procesador"
+                data={notebooksWithMC.slice(0, 2)}
+                actionHref={`/notebooks/?processors=${matchingProcessor.id}`}
+              />
+            )}
           </Grid>
         </Grid>
       </Container>
@@ -147,18 +157,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       notebooksWithMC = await fetchJson(
         `categories/1/browse?${storesUrl}page_size=3&ordering=offer_price_usd&processors=${matchingProcessor.id}`
       );
-    } else {
-      return {
-        notFound: true,
-      };
     }
 
     return {
       props: {
         processorList: processorList,
-        matchingProcessor: matchingProcessor,
+        matchingProcessor: matchingProcessor || null,
         initialPage: page,
-        notebooksWithMC: notebooksWithMC.results,
+        notebooksWithMC: notebooksWithMC.results || null,
       },
     };
   } catch {
