@@ -11,7 +11,11 @@ export default function CategoryBrowse() {
   if (currentResult === null) currentResult = { results: [] };
 
   return (
-    <Grid container spacing={3} justifyContent="space-evenly">
+    <Grid
+      container
+      spacing={3}
+      justifyContent={{ xs: "space-evenly", sm: "start" }}
+    >
       {(currentResult.results as ProductsData[]).map((r, index) => (
         <Grid key={index} item>
           <ProductCard
