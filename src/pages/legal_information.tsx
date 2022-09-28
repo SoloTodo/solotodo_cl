@@ -86,14 +86,8 @@ export default function LegalInformation() {
                   wrapped
                 />
                 <Tab
-                  label="Sobre nosotros"
-                  {...a11yProps(2)}
-                  sx={{ width: "100%", justifyContent: "start" }}
-                  wrapped
-                />
-                <Tab
                   label="Políticas"
-                  {...a11yProps(3)}
+                  {...a11yProps(2)}
                   sx={{ width: "100%", justifyContent: "start" }}
                   wrapped
                 />
@@ -108,7 +102,6 @@ export default function LegalInformation() {
               >
                 <MenuItem value={0}>Términos y condiciones</MenuItem>
                 <MenuItem value={1}>Preguntas frecuentes</MenuItem>
-                <MenuItem value={2}>Sobre nosotros</MenuItem>
                 <MenuItem value={3}>Políticas</MenuItem>
               </Select>
             )}
@@ -238,9 +231,6 @@ export default function LegalInformation() {
               UNO
             </TabPanel>
             <TabPanel value={value} index={2}>
-              DOS
-            </TabPanel>
-            <TabPanel value={value} index={3}>
               <Typography variant="h5" gutterBottom>
                 Para el correcto funcionamiento de SoloTodo.com el sitio
                 almacena información acerca de sus visitantes y usuarios en{" "}
