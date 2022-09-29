@@ -1,4 +1,5 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
+import NextLink from "next/link";
 import Page from "src/components/Page";
 import ProductsRow from "src/components/product/ProductsRow";
 import {
@@ -17,9 +18,6 @@ import RecentSlidesRow from "src/components/website-slides/RecentSlidesRow";
 import CategorySlidesRow from "src/components/website-slides/CaregorySlidesRow";
 import useNavigation from "src/hooks/useNavigation";
 import { NavigationItemProps } from "src/contexts/NavigationContext";
-import { useEffect, useState } from "react";
-import useSettings from "src/hooks/useSettings";
-import { ProductsData } from "src/components/product/types";
 
 type CategoryPreviewProps = {
   category: Category;
@@ -30,29 +28,12 @@ export default function CategoryPreview({
   category,
   recentSlides,
 }: CategoryPreviewProps) {
-  const { prefExcludeRefurbished, prefStores } = useSettings();
-  const [leads, setLeads] = useState<ProductsData[]>([]);
-  const [discount, setDiscount] = useState<ProductsData[]>([]);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const navigation = useNavigation();
   const clp =
     apiResourceObjects[
       `${constants.apiResourceEndpoints.currencies}${constants.clpCurrencyId}/`
     ];
-
-  useEffect(() => {
-    let storesUrl = "";
-    for (const store of prefStores) {
-      storesUrl += `&stores=${store}`;
-    }
-
-    fetchJson(
-      `products/browse/?ordering=leads&websites=${constants.websiteId}&categories=${category.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
-    ).then((response) => setLeads(response.results));
-    fetchJson(
-      `products/browse/?ordering=discount&websites=${constants.websiteId}&categories=${category.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
-    ).then((response) => setDiscount(response.results));
-  }, [category.id, prefExcludeRefurbished, prefStores]);
 
   let items: NavigationItemProps[] = [];
   navigation.some((nav) => {
@@ -81,13 +62,15 @@ export default function CategoryPreview({
         />
         <ProductsRow
           title="Lo más visto"
-          data={leads.slice(0, 4)}
+          url={`products/browse/?ordering=leads&websites=${constants.websiteId}&categories=${category.id}`}
+          sliceValue={4}
           ribbonFormatter={(value: string) => `${parseInt(value, 10)} visitas`}
           actionHref={`/${category.slug}?ordering=leads`}
         />
         <ProductsRow
           title="Ofertas del día"
-          data={discount.slice(0, 4)}
+          url={`products/browse/?ordering=discount&websites=${constants.websiteId}&categories=${category.id}`}
+          sliceValue={4}
           ribbonFormatter={(value: string) =>
             `Bajó ${currency(value, {
               separator: ".",
@@ -98,6 +81,17 @@ export default function CategoryPreview({
           }
           actionHref={`/${category.slug}?ordering=discount`}
         />
+        <Box textAlign="center">
+          <NextLink passHref href={`/${category.slug}`}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              sx={{ borderRadius: 4, color: "text.primary" }}
+            >
+              VER TODOS LOS PRODUCTOS
+            </Button>
+          </NextLink>
+        </Box>
       </Container>
     </Page>
   );

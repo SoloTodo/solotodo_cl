@@ -8,32 +8,56 @@ import {
   useGridApiContext,
   useGridSelector,
 } from "@mui/x-data-grid";
-import { GetServerSideProps } from "next/types";
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import Page from "src/components/Page";
 import ProductsRow from "src/components/product/ProductsRow";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import { PATH_MAIN } from "src/routes/paths";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useSettings from "src/hooks/useSettings";
+import { useRouter } from "next/router";
 
 type Processor = {
   id: number;
   unicode: string;
 };
 
-export default function NotebookProcessors({
-  processorList,
-  matchingProcessor,
-  initialPage,
-  notebooksWithMC,
-}: {
-  processorList: Processor[];
-  matchingProcessor: Processor;
-  initialPage: number;
-  notebooksWithMC: any;
-}) {
-  const [page, setPage] = useState(initialPage);
+export default function NotebookProcessors() {
+  const router = useRouter();
+  const [page, setPage] = useState(0);
+  const [processorList, setProcessorList] = useState<Processor[]>([]);
+  const [matchingProcessor, setMatchingProcessor] = useState<Processor | null>(
+    null
+  );
+
+  useEffect(() => {
+    fetchJson(`${constants.endpoint}notebook_processors/`).then(
+      (processorList) => {
+        processorList.sort(
+          (a: { [x: string]: number }, b: { [x: string]: number }) =>
+            b["speed_score"] - a["speed_score"]
+        );
+
+        processorList = processorList.map((processor: any, idx: number) => ({
+          ...processor,
+          idx,
+        }));
+        setProcessorList(processorList);
+
+        const matchingProcessor = processorList.filter(
+          (processor: { id: number }) =>
+            processor.id.toString() === router.query?.id
+        )[0];
+        let page = 0;
+        if (matchingProcessor) {
+          page = Math.floor(matchingProcessor.idx / 15);
+          setPage(page);
+          setMatchingProcessor(matchingProcessor);
+        }
+      }
+    );
+  }, [router.query?.id]);
 
   const columns: GridColDef[] = [
     {
@@ -109,10 +133,11 @@ export default function NotebookProcessors({
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            {notebooksWithMC && (
+            {matchingProcessor && (
               <ProductsRow
                 title="Productos con el procesador"
-                data={notebooksWithMC.slice(0, 2)}
+                url={`categories/1/browse?page_size=3&ordering=offer_price_usd&processors=${matchingProcessor.id}`}
+                sliceValue={2}
                 actionHref={`/notebooks/?processors=${matchingProcessor.id}`}
               />
             )}
@@ -122,54 +147,3 @@ export default function NotebookProcessors({
     </Page>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  try {
-    let processorList = await fetchJson(
-      `${constants.endpoint}notebook_processors/`
-    );
-    processorList.sort(
-      (a: { [x: string]: number }, b: { [x: string]: number }) =>
-        b["speed_score"] - a["speed_score"]
-    );
-
-    processorList = processorList.map((processor: any, idx: number) => ({
-      ...processor,
-      idx,
-    }));
-
-    const matchingProcessor = processorList.filter(
-      (processor: { id: number }) =>
-        processor.id.toString() === context.query?.id
-    )[0];
-    let page = 0;
-    let notebooksWithMC: any = [];
-    if (matchingProcessor) {
-      page = Math.floor(matchingProcessor.idx / 15);
-
-      const preStoresCookie = context.req.cookies.prefStores;
-      const prefStores = preStoresCookie ? preStoresCookie.split("|") : [];
-      let storesUrl = "";
-      for (const store of prefStores) {
-        storesUrl += `stores=${store}&`;
-      }
-
-      notebooksWithMC = await fetchJson(
-        `categories/1/browse?${storesUrl}page_size=3&ordering=offer_price_usd&processors=${matchingProcessor.id}`
-      );
-    }
-
-    return {
-      props: {
-        processorList: processorList,
-        matchingProcessor: matchingProcessor || null,
-        initialPage: page,
-        notebooksWithMC: notebooksWithMC.results || null,
-      },
-    };
-  } catch {
-    return {
-      notFound: true,
-    };
-  }
-};

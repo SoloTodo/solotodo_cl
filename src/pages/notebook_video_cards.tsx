@@ -8,14 +8,14 @@ import {
   useGridApiContext,
   useGridSelector,
 } from "@mui/x-data-grid";
-import { GetServerSideProps } from "next/types";
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import Page from "src/components/Page";
 import ProductsRow from "src/components/product/ProductsRow";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import { PATH_MAIN } from "src/routes/paths";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 type VideoCard = {
   brand_unicode: string;
@@ -40,18 +40,42 @@ type VideoCard = {
   unicode: string;
 };
 
-export default function NotebookVideoCards({
-  videoCardList,
-  matchingVideoCard,
-  initialPage,
-  notebooksWithMC,
-}: {
-  videoCardList: VideoCard[];
-  matchingVideoCard: VideoCard;
-  initialPage: number;
-  notebooksWithMC: any;
-}) {
-  const [page, setPage] = useState(initialPage);
+export default function NotebookVideoCards() {
+  const router = useRouter();
+  const [page, setPage] = useState(0);
+  const [videoCardList, setVideoCardList] = useState<VideoCard[]>([]);
+  const [matchingVideoCard, setMatchingVideoCard] = useState<VideoCard | null>(
+    null
+  );
+
+  useEffect(() => {
+    fetchJson(`${constants.endpoint}notebook_video_cards/`).then(
+      (videoCardList) => {
+        videoCardList.sort(
+          (a: { [x: string]: number }, b: { [x: string]: number }) =>
+            b["speed_score"] - a["speed_score"]
+        );
+
+        videoCardList = videoCardList.map((videoCard: any, idx: number) => ({
+          ...videoCard,
+          idx,
+        }));
+        setVideoCardList(videoCardList);
+
+        const matchingVideoCard = videoCardList.filter(
+          (videoCard: { id: number }) =>
+            videoCard.id.toString() === router.query?.id
+        )[0];
+        let page = 0;
+        if (matchingVideoCard) {
+          page = Math.floor(matchingVideoCard.idx / 15);
+          setPage(page);
+          setMatchingVideoCard(matchingVideoCard);
+        }
+      }
+    );
+  }, [router.query?.id]);
+
   const columns: GridColDef[] = [
     {
       field: "unicode",
@@ -125,10 +149,11 @@ export default function NotebookVideoCards({
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            {notebooksWithMC && (
+            {matchingVideoCard && (
               <ProductsRow
                 title="Productos con la tarjeta de video"
-                data={notebooksWithMC.slice(0, 2)}
+                url={`categories/1/browse?page_size=3&ordering=offer_price_usd&video_cards=${matchingVideoCard.id}`}
+                sliceValue={2}
                 actionHref={`/notebooks/?video_cards=${matchingVideoCard.id}`}
               />
             )}
@@ -138,54 +163,3 @@ export default function NotebookVideoCards({
     </Page>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  try {
-    let videoCardList = await fetchJson(
-      `${constants.endpoint}notebook_video_cards/`
-    );
-    videoCardList.sort(
-      (a: { [x: string]: number }, b: { [x: string]: number }) =>
-        b["speed_score"] - a["speed_score"]
-    );
-
-    videoCardList = videoCardList.map((videoCard: any, idx: number) => ({
-      ...videoCard,
-      idx,
-    }));
-
-    const matchingVideoCard = videoCardList.filter(
-      (videoCard: { id: number }) =>
-        videoCard.id.toString() === context.query?.id
-    )[0];
-    let page = 0;
-    let notebooksWithMC: any = [];
-    if (matchingVideoCard) {
-      page = Math.floor(matchingVideoCard.idx / 15);
-
-      const preStoresCookie = context.req.cookies.prefStores;
-      const prefStores = preStoresCookie ? preStoresCookie.split("|") : [];
-      let storesUrl = "";
-      for (const store of prefStores) {
-        storesUrl += `stores=${store}&`;
-      }
-
-      notebooksWithMC = await fetchJson(
-        `categories/1/browse?${storesUrl}page_size=3&ordering=offer_price_usd&video_cards=${matchingVideoCard.id}`
-      );
-    }
-
-    return {
-      props: {
-        videoCardList: videoCardList,
-        matchingVideoCard: matchingVideoCard || null,
-        initialPage: page,
-        notebooksWithMC: notebooksWithMC.results || null,
-      },
-    };
-  } catch {
-    return {
-      notFound: true,
-    };
-  }
-};

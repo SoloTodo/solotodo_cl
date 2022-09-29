@@ -12,9 +12,6 @@ import RecentSlidesRow from "src/components/website-slides/RecentSlidesRow";
 import CategorySlidesRow from "src/components/website-slides/CaregorySlidesRow";
 import { Slide } from "src/components/website-slides/types";
 import { categorySlides } from "src/categorySlides";
-import { useEffect, useState } from "react";
-import { ProductsData } from "src/components/product/types";
-import useSettings from "src/hooks/useSettings";
 
 type HomeProps = {
   recentSlides: Slide[];
@@ -22,38 +19,11 @@ type HomeProps = {
 
 const Home = (props: HomeProps) => {
   const { recentSlides } = props;
-  const { prefExcludeRefurbished, prefStores } = useSettings();
-  const [leads, setLeads] = useState<ProductsData[]>([]);
-  const [discount, setDiscount] = useState<ProductsData[]>([]);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const clp =
     apiResourceObjects[
       `${constants.apiResourceEndpoints.currencies}${constants.clpCurrencyId}/`
     ];
-
-  useEffect(() => {
-    const myAbortController = new AbortController();
-    let storesUrl = "";
-    for (const store of prefStores) {
-      storesUrl += `&stores=${store}`;
-    }
-
-    fetchJson(
-      `products/browse/?ordering=leads&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`,
-      { signal: myAbortController.signal }
-    )
-      .then((response) => setLeads(response.results))
-      .catch((_) => {});
-    fetchJson(
-      `products/browse/?ordering=discount&websites=${constants.websiteId}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`,
-      { signal: myAbortController.signal }
-    )
-      .then((response) => setDiscount(response.results))
-      .catch((_) => {});
-    return () => {
-      myAbortController.abort();
-    };
-  }, [prefExcludeRefurbished, prefStores]);
 
   return (
     <Page title="Cotiza y compara los precios de todas las tiendas">
@@ -64,7 +34,8 @@ const Home = (props: HomeProps) => {
         <RecentSlidesRow recentSlides={recentSlides} />
         <ProductsRow
           title="Lo más visto"
-          data={leads.slice(0, 4)}
+          url={`products/browse/?ordering=leads&websites=${constants.websiteId}`}
+          sliceValue={4}
           ribbonFormatter={(value: string) => `${parseInt(value, 10)} visitas`}
           actionHref={`/search?ordering=leads`}
         />
@@ -74,7 +45,8 @@ const Home = (props: HomeProps) => {
         <CategorySlidesRow categorySlides={categorySlides} />
         <ProductsRow
           title="Ofertas del día"
-          data={discount.slice(0, 4)}
+          url={`products/browse/?ordering=discount&websites=${constants.websiteId}`}
+          sliceValue={4}
           ribbonFormatter={(value: string) =>
             `Bajó ${currency(value, {
               separator: ".",

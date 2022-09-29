@@ -73,13 +73,7 @@ const Title = ({ children }: { children: ReactNode }) => (
   </Typography>
 );
 
-export default function VideoCardGpus({
-  gpu,
-  videoCardsWithGpu,
-}: {
-  gpu: Gpu;
-  videoCardsWithGpu: any;
-}) {
+export default function VideoCardGpus({ gpu }: { gpu: Gpu }) {
   return (
     <Page title={gpu.unicode}>
       <Container maxWidth={false}>
@@ -145,7 +139,8 @@ export default function VideoCardGpus({
           <Grid item xs={12} md={8} lg={6}>
             <ProductsRow
               title="Productos similares"
-              data={videoCardsWithGpu.results.slice(0, 2)}
+              url={`categories/2/browse/?ordering=leads&page_size=3&ordering=offer_price_usd&gpus=${gpu.id}`}
+              sliceValue={2}
               ribbonFormatter={(value: string) =>
                 `Visitas: ${parseInt(value, 10)}`
               }
@@ -159,25 +154,12 @@ export default function VideoCardGpus({
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const prefExcludeRefurbished = context.req.cookies.prefExcludeRefurbished;
-  const preStoresCookie = context.req.cookies.prefStores;
-  const prefStores = preStoresCookie ? preStoresCookie.split("|") : [];
-  let storesUrl = "";
-  for (const store of prefStores) {
-    storesUrl += `&stores=${store}`;
-  }
-
   const gpu = await fetchJson(
     `${constants.endpoint}video_card_gpus/${context.params?.id}/`
   );
-  const videoCardsWithGpu = await fetchJson(
-    `categories/2/browse/?ordering=leads&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}&page_size=3&ordering=offer_price_usd&gpus=${context.params?.id}`
-  );
-
   return {
     props: {
       gpu: gpu,
-      videoCardsWithGpu: videoCardsWithGpu,
     },
   };
 };
