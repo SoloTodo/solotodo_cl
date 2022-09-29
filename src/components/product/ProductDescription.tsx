@@ -3,10 +3,14 @@ import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/ap
 import { useAppSelector } from "src/store/hooks";
 import { Typography } from "@mui/material";
 import styles from "../../styles/ProductPage.module.css";
+import stylesDark from "../../styles/ProductPageDark.module.css";
 import Handlebars from "handlebars";
 import { Category } from "src/frontend-utils/types/store";
+import useSettings from "src/hooks/useSettings";
 
 export default function ProductDescription({ product }: { product: Product }) {
+  const { themeMode } = useSettings();
+  const isLight = themeMode === 'light';
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const category = apiResourceObjects[product.category] as Category;
 
@@ -24,7 +28,7 @@ export default function ProductDescription({ product }: { product: Product }) {
 
   return template ? (
     <div
-      className={styles.product_specs}
+      className={isLight ? styles.product_specs : stylesDark.product_specs}
       dangerouslySetInnerHTML={formatSpecs()}
     />
   ) : (

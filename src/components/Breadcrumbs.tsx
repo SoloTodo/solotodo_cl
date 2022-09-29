@@ -39,7 +39,7 @@ export default function Breadcrumbs({ links, activeLast = false, ...other }: Pro
             maxWidth: 260,
             overflow: 'hidden',
             whiteSpace: 'nowrap',
-            color: 'text.disabled',
+            color: 'text.extra',
             textOverflow: 'ellipsis',
           }}
         >
@@ -81,7 +81,8 @@ function LinkItem({ link }: LinkItemProps) {
           lineHeight: 2,
           display: 'flex',
           alignItems: 'center',
-          color: 'text.primary',
+          color: 'text.extra',
+          opacity: 0.7,
           '& > div': { display: 'inherit' },
         }}
       >

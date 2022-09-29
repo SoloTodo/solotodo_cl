@@ -1,0 +1,36 @@
+.product_specs dt {
+    display: inline;
+    color: #CACACA;
+    font-weight: 700;
+}
+
+.product_specs dt:after {
+    content: ": "
+}
+
+.product_specs dd {
+    display: inline;
+    color: #CACACA;
+    font-weight: 400;
+}
+
+.product_specs dd:after {
+    display: block;
+    content: ''
+}
+
+.product_specs h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.product_specs ul {
+    padding-left: 20px;
+}
+
+.product_specs a {
+    color: #cd5029;
+}

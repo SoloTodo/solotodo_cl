@@ -53,15 +53,14 @@ export default function ProductBenchmarks({
         Rendimiento
       </Typography>
       <Stack
-        spacing={1}
-        justifyContent="space-evenly"
+        spacing={2}
         direction={{
           md: "row",
           xs: "column",
         }}
       >
         {benchmarkCategory.map((benchmark) => (
-          <Stack key={benchmark.field}>
+          <Stack key={benchmark.field} width='100%'>
             <Typography>{benchmark.label}</Typography>
             <BorderLinearProgress
               variant="determinate"

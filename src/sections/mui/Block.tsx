@@ -32,7 +32,7 @@ export function Block({
         ...sx,
       }}
     >
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
+      <Stack direction="row" justifyContent="space-between" alignItems="center" maxWidth={1240}>
         {title && (
           <Typography
             variant={titleVariant ? titleVariant : "h2"}
