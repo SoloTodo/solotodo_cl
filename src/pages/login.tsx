@@ -117,11 +117,11 @@ export default function Login() {
     formState: { errors, isSubmitting },
   } = methods;
 
-  const onSubmit = (data: FormValuesProps) => {
-    authenticate(data.email, data.password)
-      .then((authToken) => {
+  const onSubmit = async (data: FormValuesProps) => {
+    await authenticate(data.email, data.password)
+      .then(async (authToken) => {
         saveAuthTokens(null, authToken);
-        authFetch("users/me/", {}).then((user) => {
+        await authFetch("users/me/", {}).then(async (user) => {
           dispatch(userSlice.actions.setUser(user));
           if (
             Boolean(settings.prefExcludeRefurbished) !==
@@ -138,7 +138,7 @@ export default function Login() {
             typeof router.query.next == "string"
               ? router.query.next
               : PATH_MAIN.root;
-          router.push(nextPath).then(() => {});
+          await router.push(nextPath).then(() => {});
         });
       })
       .catch(() => {
@@ -215,6 +215,7 @@ export default function Login() {
                     variant="contained"
                     color="secondary"
                     loading={isSubmitting}
+                    loadingIndicator="INGRESANDO..."
                     sx={{ my: 2, borderRadius: 3 }}
                   >
                     INICIAR SESIÓN

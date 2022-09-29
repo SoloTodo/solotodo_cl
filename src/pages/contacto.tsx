@@ -70,8 +70,8 @@ export default function Contacto() {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = (data: FormValuesProps) => {
-    fetchJson("users/send_contact_email/", {
+  const onSubmit = async (data: FormValuesProps) => {
+    await fetchJson("users/send_contact_email/", {
       method: "POST",
       body: JSON.stringify(data),
     }).then((_) => {
@@ -143,6 +143,7 @@ export default function Contacto() {
                     variant="contained"
                     color="secondary"
                     loading={isSubmitting}
+                    loadingIndicator="ENVIADO..."
                     sx={{
                       my: 2,
                       borderRadius: 3,
