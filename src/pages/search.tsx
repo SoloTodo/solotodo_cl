@@ -71,7 +71,7 @@ export default function Search() {
           links={[{ name: "Home", href: PATH_MAIN.root }, { name: "Búsqueda" }]}
         />
         <ApiFormComponent
-          endpoint={`${constants.apiResourceEndpoints.products}browse/?ordering=relevance&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`}
+          endpoint={`${constants.apiResourceEndpoints.products}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`}
           fieldsMetadata={fieldsMetadata}
         >
           <Grid container spacing={{ xs: 2, md: 3 }} alignItems="center">
