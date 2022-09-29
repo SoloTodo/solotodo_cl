@@ -41,7 +41,8 @@ import CategoryRemoveFieldsButton from "src/components/category/CategoryRemoveFi
 import { useState } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ApiFormTreeComponent from "src/frontend-utils/api_form/fields/tree/ApiFormTreeComponent";
-import { stringify, parse } from "zipson";
+import LZString from "lz-string";
+// import zlib from "browserify-zlib";
 
 // ----------------------------------------------------------------------
 
@@ -89,7 +90,7 @@ export default function Browse({ data }: { data: string }) {
     categorySpecsFormLayout,
     initialData,
     initialResult,
-  }: PropTypes = parse(data);
+  }: PropTypes = JSON.parse(LZString.decompress(data)!);
   const { prefExcludeRefurbished, prefStores } = useSettings();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -438,17 +439,15 @@ export const getServerSideProps = wrapper.getServerSideProps(
         const results = await fetchJson(
           `${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}${apiUrl}`
         );
+        const string = JSON.stringify({
+          category: category,
+          categorySpecsFormLayout: categorySpecsFormLayout,
+          initialData: queriesUrl,
+          initialResult: results,
+        });
         return {
           props: {
-            data: stringify(
-              {
-                category: category,
-                categorySpecsFormLayout: categorySpecsFormLayout,
-                initialData: queriesUrl,
-                initialResult: results,
-              },
-              { detectUtcTimestamps: true }
-            ),
+            data: LZString.compress(string),
           },
         };
       }
