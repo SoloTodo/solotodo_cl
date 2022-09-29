@@ -19,11 +19,13 @@ export default function CategoryCard({
 }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const path = categoryData.path.replace("https://www.solotodo.cl", "")
 
   return (
     <Box
       sx={{
         height: { xs: 145, md: 170 },
+        maxWidth: 608,
         paddingX: 2,
         borderRadius: 2,
         backgroundColor: "background.paper",
@@ -31,7 +33,7 @@ export default function CategoryCard({
         position: "relative",
       }}
     >
-      <NextLink href={categoryData.path} passHref>
+      <NextLink href={path} passHref>
         <Link underline="none">
           <Stack
             alignItems="flex-start"

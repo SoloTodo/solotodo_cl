@@ -11,8 +11,8 @@ export default function CategorySlidesRow({
     <Grid
       container
       spacing={{ xs: 3, md: 4 }}
-      justifyContent="space-between"
       overflow="auto"
+      maxWidth={1270}
     >
       {categorySlides.map((d, index) => {
         return (
