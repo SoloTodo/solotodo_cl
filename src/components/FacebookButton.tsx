@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "src/store/hooks";
 import FacebookLogin, { ReactFacebookLoginInfo } from "react-facebook-login";
 import { constants } from "src/config";
 import styles from "../styles/FacebookButton.module.css";
+import { Store } from "src/frontend-utils/types/store";
 
 export default function FacebookButton() {
   const { enqueueSnackbar } = useSnackbar();
@@ -41,11 +42,17 @@ export default function FacebookButton() {
               ) {
                 settings.onToggleExcludeRefurbished();
               }
-              settings.onChangeStores(
-                user.preferred_stores.map((s: string) =>
-                  apiResourceObjects[s].id.toString()
-                )
+              const userStores = user.preferred_stores.reduce(
+                (acc: string[], a: string) => {
+                  const store = apiResourceObjects[a] as Store;
+                  if (store && store.country === constants.defaultCountryUrl) {
+                    acc.push(store.id.toString());
+                  }
+                  return acc;
+                },
+                []
               );
+              settings.onChangeStores(userStores);
               const nextPath =
                 typeof router.query.next == "string"
                   ? router.query.next
@@ -66,7 +73,7 @@ export default function FacebookButton() {
   };
 
   return (
-    <Box width={'100%'}>
+    <Box width={"100%"}>
       <FacebookLogin
         appId={constants.facebookAppId}
         fields="name,email"

@@ -37,6 +37,8 @@ import { PATH_AUTH, PATH_MAIN } from "src/routes/paths";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import { useSnackbar } from "notistack";
 import FacebookButton from "src/components/FacebookButton";
+import { Store } from "src/frontend-utils/types/store";
+import { constants } from "src/config";
 
 // ----------------------------------------------------------------------
 
@@ -129,11 +131,17 @@ export default function Login() {
           ) {
             settings.onToggleExcludeRefurbished();
           }
-          settings.onChangeStores(
-            user.preferred_stores.map((s: string) =>
-              apiResourceObjects[s].id.toString()
-            )
+          const userStores = user.preferred_stores.reduce(
+            (acc: string[], a: string) => {
+              const store = apiResourceObjects[a] as Store;
+              if (store && store.country === constants.defaultCountryUrl) {
+                acc.push(store.id.toString());
+              }
+              return acc;
+            },
+            []
           );
+          settings.onChangeStores(userStores);
           const nextPath =
             typeof router.query.next == "string"
               ? router.query.next

@@ -99,20 +99,30 @@ class MyApp extends App<MyAppProps> {
             )
             .map((f) => f.id.toString());
         }
+        if (user) {
+          store.dispatch(userSlice.actions.setUser(user));
+
+          settings.prefExcludeRefurbished = Boolean(
+            user.preferred_exclude_refurbished
+          );
+          const userStores = user.preferred_stores.reduce(
+            (acc: string[], a: string) => {
+              const s = apiResources.find(
+                (r: { url: string }) => r.url === a
+              ) as Store;
+              if (s && s.country === constants.defaultCountryUrl) {
+                acc.push(s.id.toString());
+              }
+              return acc;
+            },
+            []
+          );
+          settings.prefStores = userStores;
+        }
       } catch (err: any) {
         ctx.res?.setHeader("error", err.message);
       }
 
-      if (user) {
-        store.dispatch(userSlice.actions.setUser(user));
-
-        settings.prefExcludeRefurbished = Boolean(
-          user.preferred_exclude_refurbished
-        );
-        settings.prefStores = user.preferred_stores.map(
-          (s: string) => s.split("/")[s.split("/").length - 2]
-        );
-      }
       return { pageProps: {}, settings, navigation };
     }
   );
