@@ -14,9 +14,11 @@ import { constants } from "src/config";
 import ApiFormSelectComponent from "src/frontend-utils/api_form/fields/select/ApiFormSelectComponent";
 import ApiFormPaginationComponent from "src/frontend-utils/api_form/fields/pagination/ApiFormPaginationComponent";
 import CategoryBrowse from "src/components/category/CategoryBrowse";
+import { useRouter } from "next/router";
 
 export default function Search() {
   const { prefExcludeRefurbished, prefStores } = useSettings();
+  const router = useRouter();
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
 
   const categories = selectApiResourceObjects(apiResourceObjects, "categories");
@@ -77,6 +79,9 @@ export default function Search() {
           <Grid container spacing={{ xs: 2, md: 3 }} alignItems="center">
             <Grid item xs={12}>
               <Typography variant="h2">Resultados de la búsqueda</Typography>
+              <Typography variant="body2">
+                Palabras clave: {router.query.search}
+              </Typography>
             </Grid>
             <Grid item md={3} width="100%">
               <ApiFormSelectComponent
