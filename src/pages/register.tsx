@@ -71,12 +71,7 @@ export default function Register() {
     email: Yup.string()
       .email("Ingresa un Email válido")
       .required("Email requerido"),
-    password1: Yup.string()
-      .required("Contraseña requerida")
-      .min(8, "La contraseña debe tener un largo mínimo de 8 caracteres")
-      .matches(/^(?=.*[A-Z])/, 'Debe contener al menos una mayúscula')
-      .matches(/^(?=.*[0-9])/, 'Debe contener al menos un número')
-      .matches(/^(?=.*[!@#%&])/, 'Debe contener al menos un símbolo'),
+    password1: Yup.string().required("Contraseña requerida"),
     password2: Yup.string()
       .required("Confirmar contraseña requerida")
       .oneOf([Yup.ref("password1"), null], "Contraseña debe coincidir"),
@@ -179,7 +174,6 @@ export default function Register() {
                   <RHFTextField
                     name="password1"
                     label="Contraseña"
-                    helperText="A lo menos 8 letras, una Mayúscula, un número y un símbolo"
                     type={showPassword ? "text" : "password"}
                     InputProps={{
                       endAdornment: (
