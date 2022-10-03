@@ -151,7 +151,7 @@ export default function NotebookVideoCards() {
           <Grid item xs={12} md={6}>
             {matchingVideoCard && (
               <ProductsRow
-                title="Productos con la tarjeta de video"
+                title="Notebooks con la tarjeta de video"
                 url={`categories/1/browse?page_size=3&ordering=offer_price_usd&video_cards=${matchingVideoCard.id}`}
                 sliceValue={2}
                 actionHref={`/notebooks/?video_cards=${matchingVideoCard.id}`}

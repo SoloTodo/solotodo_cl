@@ -143,7 +143,7 @@ export default function Contacto() {
                     variant="contained"
                     color="secondary"
                     loading={isSubmitting}
-                    loadingIndicator="ENVIADO..."
+                    loadingIndicator="ENVIANDO..."
                     sx={{
                       my: 2,
                       borderRadius: 3,

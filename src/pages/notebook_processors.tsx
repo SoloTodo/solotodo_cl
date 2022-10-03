@@ -15,7 +15,6 @@ import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import { PATH_MAIN } from "src/routes/paths";
 import { useEffect, useState } from "react";
-import useSettings from "src/hooks/useSettings";
 import { useRouter } from "next/router";
 
 type Processor = {
@@ -135,7 +134,7 @@ export default function NotebookProcessors() {
           <Grid item xs={12} md={6}>
             {matchingProcessor && (
               <ProductsRow
-                title="Productos con el procesador"
+                title="Notebooks con el procesador"
                 url={`categories/1/browse?page_size=3&ordering=offer_price_usd&processors=${matchingProcessor.id}`}
                 sliceValue={2}
                 actionHref={`/notebooks/?processors=${matchingProcessor.id}`}
