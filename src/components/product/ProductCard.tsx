@@ -82,6 +82,8 @@ export default function ProductCard(props: ProductProps) {
     return { __html: html };
   };
 
+  const categoryWithVariants = category.id === 6 || category.id === 14;
+
   return metadata.score === 0 && !browsePurpose && active === 0 ? null : (
     <Card
       sx={{
@@ -96,7 +98,9 @@ export default function ProductCard(props: ProductProps) {
           }}
         >
           <Box
-            height={options.length > 1 ? "100%" : "87%"}
+            height={
+              options.length > 1 || !categoryWithVariants ? "100%" : "87%"
+            }
             sx={{ position: "relative" }}
           >
             <Box bgcolor="#fff">
@@ -205,26 +209,28 @@ export default function ProductCard(props: ProductProps) {
           </Box>
         </CardActionArea>
       </NextLink>
-      {options.length > 1 ? (
-        <CardActions>
-          <Select
-            value={options[active].value}
-            style={{ width: "100%" }}
-            onChange={(evt) => {
-              setIsLoaded(true);
-              setActive(Number(evt.target.value));
-            }}
-          >
-            {options.map((c) => (
-              <MenuItem key={c.value} value={c.value}>
-                {c.label}
-              </MenuItem>
-            ))}
-          </Select>
-        </CardActions>
-      ) : (
-        <Box height={60} />
-      )}
+      {categoryWithVariants ? (
+        options.length > 1 ? (
+          <CardActions>
+            <Select
+              value={options[active].value}
+              style={{ width: "100%" }}
+              onChange={(evt) => {
+                setIsLoaded(true);
+                setActive(Number(evt.target.value));
+              }}
+            >
+              {options.map((c) => (
+                <MenuItem key={c.value} value={c.value}>
+                  {c.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </CardActions>
+        ) : (
+          <Box height={60} />
+        )
+      ) : null}
     </Card>
   );
 }
