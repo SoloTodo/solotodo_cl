@@ -7,7 +7,7 @@ export default function RecentCard({ recentData }: { recentData: Slide }) {
   return (
     <Box
       sx={{
-        width: 395,
+        maxWidth: 395,
         height: 170,
         paddingX: 2,
         marginY: 1,
@@ -22,7 +22,7 @@ export default function RecentCard({ recentData }: { recentData: Slide }) {
             alignItems="flex-start"
             justifyContent="space-between"
             paddingY={2}
-            width={200}
+            width={{ xs: 160, sm: 200 }}
             height="100%"
           >
             <Typography variant="h4" fontWeight={600} color="#fff">
