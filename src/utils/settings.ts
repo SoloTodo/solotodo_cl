@@ -54,5 +54,8 @@ const getData = (value: string) => {
 };
 
 const getDataArray = (value: string) => {
+  if (value === "undefined" || !value) {
+    return [];
+  }
   return value.split("|");
 };
