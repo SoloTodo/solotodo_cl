@@ -28,7 +28,7 @@ export const getSettings = (cookies: NextApiRequestCookies) => {
     defaultSettings.prefExcludeRefurbished;
 
   const prefStores =
-    getData(cookies[cookiesKey.prefStores]) || defaultSettings.prefStores;
+    getDataArray(cookies[cookiesKey.prefStores]) || defaultSettings.prefStores;
 
   return {
     themeMode,
@@ -50,8 +50,9 @@ const getData = (value: string) => {
   if (value === "undefined" || !value) {
     return "";
   }
-  if (value.includes('|')) {
-    return value.split('|');
-  }
   return value;
+};
+
+const getDataArray = (value: string) => {
+  return value.split("|");
 };
