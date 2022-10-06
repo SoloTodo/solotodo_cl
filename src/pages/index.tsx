@@ -35,7 +35,7 @@ const Home = (props: HomeProps) => {
         <ProductsRow
           title="Lo más visto"
           url={`products/browse/?ordering=leads&websites=${constants.websiteId}`}
-          sliceValue={4}
+          sliceValue={10}
           ribbonFormatter={(value: string) => `${parseInt(value, 10)} visitas`}
           actionHref={`/search?ordering=leads`}
         />
@@ -46,7 +46,7 @@ const Home = (props: HomeProps) => {
         <ProductsRow
           title="Ofertas del día"
           url={`products/browse/?ordering=discount&websites=${constants.websiteId}`}
-          sliceValue={4}
+          sliceValue={10}
           ribbonFormatter={(value: string) =>
             `Bajó ${currency(value, {
               separator: ".",
