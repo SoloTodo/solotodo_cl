@@ -18,7 +18,7 @@ export default function RecentCard({ recentData }: { recentData: Slide }) {
   return (
     <Box
       sx={{
-        maxWidth: { xs: "90%", sm: 395 },
+        maxWidth: { xs: "90%", sm: "80%", lg: 395 },
         height: { xs: 150, sm: 170 },
         paddingX: 2,
         marginY: 1,
