@@ -87,7 +87,7 @@ export default function ProductCard(props: ProductProps) {
   return metadata.score === 0 && !browsePurpose && active === 0 ? null : (
     <Card
       sx={{
-        width: { xs: browsePurpose ? 400 : 250, sm: 270, md: 292 },
+        width: { xs: browsePurpose ? 300 : "90%", sm: 270, md: 292 },
         height: "100%",
       }}
     >
@@ -209,7 +209,7 @@ export default function ProductCard(props: ProductProps) {
           </Box>
         </CardActionArea>
       </NextLink>
-      {categoryWithVariants ? (
+      {categoryWithVariants || !browsePurpose ? (
         options.length > 1 ? (
           <CardActions>
             <Select
@@ -228,7 +228,7 @@ export default function ProductCard(props: ProductProps) {
             </Select>
           </CardActions>
         ) : (
-          <Box height={60} />
+          <Box height={browsePurpose ? 60 : 70} />
         )
       ) : null}
     </Card>

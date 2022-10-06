@@ -1,14 +1,25 @@
-import { Box, Chip, Link, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Chip,
+  Link,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import NextLink from "next/link";
 import Image from "../Image";
 import { Slide } from "./types";
 
 export default function RecentCard({ recentData }: { recentData: Slide }) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Box
       sx={{
-        maxWidth: 395,
-        height: 170,
+        maxWidth: { xs: "90%", sm: 395 },
+        height: { xs: 150, sm: 170 },
         paddingX: 2,
         marginY: 1,
         borderRadius: 2,
@@ -22,10 +33,14 @@ export default function RecentCard({ recentData }: { recentData: Slide }) {
             alignItems="flex-start"
             justifyContent="space-between"
             paddingY={2}
-            width={{ xs: 160, sm: 200 }}
+            width={{ xs: 140, sm: 200 }}
             height="100%"
           >
-            <Typography variant="h4" fontWeight={600} color="#fff">
+            <Typography
+              variant={isMobile ? "h5" : "h4"}
+              fontWeight={600}
+              color="#fff"
+            >
               {recentData.label}
             </Typography>
             <Chip
@@ -42,8 +57,8 @@ export default function RecentCard({ recentData }: { recentData: Slide }) {
             src={recentData.asset.picture}
             alt={recentData.label}
             sx={{
-              height: "180px",
-              width: "180px",
+              height: { xs: "150px", md: "180px" },
+              width: { xs: "140px", md: "180px" },
               position: "absolute",
               right: "0px",
               bottom: "0px",

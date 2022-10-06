@@ -12,27 +12,26 @@ export default function RecentSlidesRow({
   recentSlides: Slide[];
 }) {
   var settings = {
+    slidesToShow: 3,
+    speed: 500,
     dots: true,
     arrows: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-    initialSlide: 0,
+    infinite: true,
     responsive: [
       {
         breakpoint: 1300,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
+          centerMode: true,
+          centerPadding: "20px",
         },
       },
       {
         breakpoint: 850,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1,
+          centerMode: true,
+          centerPadding: "20px",
         },
       },
     ],
@@ -42,7 +41,7 @@ export default function RecentSlidesRow({
     <Box
       sx={{
         maxWidth: 1270,
-        marginBottom: 1,
+        marginBottom: 2,
       }}
     >
       <Slider {...settings}>

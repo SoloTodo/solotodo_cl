@@ -1,11 +1,51 @@
-import { Grid } from "@mui/material";
 import { useEffect, useState } from "react";
+import Slider from "react-slick";
 import { fetchJson } from "src/frontend-utils/network/utils";
+import { useWindowWidth } from "@react-hook/window-size";
 import useSettings from "src/hooks/useSettings";
 import { Block } from "src/sections/mui/Block";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import ProductCard from "./ProductCard";
 import { ProductsData } from "./types";
+import { IconButton } from "@mui/material";
+
+function SampleNextArrow(props: any) {
+  const { onClick } = props;
+  return (
+    <IconButton
+      size="large"
+      sx={{
+        padding: 2,
+        top: "45%",
+        position: "absolute",
+        right: "0%",
+      }}
+      onClick={onClick}
+    >
+      <ArrowForwardIosIcon />
+    </IconButton>
+  );
+}
+
+function SamplePrevArrow(props: any) {
+  const { onClick } = props;
+  return (
+    <IconButton
+      size="large"
+      sx={{
+        padding: 2,
+        top: "45%",
+        position: "absolute",
+        zIndex: 1,
+      }}
+      onClick={onClick}
+    >
+      <ArrowBackIosIcon />
+    </IconButton>
+  );
+}
 
 export default function ProductsRow({
   title,
@@ -20,6 +60,7 @@ export default function ProductsRow({
   actionHref?: string;
   ribbonFormatter?: Function;
 }) {
+  const width = useWindowWidth();
   const [data, setData] = useState<ProductsData[]>([]);
   const { prefExcludeRefurbished, prefStores } = useSettings();
   let storesUrl = "";
@@ -42,24 +83,53 @@ export default function ProductsRow({
     };
   }, [prefExcludeRefurbished, storesUrl, url]);
 
+  let slidesToShow = 1;
+  if (width > 1300) {
+    slidesToShow = 4;
+  } else if (width > 950) {
+    slidesToShow = 3;
+  } else if (width > 550) {
+    slidesToShow = 2;
+  }
+
+  var settings = {
+    slidesToShow: slidesToShow,
+    speed: 500,
+    dots: true,
+    infinite: false,
+    arrow: true,
+    centerMode: false,
+    centerPadding: "50px",
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+  };
+
+  if (slidesToShow === 1)
+    settings = {
+      ...settings,
+      arrow: false,
+      centerMode: true,
+      centerPadding: "20px",
+    };
+
   return data.length !== 0 &&
     data[0].product_entries[0].metadata.score === 0 ? null : (
-    <Block title={title} actionHref={actionHref ? actionHref : "#"}>
-      <Grid
-        container
-        spacing={{ xs: 2, lg: 3 }}
-        justifyContent="start"
-        wrap="nowrap"
-        overflow="auto"
-      >
+    <Block
+      title={title}
+      actionHref={actionHref ? actionHref : "#"}
+      sx={{ marginBottom: 2, maxWidth: 1270, position: "relative" }}
+    >
+      <Slider {...settings}>
         {data.slice(0, sliceValue).map((d, index) => {
           return (
-            <Grid item key={index}>
-              <ProductCard productData={d} ribbonFormatter={ribbonFormatter} />
-            </Grid>
+            <ProductCard
+              key={index}
+              productData={d}
+              ribbonFormatter={ribbonFormatter}
+            />
           );
         })}
-      </Grid>
+      </Slider>
     </Block>
   );
 }
