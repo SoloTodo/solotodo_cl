@@ -397,7 +397,7 @@ export default function Browse({ data }: { data: string }) {
 export const getServerSideProps = wrapper.getServerSideProps(
   (st) => async (context) => {
     try {
-      if (context.query.page_size && Number(context.query.page_size) > 100) {
+      if (context.query.page_size && Number(context.query.page_size) > 50) {
         const query = context.query;
         delete query.category_slug;
         delete query.page_size;
@@ -406,7 +406,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
         for (const q of Object.keys(query)) {
           queryUrl += `${q}=${query[q]}&`;
         }
-        queryUrl += "page_size=100";
+        queryUrl += "page_size=50";
         return {
           redirect: {
             permanent: false,
