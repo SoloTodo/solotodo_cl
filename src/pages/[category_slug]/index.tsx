@@ -41,8 +41,10 @@ import CategoryRemoveFieldsButton from "src/components/category/CategoryRemoveFi
 import { useState } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ApiFormTreeComponent from "src/frontend-utils/api_form/fields/tree/ApiFormTreeComponent";
-import LZString from "lz-string";
-// import zlib from "browserify-zlib";
+import UZIP from "uzip";
+
+// Server Side Rendering
+var zlib = require("zlib");
 
 // ----------------------------------------------------------------------
 
@@ -85,12 +87,17 @@ type PropTypes = {
 // ----------------------------------------------------------------------
 
 export default function Browse({ data }: { data: string }) {
+  const byteArray = Buffer.from(data, "base64");
+  const outBuff = UZIP.inflate(byteArray);
+  const stringProps = new TextDecoder().decode(outBuff);
+
   const {
     category,
     categorySpecsFormLayout,
     initialData,
     initialResult,
-  }: PropTypes = JSON.parse(LZString.decompress(data)!);
+  }: PropTypes = JSON.parse(stringProps);
+
   const { prefExcludeRefurbished, prefStores } = useSettings();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -390,6 +397,24 @@ export default function Browse({ data }: { data: string }) {
 export const getServerSideProps = wrapper.getServerSideProps(
   (st) => async (context) => {
     try {
+      if (context.query.page_size && Number(context.query.page_size) > 100) {
+        const query = context.query;
+        delete query.category_slug;
+        delete query.page_size;
+        delete query.page;
+        let queryUrl = "";
+        for (const q of Object.keys(query)) {
+          queryUrl += `${q}=${query[q]}&`;
+        }
+        queryUrl += "page_size=100";
+        return {
+          redirect: {
+            permanent: false,
+            destination: `/${context.params?.category_slug}?${queryUrl}`,
+          },
+        };
+      }
+
       const prefExcludeRefurbished = context.req.cookies.prefExcludeRefurbished;
       const preStoresCookie = context.req.cookies.prefStores;
       const prefStores = preStoresCookie ? preStoresCookie.split("|") : [];
@@ -447,7 +472,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
         });
         return {
           props: {
-            data: LZString.compress(string),
+            data: zlib.deflateSync(string).toString("base64"),
           },
         };
       }
