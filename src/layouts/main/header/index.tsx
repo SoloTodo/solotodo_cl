@@ -18,6 +18,7 @@ import useSettings from "src/hooks/useSettings";
 import NavigationDrawer from "./NavigationDrawer";
 import { PATH_MAIN } from "src/routes/paths";
 import { Palette } from "@mui/material";
+import useResponsive from "src/hooks/useResponsive";
 
 // ----------------------------------------------------------------------
 
@@ -76,6 +77,7 @@ export default function DashboardHeader({
   const isOffset =
     useOffSetTop(HEADER.DASHBOARD_DESKTOP_HEIGHT) && !verticalLayout;
   const settings = useSettings();
+  const isDesktop = useResponsive("up", "md");
 
   return (
     <RootStyle
@@ -89,41 +91,46 @@ export default function DashboardHeader({
           px: { lg: 5 },
         }}
       >
-        {settings.themeMode === "dark" ? (
-          <NextLink href={PATH_MAIN.root} passHref>
-            <Link>
-              <Image
-                alt={"Logo"}
-                src="/logo_fondo_oscuro.svg"
-                width={200}
-                height={61}
-              />
-            </Link>
-          </NextLink>
-        ) : (
-          <NextLink href={PATH_MAIN.root} passHref>
-            <Link>
-              <Image
-                alt={"Logo"}
-                src="/logo_fondo_claro.svg"
-                width={200}
-                height={61}
-              />
-            </Link>
-          </NextLink>
-        )}
+        <Stack width="100%">
+          <Stack direction="row">
+            {settings.themeMode === "dark" ? (
+              <NextLink href={PATH_MAIN.root} passHref>
+                <Link>
+                  <Image
+                    alt={"Logo"}
+                    src="/logo_fondo_oscuro.svg"
+                    width={200}
+                    height={61}
+                  />
+                </Link>
+              </NextLink>
+            ) : (
+              <NextLink href={PATH_MAIN.root} passHref>
+                <Link>
+                  <Image
+                    alt={"Logo"}
+                    src="/logo_fondo_claro.svg"
+                    width={200}
+                    height={61}
+                  />
+                </Link>
+              </NextLink>
+            )}
 
-        <Box sx={{ flexGrow: 1 }} />
+            <Box sx={{ flexGrow: 1 }} />
 
-        <Stack
-          direction="row"
-          alignItems="center"
-          spacing={{ xs: 1.5, sm: 2.5 }}
-        >
-          <Searchbar />
-          <NavigationDrawer isOffset={isOffset} />
-          <AccountPopover />
-          <SettingsPopover />
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={{ xs: 1.5, sm: 2.5 }}
+            >
+              {isDesktop && <Searchbar />}
+              <NavigationDrawer isOffset={isOffset} />
+              <AccountPopover />
+              <SettingsPopover />
+            </Stack>
+          </Stack>
+          {!isDesktop && <Searchbar />}
         </Stack>
       </Toolbar>
     </RootStyle>

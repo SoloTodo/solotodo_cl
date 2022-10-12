@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 // @mui
-import { alpha } from "@mui/material/styles";
 import {
   Box,
   Divider,
@@ -13,6 +12,8 @@ import {
   TextField,
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 // components
 import MenuPopover from "../../../components/MenuPopover";
 import { IconButtonAnimate } from "../../../components/animate";
@@ -98,22 +99,12 @@ export default function AccountPopover() {
         onClick={handleOpen}
         color="secondary"
         sx={{
-          p: 0,
-          ...(open && {
-            "&:before": {
-              zIndex: 1,
-              content: "''",
-              width: "100%",
-              height: "100%",
-              borderRadius: "50%",
-              position: "absolute",
-              bgcolor: (theme: { palette: { grey: string[] } }) =>
-                alpha(theme.palette.grey[900], 0.8),
-            },
-          }),
+          ...(open && { bgcolor: "action.selected" }),
         }}
       >
         <AccountCircleIcon />
+        <Typography color="text.primary">Perfil</Typography>
+        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
       </IconButtonAnimate>
 
       <MenuPopover

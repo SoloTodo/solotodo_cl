@@ -39,7 +39,7 @@ export default function NavigationDrawer({
 }) {
   const settings = useSettings();
   const navigation = useNavigation();
-  const isDesktop = useResponsive("up", "md");
+  const isDesktop = useResponsive("up", "lg");
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<HTMLElement | null>(null);
   const [menu, setMenu] = useState<NavigationProps | null>(null);
