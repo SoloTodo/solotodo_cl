@@ -169,9 +169,9 @@ const palette = {
     ...COMMON,
     mode: 'light',
     text: { primary: GREY[800], secondary: GREY[600], extra: "#3B5D81", disabled: GREY[500] },
-    background: { paper: GREY[200], default: '#fff', neutral: GREY[200] },
+    background: { paper: GREY[200], default: "#F7F7F7", neutral: GREY[200] },
     action: { active: GREY[600], ...COMMON.action },
-    header: "#F8F8F8"
+    header: "#EDEDED"
   },
   dark: {
     ...COMMON,
