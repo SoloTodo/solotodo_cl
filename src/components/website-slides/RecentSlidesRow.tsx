@@ -19,7 +19,7 @@ export default function RecentSlidesRow({
     infinite: true,
     responsive: [
       {
-        breakpoint: 1300,
+        breakpoint: 1200,
         settings: {
           slidesToShow: 2,
           centerMode: true,
@@ -27,7 +27,7 @@ export default function RecentSlidesRow({
         },
       },
       {
-        breakpoint: 850,
+        breakpoint: 750,
         settings: {
           slidesToShow: 1,
           centerMode: true,

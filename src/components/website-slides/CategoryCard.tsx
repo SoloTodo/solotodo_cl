@@ -25,7 +25,6 @@ export default function CategoryCard({
     <Box
       sx={{
         height: { xs: 145, md: 170 },
-        maxWidth: 608,
         paddingX: 2,
         borderRadius: 2,
         backgroundColor: "background.paper",

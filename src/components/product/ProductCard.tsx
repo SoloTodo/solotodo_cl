@@ -87,19 +87,19 @@ export default function ProductCard(props: ProductProps) {
   return metadata.score === 0 && !browsePurpose && active === 0 ? null : (
     <Card
       sx={{
-        width: { xs: browsePurpose ? 300 : "90%", sm: 270, md: 292 },
+        width: { xs: browsePurpose ? 300 : "90%", sm: 270, md: 288 },
         height: "100%",
       }}
     >
       <NextLink href={`/products/${product.id}-${product.slug}`} passHref>
         <CardActionArea
           sx={{
-            height: options.length > 1 ? "87%" : "100%",
+            height: options.length > 1 ? "90%" : "100%",
           }}
         >
           <Box
             height={
-              options.length > 1 || !categoryWithVariants ? "100%" : "87%"
+              options.length > 1 || !categoryWithVariants ? "100%" : "90%"
             }
             sx={{ position: "relative" }}
           >
@@ -119,7 +119,7 @@ export default function ProductCard(props: ProductProps) {
                 </Box>
               )}
               <Image
-                ratio="4/3"
+                ratio="16/9"
                 src={
                   loading || isLoaded
                     ? "https://zone-assets-api.vercel.app/assets/img_placeholder.svg"
@@ -190,11 +190,10 @@ export default function ProductCard(props: ProductProps) {
                       }
                 }
               />
-              <Box height={45} />
+              <Box height={browsePurpose ? 40 : 20} />
               <Typography
                 variant="h2"
                 component="div"
-                fontWeight={500}
                 sx={{
                   position: "absolute",
                   bottom: 0,
@@ -213,6 +212,7 @@ export default function ProductCard(props: ProductProps) {
         options.length > 1 ? (
           <CardActions>
             <Select
+              size="small"
               value={options[active].value}
               style={{ width: "100%" }}
               onChange={(evt) => {
@@ -228,7 +228,7 @@ export default function ProductCard(props: ProductProps) {
             </Select>
           </CardActions>
         ) : (
-          <Box height={browsePurpose ? 60 : 70} />
+          <Box height={browsePurpose ? 20 : 53} />
         )
       ) : null}
     </Card>
