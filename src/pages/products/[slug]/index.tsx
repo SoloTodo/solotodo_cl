@@ -34,7 +34,7 @@ export default function ProductPage({ product }: { product: Product }) {
 
   return (
     <Page title={product.name}>
-      <Container maxWidth={false}>
+      <Container disableGutters>
         <HeaderBreadcrumbs
           heading=""
           links={[

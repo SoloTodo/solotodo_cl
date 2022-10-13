@@ -289,7 +289,7 @@ export default function Browse({ data }: { data: string }) {
 
   return (
     <Page title={category.name}>
-      <Container maxWidth={false}>
+      <Container disableGutters>
         <HeaderBreadcrumbs
           heading=""
           links={[

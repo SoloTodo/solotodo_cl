@@ -55,7 +55,6 @@ export default function Searchbar() {
       <Input
         name="search"
         autoFocus
-        fullWidth
         disableUnderline
         placeholder="Busca un producto"
         endAdornment={
@@ -70,7 +69,7 @@ export default function Searchbar() {
           fontWeight: "fontWeightBold",
           padding: 0.5,
           display: "flex",
-          // width: 300,
+          width: 300,
           borderRadius: "4px",
           border: "1px solid rgba(255, 255, 255, 0.23)",
         }}

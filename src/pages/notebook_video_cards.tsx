@@ -114,7 +114,7 @@ export default function NotebookVideoCards() {
           : "Tarjetas de video de notebooks"
       }
     >
-      <Container maxWidth={false}>
+      <Container disableGutters>
         <HeaderBreadcrumbs
           heading=""
           links={[

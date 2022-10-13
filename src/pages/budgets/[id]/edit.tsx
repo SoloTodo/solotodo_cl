@@ -84,7 +84,7 @@ export default function BudgetEdit({
 
   return (
     <Page title="Cotización">
-      <Container maxWidth={false}>
+      <Container disableGutters>
         <HeaderBreadcrumbs
           heading=""
           links={[

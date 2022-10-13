@@ -97,7 +97,7 @@ export default function NotebookProcessors() {
           : "Procesadores de notebooks"
       }
     >
-      <Container maxWidth={false}>
+      <Container disableGutters>
         <HeaderBreadcrumbs
           heading=""
           links={[

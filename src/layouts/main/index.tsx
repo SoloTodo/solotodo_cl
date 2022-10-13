@@ -81,6 +81,7 @@ export default function DashboardLayout({ children }: Props) {
       <Box
         sx={{
           display: { lg: "flex" },
+          alignItems: "center"
         }}
       >
         <MainHeader isCollapse={isCollapse} />

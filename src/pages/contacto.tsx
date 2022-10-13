@@ -81,7 +81,7 @@ export default function Contacto() {
 
   return (
     <Page title="Contacto">
-      <Container maxWidth={false}>
+      <Container disableGutters>
         <HeaderBreadcrumbs
           heading=""
           links={[{ name: "Home", href: PATH_MAIN.root }, { name: "Contacto" }]}

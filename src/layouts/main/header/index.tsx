@@ -91,7 +91,7 @@ export default function DashboardHeader({
           px: { lg: 5 },
         }}
       >
-        <Stack width="100%">
+        <Stack width="100%" maxWidth={1200} margin="auto">
           <Stack direction="row">
             {settings.themeMode === "dark" ? (
               <NextLink href={PATH_MAIN.root} passHref>
@@ -130,7 +130,11 @@ export default function DashboardHeader({
               <SettingsPopover />
             </Stack>
           </Stack>
-          {!isDesktop && <Searchbar />}
+          {!isDesktop && (
+            <Stack width="100%" alignItems="center">
+              <Searchbar />
+            </Stack>
+          )}
         </Stack>
       </Toolbar>
     </RootStyle>

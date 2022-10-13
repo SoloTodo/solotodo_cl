@@ -133,7 +133,7 @@ export default function Register() {
 
   return (
     <Page title="Registro">
-      <Container maxWidth={false}>
+      <Container disableGutters>
         <HeaderBreadcrumbs
           heading=""
           links={[
