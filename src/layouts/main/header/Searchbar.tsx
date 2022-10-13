@@ -54,7 +54,6 @@ export default function Searchbar() {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Input
         name="search"
-        autoFocus
         disableUnderline
         placeholder="Busca un producto"
         endAdornment={
