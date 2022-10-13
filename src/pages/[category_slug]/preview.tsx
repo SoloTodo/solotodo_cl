@@ -46,7 +46,7 @@ export default function CategoryPreview({
 
   return (
     <Page title={category.name}>
-      <Container disableGutters>
+      <Container>
         <Typography variant="h2" component="h1" gutterBottom>
           {recentSlides.length !== 0 && "Lo más reciente"}
         </Typography>

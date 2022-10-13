@@ -60,7 +60,7 @@ export default function LegalInformation() {
 
   return (
     <Page title="Cotiza y compara los precios de todas las tiendas">
-      <Container disableGutters>
+      <Container>
         <Typography gutterBottom variant="h3">
           Información legal
         </Typography>

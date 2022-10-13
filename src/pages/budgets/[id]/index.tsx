@@ -30,7 +30,7 @@ export default function BudgetView({ budget }: { budget: Budget }) {
 
   return (
     <Page title="Cotización">
-      <Container disableGutters>
+      <Container>
         <HeaderBreadcrumbs
           heading=""
           links={[

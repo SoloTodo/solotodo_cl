@@ -6,7 +6,7 @@ import { constants } from "src/config";
 export default function Compatibility() {
   return (
     <Page title="Cotiza y compara los precios de todas las tiendas">
-      <Container disableGutters>
+      <Container>
         <Box margin="auto" width={{ xs: "100%", md: "70%" }}>
           <Typography gutterBottom variant="h3">
             Chequeo automático de compatibilidad

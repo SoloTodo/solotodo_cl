@@ -39,7 +39,7 @@ export default function BudgetEdit({
   if (initialBudget.id !== budget.id) {
     setBudget(initialBudget);
   }
-  
+
   useEffect(() => {
     if (budget.products_pool.length) {
       let url = "products/available_entities/?";
@@ -84,7 +84,7 @@ export default function BudgetEdit({
 
   return (
     <Page title="Cotización">
-      <Container disableGutters>
+      <Container>
         <HeaderBreadcrumbs
           heading=""
           links={[

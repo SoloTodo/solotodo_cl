@@ -97,7 +97,7 @@ export default function NotebookProcessors() {
           : "Procesadores de notebooks"
       }
     >
-      <Container disableGutters>
+      <Container>
         <HeaderBreadcrumbs
           heading=""
           links={[

@@ -81,7 +81,7 @@ export default function DataDeletion() {
 
   return (
     <Page title="Eliminación de cuenta / datos">
-      <Container disableGutters>
+      <Container>
         <HeaderBreadcrumbs
           heading=""
           links={[

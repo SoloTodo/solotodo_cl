@@ -20,7 +20,7 @@ export default function VerifyEmail() {
 
   return (
     <Page title="Verificando cuenta">
-      <Container disableGutters></Container>
+      <Container></Container>
     </Page>
   );
 }

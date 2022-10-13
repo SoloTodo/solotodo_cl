@@ -158,7 +158,7 @@ export default function Login() {
 
   return (
     <Page title="Login">
-      <Container disableGutters>
+      <Container>
         <HeaderBreadcrumbs
           heading=""
           links={[{ name: "Home", href: PATH_MAIN.root }, { name: "Login" }]}

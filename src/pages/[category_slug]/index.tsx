@@ -289,7 +289,7 @@ export default function Browse({ data }: { data: string }) {
 
   return (
     <Page title={category.name}>
-      <Container disableGutters>
+      <Container>
         <HeaderBreadcrumbs
           heading=""
           links={[
@@ -338,10 +338,11 @@ export default function Browse({ data }: { data: string }) {
                       sx={{
                         width: "30%",
                         justifyContent: "space-between",
-                        height: 53.125,
+                        height: 36.125,
                       }}
                       endIcon={<ArrowDropDownIcon />}
                       onClick={() => setOpen(true)}
+                      size="small"
                     >
                       Filtrar por
                     </Button>
@@ -354,7 +355,7 @@ export default function Browse({ data }: { data: string }) {
             </Grid>
           </Grid>
           <br />
-          <Grid container spacing={{ xs: 4, md: 6 }}>
+          <Grid container spacing={3}>
             {useMediaQuery(theme.breakpoints.up("lg")) && (
               <Grid item lg={3}>
                 {GridFilters}

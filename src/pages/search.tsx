@@ -67,7 +67,7 @@ export default function Search() {
 
   return (
     <Page title="Búsqueda">
-      <Container disableGutters>
+      <Container>
         <HeaderBreadcrumbs
           heading=""
           links={[{ name: "Home", href: PATH_MAIN.root }, { name: "Búsqueda" }]}

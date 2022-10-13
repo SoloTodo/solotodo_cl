@@ -76,7 +76,7 @@ const Title = ({ children }: { children: ReactNode }) => (
 export default function VideoCardGpus({ gpu }: { gpu: Gpu }) {
   return (
     <Page title={gpu.unicode}>
-      <Container disableGutters>
+      <Container>
         <HeaderBreadcrumbs
           heading=""
           links={[
