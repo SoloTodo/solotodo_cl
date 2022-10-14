@@ -11,8 +11,9 @@ export default function RecentSlidesRow({
 }: {
   recentSlides: Slide[];
 }) {
+  const slidesLen = recentSlides.length;
   var settings = {
-    slidesToShow: 3,
+    slidesToShow: slidesLen < 3 ? slidesLen : 3,
     speed: 500,
     dots: true,
     arrows: false,
@@ -21,7 +22,7 @@ export default function RecentSlidesRow({
       {
         breakpoint: 1200,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: slidesLen < 2 ? slidesLen : 2,
           centerMode: true,
           centerPadding: "20px",
         },

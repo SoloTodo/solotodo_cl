@@ -1,5 +1,4 @@
-import { Box, Button, Container, Typography } from "@mui/material";
-import NextLink from "next/link";
+import { Box, Container, Typography } from "@mui/material";
 import Page from "src/components/Page";
 import ProductsRow from "src/components/product/ProductsRow";
 import {
@@ -44,6 +43,13 @@ export default function CategoryPreview({
     }
   });
 
+  const viewAll = {
+    name: "Ver Todo",
+    path: `/${category.slug}`,
+    picture: category.picture || "/ver_todos.png",
+    subtitle: `en ${category.name}`,
+  };
+
   return (
     <Page title={category.name}>
       <Container>
@@ -56,9 +62,12 @@ export default function CategoryPreview({
           {category.name}
         </Typography>
         <CategorySlidesRow
-          categorySlides={items.filter(
-            (i) => typeof i.picture !== "undefined" && i.picture !== null
-          )}
+          categorySlides={[
+            ...items.filter(
+              (i) => typeof i.picture !== "undefined" && i.picture !== null
+            ),
+            viewAll,
+          ]}
         />
         <ProductsRow
           title="Lo más visto"
@@ -81,17 +90,6 @@ export default function CategoryPreview({
           }
           actionHref={`/${category.slug}?ordering=discount`}
         />
-        <Box textAlign="center">
-          <NextLink passHref href={`/${category.slug}`}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              sx={{ borderRadius: 4, color: "text.primary" }}
-            >
-              VER TODOS LOS PRODUCTOS
-            </Button>
-          </NextLink>
-        </Box>
       </Container>
     </Page>
   );

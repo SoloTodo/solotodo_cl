@@ -19,7 +19,7 @@ export default function CategoryCard({
 }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const path = categoryData.path.replace("https://www.solotodo.cl", "")
+  const path = categoryData.path.replace("https://www.solotodo.cl", "");
 
   return (
     <Box
@@ -64,7 +64,11 @@ export default function CategoryCard({
               sx={{
                 color: "text.primary",
               }}
-              label="VER OFERTAS"
+              label={
+                categoryData.name.includes("Ver Todo")
+                  ? "VER TODO"
+                  : "VER OFERTAS"
+              }
               variant="outlined"
               clickable
               onDelete={() => {}}
