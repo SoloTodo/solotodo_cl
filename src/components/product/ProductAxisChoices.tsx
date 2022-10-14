@@ -75,17 +75,17 @@ export default function ProductAxisChoices({
 
   return (
     <Stack spacing={1} direction="row" overflow="auto">
-      {axesChoices.map((choice) => {
+      {axesChoices.map((choice, index) => {
         if (choice.originalProductMatches) {
           return (
-            <Button variant="contained" key={choice.labelValue}>
+            <Button variant="contained" key={index}>
               {choice.labelValue}
             </Button>
           );
         } else if (choice.redirectUrlData) {
           return (
             <Link
-              key={choice.labelValue}
+              key={index}
               href={`/products/[slug]?slug=${choice.redirectUrlData.id}-${choice.redirectUrlData.slug}`}
               as={`/products/${choice.redirectUrlData.id}-${choice.redirectUrlData.slug}`}
             >
@@ -95,7 +95,7 @@ export default function ProductAxisChoices({
         } else {
           return (
             <ProductAxisChoicesModalButton
-              key={choice.labelValue}
+              key={index}
               choice={choice}
               axis={axis}
             />
