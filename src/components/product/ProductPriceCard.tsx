@@ -17,6 +17,7 @@ import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/ap
 import { Entity, InLineProduct } from "src/frontend-utils/types/entity";
 import { Store } from "src/frontend-utils/types/store";
 import { useAppSelector } from "src/store/hooks";
+import { calcEntityPrice } from "src/utils/calcEntityPrice";
 import SoloTodoLeadLink from "../SoloTodoLeadLink";
 import ProductOrStoreRatingDrawer from "./ProductOrStoreRatingDrawer";
 import { RatedStore } from "./types";
@@ -35,6 +36,7 @@ export default function ProductPriceCard({
   const offerPriceLabel = (
     constants.storeOfferPriceLabel as Record<number, string | undefined>
   )[store.id];
+
   return (
     <Card
       sx={{
@@ -102,7 +104,7 @@ export default function ProductPriceCard({
             p: 0.8,
             borderEndEndRadius: 10,
             display: "inline-block",
-            maxWidth: '55%'
+            maxWidth: "55%",
           }}
         >
           <Typography fontWeight={500} color="common.white" noWrap>
@@ -129,7 +131,7 @@ export default function ProductPriceCard({
                   Precio normal
                 </Typography>
                 <Typography variant="h2" color="text.extra">
-                  {currency(entity.active_registry!.normal_price, {
+                  {currency(calcEntityPrice(entity, "normal_price"), {
                     precision: 0,
                   }).format()}
                 </Typography>
@@ -140,7 +142,7 @@ export default function ProductPriceCard({
                   {offerPriceLabel ? offerPriceLabel : "Precio efectivo"}
                 </Typography>
                 <Typography variant="h2" color="text.extra">
-                  {currency(entity.active_registry!.offer_price, {
+                  {currency(calcEntityPrice(entity, "offer_price"), {
                     precision: 0,
                   }).format()}
                 </Typography>

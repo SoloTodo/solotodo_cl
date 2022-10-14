@@ -30,6 +30,7 @@ import ProductAddToBudgetButton from "./ProductAddToBudgetButton";
 import ProductStaffActionButton from "./ProductStaffActionButton";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
+import { calcEntityPrice } from "src/utils/calcEntityPrice";
 
 type ProductPricesProps = {
   product: Product;
@@ -163,11 +164,7 @@ export default function ProductPrices({
       </Stack>
       <Stack direction="column" spacing={1}>
         {entities
-          .sort(
-            (a, b) =>
-              Number(a.active_registry![ordering]) -
-              Number(b.active_registry![ordering])
-          )
+          .sort((a, b) => calcEntityPrice(a, ordering) - calcEntityPrice(b, ordering))
           .map((entity, i) =>
             !showMore && i >= 5 ? null : (
               <ProductPriceCard
