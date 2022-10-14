@@ -25,6 +25,7 @@ import { useAppSelector } from "src/store/hooks";
 import ReactDisqusComments from "react-disqus-comments";
 import ProductPrices from "src/components/product/ProductPrices";
 import ProductDescription from "src/components/product/ProductDescription";
+import ProductWarnings from "src/components/product/ProductWarnings";
 
 export default function ProductPage({ product }: { product: Product }) {
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
@@ -64,6 +65,7 @@ export default function ProductPage({ product }: { product: Product }) {
               <Typography variant="h2" color="text.extra">
                 {product.name}
               </Typography>
+              <ProductWarnings product={product} />
               <ProductRatingSummary productOrStore={product} />
               <ProductVariants product={product} category={category} />
               <ProductBenchmarks product={product} category={category} />
