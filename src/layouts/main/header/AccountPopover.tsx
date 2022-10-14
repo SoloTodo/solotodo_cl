@@ -95,17 +95,17 @@ export default function AccountPopover() {
 
   return (
     <>
-      <IconButtonAnimate
+      <Button
         onClick={handleOpen}
         color="secondary"
         sx={{
           ...(open && { bgcolor: "action.selected" }),
         }}
+        startIcon={<AccountCircleIcon />}
       >
-        <AccountCircleIcon />
         <Typography color="text.primary">Perfil</Typography>
         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-      </IconButtonAnimate>
+      </Button>
 
       <MenuPopover
         open={Boolean(open)}

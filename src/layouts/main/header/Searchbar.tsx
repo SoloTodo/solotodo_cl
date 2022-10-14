@@ -1,19 +1,16 @@
 import * as Yup from "yup";
 import { useState } from "react";
 // @mui
-import {
-  Input,
-  InputAdornment,
-} from "@mui/material";
+import { Input, InputAdornment } from "@mui/material";
 // components
 import Iconify from "../../../components/Iconify";
 // hooks
 import { useRouter } from "next/router";
 import { FormProvider } from "src/components/hook-form";
+import useSettings from "src/hooks/useSettings";
 // form
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +23,7 @@ type FormValuesProps = {
 export default function Searchbar() {
   const [keywords, setKeywords] = useState("");
   const router = useRouter();
+  const settings = useSettings();
 
   const SearchSchema = Yup.object().shape({
     search: Yup.string(),
@@ -57,7 +55,7 @@ export default function Searchbar() {
         disableUnderline
         placeholder="Busca un producto"
         endAdornment={
-          <InputAdornment position="start">
+          <InputAdornment position="end">
             <Iconify
               icon={"eva:search-fill"}
               sx={{ color: "text.disabled", width: 20, height: 20 }}
@@ -66,11 +64,15 @@ export default function Searchbar() {
         }
         sx={{
           fontWeight: "fontWeightBold",
-          padding: 0.5,
+          paddingY: 0.5,
+          paddingX: 1,
           display: "flex",
           width: 300,
           borderRadius: "4px",
-          border: "1px solid rgba(255, 255, 255, 0.23)",
+          border:
+            settings.themeMode === "dark"
+              ? "1px solid rgba(255, 255, 255, 0.23)"
+              : "1px solid rgba(0, 0, 0, 0.23)",
         }}
         onChange={(evt) => setKeywords(evt.target.value)}
       />

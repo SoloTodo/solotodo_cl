@@ -46,6 +46,7 @@ const RootStyle = styled(AppBar, {
   transition: theme.transitions.create(["width", "height"], {
     duration: theme.transitions.duration.shorter,
   }),
+  backgroundColor: (theme.palette as PaletteExtended).header,
   [theme.breakpoints.up("lg")]: {
     height: HEADER.DASHBOARD_DESKTOP_HEIGHT,
     // width: `calc(100% - ${NAVBAR.DASHBOARD_WIDTH + 1}px)`,
@@ -126,8 +127,10 @@ export default function DashboardHeader({
             >
               {isDesktop && <Searchbar />}
               <NavigationDrawer isOffset={isOffset} />
-              <AccountPopover />
-              <SettingsPopover />
+              <Stack direction="row" spacing={0.5}>
+                <AccountPopover />
+                <SettingsPopover />
+              </Stack>
             </Stack>
           </Stack>
           {!isDesktop && (
