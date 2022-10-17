@@ -32,14 +32,14 @@ export default function LeadLink(props: LeadLinkProps) {
     setUuid(uuidv4());
   }, []);
 
-  const handleClick = () => {
+  const handleClick = (evt: any) => {
     // TODO: This condition is for ignoring registering leads on harcoded stores. Ideally it should be removed soon
     if (Number.isInteger(entity.id)) {
       registerLead(websiteId, entity, uuid);
     }
 
     if (callback) {
-      callback(uuid);
+      callback(uuid, evt);
     }
 
     // setTimeout(() => this.resetUuid(), 300);
