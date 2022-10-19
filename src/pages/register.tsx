@@ -30,6 +30,7 @@ import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import { useSnackbar } from "notistack";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import FacebookButton from "src/components/FacebookButton";
+import TopBanner from "src/components/TopBanner";
 
 // ----------------------------------------------------------------------
 
@@ -134,6 +135,7 @@ export default function Register() {
   return (
     <Page title="Registro">
       <Container>
+        <TopBanner category="any" />
         <HeaderBreadcrumbs
           heading=""
           links={[

@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import Page from "src/components/Page";
 import ProductsRow from "src/components/product/ProductsRow";
+import TopBanner from "src/components/TopBanner";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import { PATH_MAIN } from "src/routes/paths";
@@ -77,6 +78,7 @@ export default function VideoCardGpus({ gpu }: { gpu: Gpu }) {
   return (
     <Page title={gpu.unicode}>
       <Container>
+        <TopBanner category="Notebooks" />
         <HeaderBreadcrumbs
           heading=""
           links={[

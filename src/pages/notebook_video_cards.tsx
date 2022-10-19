@@ -16,6 +16,7 @@ import { fetchJson } from "src/frontend-utils/network/utils";
 import { PATH_MAIN } from "src/routes/paths";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import TopBanner from "src/components/TopBanner";
 
 type VideoCard = {
   brand_unicode: string;
@@ -115,6 +116,7 @@ export default function NotebookVideoCards() {
       }
     >
       <Container>
+        <TopBanner category="Notebooks" />
         <HeaderBreadcrumbs
           heading=""
           links={[

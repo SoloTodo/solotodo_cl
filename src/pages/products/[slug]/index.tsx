@@ -26,6 +26,7 @@ import ReactDisqusComments from "react-disqus-comments";
 import ProductPrices from "src/components/product/ProductPrices";
 import ProductDescription from "src/components/product/ProductDescription";
 import ProductWarnings from "src/components/product/ProductWarnings";
+import TopBanner from "src/components/TopBanner";
 
 export default function ProductPage({ product }: { product: Product }) {
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
@@ -36,6 +37,7 @@ export default function ProductPage({ product }: { product: Product }) {
   return (
     <Page title={product.name}>
       <Container>
+        <TopBanner category={category.name} />
         <HeaderBreadcrumbs
           heading=""
           links={[

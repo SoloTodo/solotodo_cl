@@ -15,6 +15,7 @@ import { constants } from "src/config";
 import { jwtFetch } from "src/frontend-utils/nextjs/utils";
 import { PATH_MAIN } from "src/routes/paths";
 import ReactDisqusComments from "react-disqus-comments";
+import TopBanner from "src/components/TopBanner";
 
 export default function BudgetView({ budget }: { budget: Budget }) {
   const theme = useTheme();
@@ -31,6 +32,7 @@ export default function BudgetView({ budget }: { budget: Budget }) {
   return (
     <Page title="Cotización">
       <Container>
+        <TopBanner category="Hardware" />
         <HeaderBreadcrumbs
           heading=""
           links={[

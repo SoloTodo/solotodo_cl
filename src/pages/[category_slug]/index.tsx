@@ -42,6 +42,7 @@ import { useState } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ApiFormTreeComponent from "src/frontend-utils/api_form/fields/tree/ApiFormTreeComponent";
 import UZIP from "uzip";
+import TopBanner from "src/components/TopBanner";
 
 // Server Side Rendering
 var zlib = require("zlib");
@@ -289,6 +290,7 @@ export default function Browse({ data }: { data: string }) {
 
   return (
     <Page title={category.name}>
+      <TopBanner category={category.name} />
       <Container>
         <HeaderBreadcrumbs
           heading=""

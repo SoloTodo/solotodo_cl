@@ -39,6 +39,7 @@ import { useSnackbar } from "notistack";
 import FacebookButton from "src/components/FacebookButton";
 import { Store } from "src/frontend-utils/types/store";
 import { constants } from "src/config";
+import TopBanner from "src/components/TopBanner";
 
 // ----------------------------------------------------------------------
 
@@ -159,6 +160,7 @@ export default function Login() {
   return (
     <Page title="Login">
       <Container>
+        <TopBanner category="Any" />
         <HeaderBreadcrumbs
           heading=""
           links={[{ name: "Home", href: PATH_MAIN.root }, { name: "Login" }]}

@@ -12,6 +12,7 @@ import RecentSlidesRow from "src/components/website-slides/RecentSlidesRow";
 import CategorySlidesRow from "src/components/website-slides/CaregorySlidesRow";
 import { Slide } from "src/components/website-slides/types";
 import { categorySlides } from "src/categorySlides";
+import TopBanner from "src/components/TopBanner";
 
 type HomeProps = {
   recentSlides: Slide[];
@@ -28,6 +29,7 @@ const Home = (props: HomeProps) => {
   return (
     <Page title="Cotiza y compara los precios de todas las tiendas">
       <Container>
+        <TopBanner category="Any" />
         <Typography variant="h2" component="h1" gutterBottom>
           Lo más reciente
         </Typography>

@@ -71,6 +71,18 @@ export default class MyDocument extends Document {
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${constants.googleAnalyticsId}`}
           ></script>
+          <script
+            async
+            src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"
+          ></script>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                      var googletag = googletag || {};
+                      googletag.cmd = googletag.cmd || [];
+                  `,
+            }}
+          />
           <script dangerouslySetInnerHTML={this.setGoogleTags()} />
         </Head>
 

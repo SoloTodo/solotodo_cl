@@ -15,6 +15,7 @@ import ApiFormSelectComponent from "src/frontend-utils/api_form/fields/select/Ap
 import ApiFormPaginationComponent from "src/frontend-utils/api_form/fields/pagination/ApiFormPaginationComponent";
 import CategoryBrowse from "src/components/category/CategoryBrowse";
 import { useRouter } from "next/router";
+import TopBanner from "src/components/TopBanner";
 
 export default function Search() {
   const { prefExcludeRefurbished, prefStores } = useSettings();
@@ -68,6 +69,7 @@ export default function Search() {
   return (
     <Page title="Búsqueda">
       <Container>
+        <TopBanner category="any" />
         <HeaderBreadcrumbs
           heading=""
           links={[{ name: "Home", href: PATH_MAIN.root }, { name: "Búsqueda" }]}

@@ -16,6 +16,7 @@ import { fetchJson } from "src/frontend-utils/network/utils";
 import { PATH_MAIN } from "src/routes/paths";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import TopBanner from "src/components/TopBanner";
 
 type Processor = {
   id: number;
@@ -98,6 +99,7 @@ export default function NotebookProcessors() {
       }
     >
       <Container>
+        <TopBanner category="Notebooks" />
         <HeaderBreadcrumbs
           heading=""
           links={[

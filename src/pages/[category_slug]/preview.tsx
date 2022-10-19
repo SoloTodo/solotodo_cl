@@ -17,6 +17,7 @@ import RecentSlidesRow from "src/components/website-slides/RecentSlidesRow";
 import CategorySlidesRow from "src/components/website-slides/CaregorySlidesRow";
 import useNavigation from "src/hooks/useNavigation";
 import { NavigationItemProps } from "src/contexts/NavigationContext";
+import TopBanner from "src/components/TopBanner";
 
 type CategoryPreviewProps = {
   category: Category;
@@ -53,6 +54,7 @@ export default function CategoryPreview({
   return (
     <Page title={category.name}>
       <Container>
+        <TopBanner category={category.name} />
         <Typography variant="h2" component="h1" gutterBottom>
           {recentSlides.length !== 0 && "Lo más reciente"}
         </Typography>

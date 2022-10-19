@@ -19,6 +19,7 @@ import {
   useApiResourceObjects,
 } from "src/frontend-utils/redux/api_resources/apiResources";
 import { useAppSelector } from "src/store/hooks";
+import TopBanner from "src/components/TopBanner";
 
 export default function BudgetEdit({
   initialBudget,
@@ -85,6 +86,7 @@ export default function BudgetEdit({
   return (
     <Page title="Cotización">
       <Container>
+      <TopBanner category="Hardware" />
         <HeaderBreadcrumbs
           heading=""
           links={[
