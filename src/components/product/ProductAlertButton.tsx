@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  Box,
-  Button,
-  Modal,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Modal, Stack, Typography } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import { useAppSelector } from "src/store/hooks";
 import { useUser } from "src/frontend-utils/redux/user";
@@ -18,18 +12,7 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoadingButton } from "@mui/lab";
 import useSettings from "src/hooks/useSettings";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import { modalStyle } from "src/styles/modal";
 
 type FormValuesProps = {
   email: string;
@@ -37,10 +20,10 @@ type FormValuesProps = {
 
 export default function ProductAlertButton({
   productId,
-  available
+  available,
 }: {
   productId: number;
-  available: boolean
+  available: boolean;
 }) {
   const { enqueueSnackbar } = useSnackbar();
   const { prefStores } = useSettings();
@@ -106,10 +89,12 @@ export default function ProductAlertButton({
         startIcon={<EmailIcon />}
         onClick={() => setOpen(true)}
       >
-        {available ? 'Avísame cuando baje de precio' : 'Avísame cuando este disponible'}
+        {available
+          ? "Avísame cuando baje de precio"
+          : "Avísame cuando este disponible"}
       </Button>
       <Modal open={open} onClose={handleClose}>
-        <Box sx={style}>
+        <Box sx={modalStyle}>
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={1}>
               <Typography id="modal-modal-title" variant="h3" component="h2">

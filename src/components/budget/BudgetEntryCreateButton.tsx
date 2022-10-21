@@ -10,19 +10,8 @@ import {
 import { useState } from "react";
 import { fetchAuth } from "src/frontend-utils/nextjs/utils";
 import { Category } from "src/frontend-utils/types/store";
+import { modalStyle } from "src/styles/modal";
 import { Budget } from "./types";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
 
 export default function BudgetEntryCreateButton({
   budget,
@@ -69,7 +58,7 @@ export default function BudgetEntryCreateButton({
         Agregar componente
       </Button>
       <Modal open={openModal} onClose={handleClose}>
-        <Box sx={style}>
+        <Box sx={modalStyle}>
           <Typography id="modal-modal-title" variant="h3" component="h2">
             Agregar componente
           </Typography>

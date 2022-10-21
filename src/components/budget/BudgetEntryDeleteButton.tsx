@@ -4,6 +4,7 @@ import { useState } from "react";
 import { fetchAuth } from "src/frontend-utils/nextjs/utils";
 import { InLineProduct } from "src/frontend-utils/types/entity";
 import { Category } from "src/frontend-utils/types/store";
+import { modalStyle } from "src/styles/modal";
 import MenuPopover from "../MenuPopover";
 import { PricingEntriesProps } from "../product/types";
 import { Entry } from "./types";
@@ -13,18 +14,6 @@ type BudgetEntryDeleteProps = {
   budgetEntry: Entry;
   category: Category;
   setBudget: Function;
-};
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
 };
 
 export default function BudgetEntryDeleteButton(props: BudgetEntryDeleteProps) {
@@ -103,7 +92,7 @@ export default function BudgetEntryDeleteButton(props: BudgetEntryDeleteProps) {
         </Stack>
       </MenuPopover>
       <Modal open={openModal} onClose={toggleEntryDeleteModal}>
-        <Box sx={style}>
+        <Box sx={modalStyle}>
           <Typography id="modal-modal-title" variant="h3" component="h2">
             Quitar componente
           </Typography>

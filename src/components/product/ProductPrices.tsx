@@ -1,5 +1,4 @@
 import {
-  Alert,
   Box,
   Button,
   Divider,
@@ -31,23 +30,13 @@ import ProductStaffActionButton from "./ProductStaffActionButton";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import { calcEntityPrice } from "src/utils/calcEntityPrice";
+import { modalStyle } from "src/styles/modal";
+import WarningIcon from "@mui/icons-material/Warning";
 
 type ProductPricesProps = {
   product: Product;
   category: Category;
   setOpenNewCommentDrawer: Function;
-};
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
 };
 
 export default function ProductPrices({
@@ -164,7 +153,10 @@ export default function ProductPrices({
       </Stack>
       <Stack direction="column" spacing={1}>
         {entities
-          .sort((a, b) => calcEntityPrice(a, ordering) - calcEntityPrice(b, ordering))
+          .sort(
+            (a, b) =>
+              calcEntityPrice(a, ordering) - calcEntityPrice(b, ordering)
+          )
           .map((entity, i) =>
             !showMore && i >= 5 ? null : (
               <ProductPriceCard
@@ -211,26 +203,36 @@ export default function ProductPrices({
         </Button>
       </Stack>
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
-        <Box sx={style}>
-          <Stack spacing={2}>
-            <Alert severity="warning">
-              Este producto contiene precios de artículos reacondicionados.
-              ¿Quieres continuar viendo estas opciones o esconderlas?
-            </Alert>
-            <Stack direction="row-reverse" spacing={1}>
+        <Box sx={modalStyle}>
+          <Stack spacing={4}>
+            <Stack spacing={1}>
+              <Stack direction="row" spacing={1} alignItems="baseline">
+                <WarningIcon color="warning" />
+                <Typography variant="h2" fontWeight={600}>
+                  Producto Reacondicionado
+                </Typography>
+              </Stack>
+              <Typography variant="h6" fontWeight={600}>
+                Este producto contiene precios de artículos reacondicionados.
+                ¿Quieres continuar viendo estas opciones?
+              </Typography>
+            </Stack>
+            <Stack direction="row" spacing={3}>
               <Button
-                variant="contained"
-                color="info"
-                onClick={setRefurbushedReminderCookie}
+                variant="outlined"
+                sx={{ borderRadius: 4 }}
+                color="inherit"
+                onClick={hideRifurbished}
               >
-                Continuar
+                ESCONDER REACONDICIONADOS
               </Button>
               <Button
                 variant="outlined"
-                color="warning"
-                onClick={hideRifurbished}
+                sx={{ borderRadius: 4 }}
+                color="secondary"
+                onClick={setRefurbushedReminderCookie}
               >
-                Esconder Reacondicionados
+                CONTINUAR
               </Button>
             </Stack>
           </Stack>

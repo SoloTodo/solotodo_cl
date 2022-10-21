@@ -15,18 +15,7 @@ import { Budget } from "./types";
 import { fetchAuth } from "src/frontend-utils/nextjs/utils";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useSnackbar } from "notistack";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import { modalStyle } from "src/styles/modal";
 
 export default function BudgetExportButton({ budget }: { budget: Budget }) {
   const { enqueueSnackbar } = useSnackbar();
@@ -101,7 +90,7 @@ export default function BudgetExportButton({ budget }: { budget: Budget }) {
         </Stack>
       </MenuPopover>
       <Modal open={openModal} onClose={toggleEntryExportModal}>
-        <Box sx={style}>
+        <Box sx={modalStyle}>
           <Typography id="modal-modal-title" variant="h3" component="h2">
             Código para foro de Capa9
           </Typography>

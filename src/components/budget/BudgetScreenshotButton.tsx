@@ -13,18 +13,7 @@ import { Budget } from "./types";
 import { useSnackbar } from "notistack";
 import { fetchAuth } from "src/frontend-utils/nextjs/utils";
 import Image from "../Image";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 700,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import { modalStyle } from "src/styles/modal";
 
 export default function BudgetScreenshotButton({ budget }: { budget: Budget }) {
   const { enqueueSnackbar } = useSnackbar();
@@ -47,16 +36,16 @@ export default function BudgetScreenshotButton({ budget }: { budget: Budget }) {
 
   return (
     <>
-      <Button
-        variant="outlined"
-        color="info"
-        onClick={exportToImage}
-        fullWidth
-      >
+      <Button variant="outlined" color="info" onClick={exportToImage} fullWidth>
         Obtener pantallazo
       </Button>
       <Modal open={openModal} onClose={toggleExportedImageModal}>
-        <Box sx={style}>
+        <Box
+          sx={{
+            ...modalStyle,
+            width: { xs: 450, md: 700 },
+          }}
+        >
           <Typography id="modal-modal-title" variant="h3" component="h2">
             {exportedImageUrl ? "Pantallazo" : "Obteniendo pantallazo..."}
           </Typography>

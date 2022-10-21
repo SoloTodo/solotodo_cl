@@ -2,22 +2,11 @@ import Link from "next/link";
 import { Button, Modal, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { PricingEntriesProps } from "./types";
+import { modalStyle } from "src/styles/modal";
 
 type ProductAxisChoicesModalButtonProps = {
   choice: any;
   axis: any;
-};
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
 };
 
 export default function ProductAxisChoicesModalButton({
@@ -37,7 +26,7 @@ export default function ProductAxisChoicesModalButton({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Stack sx={style} spacing={1}>
+        <Stack sx={modalStyle} spacing={1}>
           <Typography id="modal-modal-title" variant="h3" component="h2">
             Producto exacto no disponible
           </Typography>

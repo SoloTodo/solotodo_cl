@@ -19,18 +19,7 @@ import { Budget } from "../budget/types";
 import { PATH_AUTH } from "src/routes/paths";
 import { useSnackbar } from "notistack";
 import MenuPopover from "../MenuPopover";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import { modalStyle } from "src/styles/modal";
 
 export default function ProductAddToBudgetButton({
   product,
@@ -153,7 +142,7 @@ export default function ProductAddToBudgetButton({
         <>
           {button("Crear nueva cotización", () => setOpenModal(true))}
           <Modal open={openModal} onClose={handleModalClose}>
-            <Box sx={style}>
+            <Box sx={modalStyle}>
               <Stack spacing={1}>
                 <Typography id="modal-modal-title" variant="h3" component="h2">
                   Crear nueva cotización

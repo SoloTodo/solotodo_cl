@@ -6,19 +6,8 @@ import { useAuth } from "src/frontend-utils/nextjs/JWTContext";
 import { fetchAuth } from "src/frontend-utils/nextjs/utils";
 import userSlice from "src/frontend-utils/redux/user";
 import { useAppDispatch } from "src/store/hooks";
+import { modalStyle } from "src/styles/modal";
 import { Budget } from "./types";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
 
 export default function BudgetDeleteButton({ budget }: { budget: Budget }) {
   const { authFetch } = useAuth();
@@ -57,7 +46,7 @@ export default function BudgetDeleteButton({ budget }: { budget: Budget }) {
         Eliminar
       </Button>
       <Modal open={openModal} onClose={handleClose}>
-        <Box sx={style}>
+        <Box sx={modalStyle}>
           <Typography id="modal-modal-title" variant="h3" component="h2">
             Eliminar cotización
           </Typography>

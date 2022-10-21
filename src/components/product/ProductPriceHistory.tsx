@@ -36,18 +36,7 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { useAppSelector } from "src/store/hooks";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import useSettings from "src/hooks/useSettings";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: { xs: "98%", md: "80%" },
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import { modalStyle } from "src/styles/modal";
 
 export default function ProductPriceHistory({ product }: { product: Product }) {
   const { prefExcludeRefurbished, prefStores } = useSettings();
@@ -245,6 +234,9 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
             intersect: true,
           }
         : {},
+    chart: {
+      height: "400px",
+    },
   });
 
   const setTabValue = (value: string) => {
@@ -265,7 +257,10 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
       </Button>
       <TabContext value={value}>
         <Modal open={open} onClose={() => setOpen(false)}>
-          <Stack sx={style} spacing={1}>
+          <Stack
+            sx={{ ...modalStyle, width: { xs: "98%", md: "80%" } }}
+            spacing={1}
+          >
             <Grid
               container
               direction="row"

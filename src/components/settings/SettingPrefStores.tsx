@@ -21,18 +21,7 @@ import useSettings from "src/hooks/useSettings";
 import userSlice, { useUser } from "src/frontend-utils/redux/user";
 import { fetchAuth } from "src/frontend-utils/nextjs/utils";
 import { useSnackbar } from "notistack";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: { xs: "98%", md: "80%" },
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import { modalStyle } from "src/styles/modal";
 
 export default function SettingPrefStores() {
   const dispatch = useAppDispatch();
@@ -105,7 +94,10 @@ export default function SettingPrefStores() {
         Tiendas
       </Button>
       <Modal open={open} onClose={() => setOpen(false)}>
-        <Stack sx={style} spacing={2}>
+        <Stack
+          sx={{ ...modalStyle, width: { xs: "98%", md: "80%" } }}
+          spacing={2}
+        >
           <Grid
             container
             direction="row"

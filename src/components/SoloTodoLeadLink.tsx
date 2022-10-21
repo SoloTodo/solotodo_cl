@@ -5,6 +5,7 @@ import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/ap
 import { Entity, InLineProduct } from "src/frontend-utils/types/entity";
 import { Category, Store } from "src/frontend-utils/types/store";
 import { useAppSelector } from "src/store/hooks";
+import { modalStyle } from "src/styles/modal";
 import LeadLink from "./LeadLink";
 
 type SoloTodoLeadLinkProps = {
@@ -13,18 +14,6 @@ type SoloTodoLeadLinkProps = {
   storeEntry: Store;
   children: ReactNode;
   buttonType?: boolean;
-};
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
 };
 
 export default function SoloTodoLeadLink(props: SoloTodoLeadLinkProps) {
@@ -69,12 +58,12 @@ export default function SoloTodoLeadLink(props: SoloTodoLeadLinkProps) {
       >
         {children}
       </LeadLink>
-      <Modal open={open} onClose={handleClose}>
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h3" component="h2">
-            ¡Producto con cupón!
+      <Modal open={true} onClose={handleClose}>
+        <Box sx={modalStyle}>
+          <Typography id="modal-modal-title" variant="h2" fontWeight={600}>
+            🎉 ¡Producto con cupón!
           </Typography>
-          <Typography>
+          <Typography fontWeight={600}>
             Para hacer válido este precio usa el siguiente cupón en el carrito
             de compras de la tienda:
           </Typography>
@@ -82,8 +71,13 @@ export default function SoloTodoLeadLink(props: SoloTodoLeadLinkProps) {
             {entity.best_coupon?.code}
           </Typography>
           <br />
-          <Stack direction="row-reverse" spacing={1}>
-            <Button variant="contained" color="error" onClick={handleClose}>
+          <Stack direction="row" spacing={1}>
+            <Button
+              variant="outlined"
+              color="inherit"
+              onClick={handleClose}
+              sx={{ borderRadius: 4 }}
+            >
               Cancelar
             </Button>
             <LeadLink
@@ -94,7 +88,11 @@ export default function SoloTodoLeadLink(props: SoloTodoLeadLinkProps) {
               soicosPrefix="ST_"
               buttonType={buttonType ? buttonType : false}
             >
-              <Button variant="contained" color="success">
+              <Button
+                variant="outlined"
+                color="secondary"
+                sx={{ borderRadius: 4 }}
+              >
                 ¡Entendido! Llévame a la página de la tienda
               </Button>
             </LeadLink>
