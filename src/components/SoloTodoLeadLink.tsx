@@ -68,7 +68,7 @@ export default function SoloTodoLeadLink(props: SoloTodoLeadLinkProps) {
       >
         {children}
       </LeadLink>
-      <Modal open={true} onClose={handleClose}>
+      <Modal open={open} onClose={handleClose}>
         <Box sx={{ ...modalStyle, textAlign: "center" }}>
           <Typography id="modal-modal-title" variant="h2" fontWeight={600}>
             🎉 ¡Producto con cupón!
