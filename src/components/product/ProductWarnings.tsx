@@ -1,4 +1,4 @@
-import { Alert, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Product } from "src/frontend-utils/types/product";
 
@@ -7,9 +7,6 @@ export default function ProductWarnings({ product }: { product: Product }) {
     <Stack spacing={0.5}>
       {Array.isArray(product.specs.warnings) &&
         product.specs.warnings.map((w, index) => (
-          // <Alert key={index} severity="warning">
-          //   {w}
-          // </Alert>
           <Stack
             key={index}
             direction="row"
