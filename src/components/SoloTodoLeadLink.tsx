@@ -1,4 +1,12 @@
-import { Box, Button, Modal, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Modal,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { ReactNode, useState } from "react";
 import { constants } from "src/config";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
@@ -7,6 +15,7 @@ import { Category, Store } from "src/frontend-utils/types/store";
 import { useAppSelector } from "src/store/hooks";
 import { modalStyle } from "src/styles/modal";
 import LeadLink from "./LeadLink";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 type SoloTodoLeadLinkProps = {
   entity: Entity;
@@ -18,6 +27,7 @@ type SoloTodoLeadLinkProps = {
 
 export default function SoloTodoLeadLink(props: SoloTodoLeadLinkProps) {
   const { entity, product, storeEntry, children, buttonType } = props;
+  const theme = useTheme();
   const [open, setOpen] = useState(false);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const category = apiResourceObjects[entity.category] as Category;
@@ -58,8 +68,8 @@ export default function SoloTodoLeadLink(props: SoloTodoLeadLinkProps) {
       >
         {children}
       </LeadLink>
-      <Modal open={open} onClose={handleClose}>
-        <Box sx={modalStyle}>
+      <Modal open={true} onClose={handleClose}>
+        <Box sx={{ ...modalStyle, textAlign: "center" }}>
           <Typography id="modal-modal-title" variant="h2" fontWeight={600}>
             🎉 ¡Producto con cupón!
           </Typography>
@@ -67,18 +77,39 @@ export default function SoloTodoLeadLink(props: SoloTodoLeadLinkProps) {
             Para hacer válido este precio usa el siguiente cupón en el carrito
             de compras de la tienda:
           </Typography>
-          <Typography variant="h2" textAlign="center">
-            {entity.best_coupon?.code}
-          </Typography>
-          <br />
-          <Stack direction="row" spacing={1}>
+          <Stack
+            direction="row"
+            justifyContent="center"
+            marginY={4}
+            spacing={1}
+          >
+            <Box bgcolor="background.default" borderRadius="10px" padding={2}>
+              <Typography variant="h2" fontWeight={600} textAlign="center">
+                {entity.best_coupon?.code}
+              </Typography>
+            </Box>
+            <IconButton
+              color="secondary"
+              sx={{
+                borderRadius: "10px",
+                background: theme.palette.background.default,
+                padding: 2,
+              }}
+              onClick={() => {
+                navigator.clipboard.writeText(entity.best_coupon?.code || "");
+              }}
+            >
+              <ContentCopyIcon fontSize="large" />
+            </IconButton>
+          </Stack>
+          <Stack direction="row" justifyContent="space-evenly" spacing={1}>
             <Button
               variant="outlined"
               color="inherit"
               onClick={handleClose}
               sx={{ borderRadius: 4 }}
             >
-              Cancelar
+              CANCELAR
             </Button>
             <LeadLink
               entity={entity}
@@ -93,7 +124,7 @@ export default function SoloTodoLeadLink(props: SoloTodoLeadLinkProps) {
                 color="secondary"
                 sx={{ borderRadius: 4 }}
               >
-                ¡Entendido! Llévame a la página de la tienda
+                VER PRODUCTO
               </Button>
             </LeadLink>
           </Stack>
