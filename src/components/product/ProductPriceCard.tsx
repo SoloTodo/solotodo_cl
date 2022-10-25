@@ -131,7 +131,7 @@ export default function ProductPriceCard({
                   Precio normal
                 </Typography>
                 <Typography variant="h2" color="text.extra">
-                  {currency(calcEntityPrice(entity, "normal_price"), {
+                  {currency(entity.active_registry!.normal_price, {
                     precision: 0,
                   }).format()}
                 </Typography>
