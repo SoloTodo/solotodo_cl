@@ -132,6 +132,7 @@ export default function ProductCard(props: ProductProps) {
                 }
                 loading="eager"
                 onLoad={() => setIsLoaded(false)}
+                paddingY={0.5}
               />
             </Box>
             <CardContent sx={{ p: "1rem" }}>

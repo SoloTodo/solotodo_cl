@@ -1,7 +1,6 @@
 import {
   Box,
   Container,
-  Divider,
   Grid,
   Stack,
   Typography,
@@ -82,13 +81,11 @@ export default function ProductPage({ product }: { product: Product }) {
             />
           </Grid>
         </Grid>
-        <Divider variant="fullWidth" sx={{ marginY: 5 }} />
         <ProductRating
           product={product}
           openNewCommentDrawer={openNewCommentDrawer}
           setOpenNewCommentDrawer={setOpenNewCommentDrawer}
         />
-        <Divider variant="fullWidth" sx={{ marginY: 5 }} />
         <ReactDisqusComments
           shortname={constants.disqusShortName}
           identifier={product.id.toString()}

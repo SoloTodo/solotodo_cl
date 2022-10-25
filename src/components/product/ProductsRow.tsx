@@ -95,6 +95,7 @@ export default function ProductsRow({
 
   var settings = {
     slidesToShow: slidesToShow,
+    slidesToScroll: 1,
     speed: 500,
     dots: true,
     infinite: false,
@@ -118,7 +119,7 @@ export default function ProductsRow({
     <Block
       title={title}
       actionHref={actionHref ? actionHref : "#"}
-      sx={{ marginBottom: 2, maxWidth: 1270, position: "relative" }}
+      sx={{ marginBottom: 3, maxWidth: 1270, position: "relative" }}
     >
       <Slider {...settings}>
         {data.slice(0, sliceValue).map((d, index) => {

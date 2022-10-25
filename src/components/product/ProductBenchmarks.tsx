@@ -60,7 +60,7 @@ export default function ProductBenchmarks({
         }}
       >
         {benchmarkCategory.map((benchmark) => (
-          <Stack key={benchmark.field} width='100%'>
+          <Stack key={benchmark.field} width='100%' spacing={0.5} justifyContent="space-between">
             <Typography>{benchmark.label}</Typography>
             <BorderLinearProgress
               variant="determinate"
