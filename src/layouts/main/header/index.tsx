@@ -54,7 +54,7 @@ const RootStyle = styled(AppBar, {
       width: `calc(100% - ${NAVBAR.DASHBOARD_COLLAPSE_WIDTH}px)`,
     }),
     ...(isOffset && {
-      height: HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT + 8,
+      height: HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT,
     }),
     ...(verticalLayout && {
       width: "100%",
@@ -92,7 +92,7 @@ export default function DashboardHeader({
           px: { lg: 5 },
         }}
       >
-        <Stack width="100%" maxWidth={1200} margin="auto" paddingTop={1}>
+        <Stack width="100%" maxWidth={1200} margin="auto">
           <Stack direction="row">
             {settings.themeMode === "dark" ? (
               <NextLink href={PATH_MAIN.root} passHref>
