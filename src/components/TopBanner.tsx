@@ -12,7 +12,7 @@ export default function TopBanner({ category }: { category: string }) {
         textAlign: "center",
         overflow: "hidden",
         height: 90,
-        marginBottom: 8,
+        marginBottom: 24,
       }}
     />
   );
