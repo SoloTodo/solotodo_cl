@@ -59,7 +59,6 @@ export default function CategoryPreview({
           {recentSlides.length !== 0 && "Lo más reciente"}
         </Typography>
         <RecentSlidesRow recentSlides={recentSlides} />
-        <Box height={42} />
         <Typography variant="h3" component="h1" gutterBottom>
           {category.name}
         </Typography>

@@ -9,7 +9,8 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import ProductCard from "./ProductCard";
 import { ProductsData } from "./types";
-import { IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
+import styles from '../../styles/ProductsRow.module.css';
 
 function SampleNextArrow(props: any) {
   const { onClick } = props;
@@ -20,7 +21,7 @@ function SampleNextArrow(props: any) {
         padding: 2,
         top: "45%",
         position: "absolute",
-        right: "-1%",
+        right: "-4%",
       }}
       onClick={onClick}
     >
@@ -38,7 +39,7 @@ function SamplePrevArrow(props: any) {
         padding: 2,
         top: "45%",
         position: "absolute",
-        left: "-1%",
+        left: "-4%",
         zIndex: 1,
       }}
       onClick={onClick}
@@ -119,19 +120,21 @@ export default function ProductsRow({
     <Block
       title={title}
       actionHref={actionHref ? actionHref : "#"}
-      sx={{ marginBottom: 3, maxWidth: 1270, position: "relative" }}
+      sx={{ maxWidth: 1270, position: "relative" }}
     >
-      <Slider {...settings}>
-        {data.slice(0, sliceValue).map((d, index) => {
-          return (
-            <ProductCard
-              key={index}
-              productData={d}
-              ribbonFormatter={ribbonFormatter}
-            />
-          );
-        })}
-      </Slider>
+      <Box alignItems="center" paddingX={{sx: 0, sm: 3}} marginBottom={5}>
+        <Slider {...settings} className={styles.slick_dots}>
+          {data.slice(0, sliceValue).map((d, index) => {
+            return (
+              <ProductCard
+                key={index}
+                productData={d}
+                ribbonFormatter={ribbonFormatter}
+              />
+            );
+          })}
+        </Slider>
+      </Box>
     </Block>
   );
 }
