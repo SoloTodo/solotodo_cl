@@ -43,6 +43,7 @@ export default function RecentSlidesRow({
       sx={{
         maxWidth: 1270,
         marginBottom: 5,
+        marginTop: 1,
       }}
     >
       <Slider {...settings}>
