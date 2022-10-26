@@ -37,6 +37,7 @@ export function Block({
           <Typography
             variant={titleVariant ? titleVariant : "h2"}
             component="h1"
+            paddingBottom={1}
           >
             {title}
           </Typography>

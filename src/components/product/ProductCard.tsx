@@ -152,7 +152,7 @@ export default function ProductCard(props: ProductProps) {
                 component="div"
                 color="text.primary"
                 fontWeight={500}
-                height={60}
+                height={{ sx: 20, sm: 45 }}
                 sx={{
                   paddingTop: 1,
                   overflow: "hidden",
@@ -181,7 +181,8 @@ export default function ProductCard(props: ProductProps) {
                         // WebkitBoxOrient: "vertical",
                       }
                     : {
-                        height: 40,
+                        height: 29,
+                        lineHeight: "14px",
                         color: "#757b80",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
@@ -198,6 +199,7 @@ export default function ProductCard(props: ProductProps) {
                 sx={{
                   position: "absolute",
                   bottom: 0,
+                  paddingBottom: 1,
                 }}
               >
                 {currency(offerPrice, {

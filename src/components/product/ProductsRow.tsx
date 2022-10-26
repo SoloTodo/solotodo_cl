@@ -10,7 +10,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ProductCard from "./ProductCard";
 import { ProductsData } from "./types";
 import { Box, IconButton } from "@mui/material";
-import styles from '../../styles/ProductsRow.module.css';
+import styles from "../../styles/ProductsRow.module.css";
 
 function SampleNextArrow(props: any) {
   const { onClick } = props;
@@ -122,7 +122,7 @@ export default function ProductsRow({
       actionHref={actionHref ? actionHref : "#"}
       sx={{ maxWidth: 1270, position: "relative" }}
     >
-      <Box alignItems="center" paddingX={{sx: 0, sm: 3}} marginBottom={5}>
+      <Box alignItems="center" paddingX={{ sx: 0, sm: 3 }} marginBottom={5}>
         <Slider {...settings} className={styles.slick_dots}>
           {data.slice(0, sliceValue).map((d, index) => {
             return (

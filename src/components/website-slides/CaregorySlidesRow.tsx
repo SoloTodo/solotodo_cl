@@ -13,7 +13,8 @@ export default function CategorySlidesRow({
       spacing={{ xs: 3, md: 4 }}
       overflow="auto"
       maxWidth={1270}
-      marginBottom={5}
+      paddingBottom={5}
+      paddingTop={1}
     >
       {categorySlides.map((d, index) => {
         return (
