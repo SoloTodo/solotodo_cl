@@ -39,7 +39,7 @@ import CategoryBrowse from "src/components/category/CategoryBrowse";
 import CategoryCountSummary from "src/components/category/CategoryCountSummary";
 import CategoryRemoveFieldsButton from "src/components/category/CategoryRemoveFieldsButton";
 import { useState } from "react";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ApiFormTreeComponent from "src/frontend-utils/api_form/fields/tree/ApiFormTreeComponent";
 import UZIP from "uzip";
 import TopBanner from "src/components/TopBanner";
@@ -325,10 +325,16 @@ export default function Browse({ data }: { data: string }) {
               </Grid>
             ) : (
               <>
-                <Grid item xs={12} lg={3}>
-                  <Stack direction="row" spacing={2} alignItems="center">
+                <Grid item xs={12} md={6} lg={3}>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    alignItems="center"
+                    justifyContent={{ sx: "space-between", sm: "start" }}
+                  >
                     <CategoryCountSummary />
-                    <Box width="30%">
+                    <Divider orientation="vertical" flexItem />
+                    <Box width={{ xs: "50%", sm: "25%", md: "35%" }}>
                       <ApiFormSelectComponent
                         name="ordering"
                         label="Ordenar por"
@@ -338,11 +344,11 @@ export default function Browse({ data }: { data: string }) {
                     <Button
                       variant="outlined"
                       sx={{
-                        width: "30%",
+                        width: { xs: "50%", sm: "25%", md: "35%" },
                         justifyContent: "space-between",
                         height: 36.125,
                       }}
-                      endIcon={<ArrowDropDownIcon />}
+                      endIcon={<KeyboardArrowDownIcon />}
                       onClick={() => setOpen(true)}
                       size="small"
                     >
@@ -352,7 +358,7 @@ export default function Browse({ data }: { data: string }) {
                 </Grid>
               </>
             )}
-            <Grid item xs={12} lg={6}>
+            <Grid item xs={12} md={6}>
               <ApiFormPaginationComponent />
             </Grid>
           </Grid>
