@@ -170,7 +170,7 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
                 </Grid>
               </>
             ) : (
-              <Grid item xs={12} md={5.5}>
+              <Grid item xs={12} md={5} lg={5.5}>
                 <Typography>
                   Este producto no esta disponible actualmente
                 </Typography>
@@ -178,7 +178,7 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
             )}
           </>
         ) : (
-          <Grid item xs={12} md={10}>
+          <Grid item xs={12} md={10} lg={11}>
             <Typography>
               No hay productos ingresados para esta categoría
             </Typography>
