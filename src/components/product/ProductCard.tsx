@@ -40,7 +40,7 @@ export default function ProductCard(props: ProductProps) {
     categoryBrowseResult,
   } = props;
   const theme = useTheme();
-  const isLight = theme.palette.mode === 'light';
+  const isLight = theme.palette.mode === "light";
   const [active, setActive] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
@@ -94,7 +94,7 @@ export default function ProductCard(props: ProductProps) {
         height: "100%",
         border: isLight ? "1px solid #EFEFEF" : "1px solid #303030",
         boxShadow: "0px 4px 32px 4px rgba(0, 0, 0, 0.05)",
-        borderRadius: "10px"
+        borderRadius: "10px",
       }}
     >
       <NextLink href={`/products/${product.id}-${product.slug}`} passHref>
@@ -193,10 +193,12 @@ export default function ProductCard(props: ProductProps) {
                   categoryBrowseResult
                     ? {
                         lineHeight: "14px",
+                        fontSize: "12px",
                       }
                     : {
-                        height: 29,
                         lineHeight: "14px",
+                        fontSize: "12px",
+                        height: 29,
                         color: "#757b80",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
