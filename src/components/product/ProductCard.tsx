@@ -8,6 +8,7 @@ import {
   Select,
   Stack,
   Typography,
+  useTheme,
 } from "@mui/material";
 import NextLink from "next/link";
 import CustomChip from "src/sections/mui/Chip";
@@ -38,6 +39,8 @@ export default function ProductCard(props: ProductProps) {
     ribbonFormatter,
     categoryBrowseResult,
   } = props;
+  const theme = useTheme();
+  const isLight = theme.palette.mode === 'light';
   const [active, setActive] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
@@ -89,6 +92,9 @@ export default function ProductCard(props: ProductProps) {
       sx={{
         width: { xs: browsePurpose ? 300 : "90%", sm: 270, md: 288 },
         height: "100%",
+        border: isLight ? "1px solid #EFEFEF" : "1px solid #303030",
+        boxShadow: "0px 4px 32px 4px rgba(0, 0, 0, 0.05)",
+        borderRadius: "10px"
       }}
     >
       <NextLink href={`/products/${product.id}-${product.slug}`} passHref>
