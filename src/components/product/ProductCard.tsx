@@ -164,7 +164,20 @@ export default function ProductCard(props: ProductProps) {
               >
                 {product.name}
               </Typography>
-
+              {categoryBrowseResult && (
+                <Typography
+                  variant="h2"
+                  component="div"
+                  sx={{
+                    paddingBottom: 2,
+                  }}
+                >
+                  {currency(offerPrice, {
+                    separator: ".",
+                    precision: 0,
+                  }).format()}
+                </Typography>
+              )}
               <div
                 className={
                   browsePurpose ? styles.product_specs : "short-description"
@@ -173,12 +186,7 @@ export default function ProductCard(props: ProductProps) {
                 style={
                   categoryBrowseResult
                     ? {
-                        // height: "100%",
-                        // overflow: "hidden",
-                        // textOverflow: "ellipsis",
-                        // display: "-webkit-box",
-                        // WebkitLineClamp: "9",
-                        // WebkitBoxOrient: "vertical",
+                        lineHeight: "14px",
                       }
                     : {
                         height: 29,
@@ -192,21 +200,25 @@ export default function ProductCard(props: ProductProps) {
                       }
                 }
               />
-              <Box height={browsePurpose ? 40 : 20} />
-              <Typography
-                variant="h2"
-                component="div"
-                sx={{
-                  position: "absolute",
-                  bottom: 0,
-                  paddingBottom: 1,
-                }}
-              >
-                {currency(offerPrice, {
-                  separator: ".",
-                  precision: 0,
-                }).format()}
-              </Typography>
+              {!categoryBrowseResult && (
+                <>
+                  <Box height={browsePurpose ? 40 : 20} />
+                  <Typography
+                    variant="h2"
+                    component="div"
+                    sx={{
+                      position: "absolute",
+                      bottom: 0,
+                      paddingBottom: 1,
+                    }}
+                  >
+                    {currency(offerPrice, {
+                      separator: ".",
+                      precision: 0,
+                    }).format()}
+                  </Typography>
+                </>
+              )}
             </CardContent>
           </Box>
         </CardActionArea>
