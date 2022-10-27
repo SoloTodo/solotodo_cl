@@ -152,7 +152,7 @@ export default function ProductCard(props: ProductProps) {
                 component="div"
                 color="text.primary"
                 fontWeight={500}
-                height={{ sx: 20, sm: 45 }}
+                height={45}
                 sx={{
                   paddingTop: 1,
                   overflow: "hidden",
