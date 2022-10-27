@@ -10,7 +10,7 @@ import useSettings from "src/hooks/useSettings";
 
 export default function ProductDescription({ product }: { product: Product }) {
   const { themeMode } = useSettings();
-  const isLight = themeMode === 'light';
+  const isLight = themeMode === "light";
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const category = apiResourceObjects[product.category] as Category;
 
