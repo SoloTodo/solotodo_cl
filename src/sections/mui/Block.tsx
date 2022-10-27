@@ -25,7 +25,7 @@ export function Block({
     <Box
       sx={{
         marginY: {
-          sx: "1rem",
+          xs: "1rem",
           md: "2rem",
           lg: "3rem",
         },

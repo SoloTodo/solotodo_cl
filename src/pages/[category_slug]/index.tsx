@@ -330,7 +330,7 @@ export default function Browse({ data }: { data: string }) {
                     direction="row"
                     spacing={1}
                     alignItems="center"
-                    justifyContent={{ sx: "space-between", sm: "start" }}
+                    justifyContent={{ xs: "space-between", sm: "start" }}
                   >
                     <CategoryCountSummary />
                     <Divider orientation="vertical" flexItem />
