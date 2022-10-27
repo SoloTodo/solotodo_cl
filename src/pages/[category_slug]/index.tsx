@@ -383,19 +383,19 @@ export default function Browse({ data }: { data: string }) {
           >
             <Box
               pt={{
-                xs: `${HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT}px`,
-                lg: `${HEADER.DASHBOARD_DESKTOP_HEIGHT}px`,
+                xs: `${HEADER.DASHBOARD_DESKTOP_HEIGHT + 28}px`,
+                md: `${HEADER.DASHBOARD_DESKTOP_HEIGHT}px`,
               }}
               bgcolor="transparent"
             />
             <Box
               width={{ xs: 300, md: 500 }}
-              height="100%"
               bgcolor="background.paper"
               padding={2}
             >
               {GridFilters}
             </Box>
+            <Box height="100%" bgcolor="background.paper" />
           </Drawer>
         </ApiFormComponent>
       </Container>
