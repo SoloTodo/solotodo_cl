@@ -2,27 +2,27 @@ import { NavigationItemProps } from "./contexts/NavigationContext";
 
 export const categorySlides: NavigationItemProps[] = [
   {
+    name: "Notebooks gamer",
+    path: "/notebooks?score_games_start=300",
+    picture: "https://media.solotodo.com/media/nav_items/gamer.png",
+    subtitle: "Corre tus juegos en cualquier lugar",
+  },
+    {
     name: "PS5",
-    path: "https://www.solotodo.cl/consoles?families=1182932",
+    path: "/consoles?families=1182932",
     picture: "https://media.solotodo.com/media/nav_items/ps5.png",
     subtitle: "Lo más reciente de Sony",
   },
   {
-    name: "iPhone",
-    path: "https://www.solotodo.cl/cells?brands=149039",
-    picture: "https://media.solotodo.com/media/nav_items/iphone.png",
-    subtitle: "El equipo estrella de Apple",
-  },
-  {
-    name: "Smartphones con 5G",
-    path: "https://www.solotodo.cl/cells?min_network_generation_start=1123014",
+    name: "Smartphones 5G",
+    path: "/cells?min_network_generation_start=1123014",
     picture: "https://media.solotodo.com/media/nav_items/5g_W16hqGL.png",
     subtitle: "Conéctate a la red más rápida",
   },
   {
-    name: "Smart TV",
-    path: "https://www.solotodo.cl/televisions",
-    picture: "https://media.solotodo.com/media/nav_items/ledtv.png",
-    subtitle: "El futuro es hoy",
+    name: "Tarjetas de video gamer",
+    path: "/video_cards?tdmark_time_spy_score_start=3500",
+    picture: "https://media.solotodo.com/media/nav_items/rtx_JhrQICd.png",
+    subtitle: "Las mejores tarjetas de video para tu PC",
   },
 ];
