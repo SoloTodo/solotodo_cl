@@ -101,6 +101,7 @@ export default function Browse({ data }: { data: string }) {
 
   const { prefExcludeRefurbished, prefStores } = useSettings();
   const theme = useTheme();
+  const isLight = theme.palette.mode === "light";
   const [open, setOpen] = useState(false);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
 
@@ -390,12 +391,15 @@ export default function Browse({ data }: { data: string }) {
             />
             <Box
               width={{ xs: 300, md: 500 }}
-              bgcolor="background.paper"
+              bgcolor={isLight ? "background.default" : "background.paper"}
               padding={2}
             >
               {GridFilters}
             </Box>
-            <Box height="100%" bgcolor="background.paper" />
+            <Box
+              height="100%"
+              bgcolor={isLight ? "background.default" : "background.paper"}
+            />
           </Drawer>
         </ApiFormComponent>
       </Container>

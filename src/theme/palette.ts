@@ -107,7 +107,7 @@ const ERROR = {
 const GREY = {
   0: '#FFFFFF',
   100: '#F9FAFB',
-  200: '#EFEFEF',
+  200: 'rgba(250, 250, 250, 0.6)',
   300: '#DFE3E8',
   400: '#C4CDD5',
   500: '#757b80',

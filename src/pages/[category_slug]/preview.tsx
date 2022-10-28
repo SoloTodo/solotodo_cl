@@ -55,7 +55,7 @@ export default function CategoryPreview({
     <Page title={category.name}>
       <Container>
         <TopBanner category={category.name} />
-        <Typography variant="h2" component="h1" gutterBottom>
+        <Typography variant="h2" component="h1" fontWeight={400} gutterBottom>
           {recentSlides.length !== 0 && "Lo más reciente"}
         </Typography>
         <RecentSlidesRow recentSlides={recentSlides} />

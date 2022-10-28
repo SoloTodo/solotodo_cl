@@ -10,7 +10,7 @@ import {
   ListItemButton,
   ListItemText,
   Link,
-  styled,
+  useTheme,
 } from "@mui/material";
 import { NavigationProps } from "src/contexts/NavigationContext";
 import useNavigation from "src/hooks/useNavigation";
@@ -21,24 +21,11 @@ import MenuPopover from "src/components/MenuPopover";
 import { HEADER } from "src/config";
 import useSettings from "src/hooks/useSettings";
 
-const RootStyle = styled(Box, {
-  shouldForwardProp: (prop) => prop !== "isOffset",
-})<{ isOffset: boolean }>(({ isOffset, theme }) => ({
-  height: HEADER.MOBILE_HEIGHT,
-  [theme.breakpoints.up("lg")]: {
-    height: HEADER.DASHBOARD_DESKTOP_HEIGHT,
-    ...(isOffset && {
-      height: HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT,
-    }),
-  },
-}));
-
-export default function NavigationDrawer({
-  isOffset = true,
-  inFooter = false,
-}) {
+export default function NavigationDrawer({ inFooter = false }) {
   const settings = useSettings();
   const navigation = useNavigation();
+  const theme = useTheme();
+  const isLight = theme.palette.mode === "light";
   const isDesktop = useResponsive("up", "lg");
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<HTMLElement | null>(null);
@@ -61,6 +48,7 @@ export default function NavigationDrawer({
       variant="text"
       sx={{
         color: settings.themeMode === "light" ? "#303D53" : "text.primary",
+        fontWeight: 400,
       }}
       onClick={() => openDrawer(index)}
     >
@@ -118,66 +106,74 @@ export default function NavigationDrawer({
         onClose={closeDrawer}
         PaperProps={{ sx: { backgroundColor: "transparent" } }}
       >
-        <RootStyle isOffset={isOffset} />
-        <Box height="90%" bgcolor="background.paper">
-          <Box width={{ xs: 250, lg: 300 }} bgcolor="background.paper">
-            <List dense>
-              {menu?.sections.map((s, index) => (
-                <div key={index}>
-                  {s.path === "/" ? (
+        <Box
+          pt={{
+            xs: `${HEADER.DASHBOARD_DESKTOP_HEIGHT + 28}px`,
+            md: `${HEADER.DASHBOARD_DESKTOP_HEIGHT}px`,
+          }}
+          bgcolor="transparent"
+        />
+        <Box
+          width={{ xs: 250, lg: 300 }}
+          bgcolor={isLight ? "background.default" : "background.paper"}
+        >
+          <List dense>
+            {menu?.sections.map((s, index) => (
+              <div key={index}>
+                {s.path === "/" ? (
+                  <ListItemButton sx={{ textTransform: "capitalize" }} disabled>
+                    <ListItemText
+                      primaryTypographyProps={{ typography: "body1" }}
+                    >
+                      {s.name}
+                    </ListItemText>
+                  </ListItemButton>
+                ) : (
+                  <NextLink href={`${s.path}/preview`} passHref>
                     <ListItemButton
                       sx={{ textTransform: "capitalize" }}
-                      disabled
+                      onClick={closeDrawer}
                     >
                       <ListItemText
                         primaryTypographyProps={{ typography: "body1" }}
                       >
                         {s.name}
                       </ListItemText>
+                      <Box
+                        component={Iconify}
+                        icon={"eva:arrow-ios-forward-fill"}
+                      />
                     </ListItemButton>
-                  ) : (
-                    <NextLink href={`${s.path}/preview`} passHref>
-                      <ListItemButton
-                        sx={{ textTransform: "capitalize" }}
-                        onClick={closeDrawer}
-                      >
-                        <ListItemText
-                          primaryTypographyProps={{ typography: "body1" }}
-                        >
-                          {s.name}
-                        </ListItemText>
-                        <Box
-                          component={Iconify}
-                          icon={"eva:arrow-ios-forward-fill"}
-                        />
-                      </ListItemButton>
-                    </NextLink>
-                  )}
-                  <List dense sx={{ padding: 0 }}>
-                    {s.items.map((i) => (
-                      <ListItem key={`${s.name}-${i.name}`}>
-                        <NextLink href={i.path} passHref>
-                          <ListItemButton onClick={closeDrawer}>
-                            <ListItemText>{i.name}</ListItemText>
-                          </ListItemButton>
-                        </NextLink>
-                      </ListItem>
-                    ))}
-                    <ListItem key={s.name}>
-                      <NextLink href={s.path} passHref>
+                  </NextLink>
+                )}
+                <List dense sx={{ padding: 0 }}>
+                  {s.items.map((i) => (
+                    <ListItem key={`${s.name}-${i.name}`}>
+                      <NextLink href={i.path} passHref>
                         <ListItemButton onClick={closeDrawer}>
-                          <ListItemText sx={{ color: "primary.main" }}>
-                            Ver todos
-                          </ListItemText>
+                          <ListItemText>{i.name}</ListItemText>
                         </ListItemButton>
                       </NextLink>
                     </ListItem>
-                  </List>
-                </div>
-              ))}
-            </List>
-          </Box>
+                  ))}
+                  <ListItem key={s.name}>
+                    <NextLink href={s.path} passHref>
+                      <ListItemButton onClick={closeDrawer}>
+                        <ListItemText sx={{ color: "primary.main" }}>
+                          Ver todos
+                        </ListItemText>
+                      </ListItemButton>
+                    </NextLink>
+                  </ListItem>
+                </List>
+              </div>
+            ))}
+          </List>
         </Box>
+        <Box
+          height="100%"
+          bgcolor={isLight ? "background.default" : "background.paper"}
+        />
       </Drawer>
     </>
   );

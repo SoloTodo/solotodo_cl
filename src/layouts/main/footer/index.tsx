@@ -70,25 +70,14 @@ export default function MainFooter() {
         >
           <Grid item xs={11} sx={{ mb: 3 }}>
             <NextLink href={PATH_MAIN.root} passHref>
-              {settings.themeMode === "dark" ? (
-                <Link>
-                  <Image
-                    alt={"Logo"}
-                    src="/logo_fondo_oscuro.svg"
-                    width={200}
-                    height={51}
-                  />
-                </Link>
-              ) : (
-                <Link>
-                  <Image
-                    alt={"Logo"}
-                    src="/logo_fondo_claro.svg"
-                    width={200}
-                    height={51}
-                  />
-                </Link>
-              )}
+              <Link>
+                <Image
+                  alt={"Logo"}
+                  src="/logo_fondo_oscuro.svg"
+                  width={200}
+                  height={51}
+                />
+              </Link>
             </NextLink>
           </Grid>
           <Grid item xs={1} sx={{ mb: 3 }} alignSelf="center">
@@ -105,7 +94,7 @@ export default function MainFooter() {
             </IconButton>
           </Grid>
           <Grid item xs={8} md={3}>
-            <Typography variant="h6" sx={{ pr: { md: 5 } }}>
+            <Typography variant="h6" fontWeight={400} sx={{ pr: { md: 5 } }}>
               Nuestra misión es ayudar a los consumidores a escoger el producto
               perfecto para sus necesidades y presupuesto.
             </Typography>

@@ -126,7 +126,7 @@ export default function DashboardHeader({
               spacing={{ xs: 1.5, sm: 2.5 }}
             >
               {isDesktop && <Searchbar />}
-              <NavigationDrawer isOffset={isOffset} />
+              <NavigationDrawer />
               <Stack direction="row" spacing={0.5}>
                 <AccountPopover />
                 <SettingsPopover />

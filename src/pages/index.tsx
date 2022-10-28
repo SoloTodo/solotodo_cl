@@ -30,7 +30,7 @@ const Home = (props: HomeProps) => {
     <Page title="Cotiza y compara los precios de todas las tiendas">
       <Container>
         <TopBanner category="Any" />
-        <Typography variant="h2" component="h1" gutterBottom>
+        <Typography variant="h2" component="h1" fontWeight={400} gutterBottom>
           Lo más reciente
         </Typography>
         <RecentSlidesRow recentSlides={recentSlides} />

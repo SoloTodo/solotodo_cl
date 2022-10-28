@@ -73,6 +73,7 @@ export default function Searchbar() {
             settings.themeMode === "dark"
               ? "1px solid rgba(255, 255, 255, 0.23)"
               : "1px solid rgba(0, 0, 0, 0.23)",
+          backgroundColor: "background.default"
         }}
         onChange={(evt) => setKeywords(evt.target.value)}
       />
