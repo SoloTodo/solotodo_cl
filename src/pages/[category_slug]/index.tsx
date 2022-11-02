@@ -138,10 +138,29 @@ export default function Browse({ data }: { data: string }) {
           value: "discount",
           label: "Descuento",
         },
-        ...categorySpecsFormLayout.orders.map((o) => ({
-          value: o.name,
-          label: o.label,
-        })),
+        ...categorySpecsFormLayout.orders.reduce((acc, o) => {
+          if (o.suggested_use === "ascending") {
+            acc.push({
+              value: o.name,
+              label: o.label,
+            });
+          } else if (o.suggested_use === "descending") {
+            acc.push({
+              value: `-${o.name}`,
+              label: o.label,
+            });
+          } else if (o.suggested_use === "both") {
+            acc.push({
+              value: o.name,
+              label: `${o.label} (menor a mayor)`,
+            });
+            acc.push({
+              value: `-${o.name}`,
+              label: `${o.label} (mayor a menor)`,
+            });
+          }
+          return acc;
+        }, []),
       ],
     },
   ];
