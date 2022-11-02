@@ -1,9 +1,11 @@
 import { useDfpSlot } from "src/hooks/useDfpSlot";
+import useMobileDetect from "src/hooks/useMobileDetect";
 
 export default function TopBanner({ category }: { category: string }) {
   const divId = `div-gpt-ad-1666029557456-0`;
 
-  useDfpSlot(category, divId);
+  const isMobile = useMobileDetect().isMobile();
+  useDfpSlot(category, divId, isMobile);
   return (
     <div
       id={divId}
@@ -11,7 +13,6 @@ export default function TopBanner({ category }: { category: string }) {
       style={{
         textAlign: "center",
         overflow: "hidden",
-        height: 90,
         marginBottom: 24,
       }}
     />
