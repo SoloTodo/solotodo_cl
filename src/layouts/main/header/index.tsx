@@ -18,7 +18,6 @@ import useSettings from "src/hooks/useSettings";
 import NavigationDrawer from "./NavigationDrawer";
 import { PATH_MAIN } from "src/routes/paths";
 import { Palette } from "@mui/material";
-import useResponsive from "src/hooks/useResponsive";
 
 // ----------------------------------------------------------------------
 
@@ -78,7 +77,6 @@ export default function DashboardHeader({
   const isOffset =
     useOffSetTop(HEADER.DASHBOARD_DESKTOP_HEIGHT) && !verticalLayout;
   const settings = useSettings();
-  const isDesktop = useResponsive("up", "md");
 
   return (
     <RootStyle
@@ -93,7 +91,11 @@ export default function DashboardHeader({
         }}
       >
         <Stack width="100%" maxWidth={1200} margin="auto">
-          <Stack direction="row">
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={{ xs: 0.5, sm: 3 }}
+          >
             {settings.themeMode === "dark" ? (
               <NextLink href={PATH_MAIN.root} passHref>
                 <Link>
@@ -120,24 +122,13 @@ export default function DashboardHeader({
 
             <Box sx={{ flexGrow: 1 }} />
 
-            <Stack
-              direction="row"
-              alignItems="center"
-              spacing={{ xs: 1.5, sm: 2.5 }}
-            >
-              {isDesktop && <Searchbar />}
-              <NavigationDrawer />
-              <Stack direction="row" spacing={0.5}>
-                <AccountPopover />
-                <SettingsPopover />
-              </Stack>
+            <Searchbar />
+            <NavigationDrawer />
+            <Stack direction="row" spacing={0}>
+              <AccountPopover />
+              <SettingsPopover />
             </Stack>
           </Stack>
-          {!isDesktop && (
-            <Stack width="100%" alignItems="center">
-              <Searchbar />
-            </Stack>
-          )}
         </Stack>
       </Toolbar>
     </RootStyle>
