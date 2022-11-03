@@ -61,9 +61,9 @@ export const constants = {
   detailPurposeUrl: apiSettings.endpoint + 'category_template_purposes/1/',
   disqusShortName: "solotodo3",
   domain: 'https://www.solotodo.cl',
-  googleAnalyticsId: 'UA-11970222-11',
+  GA3Id: 'UA-11970222-11',
+  GA4Id: 'G-0687ZFVHJ3',
   facebookAppId: '567644670062006',
-  shortDescriptionPurposeId: apiSettings.endpoint + 'category_template_purposes/2/',
   websiteId: 2,
   benchmarkCategories: {
     1: [
