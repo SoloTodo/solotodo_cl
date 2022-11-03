@@ -436,7 +436,13 @@ export const getServerSideProps = wrapper.getServerSideProps(
         delete query.page;
         let queryUrl = "";
         for (const q of Object.keys(query)) {
-          queryUrl += `${q}=${query[q]}&`;
+          if (Array.isArray(query[q])) {
+            (query[q] as string[]).map((v: string) => {
+              queryUrl += `${q}=${v}&`;
+            });
+          } else {
+            queryUrl += `${q}=${query[q]}&`;
+          }
         }
         queryUrl += "page_size=50";
         return {
@@ -446,7 +452,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
           },
         };
       }
-
       const prefExcludeRefurbished = context.req.cookies.prefExcludeRefurbished;
       const preStoresCookie = context.req.cookies.prefStores;
       const prefStores = preStoresCookie ? preStoresCookie.split("|") : [];
@@ -479,7 +484,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
           )
             categorySpecsFormLayout = res;
         });
-        const queries: Record<string, string> = {
+        const queries: Record<string, string | string[]> = {
           page_size: "20",
           ...context.query,
         };
@@ -490,8 +495,15 @@ export const getServerSideProps = wrapper.getServerSideProps(
           let apiQ = q;
           if (apiQ.endsWith("_start")) apiQ = apiQ.replace("_start", "_min");
           if (apiQ.endsWith("_end")) apiQ = apiQ.replace("_end", "_max");
-          queriesUrl += `&${q}=${queries[q]}`;
-          apiUrl += `&${apiQ}=${queries[q]}`;
+          if (Array.isArray(queries[q])) {
+            (queries[q] as string[]).map((v: string) => {
+              queriesUrl += `&${q}=${v}`;
+              apiUrl += `&${apiQ}=${v}`;
+            });
+          } else {
+            queriesUrl += `&${q}=${queries[q]}`;
+            apiUrl += `&${apiQ}=${queries[q]}`;
+          }
         }
         const results = await fetchJson(
           `${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}${apiUrl}`
