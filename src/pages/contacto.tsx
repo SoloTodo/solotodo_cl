@@ -11,6 +11,7 @@ import Page from "src/components/Page";
 import { PATH_MAIN } from "src/routes/paths";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import { useSnackbar } from "notistack";
+import { useGtag3 } from "src/hooks/useGtag3";
 
 // ----------------------------------------------------------------------
 
@@ -79,6 +80,7 @@ export default function Contacto() {
     });
   };
 
+  useGtag3({});
   return (
     <Page title="Contacto">
       <Container>

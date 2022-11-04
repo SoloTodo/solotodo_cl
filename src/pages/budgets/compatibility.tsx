@@ -2,8 +2,10 @@ import { Box, Container, Divider, Typography } from "@mui/material";
 import Page from "src/components/Page";
 import ReactDisqusComments from "react-disqus-comments";
 import { constants } from "src/config";
+import { useGtag3 } from "src/hooks/useGtag3";
 
 export default function Compatibility() {
+  useGtag3({});
   return (
     <Page title="Cotiza y compara los precios de todas las tiendas">
       <Container>

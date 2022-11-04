@@ -13,6 +13,7 @@ import CategorySlidesRow from "src/components/website-slides/CaregorySlidesRow";
 import { Slide } from "src/components/website-slides/types";
 import { categorySlides } from "src/categorySlides";
 import TopBanner from "src/components/TopBanner";
+import { useGtag3 } from "src/hooks/useGtag3";
 
 type HomeProps = {
   recentSlides: Slide[];
@@ -26,6 +27,7 @@ const Home = (props: HomeProps) => {
       `${constants.apiResourceEndpoints.currencies}${constants.clpCurrencyId}/`
     ];
 
+  useGtag3({});
   return (
     <Page title="Cotiza y compara los precios de todas las tiendas">
       <Container>

@@ -16,6 +16,7 @@ import ApiFormPaginationComponent from "src/frontend-utils/api_form/fields/pagin
 import CategoryBrowse from "src/components/category/CategoryBrowse";
 import { useRouter } from "next/router";
 import TopBanner from "src/components/TopBanner";
+import { useGtag3 } from "src/hooks/useGtag3";
 
 export default function Search() {
   const { prefExcludeRefurbished, prefStores } = useSettings();
@@ -66,6 +67,7 @@ export default function Search() {
     },
   ];
 
+  useGtag3({});
   return (
     <Page title="Búsqueda">
       <Container>

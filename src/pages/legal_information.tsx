@@ -17,6 +17,7 @@ import NextLink from "next/link";
 import { useEffect, useState } from "react";
 import Iconify from "src/components/Iconify";
 import { useRouter } from "next/router";
+import { useGtag3 } from "src/hooks/useGtag3";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -58,6 +59,7 @@ export default function LegalInformation() {
     if (Number(router.query.tab)) setValue(Number(router.query.tab));
   }, [router.query.tab]);
 
+  useGtag3({});
   return (
     <Page title="Cotiza y compara los precios de todas las tiendas">
       <Container>

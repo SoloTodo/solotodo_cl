@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TopBanner from "src/components/TopBanner";
 import ProductsRowGrid from "src/components/product/ProductsRowGrid";
+import { useGtag3 } from "src/hooks/useGtag3";
 
 type VideoCard = {
   brand_unicode: string;
@@ -107,6 +108,7 @@ export default function NotebookVideoCards() {
     );
   }
 
+  useGtag3({});
   return (
     <Page
       title={

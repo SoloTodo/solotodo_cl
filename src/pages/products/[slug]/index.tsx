@@ -1,10 +1,4 @@
-import {
-  Box,
-  Container,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
@@ -26,6 +20,7 @@ import ProductPrices from "src/components/product/ProductPrices";
 import ProductDescription from "src/components/product/ProductDescription";
 import ProductWarnings from "src/components/product/ProductWarnings";
 import TopBanner from "src/components/TopBanner";
+import { useGtag3 } from "src/hooks/useGtag3";
 
 export default function ProductPage({ product }: { product: Product }) {
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
@@ -33,6 +28,7 @@ export default function ProductPage({ product }: { product: Product }) {
 
   const category = apiResourceObjects[product.category] as Category;
 
+  useGtag3({ category: category.name, product: product.name });
   return (
     <Page title={product.name}>
       <Container>

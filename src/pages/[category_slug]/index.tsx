@@ -43,6 +43,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ApiFormTreeComponent from "src/frontend-utils/api_form/fields/tree/ApiFormTreeComponent";
 import UZIP from "uzip";
 import TopBanner from "src/components/TopBanner";
+import { useGtag3 } from "src/hooks/useGtag3";
 
 // Server Side Rendering
 var zlib = require("zlib");
@@ -308,6 +309,7 @@ export default function Browse({ data }: { data: string }) {
     </Grid>
   );
 
+  useGtag3({ category: category.name });
   return (
     <Page title={category.name}>
       <TopBanner category={category.name} />

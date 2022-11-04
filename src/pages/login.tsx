@@ -40,6 +40,7 @@ import FacebookButton from "src/components/FacebookButton";
 import { Store } from "src/frontend-utils/types/store";
 import { constants } from "src/config";
 import TopBanner from "src/components/TopBanner";
+import { useGtag3 } from "src/hooks/useGtag3";
 
 // ----------------------------------------------------------------------
 
@@ -157,6 +158,7 @@ export default function Login() {
       });
   };
 
+  useGtag3({});
   return (
     <Page title="Login">
       <Container>

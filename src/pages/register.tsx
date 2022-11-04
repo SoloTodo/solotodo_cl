@@ -31,6 +31,7 @@ import { useSnackbar } from "notistack";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import FacebookButton from "src/components/FacebookButton";
 import TopBanner from "src/components/TopBanner";
+import { useGtag3 } from "src/hooks/useGtag3";
 
 // ----------------------------------------------------------------------
 
@@ -132,6 +133,7 @@ export default function Register() {
     }
   };
 
+  useGtag3({});
   return (
     <Page title="Registro">
       <Container>

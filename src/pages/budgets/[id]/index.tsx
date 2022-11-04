@@ -16,6 +16,7 @@ import { jwtFetch } from "src/frontend-utils/nextjs/utils";
 import { PATH_MAIN } from "src/routes/paths";
 import ReactDisqusComments from "react-disqus-comments";
 import TopBanner from "src/components/TopBanner";
+import { useGtag3 } from "src/hooks/useGtag3";
 
 export default function BudgetView({ budget }: { budget: Budget }) {
   const theme = useTheme();
@@ -29,6 +30,7 @@ export default function BudgetView({ budget }: { budget: Budget }) {
     videoHeight = 169;
   }
 
+  useGtag3({});
   return (
     <Page title="Cotización">
       <Container>
