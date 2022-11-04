@@ -13,7 +13,6 @@ export const useGtag3 = ({ category, product, store }: Props) => {
 
   useEffect(() => {
     const addEvent = () => {
-      console.log(category);
       (window as any).gtag("event", "page_view", {
         dimension1: undefined,
         dimension2: category,
