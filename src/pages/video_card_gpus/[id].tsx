@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next/types";
 import { ReactNode } from "react";
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import Page from "src/components/Page";
-import ProductsRow from "src/components/product/ProductsRow";
+import ProductsRowGrid from "src/components/product/ProductsRowGrid";
 import TopBanner from "src/components/TopBanner";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
@@ -139,7 +139,7 @@ export default function VideoCardGpus({ gpu }: { gpu: Gpu }) {
             </Typography>
           </Grid>
           <Grid item xs={12} md={8} lg={6}>
-            <ProductsRow
+            <ProductsRowGrid
               title="Productos similares"
               url={`categories/2/browse/?ordering=leads&page_size=3&ordering=offer_price_usd&gpus=${gpu.id}`}
               sliceValue={2}

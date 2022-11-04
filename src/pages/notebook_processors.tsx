@@ -10,13 +10,13 @@ import {
 } from "@mui/x-data-grid";
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import Page from "src/components/Page";
-import ProductsRow from "src/components/product/ProductsRow";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import { PATH_MAIN } from "src/routes/paths";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TopBanner from "src/components/TopBanner";
+import ProductsRowGrid from "src/components/product/ProductsRowGrid";
 
 type Processor = {
   id: number;
@@ -135,7 +135,7 @@ export default function NotebookProcessors() {
           </Grid>
           <Grid item xs={12} md={6}>
             {matchingProcessor && (
-              <ProductsRow
+              <ProductsRowGrid
                 title="Notebooks con el procesador"
                 url={`categories/1/browse?page_size=3&ordering=offer_price_usd&processors=${matchingProcessor.id}`}
                 sliceValue={2}
