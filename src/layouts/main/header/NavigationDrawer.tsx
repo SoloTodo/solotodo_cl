@@ -28,17 +28,18 @@ export default function NavigationDrawer({ inFooter = false }) {
   const isLight = theme.palette.mode === "light";
   const isDesktop = useResponsive("up", "lg");
   const [open, setOpen] = useState(false);
-  const [openMenu, setOpenMenu] = useState<HTMLElement | null>(null);
+  const [openMenu, setOpenMenu] = useState(false);
   const [menu, setMenu] = useState<NavigationProps | null>(null);
 
   const openDrawer = (i: number) => {
     setMenu(navigation[i]);
     setOpen(true);
-    setOpenMenu(null);
+    setOpenMenu(false);
   };
 
   const closeDrawer = () => {
     setOpen(false);
+    setOpenMenu(false);
     setMenu(null);
   };
 
@@ -78,28 +79,52 @@ export default function NavigationDrawer({ inFooter = false }) {
         </Stack>
       ) : (
         <>
-          <IconButtonAnimate onClick={(evt) => setOpenMenu(evt.currentTarget)}>
-            <Iconify icon={"eva:menu-2-fill"} />
+          <IconButtonAnimate onClick={() => setOpenMenu(true)}>
+            {open || openMenu ? (
+              <Iconify icon={"eva:close-fill"} />
+            ) : (
+              <Iconify icon={"eva:menu-fill"} />
+            )}
           </IconButtonAnimate>
-          <MenuPopover
-            open={Boolean(openMenu)}
-            anchorEl={openMenu}
-            onClose={() => setOpenMenu(null)}
-            sx={{
-              mt: 1.5,
-              ml: 0.75,
-              width: 180,
-              "& .MuiMenuItem-root": {
-                px: 1,
-                typography: "body2",
-                borderRadius: 0.75,
-              },
-            }}
-          >
-            <Stack spacing={0.75}>{buttons}</Stack>
-          </MenuPopover>
         </>
       )}
+      <Drawer
+        anchor="left"
+        open={openMenu}
+        onClose={closeDrawer}
+        PaperProps={{ sx: { backgroundColor: "transparent" } }}
+      >
+        <Box
+          pt={{
+            xs: `${HEADER.DASHBOARD_DESKTOP_HEIGHT}px`,
+            md: `${HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT}px`,
+          }}
+          bgcolor="transparent"
+        />
+        <Box
+          width={{ xs: 250, lg: 300 }}
+          bgcolor={isLight ? "background.default" : "background.paper"}
+        >
+          <List>
+            {navigation.map((s, index) => (
+              <ListItemButton
+                key={index}
+                sx={{ textTransform: "capitalize", paddingY: 2 }}
+                onClick={() => openDrawer(index)}
+              >
+                <ListItemText primaryTypographyProps={{ typography: "body1" }}>
+                  {s.name}
+                </ListItemText>
+                <Box component={Iconify} icon={"eva:arrow-ios-forward-fill"} />
+              </ListItemButton>
+            ))}
+          </List>
+        </Box>
+        <Box
+          height="100%"
+          bgcolor={isLight ? "background.default" : "background.paper"}
+        />
+      </Drawer>
       <Drawer
         anchor="left"
         open={open}
