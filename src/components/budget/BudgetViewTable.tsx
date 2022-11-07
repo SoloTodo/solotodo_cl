@@ -89,7 +89,7 @@ export default function BudgetViewTable({
     );
   };
 
-  let totalPrice = new currency(0, { precision: 0 });
+  let totalPrice = new currency(0, { separator: ".", precision: 0 });
   if (pricingEntries) {
     for (const budgetEntry of budget.entries) {
       if (!budgetEntry.selected_store) {
@@ -115,6 +115,7 @@ export default function BudgetViewTable({
       ) {
         totalPrice = totalPrice.add(
           new currency(matchingEntity.active_registry.offer_price, {
+            separator: ".",
             precision: 0,
           })
         );
@@ -211,7 +212,10 @@ export default function BudgetViewTable({
       renderCell: (params: { row: Entry }) => {
         const m = getMatchingEntity(params.row);
         return m
-          ? currency(m.active_registry!.offer_price, { precision: 0 }).format()
+          ? currency(m.active_registry!.offer_price, {
+              separator: ".",
+              precision: 0,
+            }).format()
           : "N/A";
       },
     },

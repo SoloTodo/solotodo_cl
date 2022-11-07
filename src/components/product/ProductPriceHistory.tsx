@@ -95,9 +95,11 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
 
             const timestamp = fDate(new Date(priceHistory.timestamp));
             const normalPrice = currency(priceHistory.normal_price, {
+              separator: ".",
               precision: 0,
             });
             const offerPrice = currency(priceHistory.offer_price, {
+              separator: ".",
               precision: 0,
             });
 
@@ -224,7 +226,7 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
       },
       labels: {
         formatter: (value: number) =>
-          currency(value, { precision: 0 }).format(),
+          currency(value, { separator: ".", precision: 0 }).format(),
       },
     },
     tooltip:

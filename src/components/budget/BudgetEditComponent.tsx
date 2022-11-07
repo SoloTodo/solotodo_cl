@@ -48,7 +48,7 @@ export default function BudgetEditComponent({
     setOpen(null);
   };
 
-  let totalPrice = new currency(0, { precision: 0 });
+  let totalPrice = new currency(0, { separator: ".", precision: 0 });
   for (const budgetEntry of budget.entries) {
     if (!budgetEntry.selected_store) {
       continue;
@@ -73,6 +73,7 @@ export default function BudgetEditComponent({
     ) {
       totalPrice = totalPrice.add(
         new currency(matchingEntity.active_registry.offer_price, {
+          separator: ".",
           precision: 0,
         })
       );

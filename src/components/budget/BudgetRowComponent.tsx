@@ -138,6 +138,7 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
                       return (
                         <option key={store.url} value={store.url}>
                           {currency(entity.active_registry.offer_price, {
+                            separator: ".",
                             precision: 0,
                           }).format()}{" "}
                           - {store.name}

@@ -132,6 +132,7 @@ export default function ProductPriceCard({
                 </Typography>
                 <Typography variant="h2" color="text.extra">
                   {currency(entity.active_registry!.normal_price, {
+                    separator: ".",
                     precision: 0,
                   }).format()}
                 </Typography>
@@ -143,6 +144,7 @@ export default function ProductPriceCard({
                 </Typography>
                 <Typography variant="h2" color="text.extra">
                   {currency(calcEntityPrice(entity, "offer_price"), {
+                    separator: ".",
                     precision: 0,
                   }).format()}
                 </Typography>
