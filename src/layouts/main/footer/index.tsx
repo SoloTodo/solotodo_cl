@@ -20,9 +20,11 @@ import { PATH_MAIN } from "src/routes/paths";
 import SocialsButton from "../../../components/SocialsButton";
 import useSettings from "src/hooks/useSettings";
 import NavigationDrawer from "../header/NavigationDrawer";
+import useResponsive from "src/hooks/useResponsive";
 
 export default function MainFooter() {
   const settings = useSettings();
+  const isDesktop = useResponsive("up", "md");
 
   const LINKS = [
     {
@@ -118,12 +120,12 @@ export default function MainFooter() {
               direction={{ xs: "column", md: "row" }}
               justifyContent="space-between"
             >
-              <Stack key="Navega" spacing={2}>
+              {isDesktop && <Stack key="Navega" spacing={2}>
                 <Typography component="p" variant="overline">
                   Navega
                 </Typography>
                 <NavigationDrawer inFooter />
-              </Stack>
+              </Stack>}
               {LINKS.map((list) => (
                 <Stack key={list.headline} spacing={2}>
                   <Typography component="p" variant="overline">

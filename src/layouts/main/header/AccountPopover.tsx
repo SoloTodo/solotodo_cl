@@ -23,6 +23,7 @@ import userSlice, { useUser } from "src/frontend-utils/redux/user";
 // // routes
 import { PATH_AUTH, PATH_MAIN } from "../../../routes/paths";
 import { fetchAuth } from "src/frontend-utils/nextjs/utils";
+import useResponsive from "src/hooks/useResponsive";
 
 // ----------------------------------------------------------------------
 
@@ -50,6 +51,7 @@ const style = {
 export default function AccountPopover() {
   const { authFetch, logout } = useAuth();
   const dispatch = useAppDispatch();
+  const isDesktop = useResponsive("up", "md");
   const user = useAppSelector(useUser);
   const router = useRouter();
 
@@ -95,17 +97,31 @@ export default function AccountPopover() {
 
   return (
     <>
-      <Button
-        onClick={handleOpen}
-        color="secondary"
-        sx={{
-          ...(open && { bgcolor: "action.selected" }),
-        }}
-        startIcon={<AccountCircleIcon />}
-      >
-        <Typography color="text.primary">Perfil</Typography>
-        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-      </Button>
+      {isDesktop ? (
+        <Button
+          onClick={handleOpen}
+          color="secondary"
+          sx={{
+            ...(open && { bgcolor: "action.selected" }),
+          }}
+          startIcon={<AccountCircleIcon />}
+        >
+          <Typography color="text.primary">Perfil</Typography>
+          {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+        </Button>
+      ) : (
+        <IconButtonAnimate
+          onClick={handleOpen}
+          color="secondary"
+          sx={{
+            width: 40,
+            height: 40,
+            ...(open && { bgcolor: "action.selected" }),
+          }}
+        >
+          <AccountCircleIcon />
+        </IconButtonAnimate>
+      )}
 
       <MenuPopover
         open={Boolean(open)}

@@ -227,17 +227,24 @@ export default function DashboardHeader({
               <Box sx={{ flexGrow: 1 }} />
 
               {isDesktop ? (
-                SearchInput
+                <>
+                  {SearchInput}
+                  <NavigationDrawer />
+                  <Stack direction="row" spacing={0}>
+                    <AccountPopover />
+                    <SettingsPopover />
+                  </Stack>
+                </>
               ) : (
-                <IconButtonAnimate onClick={handleOpen}>
-                  <Iconify icon={"eva:search-fill"} width={20} height={20} />
-                </IconButtonAnimate>
+                <>
+                  <IconButtonAnimate onClick={handleOpen}>
+                    <Iconify icon={"eva:search-fill"} width={20} height={20} />
+                  </IconButtonAnimate>
+                  <AccountPopover />
+                  <SettingsPopover />
+                  <NavigationDrawer />
+                </>
               )}
-              <NavigationDrawer />
-              <Stack direction="row" spacing={0}>
-                <AccountPopover />
-                <SettingsPopover />
-              </Stack>
             </Stack>
             {!isDesktop && isOpen && <Box paddingTop={1}>{SearchInput}</Box>}
           </Stack>

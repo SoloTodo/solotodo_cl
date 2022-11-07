@@ -108,8 +108,8 @@ export default function NavigationDrawer({ inFooter = false }) {
       >
         <Box
           pt={{
-            xs: `${HEADER.DASHBOARD_DESKTOP_HEIGHT + 28}px`,
-            md: `${HEADER.DASHBOARD_DESKTOP_HEIGHT}px`,
+            xs: `${HEADER.DASHBOARD_DESKTOP_HEIGHT}px`,
+            md: `${HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT}px`,
           }}
           bgcolor="transparent"
         />
