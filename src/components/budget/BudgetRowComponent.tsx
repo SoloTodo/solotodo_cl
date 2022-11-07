@@ -4,6 +4,7 @@ import {
   Button,
   Grid,
   Link,
+  MenuItem,
   Select,
   SelectChangeEvent,
   Typography,
@@ -90,18 +91,17 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
               <Select
                 name="Producto"
                 fullWidth
-                native
                 inputProps={{ sx: { padding: 1 } }}
                 value={selectedProduct || ""}
                 onChange={handleProductSelect}
               >
                 {pricingEntries.map((pricingEntry) => (
-                  <option
+                  <MenuItem
                     key={pricingEntry.product.url}
                     value={pricingEntry.product.url}
                   >
                     {pricingEntry.product.name}
-                  </option>
+                  </MenuItem>
                 ))}
               </Select>
             </Grid>
@@ -123,7 +123,6 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
                   <Select
                     name="Tienda"
                     fullWidth
-                    native
                     inputProps={{ sx: { padding: 1 } }}
                     value={budgetEntry.selected_store || ""}
                     onChange={handleStoreSelect}
@@ -136,13 +135,13 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
                         return null;
                       }
                       return (
-                        <option key={store.url} value={store.url}>
+                        <MenuItem key={store.url} value={store.url}>
                           {currency(entity.active_registry.offer_price, {
                             separator: ".",
                             precision: 0,
                           }).format()}{" "}
                           - {store.name}
-                        </option>
+                        </MenuItem>
                       );
                     })}
                   </Select>
