@@ -17,7 +17,6 @@ import useNavigation from "src/hooks/useNavigation";
 import Iconify from "src/components/Iconify";
 import useResponsive from "src/hooks/useResponsive";
 import { IconButtonAnimate } from "src/components/animate";
-import MenuPopover from "src/components/MenuPopover";
 import { HEADER } from "src/config";
 import useSettings from "src/hooks/useSettings";
 
@@ -104,6 +103,7 @@ export default function NavigationDrawer({ inFooter = false }) {
         <Box
           width={{ xs: 250, lg: 300 }}
           bgcolor={isLight ? "background.default" : "background.paper"}
+          overflow="auto"
         >
           <List>
             {navigation.map((s, index) => (
@@ -121,7 +121,7 @@ export default function NavigationDrawer({ inFooter = false }) {
           </List>
         </Box>
         <Box
-          height="100%"
+          flexGrow={1}
           bgcolor={isLight ? "background.default" : "background.paper"}
         />
       </Drawer>
@@ -141,6 +141,7 @@ export default function NavigationDrawer({ inFooter = false }) {
         <Box
           width={{ xs: 250, lg: 300 }}
           bgcolor={isLight ? "background.default" : "background.paper"}
+          overflow="auto"
         >
           <List dense>
             {menu?.sections.map((s, index) => (
@@ -196,7 +197,7 @@ export default function NavigationDrawer({ inFooter = false }) {
           </List>
         </Box>
         <Box
-          height="100%"
+          flexGrow={1}
           bgcolor={isLight ? "background.default" : "background.paper"}
         />
       </Drawer>

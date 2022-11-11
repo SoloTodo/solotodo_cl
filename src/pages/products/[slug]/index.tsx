@@ -42,10 +42,10 @@ export default function ProductPage({ product }: { product: Product }) {
           ]}
         />
         <Grid container spacing={3} justifyContent="space-between">
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} sm={3} lg={4}>
             <Box
               sx={{
-                borderRadius: 5,
+                borderRadius: 3,
               }}
               bgcolor="#fff"
               padding={1}
@@ -57,7 +57,7 @@ export default function ProductPage({ product }: { product: Product }) {
               />
             </Box>
           </Grid>
-          <Grid item xs={12} md={5}>
+          <Grid item xs={12} sm={5}>
             <Stack spacing={3}>
               <Typography variant="h2" color="text.extra">
                 {product.name}
@@ -69,7 +69,7 @@ export default function ProductPage({ product }: { product: Product }) {
               <ProductDescription product={product} />
             </Stack>
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} sm={4} lg={3}>
             <ProductPrices
               product={product}
               category={category}
