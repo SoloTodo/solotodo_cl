@@ -107,7 +107,7 @@ export default function ProductPriceCard({
             maxWidth: "55%",
           }}
         >
-          <Typography fontWeight={500} color="common.white" noWrap>
+          <Typography fontWeight={400} color="common.white" noWrap>
             {store.name}
             {entity.seller ? ` | ${entity.seller}` : null}
           </Typography>
@@ -127,11 +127,15 @@ export default function ProductPriceCard({
             )}
             <Stack direction="row" spacing={1} justifyContent="space-evenly">
               <Stack>
-                <Typography variant="h6" color="text.secondary">
-                  Precio normal
+                <Typography
+                  variant="h6"
+                  color="text.secondary"
+                  fontWeight={400}
+                >
+                  {offerPriceLabel ? offerPriceLabel : "Precio efectivo"}
                 </Typography>
-                <Typography variant="h2" color="text.extra">
-                  {currency(entity.active_registry!.normal_price, {
+                <Typography variant="h2" color="text.extra" fontWeight={400}>
+                  {currency(calcEntityPrice(entity, "offer_price"), {
                     separator: ".",
                     precision: 0,
                   }).format()}
@@ -139,11 +143,15 @@ export default function ProductPriceCard({
               </Stack>
               <Divider orientation="vertical" />
               <Stack>
-                <Typography variant="h6" color="text.secondary">
-                  {offerPriceLabel ? offerPriceLabel : "Precio efectivo"}
+                <Typography
+                  variant="h6"
+                  color="text.secondary"
+                  fontWeight={400}
+                >
+                  Precio normal
                 </Typography>
-                <Typography variant="h2" color="text.extra">
-                  {currency(calcEntityPrice(entity, "offer_price"), {
+                <Typography variant="h2" color="text.extra" fontWeight={400}>
+                  {currency(entity.active_registry!.normal_price, {
                     separator: ".",
                     precision: 0,
                   }).format()}
