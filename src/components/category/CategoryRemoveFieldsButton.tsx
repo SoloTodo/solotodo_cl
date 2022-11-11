@@ -11,7 +11,12 @@ export default function CategoryRemoveFieldsButton() {
   };
 
   return (
-    <Button variant="text" onClick={onRemove} disabled={isDisabled}>
+    <Button
+      variant="text"
+      onClick={onRemove}
+      disabled={isDisabled}
+      sx={{ fontWeight: 400 }}
+    >
       Borrar filtros
     </Button>
   );

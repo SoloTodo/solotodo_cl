@@ -43,7 +43,7 @@ const Home = (props: HomeProps) => {
           ribbonFormatter={(value: string) => `${parseInt(value, 10)} visitas`}
           actionHref={`/search?ordering=leads`}
         />
-        <Typography variant="h3" component="h1" gutterBottom>
+        <Typography variant="h3" component="h1" color="text.subtitle" gutterBottom>
           Categorías populares
         </Typography>
         <CategorySlidesRow categorySlides={categorySlides} />

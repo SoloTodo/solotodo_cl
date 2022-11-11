@@ -13,7 +13,7 @@ export default function CategoryCountSummary() {
   }
 
   return (
-    <Typography variant="h5" color="primary">
+    <Typography variant="h5" color="primary" fontWeight={400}>
       {data ? data.count : 0} resultados
     </Typography>
   );

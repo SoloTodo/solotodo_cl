@@ -168,16 +168,16 @@ const palette = {
   light: {
     ...COMMON,
     mode: 'light',
-    text: { primary: GREY[800], secondary: GREY[600], extra: "#3B5D81", disabled: GREY[500] },
-    background: { paper: GREY[200], default: "#F7F7F7", neutral: GREY[200] },
+    text: { primary: alpha("#202020", 0.7), secondary: GREY[600], extra: "#3B5D81", subtitle: "#4F4F4F", absolute: "#000", dim: alpha("#000", 0.8), disabled: GREY[500] },
+    background: { paper: "#fff", default: "#F7F7F7", neutral: GREY[200] },
     action: { active: GREY[600], ...COMMON.action },
     header: "#EDEDED"
   },
   dark: {
     ...COMMON,
     mode: 'dark',
-    text: { primary: '#fff', secondary: GREY[500], extra: "#fff", disabled: GREY[600] },
-    background: { paper: GREY[900], default: GREY[800], neutral: GREY[500_16] },
+    text: { primary: '#fff', secondary: GREY[500], extra: "#fff", subtitle: "#fff", absolute: "#fff", dim: alpha("#fff", 0.8), disabled: GREY[600] },
+    background: { paper: GREY[900], default: GREY[800], neutral: alpha("#000000", 0.3) },
     action: { active: GREY[500], ...COMMON.action },
     header: alpha("#000000", 0.3)
   },

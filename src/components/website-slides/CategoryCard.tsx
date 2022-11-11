@@ -27,7 +27,7 @@ export default function CategoryCard({
         height: { xs: 145, md: 170 },
         paddingX: 2,
         borderRadius: 2,
-        backgroundColor: "background.paper",
+        backgroundColor: "background.neutral",
         boxShadow: "0px 4px 14px rgba(0, 0, 0, 0.11)",
         position: "relative",
       }}
@@ -62,7 +62,8 @@ export default function CategoryCard({
             <Chip
               color="secondary"
               sx={{
-                color: "text.primary",
+                color: "text.dim",
+                fontWeight: 500
               }}
               label={
                 categoryData.name.includes("Ver Todo")

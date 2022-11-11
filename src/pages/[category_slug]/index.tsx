@@ -335,7 +335,7 @@ export default function Browse({ data }: { data: string }) {
         >
           <Grid container spacing={{ xs: 2, md: 3 }} alignItems="center">
             <Grid item xs={12} lg={3}>
-              <Typography variant="h2">{category.name}</Typography>
+              <Typography variant="h2" color="text.extra">{category.name}</Typography>
             </Grid>
             {useMediaQuery(theme.breakpoints.up("lg")) ? (
               <Grid item xs={3} lg={3} width="100%">

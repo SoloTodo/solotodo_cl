@@ -8,7 +8,7 @@ export default function CustomChip({ label }: { label: string }) {
       label={label}
       color="primary"
       size="small"
-      sx={{ borderRadius: 0.5 }}
+      sx={{ borderRadius: 0.5, fontSize: "12px" }}
     />
   ) : (
     <Chip
@@ -18,6 +18,7 @@ export default function CustomChip({ label }: { label: string }) {
         borderRadius: 0.5,
         backgroundColor: "#FFF0E7",
         color: "primary.main",
+        fontSize: "12px",
       }}
     />
   );

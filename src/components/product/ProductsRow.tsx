@@ -122,7 +122,7 @@ export default function ProductsRow({
       actionHref={actionHref ? actionHref : "#"}
       sx={{ maxWidth: 1270, position: "relative" }}
     >
-      <Box alignItems="center" paddingX={{ xs: 0, sm: 3 }} marginBottom={5}>
+      <Box paddingX={{ xs: 0, sm: 3 }} marginBottom={5}>
         <Slider {...settings} className={styles.slick_dots}>
           {data.slice(0, sliceValue).map((d, index) => {
             return (

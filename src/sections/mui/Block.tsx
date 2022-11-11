@@ -39,6 +39,7 @@ export function Block({
             component="h1"
             fontWeight={400}
             paddingBottom={1}
+            color="text.absolute"
           >
             {title}
           </Typography>

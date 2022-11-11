@@ -134,7 +134,7 @@ export default function ProductPrices({
   return (
     <Stack direction="column" spacing={2}>
       <Stack direction="row" justifyContent="space-between">
-        <Typography variant="h2">Elige tu tienda</Typography>
+        <Typography variant="h2" fontWeight={400}>Elige tu tienda</Typography>
         <FormControl>
           <InputLabel id="demo-simple-select-standard-label">
             Ordenar por

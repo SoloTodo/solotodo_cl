@@ -192,7 +192,6 @@ export default function DashboardHeader({
             width="100%"
             maxWidth={1200}
             paddingY={{ xs: 2, md: 1 }}
-            justifyContent={{ xs: "start", md: "center" }}
             margin="auto"
           >
             <Stack
