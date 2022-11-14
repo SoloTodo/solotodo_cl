@@ -75,14 +75,14 @@ export default function CategoryPreview({
         <ProductsRow
           title="Lo más visto"
           url={`products/browse/?ordering=leads&websites=${constants.websiteId}&categories=${category.id}`}
-          sliceValue={4}
+          sliceValue={10}
           ribbonFormatter={(value: string) => `${parseInt(value, 10)} visitas`}
           actionHref={`/${category.slug}?ordering=leads`}
         />
         <ProductsRow
           title="Ofertas del día"
           url={`products/browse/?ordering=discount&websites=${constants.websiteId}&categories=${category.id}`}
-          sliceValue={4}
+          sliceValue={10}
           ribbonFormatter={(value: string) =>
             `Bajó ${currency(value, {
               separator: ".",
