@@ -54,7 +54,7 @@ export default function ProductsRowGrid({
       >
         {data.slice(0, sliceValue).map((d, index) => {
           return (
-            <Grid item key={index}>
+            <Grid item key={index} xs={12}>
               <ProductCard productData={d} ribbonFormatter={ribbonFormatter} />
             </Grid>
           );
