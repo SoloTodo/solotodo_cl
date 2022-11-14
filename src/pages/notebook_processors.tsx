@@ -71,10 +71,10 @@ export default function NotebookProcessors() {
       ),
       flex: 1,
     },
-    { field: "core_count_value", headerName: "Núcleos" },
-    { field: "thread_count_value", headerName: "Hilos" },
-    { field: "frequency_unicode", headerName: "Frecuencia" },
-    { field: "turbo_frequency_unicode", headerName: "Frec. turbo" },
+    { field: "core_count_value", headerName: "Núcleos", flex: 0.5 },
+    { field: "thread_count_value", headerName: "Hilos", flex: 0.5 },
+    { field: "frequency_unicode", headerName: "Frecuencia", flex: 1 },
+    { field: "turbo_frequency_unicode", headerName: "Frec. turbo", flex: 1 },
   ];
 
   function CustomPagination() {
