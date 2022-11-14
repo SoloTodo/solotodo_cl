@@ -26,7 +26,7 @@ export default function ProductComment({
     <Stack padding={1}>
       <Stack direction="row" spacing={1} alignItems="center">
         <Typography variant="body2" color="primary" fontWeight={700}>
-          {ratingValues[rating.store_rating]}
+          {ratingValues[isStore ? rating.store_rating : rating.product_rating]}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {isStore
