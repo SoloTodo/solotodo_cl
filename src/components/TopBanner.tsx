@@ -1,11 +1,11 @@
 import { useDfpSlot } from "src/hooks/useDfpSlot";
-import useMobileDetect from "src/hooks/useMobileDetect";
+import useResponsive from "src/hooks/useResponsive";
 
 export default function TopBanner({ category }: { category: string }) {
   const divId = `div-gpt-ad-1666029557456-0`;
 
-  const isMobile = useMobileDetect().isMobile();
-  useDfpSlot(category, divId, isMobile);
+  const isDesktopSmall = useResponsive("down", "sm") || false;
+  useDfpSlot(category, divId, isDesktopSmall);
   return (
     <div
       id={divId}

@@ -20,6 +20,9 @@ export const useDfpSlot = (category: string, divId: string, isMobile: Boolean) =
 
     if (!transition) {
       const googletag = (window as any).googletag || {};
+      googletag.cmd.push(function () {
+        googletag.destroySlots();
+      });
       const sizes = isMobile ? [320, 50] : [[728, 90], [970, 90]];
 
       googletag.cmd.push(function () {
