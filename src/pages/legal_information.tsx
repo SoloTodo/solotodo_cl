@@ -115,28 +115,29 @@ export default function LegalInformation() {
                 component="h1"
                 color="#3B5D81"
                 gutterBottom
+                fontWeight={400}
               >
                 Condiciones de servicio
               </Typography>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom fontWeight={400}>
                 La utilización de este sitio web, supone la aceptación plena y
                 sin reservas de la totalidad de las condiciones generales de uso
                 que se relacionan a continuación, siendo aplicables, igualmente,
                 a la información, aplicaciones y servicios a los que se puede
                 acceder a través de la misma.
               </Typography>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom fontWeight={400}>
                 1.- SoloTodo realiza su mejor esfuerzo para mantener la
                 información actualizada, evitar errores u omisiones. Sin
                 embargo, no asume ningún tipo de responsabilidad respecto a la
                 integridad y exactitud respecto de la misma. Constituyéndose
                 sólo con fines referenciales.
               </Typography>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom fontWeight={400}>
                 2.- Para el correcto funcionamiento del sitio podrá requerirse
                 el uso de cookies
               </Typography>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom fontWeight={400}>
                 3.- Los precios y características de los equipos publicados o
                 constituyen en caso alguno parte de una oferta o invitación a
                 contratar. Siendo sólo información de referencia que deberá ser
@@ -145,12 +146,12 @@ export default function LegalInformation() {
                 formará parte, a menos que así lo estipule su representante
                 legítimo.
               </Typography>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom fontWeight={400}>
                 4.- SoloTodo podrá suprimir, modificar, y actualizar de forma
                 unilateral y arbitraria la información, configuración y
                 contenido del sitio. Así como sus condiciones y términos de uso
               </Typography>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom fontWeight={400}>
                 5.- El acceso y uso de este sitio web se ajustará a la ley, la
                 moral, las buenas costumbres, el orden público y a las presentes
                 condiciones y términos de uso. De modo que debe abstenerse de
@@ -162,10 +163,11 @@ export default function LegalInformation() {
                 component="h1"
                 color="#3B5D81"
                 gutterBottom
+                fontWeight={400}
               >
                 Acerca de la extensión para Google Chrome
               </Typography>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom fontWeight={400}>
                 SoloTodo pone a disposición de su comunidad una extensión para
                 el navegador Google Chrome, disponible en{" "}
                 <NextLink
@@ -211,12 +213,12 @@ export default function LegalInformation() {
                 </ul>
               </Box>
 
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom fontWeight={400}>
                 Si dicho producto está catalogado en SoloTodo y está disponible
                 a mejor precio en alguna otra tienda, muestra una notificación
                 en su ícono del navegador.
               </Typography>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom fontWeight={400}>
                 Para proveer esta funcionalidad, la extensión envía
                 continuamente información acerca de la URL siendo visualizada en
                 las tiendas antes mencionadas anteriormente a los servidores de
@@ -233,13 +235,13 @@ export default function LegalInformation() {
               UNO
             </TabPanel>
             <TabPanel value={value} index={2}>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom fontWeight={400}>
                 Para el correcto funcionamiento de SoloTodo.com el sitio
                 almacena información acerca de sus visitantes y usuarios en{" "}
                 <em>cookies</em> del navegador y en nuestra base de datos
                 interna.
               </Typography>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom fontWeight={400}>
                 Esta página detalla la información guardada por SoloTodo.com y
                 el uso que se le da.
               </Typography>
@@ -248,10 +250,11 @@ export default function LegalInformation() {
                 component="h1"
                 color="#3B5D81"
                 gutterBottom
+                fontWeight={400}
               >
                 Información guardada
               </Typography>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom fontWeight={400}>
                 SoloTodo almacena la siguiente información de sus visitantes:
               </Typography>
               <Box paddingBottom={1} paddingLeft={6}>
@@ -276,7 +279,7 @@ export default function LegalInformation() {
                   </li>
                 </ul>
               </Box>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom fontWeight={400}>
                 Adicionalmente, los siguientes servicios de terceros usados por
                 SoloTodo también pueden almacenar información, sujeto a sus
                 propias políticas de privacidad.
@@ -302,10 +305,11 @@ export default function LegalInformation() {
                 component="h1"
                 color="#3B5D81"
                 gutterBottom
+                fontWeight={400}
               >
                 Sobre el uso de la información guardada
               </Typography>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom fontWeight={400}>
                 SoloTodo respeta la privacidad y confidencialidad de nuestros
                 usuarios, comprometiéndonos a las siguientes políticas de uso de
                 información:
@@ -338,10 +342,11 @@ export default function LegalInformation() {
                 component="h1"
                 color="#3B5D81"
                 gutterBottom
+                fontWeight={400}
               >
                 Solicitud de eliminación de datos y cuenta
               </Typography>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom fontWeight={400}>
                 Si por cualquier motivo se desea eliminar la cuenta del usuario
                 o cualquier información identificable del mismo (alertas de
                 cambios de precio, cotizaciones, etc) se puede solicitar a
@@ -358,10 +363,11 @@ export default function LegalInformation() {
                 component="h1"
                 color="#3B5D81"
                 gutterBottom
+                fontWeight={400}
               >
                 Sobre el acceso a sitios de terceras partes
               </Typography>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom fontWeight={400}>
                 Como parte de su funcionamiento SoloTodo deriva tráfico a sitios
                 de e-commerce de terceras partes, que pueden tener sus propias
                 polícias de privacidad y términos de servicio. SoloTodo no se

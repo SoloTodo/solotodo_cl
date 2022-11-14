@@ -135,14 +135,14 @@ export default function Register() {
 
   useGtag3({});
   return (
-    <Page title="Registro">
+    <Page title="Crea tu cuenta">
       <Container>
         <TopBanner category="any" />
         <HeaderBreadcrumbs
           heading=""
           links={[
             { name: "Home", href: PATH_MAIN.root },
-            { name: "Crear tu cuenta" },
+            { name: "Crea tu cuenta" },
           ]}
         />
         <RootStyle>
@@ -245,7 +245,7 @@ export default function Register() {
                   <Typography variant="h6" fontWeight={400}>
                     ¿Ya tienes una cuenta?{" "}
                     <NextLink href={PATH_AUTH.login} passHref>
-                      <Link>Inicia sesión</Link>
+                      <Link color="info.main">Inicia sesión</Link>
                     </NextLink>
                   </Typography>
                 </Stack>

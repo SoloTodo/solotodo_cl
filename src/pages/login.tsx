@@ -160,12 +160,15 @@ export default function Login() {
 
   useGtag3({});
   return (
-    <Page title="Login">
+    <Page title="Iniciar Sesión">
       <Container>
         <TopBanner category="Any" />
         <HeaderBreadcrumbs
           heading=""
-          links={[{ name: "Home", href: PATH_MAIN.root }, { name: "Login" }]}
+          links={[
+            { name: "Home", href: PATH_MAIN.root },
+            { name: "Iniciar Sesión" },
+          ]}
         />
         <RootStyle>
           <Container maxWidth="sm">
@@ -242,14 +245,14 @@ export default function Login() {
                   spacing={1}
                 >
                   <NextLink href={PATH_AUTH.reset_password} passHref>
-                    <Link variant="h5" fontWeight={400}>
+                    <Link variant="h5" fontWeight={400} color="info.main">
                       ¿Olvidaste tu contraseña?
                     </Link>
                   </NextLink>
                   <Typography variant="h6" fontWeight={400}>
                     ¿Necesitas una cuenta?{" "}
                     <NextLink href={PATH_AUTH.register} passHref>
-                      <Link>Regístrate</Link>
+                      <Link color="info.main">Regístrate</Link>
                     </NextLink>
                   </Typography>
                 </Stack>
