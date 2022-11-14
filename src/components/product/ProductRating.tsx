@@ -44,7 +44,10 @@ export default function ProductRating({
 
   return (
     <>
-      <Divider variant="fullWidth" sx={{ marginY: 5 }} />
+      <Divider
+        variant="fullWidth"
+        sx={{ marginY: 5, border: "1px solid #E1E1E1" }}
+      />
       {ratingsData.length !== 0 ? (
         <>
           <Stack spacing={1}>
@@ -87,7 +90,10 @@ export default function ProductRating({
               </Drawer>
             </>
           </Stack>
-          <Divider variant="fullWidth" sx={{ marginY: 5 }} />
+          <Divider
+            variant="fullWidth"
+            sx={{ marginY: 5, border: "1px solid #E1E1E1" }}
+          />
         </>
       ) : null}
       <Drawer

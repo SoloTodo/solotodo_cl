@@ -4,7 +4,7 @@ import { StarIcon } from './CustomIcons';
 
 // ----------------------------------------------------------------------
 
-const ICON_SMALL = { width: 20, height: 20 };
+const ICON_SMALL = { width: 16, height: 16 };
 const ICON_LARGE = { width: 28, height: 28 };
 
 export default function Rating(theme: Theme) {

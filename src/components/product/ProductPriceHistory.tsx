@@ -251,7 +251,7 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
       <Button
         variant="contained"
         color="info"
-        sx={{ borderRadius: 4 }}
+        sx={{ borderRadius: 4, fontWeight: 400 }}
         startIcon={<ShowChartIcon />}
         onClick={() => setOpen(true)}
       >

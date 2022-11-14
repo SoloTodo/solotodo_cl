@@ -26,7 +26,7 @@ export default function ProductRatingSummary({
     };
   }, [productOrStore.url]);
 
-  if (!ratingsData || !ratingsData.count) return null;
+  if (!ratingsData || !ratingsData.count || !ratingsData.average) return null;
   const roundedAverage = Math.round(ratingsData.average * 10) / 10;
   return (
     <Stack spacing={1} direction="row" alignItems="center">

@@ -95,7 +95,7 @@ export default function ProductAddToBudgetButton({
     <Button
       variant="contained"
       color="info"
-      sx={{ borderRadius: 4 }}
+      sx={{ borderRadius: 4, fontWeight: 400 }}
       onClick={onClick}
       startIcon={<AssignmentIcon />}
     >

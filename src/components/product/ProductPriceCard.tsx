@@ -9,6 +9,7 @@ import {
   Rating,
   Stack,
   Typography,
+  useTheme,
 } from "@mui/material";
 import currency from "currency.js";
 import { useState } from "react";
@@ -36,6 +37,8 @@ export default function ProductPriceCard({
   const offerPriceLabel = (
     constants.storeOfferPriceLabel as Record<number, string | undefined>
   )[store.id];
+  const theme = useTheme();
+  const isLight = theme.palette.mode === "light";
 
   return (
     <Card
@@ -43,13 +46,16 @@ export default function ProductPriceCard({
         bgcolor: "transparent",
         borderWidth: 1,
         borderStyle: "solid",
-        borderColor: "background.neutral",
-        borderRadius: 1,
+        borderColor: isLight ? "#F2F2F2" : "rgba(196, 196, 196, 0.3)",
+        borderRadius: 0.5,
         "&:hover": {
           borderColor: "primary.main",
         },
         "&:hover .box": {
           bgcolor: "primary.main",
+        },
+        "&:hover .storeName": {
+          color: "common.white",
         },
         position: "relative",
       }}
@@ -100,14 +106,19 @@ export default function ProductPriceCard({
         <Box
           className="box"
           sx={{
-            bgcolor: "#7B7B7B",
+            bgcolor: isLight ? "#F2F2F2" : "rgba(196, 196, 196, 0.3)",
             p: 0.8,
             borderEndEndRadius: 10,
             display: "inline-block",
             maxWidth: "55%",
           }}
         >
-          <Typography fontWeight={400} color="common.white" noWrap>
+          <Typography
+            className="storeName"
+            fontWeight={400}
+            color="text.extra"
+            noWrap
+          >
             {store.name}
             {entity.seller ? ` | ${entity.seller}` : null}
           </Typography>
@@ -119,13 +130,18 @@ export default function ProductPriceCard({
               <Stack sx={{ alignItems: "end" }}>
                 <Chip
                   label="Reacondicionado"
-                  color="warning"
                   size="small"
-                  sx={{ borderRadius: 1 }}
+                  sx={{
+                    borderRadius: 0.5,
+                    fontSize: "12px",
+                    fontWeight: 400,
+                    color: "#CD6131",
+                    backgroundColor: "#FFF0E7",
+                  }}
                 />
               </Stack>
             )}
-            <Stack direction="row" spacing={1} justifyContent="space-evenly">
+            <Stack direction="row" spacing={{ xs: 1, md: 2 }} justifyContent="space-around">
               <Stack>
                 <Typography
                   variant="h6"
@@ -141,7 +157,11 @@ export default function ProductPriceCard({
                   }).format()}
                 </Typography>
               </Stack>
-              <Divider orientation="vertical" />
+              <Divider
+                orientation="vertical"
+                flexItem
+                sx={{ border: "1px solid #7B7B7B" }}
+              />
               <Stack>
                 <Typography
                   variant="h6"

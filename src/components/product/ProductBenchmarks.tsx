@@ -4,6 +4,7 @@ import {
   Stack,
   styled,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { constants } from "src/config";
@@ -41,37 +42,52 @@ export default function ProductBenchmarks({
   product,
   category,
 }: ProductBenchmarksProps) {
-  const benchmarkCategory = (constants.benchmarkCategories as Record<number, Benchmark[]>)[category.id];
-  return benchmarkCategory && (
-    <Stack
-      bgcolor={alpha("#C4C4C4", 0.1)}
-      borderRadius={0.5}
-      padding={2}
-      spacing={1}
-    >
-      <Typography variant="h5" fontWeight={700}>
-        Rendimiento
-      </Typography>
+  const theme = useTheme();
+  const isLight = theme.palette.mode === "light";
+  const benchmarkCategory = (
+    constants.benchmarkCategories as Record<number, Benchmark[]>
+  )[category.id];
+  return (
+    benchmarkCategory && (
       <Stack
-        spacing={2}
-        direction={{
-          md: "row",
-          xs: "column",
-        }}
+        bgcolor={alpha("#C4C4C4", 0.1)}
+        borderRadius={0.5}
+        padding={2}
+        spacing={1}
       >
-        {benchmarkCategory.map((benchmark) => (
-          <Stack key={benchmark.field} width='100%' spacing={0.5} justifyContent="space-between">
-            <Typography>{benchmark.label}</Typography>
-            <BorderLinearProgress
-              variant="determinate"
-              value={getBenchValue(
-                Number(product.specs[benchmark.field]),
-                benchmark.maxValue
-              )}
-            />
-          </Stack>
-        ))}
+        <Typography
+          variant="h5"
+          color={isLight ? "text.extra" : "secondary.main"}
+          fontWeight={700}
+        >
+          Rendimiento
+        </Typography>
+        <Stack
+          spacing={2}
+          direction={{
+            md: "row",
+            xs: "column",
+          }}
+        >
+          {benchmarkCategory.map((benchmark) => (
+            <Stack
+              key={benchmark.field}
+              width="100%"
+              spacing={0.5}
+              justifyContent="space-between"
+            >
+              <Typography>{benchmark.label}</Typography>
+              <BorderLinearProgress
+                variant="determinate"
+                value={getBenchValue(
+                  Number(product.specs[benchmark.field]),
+                  benchmark.maxValue
+                )}
+              />
+            </Stack>
+          ))}
+        </Stack>
       </Stack>
-    </Stack>
+    )
   );
 }

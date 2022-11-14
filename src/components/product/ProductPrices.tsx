@@ -134,7 +134,9 @@ export default function ProductPrices({
   return (
     <Stack direction="column" spacing={2}>
       <Stack direction="row" justifyContent="space-between">
-        <Typography variant="h2" fontWeight={400}>Elige tu tienda</Typography>
+        <Typography variant="h2" fontWeight={400}>
+          Elige tu tienda
+        </Typography>
         <FormControl>
           <InputLabel id="demo-simple-select-standard-label">
             Ordenar por
@@ -175,7 +177,7 @@ export default function ProductPrices({
             onClick={() => setShowMore(!showMore)}
             sx={{ borderRadius: 4, color: "text.primary" }}
           >
-            {showMore ? "Ver menos precios" : "Ver más precios"}
+            {showMore ? "VER MENOS PRECIOS" : "VER MÁS PRECIOS"}
           </Button>
         ) : entities.length === 0 ? (
           <Typography>Este producto no está disponible actualmente</Typography>
@@ -195,7 +197,7 @@ export default function ProductPrices({
         <Button
           variant="contained"
           color="info"
-          sx={{ borderRadius: 4 }}
+          sx={{ borderRadius: 4, fontWeight: 400 }}
           onClick={() => setOpenNewCommentDrawer(true)}
           startIcon={<MessageIcon />}
         >
