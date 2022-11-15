@@ -106,16 +106,21 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
               </Select>
             </Grid>
             <Grid item xs={3} md={1} lg={1.5}>
-              <Button
-                variant="contained"
-                color="info"
-                size="small"
-                fullWidth
-                sx={{ textTransform: "none", padding: 1, textAlign: "center" }}
-                href={selectedProductHref}
-              >
-                {isMobile ? <ArrowForwardIosIcon /> : "Ir al producto"}
-              </Button>
+              <NextLink href={selectedProductHref} passHref>
+                <Button
+                  variant="contained"
+                  color="info"
+                  size="small"
+                  fullWidth
+                  sx={{
+                    textTransform: "none",
+                    padding: 1,
+                    textAlign: "center",
+                  }}
+                >
+                  {isMobile ? <ArrowForwardIosIcon /> : "Ir al producto"}
+                </Button>
+              </NextLink>
             </Grid>
             {matchingEntity ? (
               <>
