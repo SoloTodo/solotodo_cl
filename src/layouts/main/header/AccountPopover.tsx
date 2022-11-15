@@ -24,6 +24,7 @@ import userSlice, { useUser } from "src/frontend-utils/redux/user";
 import { PATH_AUTH, PATH_MAIN } from "../../../routes/paths";
 import { fetchAuth } from "src/frontend-utils/nextjs/utils";
 import useResponsive from "src/hooks/useResponsive";
+import NextLink from "next/link";
 
 // ----------------------------------------------------------------------
 
@@ -63,8 +64,7 @@ export default function AccountPopover() {
     setOpen(event.currentTarget);
   };
 
-  const handleClose = (linkTo: string) => {
-    router.push(linkTo);
+  const handleClose = () => {
     setOpen(null);
   };
 
@@ -155,14 +155,13 @@ export default function AccountPopover() {
 
             <Stack sx={{ p: 1 }}>
               {user.budgets.map((b) => (
-                <MenuItem
+                <NextLink
                   key={b.name}
-                  onClick={() =>
-                    handleClose(`${PATH_MAIN.budgets}/${b.id}/edit`)
-                  }
+                  href={`${PATH_MAIN.budgets}/${b.id}/edit`}
+                  passHref
                 >
-                  {b.name}
-                </MenuItem>
+                  <MenuItem onClick={() => handleClose()}>{b.name}</MenuItem>
+                </NextLink>
               ))}
               <MenuItem
                 key={"newCotizacion"}
@@ -176,12 +175,11 @@ export default function AccountPopover() {
 
             <Stack sx={{ p: 1 }}>
               {MENU_OPTIONS.map((option) => (
-                <MenuItem
-                  key={option.label}
-                  onClick={() => handleClose(option.linkTo)}
-                >
-                  {option.label}
-                </MenuItem>
+                <NextLink key={option.label} href={option.linkTo} passHref>
+                  <MenuItem onClick={() => handleClose()}>
+                    {option.label}
+                  </MenuItem>
+                </NextLink>
               ))}
             </Stack>
 
