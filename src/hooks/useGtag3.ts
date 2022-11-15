@@ -14,12 +14,14 @@ export const useGtag3 = ({ category, product, store }: Props) => {
   useEffect(() => {
     const addEvent = () => {
       (window as any).gtag("event", "page_view", {
+        page_location: `${constants.domain}${router.asPath}`,
+        page_path: router.asPath,
         dimension1: undefined,
         dimension2: category,
         dimension3: product,
         dimension4: store,
         dimension5: undefined,
-        sent_to: constants.GA3Id,
+        send_to: constants.GA3Id,
       });
     };
 
@@ -29,5 +31,5 @@ export const useGtag3 = ({ category, product, store }: Props) => {
     return () => {
       router.events.off("routeChangeComplete", addEvent);
     };
-  }, [category, product, router.events, store]);
+  }, [category, product, router.asPath, router.events, store]);
 };
