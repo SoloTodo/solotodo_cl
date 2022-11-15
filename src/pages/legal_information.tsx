@@ -61,7 +61,7 @@ export default function LegalInformation() {
 
   useGtag3({});
   return (
-    <Page title="Cotiza y compara los precios de todas las tiendas">
+    <Page title="Información legal">
       <Container>
         <Typography gutterBottom variant="h3">
           Información legal
