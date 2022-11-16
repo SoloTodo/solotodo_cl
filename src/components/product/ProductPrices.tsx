@@ -127,6 +127,7 @@ export default function ProductPrices({
                     precision: 0,
                   }
                 ).value,
+                currency: "CLP",
                 value: currency(sortedEntities[0].active_registry.offer_price, {
                   separator: ".",
                   precision: 0,
@@ -137,7 +138,6 @@ export default function ProductPrices({
                   affiliation: apiResourceObjects[e.store].name,
                   coupon:
                     e.best_coupon === null ? undefined : e.best_coupon.code,
-                  currency: "CLP",
                   index: index,
                   item_category: category.name,
                   price: currency(e.active_registry?.offer_price || 0, {
