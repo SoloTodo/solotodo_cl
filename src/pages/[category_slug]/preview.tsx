@@ -19,6 +19,7 @@ import useNavigation from "src/hooks/useNavigation";
 import { NavigationItemProps } from "src/contexts/NavigationContext";
 import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
+import { useGtag4 } from "src/hooks/useGtag4";
 
 type CategoryPreviewProps = {
   category: Category;
@@ -53,6 +54,7 @@ export default function CategoryPreview({
   };
 
   useGtag3({ category: category.name });
+  useGtag4({ category: category.name });
   return (
     <Page title={category.name}>
       <Container>

@@ -20,7 +20,7 @@ import useOffSetTop from "../../../hooks/useOffSetTop";
 // utils
 import cssStyles from "../../../utils/cssStyles";
 // config
-import { HEADER, NAVBAR } from "../../../config";
+import { constants, HEADER, NAVBAR } from "../../../config";
 //
 import AccountPopover from "./AccountPopover";
 import SettingsPopover from "./SettingsPopover";
@@ -129,7 +129,15 @@ export default function DashboardHeader({
   const { handleSubmit } = methods;
 
   const onSubmit = () => {
-    window.scrollTo(0, 0);
+    const win: any = window;
+    win.scrollTo(0, 0);
+    const params = {
+      page_location: `${constants.domain}${router.asPath}`,
+      page_path: router.asPath,
+      search_term: keywords,
+      send_to: constants.GA4Id,
+    };
+    win.gtag("event", "search", params);
     router.push(
       `/search?search=${encodeURIComponent(keywords)}`,
       `/search?search=${encodeURIComponent(keywords)}`

@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import TopBanner from "src/components/TopBanner";
 import ProductsRowGrid from "src/components/product/ProductsRowGrid";
 import { useGtag3 } from "src/hooks/useGtag3";
+import { useGtag4 } from "src/hooks/useGtag4";
 
 type Processor = {
   id: number;
@@ -92,6 +93,7 @@ export default function NotebookProcessors() {
   }
 
   useGtag3({});
+  useGtag4({});
   return (
     <Page
       title={

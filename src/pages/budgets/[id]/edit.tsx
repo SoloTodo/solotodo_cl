@@ -21,6 +21,7 @@ import {
 import { useAppSelector } from "src/store/hooks";
 import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
+import { useGtag4 } from "src/hooks/useGtag4";
 
 export default function BudgetEdit({
   initialBudget,
@@ -85,6 +86,7 @@ export default function BudgetEdit({
   });
 
   useGtag3({});
+  useGtag4({});
   return (
     <Page title="Cotización">
       <Container>

@@ -12,6 +12,7 @@ import { PATH_MAIN } from "src/routes/paths";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import { useSnackbar } from "notistack";
 import { useGtag3 } from "src/hooks/useGtag3";
+import { useGtag4 } from "src/hooks/useGtag4";
 
 // ----------------------------------------------------------------------
 
@@ -81,6 +82,7 @@ export default function DataDeletion() {
   };
 
   useGtag3({});
+  useGtag4({});
   return (
     <Page title="Eliminación de cuenta / datos">
       <Container>

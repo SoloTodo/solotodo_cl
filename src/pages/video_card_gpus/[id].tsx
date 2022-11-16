@@ -8,6 +8,7 @@ import TopBanner from "src/components/TopBanner";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import { useGtag3 } from "src/hooks/useGtag3";
+import { useGtag4 } from "src/hooks/useGtag4";
 import { PATH_MAIN } from "src/routes/paths";
 
 type Gpu = {
@@ -77,6 +78,7 @@ const Title = ({ children }: { children: ReactNode }) => (
 
 export default function VideoCardGpus({ gpu }: { gpu: Gpu }) {
   useGtag3({});
+  useGtag4({});
   return (
     <Page title={gpu.unicode}>
       <Container>

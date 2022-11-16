@@ -17,6 +17,7 @@ import { PATH_MAIN } from "src/routes/paths";
 import ReactDisqusComments from "react-disqus-comments";
 import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
+import { useGtag4 } from "src/hooks/useGtag4";
 
 export default function BudgetView({ budget }: { budget: Budget }) {
   const theme = useTheme();
@@ -31,6 +32,7 @@ export default function BudgetView({ budget }: { budget: Budget }) {
   }
 
   useGtag3({});
+  useGtag4({});
   return (
     <Page title="Cotización">
       <Container>

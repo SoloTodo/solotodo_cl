@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import Iconify from "src/components/Iconify";
 import { useRouter } from "next/router";
 import { useGtag3 } from "src/hooks/useGtag3";
+import { useGtag4 } from "src/hooks/useGtag4";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -60,6 +61,7 @@ export default function LegalInformation() {
   }, [router.query.tab]);
 
   useGtag3({});
+  useGtag4({});
   return (
     <Page title="Información legal">
       <Container>

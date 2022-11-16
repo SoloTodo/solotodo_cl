@@ -32,6 +32,7 @@ import { useSnackbar } from "notistack";
 import { calcEntityPrice } from "src/utils/calcEntityPrice";
 import { modalStyle } from "src/styles/modal";
 import WarningIcon from "@mui/icons-material/Warning";
+import currency from "currency.js";
 
 type ProductPricesProps = {
   product: Product;
@@ -106,6 +107,45 @@ export default function ProductPrices({
             ) {
               setOpenModal(true);
             }
+
+            const sortedEntities = entities.sort(
+              (a, b) =>
+                calcEntityPrice(a, "offer_price") -
+                calcEntityPrice(b, "offer_price")
+            );
+            sortedEntities.length > 0 &&
+              sortedEntities[0].active_registry &&
+              (window as any).gtag("event", "view_item", {
+                product: product.name,
+                product_id: product.id,
+                category: category.name,
+                category_id: category.id,
+                offerPrice: currency(
+                  sortedEntities[0].active_registry.offer_price,
+                  {
+                    separator: ".",
+                    precision: 0,
+                  }
+                ).value,
+                value: currency(sortedEntities[0].active_registry.offer_price, {
+                  separator: ".",
+                  precision: 0,
+                }).value,
+                items: sortedEntities.map((e, index) => ({
+                  item_id: e.id.toString(),
+                  item_name: e.name,
+                  affiliation: apiResourceObjects[e.store].name,
+                  coupon:
+                    e.best_coupon === null ? undefined : e.best_coupon.code,
+                  currency: "CLP",
+                  index: index,
+                  item_category: category.name,
+                  price: currency(e.active_registry?.offer_price || 0, {
+                    separator: ".",
+                    precision: 0,
+                  }).value,
+                })),
+              });
           })
           .catch((_) => {});
       })
@@ -113,7 +153,16 @@ export default function ProductPrices({
     return () => {
       myAbortController.abort();
     };
-  }, [apiResourceObjects, prefExcludeRefurbished, prefStores, product.id]);
+  }, [
+    apiResourceObjects,
+    category.id,
+    category.name,
+    ordering,
+    prefExcludeRefurbished,
+    prefStores,
+    product.id,
+    product.name,
+  ]);
 
   const hideRifurbished = () => {
     onToggleExcludeRefurbished();

@@ -14,6 +14,7 @@ import { Slide } from "src/components/website-slides/types";
 import { categorySlides } from "src/categorySlides";
 import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
+import { useGtag4 } from "src/hooks/useGtag4";
 
 type HomeProps = {
   recentSlides: Slide[];
@@ -28,6 +29,7 @@ const Home = (props: HomeProps) => {
     ];
 
   useGtag3({});
+  useGtag4({});
   return (
     <Page title="Cotiza y compara los precios de todas las tiendas">
       <Container>

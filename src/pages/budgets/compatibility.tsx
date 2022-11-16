@@ -3,9 +3,11 @@ import Page from "src/components/Page";
 import ReactDisqusComments from "react-disqus-comments";
 import { constants } from "src/config";
 import { useGtag3 } from "src/hooks/useGtag3";
+import { useGtag4 } from "src/hooks/useGtag4";
 
 export default function Compatibility() {
   useGtag3({});
+  useGtag4({});
   return (
     <Page title="Cotiza y compara los precios de todas las tiendas">
       <Container>

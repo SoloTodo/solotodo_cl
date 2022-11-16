@@ -21,6 +21,7 @@ import ProductDescription from "src/components/product/ProductDescription";
 import ProductWarnings from "src/components/product/ProductWarnings";
 import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
+import { useGtag4 } from "src/hooks/useGtag4";
 
 export default function ProductPage({ product }: { product: Product }) {
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
@@ -28,7 +29,12 @@ export default function ProductPage({ product }: { product: Product }) {
 
   const category = apiResourceObjects[product.category] as Category;
 
-  useGtag3({ category: category.name, product: product.name });
+  const params = {
+    category: category.name,
+    product: product.name,
+  };
+  useGtag3(params);
+  useGtag4(params);
   return (
     <Page title={product.name}>
       <Container>

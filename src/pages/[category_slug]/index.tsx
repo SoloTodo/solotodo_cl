@@ -44,6 +44,7 @@ import ApiFormTreeComponent from "src/frontend-utils/api_form/fields/tree/ApiFor
 import UZIP from "uzip";
 import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
+import { useGtag4 } from "src/hooks/useGtag4";
 
 // Server Side Rendering
 var zlib = require("zlib");
@@ -310,6 +311,7 @@ export default function Browse({ data }: { data: string }) {
   );
 
   useGtag3({ category: category.name });
+  useGtag4({ category: category.name });
   return (
     <Page title={category.name}>
       <TopBanner category={category.name} />
@@ -392,7 +394,7 @@ export default function Browse({ data }: { data: string }) {
               </Grid>
             )}
             <Grid item xs={12} lg={9}>
-              <CategoryBrowse />
+              <CategoryBrowse category={category} />
               <br />
               <ApiFormPaginationComponent />
             </Grid>

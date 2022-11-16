@@ -41,6 +41,7 @@ import { Store } from "src/frontend-utils/types/store";
 import { constants } from "src/config";
 import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
+import { useGtag4 } from "src/hooks/useGtag4";
 
 // ----------------------------------------------------------------------
 
@@ -159,6 +160,7 @@ export default function Login() {
   };
 
   useGtag3({});
+  useGtag4({});
   return (
     <Page title="Iniciar Sesión">
       <Container>
