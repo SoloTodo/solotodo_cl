@@ -64,6 +64,7 @@ export default function SoloTodoLeadLink(props: SoloTodoLeadLinkProps) {
         retailer_id: storeEntry.id,
         seller: entity.seller,
         condition: entity.condition,
+        sku: entity.sku,
         precio: price,
         send_to: constants.GA4Id,
       };
