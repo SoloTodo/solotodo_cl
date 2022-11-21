@@ -45,6 +45,8 @@ import UZIP from "uzip";
 import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
+import { ProductsData } from "src/components/product/types";
+import currency from "currency.js";
 
 // Server Side Rendering
 var zlib = require("zlib");
@@ -310,6 +312,35 @@ export default function Browse({ data }: { data: string }) {
     </Grid>
   );
 
+  const onResultsChange = (currentResult: { results: ProductsData[] }) => {
+    const params = {
+      category: category?.name,
+      categoryId: category?.id.toString(),
+      items: currentResult.results.map((r, index) => {
+        const { product_entries } = r;
+        const { product, metadata } = product_entries[0];
+
+        const priceCurrency = metadata.prices_per_currency.find((p) =>
+          p.currency.includes(`/${constants.clpCurrencyId}/`)
+        );
+        const offerPrice = priceCurrency ? priceCurrency.offer_price : 0;
+
+        return {
+          item_name: product.name,
+          currency: "CLP",
+          index: index,
+          item_category: apiResourceObjects[product.category].name,
+          item_id: product.id,
+          price: currency(offerPrice, {
+            separator: ".",
+            precision: 0,
+          }).value,
+        };
+      }),
+    };
+    (window as any).gtag("event", "view_item_list", params);
+  };
+
   useGtag3({ category: category.name });
   useGtag4({ category: category.name });
   return (
@@ -334,10 +365,13 @@ export default function Browse({ data }: { data: string }) {
             initialData: new URLSearchParams(initialData),
             initialResult: initialResult,
           }}
+          onResultsChange={onResultsChange}
         >
           <Grid container spacing={{ xs: 2, md: 3 }} alignItems="center">
             <Grid item xs={12} lg={3}>
-              <Typography variant="h2" color="text.extra">{category.name}</Typography>
+              <Typography variant="h2" color="text.extra">
+                {category.name}
+              </Typography>
             </Grid>
             {useMediaQuery(theme.breakpoints.up("lg")) ? (
               <Grid item xs={3} lg={3} width="100%">
@@ -394,7 +428,7 @@ export default function Browse({ data }: { data: string }) {
               </Grid>
             )}
             <Grid item xs={12} lg={9}>
-              <CategoryBrowse category={category} />
+              <CategoryBrowse />
               <br />
               <ApiFormPaginationComponent />
             </Grid>
