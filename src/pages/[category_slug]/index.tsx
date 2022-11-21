@@ -338,7 +338,8 @@ export default function Browse({ data }: { data: string }) {
         };
       }),
     };
-    (window as any).gtag("event", "view_item_list", params);
+    typeof window !== "undefined" &&
+      (window as any).gtag("event", "view_item_list", params);
   };
 
   useGtag3({ category: category.name });
