@@ -14,6 +14,8 @@ type LeadLinkProps = {
   callback: Function;
   soicosPrefix: string;
   buttonType: boolean;
+  appendUuidToUrl?: boolean;
+  targetUrl?: string;
 };
 
 export default function LeadLink(props: LeadLinkProps) {
@@ -26,6 +28,8 @@ export default function LeadLink(props: LeadLinkProps) {
     callback,
     soicosPrefix,
     buttonType,
+    appendUuidToUrl,
+    targetUrl,
   } = props;
 
   useEffect(() => {
@@ -54,25 +58,12 @@ export default function LeadLink(props: LeadLinkProps) {
     let url = undefined;
     let target = undefined;
 
-    if (store.id === constants.linioStoreId) {
-      let separator = null;
-      if (entity.external_url.indexOf("?") === -1) {
-        separator = "?";
-      } else {
-        separator = "&";
+    if (targetUrl) {
+      url = targetUrl;
+      if (appendUuidToUrl) {
+        url += "&uuid=" + uuid;
       }
-
-      const deeplinkPath = "cl/" + entity.external_url.split(".cl/")[1];
-      const linioUrlWithUtm = `${entity.external_url}${separator}utm_source=affiliates&utm_medium=hasoffers&utm_campaign=${constants.linioAffiliateId}&aff_sub=`;
-      const go2CloudUrl = `https://linio.go2cloud.org/aff_c?offer_id=18&aff_id=${
-        constants.linioAffiliateId
-      }&url=${encodeURIComponent(linioUrlWithUtm)}`;
-      url = `https://ej28.adj.st/${deeplinkPath}?adjust_t=cz1j0l_5px5hy&adjust_campaign=2900&adjust_deeplink=linio%3A%2F%2F${encodeURIComponent(
-        deeplinkPath
-      )}&adjust_fallback=${encodeURIComponent(
-        go2CloudUrl
-      )}&adjust_redirect=${encodeURIComponent(go2CloudUrl)}`;
-      target = "_top";
+      target = "_blank";
     } else if (store.id === constants.abcdinStoreId) {
       url = `https://ad.soicos.com/-149x?dl=${encodeURIComponent(
         entity.external_url
@@ -87,9 +78,6 @@ export default function LeadLink(props: LeadLinkProps) {
         entity.active_registry!.id
       }${urlSuffix}`;
       target = "_top";
-      // } else if (store.id === constants.ripleyStoreId || store.id === constants.mercadoRipleyStoreId) {
-      //   url = `https://ad.soicos.com/-149I?dl=${encodeURIComponent(entity.external_url)}&trackerID=${soicosPrefix || ''}${entity.active_registry.id}${urlSuffix}`;
-      //   target = '_top'
     } else if (store.id === constants.lenovoChileStoreId) {
       url = `https://ad.soicos.com/-15Dd?dl=${encodeURIComponent(
         entity.external_url
@@ -97,15 +85,6 @@ export default function LeadLink(props: LeadLinkProps) {
         entity.active_registry!.id
       }${urlSuffix}`;
       target = "_top";
-      // } else if (store.id === constants.laPolarStoreId) {
-      //   url = `https://ohmyad.com/redirect/?cid=d41e71430c&url=${encodeURIComponent(entity.external_url)}`
-      //   target = '_top'
-      // } else if (store.id === constants.womStoreId) {
-      //   url = `https://ohmyad.com/redirect/?cid=0ff71c16e6&url=${encodeURIComponent(entity.external_url)}`
-      //   target = '_top'
-      // } else if (store.id === constants.tiendaClaroStoreId) {
-      //   url = `https://ohmyad.com/redirect/?cid=678b9f9f48&url=${encodeURIComponent(entity.external_url)}`
-      //   target = '_top'
     } else if (store.id === constants.reuseStoreId) {
       url = `https://ad.soicos.com/-1i2E?dl=${encodeURIComponent(
         entity.external_url
@@ -113,31 +92,29 @@ export default function LeadLink(props: LeadLinkProps) {
         entity.active_registry!.id
       }${urlSuffix}`;
       target = "_top";
-      // } else if (store.id === constants.hitesStoreId) {
-      //   url = `https://ad.soicos.com/-16ON?dl=${encodeURIComponent('https://www.hites.com/')}&trackerID=${soicosPrefix || ''}${entity.active_registry.id}${urlSuffix}`;
-      //   target = '_top'
+    } else if (store.id === constants.fensaStoreId) {
+      url = `https://ad.soicos.com/-1jF3?dl=${encodeURIComponent(
+        entity.external_url
+      )}&trackerID=${soicosPrefix || ""}${
+        entity.active_registry!.id
+      }${urlSuffix}`;
+      target = "_top";
     } else if (store.id === constants.hpOnlineStoreId) {
       url = `https://www.awin1.com/cread.php?awinmid=15305&awinaffid=641001&clickref=&p=%5B%5B${encodeURIComponent(
         entity.external_url
       )}%5D%5D`;
       target = "_self";
-    } else if (store.id === constants.falabellaStoreId) {
+    } else if (
+      store.id === constants.falabellaStoreId ||
+      store.id === constants.sodimacStoreId ||
+      store.id === constants.tottusStoreId
+    ) {
       url = `https://ad.soicos.com/-1gD6?dl=${encodeURIComponent(
         entity.external_url
       )}&trackerID=${soicosPrefix || ""}${
         entity.active_registry!.id
       }${urlSuffix}`;
       target = "_self";
-      // } else if (store.id === constants.huaweiShopStoreId) {
-      //   url = `https://ad.soicos.com/-1cEy?dl=${encodeURIComponent(entity.external_url)}&trackerID=${soicosPrefix || ''}${entity.active_registry.id}${urlSuffix}`;
-      //   target = '_top'
-    } else if (store.id === constants.tottusStoreId) {
-      url = `https://ad.soicos.com/-1dVX?dl=${encodeURIComponent(
-        entity.external_url
-      )}&trackerID=${soicosPrefix || ""}${
-        entity.active_registry!.id
-      }${urlSuffix}`;
-      target = "_top";
     } else if (
       store.id === constants.entelStoreId ||
       store.id === constants.tiendaEntelStoreId
@@ -148,6 +125,9 @@ export default function LeadLink(props: LeadLinkProps) {
         entity.active_registry!.id
       }${urlSuffix}`;
       target = "_top";
+    } else if (store.id === constants.tiendaOficialLgId) {
+      url = entity.external_url.replace("lg.com", "lgonline.cl");
+      target = "_blank";
     } else {
       url = entity.external_url;
       target = "_blank";
