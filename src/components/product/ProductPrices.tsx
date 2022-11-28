@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Divider,
   FormControl,
   InputLabel,
@@ -50,6 +51,7 @@ export default function ProductPrices({
     useSettings();
   const user = useAppSelector(useUser);
   const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [entities, setEntities] = useState<Entity[]>([]);
   const [ratedStores, setRatedStores] = useState<Record<string, RatedStore>>(
     {}
@@ -66,6 +68,7 @@ export default function ProductPrices({
     for (const store of prefStores) {
       storesUrl += `&stores=${store}`;
     }
+    setLoading(true);
     fetchJson(
       `${constants.apiResourceEndpoints.products}available_entities/?ids=${product.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`,
       { signal: myAbortController.signal }
@@ -146,8 +149,11 @@ export default function ProductPrices({
                   }).value,
                 })),
               });
+            setLoading(false);
           })
-          .catch((_) => {});
+          .catch((_) => {
+            setLoading(false);
+          });
       })
       .catch((_) => {});
     return () => {
@@ -178,6 +184,34 @@ export default function ProductPrices({
       expires: cookiesExpires * 10,
     });
     setOpenModal(false);
+  };
+
+  const entitiesButtons = () => {
+    if (loading && entities.length === 0) {
+      return (
+        <Box textAlign="center" paddingTop={2}>
+          <CircularProgress color="inherit" />
+        </Box>
+      );
+    }
+    if (entities.length > 5) {
+      return (
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={() => setShowMore(!showMore)}
+          sx={{ borderRadius: 4, color: "text.primary" }}
+        >
+          {showMore ? "VER MENOS PRECIOS" : "VER MÁS PRECIOS"}
+        </Button>
+      );
+    } else if (entities.length === 0) {
+      return (
+        <Typography>Este producto no está disponible actualmente</Typography>
+      );
+    } else {
+      return null;
+    }
   };
 
   return (
@@ -219,18 +253,7 @@ export default function ProductPrices({
           )}
       </Stack>
       <Stack direction="column" spacing={1}>
-        {entities.length > 5 ? (
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => setShowMore(!showMore)}
-            sx={{ borderRadius: 4, color: "text.primary" }}
-          >
-            {showMore ? "VER MENOS PRECIOS" : "VER MÁS PRECIOS"}
-          </Button>
-        ) : entities.length === 0 ? (
-          <Typography>Este producto no está disponible actualmente</Typography>
-        ) : null}
+        {entitiesButtons()}
         <Divider />
         {user && user.is_staff && (
           <ProductStaffActionButton product={product} />
