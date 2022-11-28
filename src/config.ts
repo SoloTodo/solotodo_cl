@@ -227,7 +227,9 @@ export const constants = {
   },
   storeOfferPriceLabel: {
     5: "Tarjeta la Polar",
-    9: "Precio CMR",
+    9: "Tarjeta CMR",
+    67: "Tarjeta CMR",
+    170: "Tarjeta CMR",
     11: "Tarjeta Cencosud",
     18: "Tarjeta Ripley",
     30: "Tarjeta Abcdin",
