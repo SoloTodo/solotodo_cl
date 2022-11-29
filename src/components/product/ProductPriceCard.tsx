@@ -56,6 +56,7 @@ export default function ProductPriceCard({
         },
         "&:hover .storeName": {
           color: "common.white",
+          whiteSpace: "break-spaces",
         },
         position: "relative",
       }}
@@ -141,7 +142,11 @@ export default function ProductPriceCard({
                 />
               </Stack>
             )}
-            <Stack direction="row" spacing={{ xs: 1, md: 2 }} justifyContent="space-around">
+            <Stack
+              direction="row"
+              spacing={{ xs: 1, md: 2 }}
+              justifyContent="space-around"
+            >
               <Stack>
                 <Typography
                   variant="h6"
