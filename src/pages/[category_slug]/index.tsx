@@ -263,11 +263,7 @@ export default function Browse({ data }: { data: string }) {
     filterComponents.push(
       <Grid item xs={12} key={fieldset.label}>
         <Accordion sx={{ bgcolor: "transparent" }}>
-          <AccordionSummary
-            id={fieldset.label}
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-          >
+          <AccordionSummary id={fieldset.label} expandIcon={<ExpandMoreIcon />}>
             {fieldset.label}
           </AccordionSummary>
           {fieldFilters.map((f) => f)}
@@ -278,7 +274,7 @@ export default function Browse({ data }: { data: string }) {
   });
 
   const GridFilters = (
-    <Grid container spacing={{ xs: 2, md: 3 }} style={{ overflow: "visible" }}>
+    <Grid container spacing={{ xs: 2, md: 3 }} style={{ width: "100%" }}>
       <Grid item xs={12}>
         <Stack
           direction="row"
