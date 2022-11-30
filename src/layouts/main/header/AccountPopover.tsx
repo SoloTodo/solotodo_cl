@@ -140,12 +140,21 @@ export default function AccountPopover() {
         {user && user.email !== undefined ? (
           <>
             <Box sx={{ my: 1.5, px: 2.5 }}>
-              <Typography variant="subtitle2" noWrap>
-                {`${user.first_name} ${user.last_name}`}
-              </Typography>
+              {user.first_name && user.last_name && (
+                <Typography variant="subtitle2" noWrap>
+                  {`${user.first_name} ${user.last_name}`}
+                </Typography>
+              )}
               <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
+                variant={
+                  user.first_name && user.last_name ? "body2" : "subtitle2"
+                }
+                sx={{
+                  color:
+                    user.first_name && user.last_name
+                      ? "text.secondary"
+                      : "text.primary",
+                }}
                 noWrap
               >
                 {user.email}
