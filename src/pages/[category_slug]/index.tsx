@@ -339,7 +339,7 @@ export default function Browse({ data }: { data: string }) {
   };
 
   useGtag3({ category: category.name });
-  useGtag4({ category: category.name });
+  useGtag4({ category: category.name, categoryId: category.id.toString() });
   return (
     <Page title={category.name}>
       <TopBanner category={category.name} />
@@ -437,9 +437,9 @@ export default function Browse({ data }: { data: string }) {
             PaperProps={{ sx: { backgroundColor: "transparent" } }}
           >
             <Box
-              pt={{
-                xs: `${HEADER.DASHBOARD_DESKTOP_HEIGHT + 28}px`,
-                md: `${HEADER.DASHBOARD_DESKTOP_HEIGHT}px`,
+               pt={{
+                xs: `${HEADER.DASHBOARD_DESKTOP_HEIGHT}px`,
+                md: `${HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT}px`,
               }}
               bgcolor="transparent"
             />
@@ -447,11 +447,12 @@ export default function Browse({ data }: { data: string }) {
               width={{ xs: 300, md: 500 }}
               bgcolor={isLight ? "background.default" : "background.paper"}
               padding={2}
+              overflow="auto"
             >
               {GridFilters}
             </Box>
             <Box
-              height="100%"
+              flexGrow={1}
               bgcolor={isLight ? "background.default" : "background.paper"}
             />
           </Drawer>

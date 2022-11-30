@@ -21,10 +21,10 @@ const MainStyle = styled("main", {
   shouldForwardProp: (prop) => prop !== "collapseClick",
 })<MainStyleProps>(({ collapseClick, theme }) => ({
   flexGrow: 1,
-  paddingTop: HEADER.MOBILE_HEIGHT + 16,
+  paddingTop: HEADER.MOBILE_HEIGHT - 24,
   paddingBottom: HEADER.MOBILE_HEIGHT + 24,
   [theme.breakpoints.up("md")]: {
-    paddingTop: HEADER.MOBILE_HEIGHT,
+    paddingTop: HEADER.MOBILE_HEIGHT - 16,
   },
   [theme.breakpoints.up("lg")]: {
     paddingLeft: 16,
