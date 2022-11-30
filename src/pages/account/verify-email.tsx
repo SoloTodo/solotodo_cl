@@ -48,7 +48,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       context.res.end();
     }
 
-    if (response["detail"] === "Ok") {
+    if (response["detail"].toUpperCase() === "OK") {
       context.res.writeHead(302, {
         Location: "/login?post_verify=1",
       });
