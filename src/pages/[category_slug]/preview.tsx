@@ -54,7 +54,7 @@ export default function CategoryPreview({
   };
 
   useGtag3({ category: category.name });
-  useGtag4({ category: category.name });
+  useGtag4({ category: category.name, categoryId: category.id.toString() });
   return (
     <Page title={category.name}>
       <Container>

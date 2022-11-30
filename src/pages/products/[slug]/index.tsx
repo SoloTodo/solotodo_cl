@@ -31,7 +31,9 @@ export default function ProductPage({ product }: { product: Product }) {
 
   const params = {
     category: category.name,
+    categoryId: category.id.toString(),
     product: product.name,
+    productId: product.id.toString(),
   };
   useGtag3(params);
   useGtag4(params);

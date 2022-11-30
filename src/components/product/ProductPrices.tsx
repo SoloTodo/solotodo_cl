@@ -148,6 +148,7 @@ export default function ProductPrices({
                     precision: 0,
                   }).value,
                 })),
+                send_to: constants.GA4Id,
               });
             setLoading(false);
           })

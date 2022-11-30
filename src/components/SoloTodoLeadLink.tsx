@@ -52,6 +52,7 @@ export default function SoloTodoLeadLink(props: SoloTodoLeadLinkProps) {
         event_category: "Lead",
         event_label: uuid,
         value: price,
+        send_to: constants.GA3Id,
       });
       const params = {
         // page_location: `${constants.domain}${router.asPath}`,
@@ -62,6 +63,7 @@ export default function SoloTodoLeadLink(props: SoloTodoLeadLinkProps) {
         category_id: category.id,
         retailer: storeEntry.name,
         retailer_id: storeEntry.id,
+        entity_id: entity.id,
         seller: entity.seller,
         condition: entity.condition,
         sku: entity.sku,
@@ -69,7 +71,11 @@ export default function SoloTodoLeadLink(props: SoloTodoLeadLinkProps) {
         send_to: constants.GA4Id,
       };
       win.gtag("event", "click", params);
-      win.gtag("event", "generate_lead", params);
+      win.gtag("event", "generate_lead", {
+        ...params,
+        value: price,
+        currency: "CLP",
+      });
     }
   };
 
