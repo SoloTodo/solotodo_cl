@@ -162,7 +162,7 @@ export default function AccountPopover() {
             </Box>
             <Divider sx={{ borderStyle: "dashed" }} />
 
-            <Stack sx={{ p: 1 }}>
+            <Stack sx={{ p: 1, maxHeight: 200, overflow: "scroll" }}>
               {user.budgets.map((b) => (
                 <NextLink
                   key={b.name}
@@ -172,10 +172,9 @@ export default function AccountPopover() {
                   <MenuItem onClick={() => handleClose()}>{b.name}</MenuItem>
                 </NextLink>
               ))}
-              <MenuItem
-                key={"newCotizacion"}
-                onClick={() => setOpenModal(true)}
-              >
+            </Stack>
+            <Stack sx={{ p: 1 }}>
+              <MenuItem onClick={() => setOpenModal(true)}>
                 <b>Nueva Cotización</b>
               </MenuItem>
             </Stack>
