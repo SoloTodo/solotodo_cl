@@ -42,11 +42,7 @@ export default function ChangePassword() {
   const ChangePassWordSchema = Yup.object().shape({
     old_password: Yup.string().required("Contraseña antigua requerida"),
     new_password1: Yup.string()
-      .required("Nueva contraseña requerida")
-      .min(8, "La contraseña debe tener un largo mínimo de 8 caracteres")
-      .matches(/^(?=.*[A-Z])/, "Debe contener al menos una mayúscula")
-      .matches(/^(?=.*[0-9])/, "Debe contener al menos un número")
-      .matches(/^(?=.*[!@#%&])/, "Debe contener al menos un símbolo"),
+      .required("Nueva contraseña requerida"),
     new_password2: Yup.string().oneOf(
       [Yup.ref("new_password1"), null],
       "Nueva contraseña debe coincidir"
