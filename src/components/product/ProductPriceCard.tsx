@@ -104,26 +104,28 @@ export default function ProductPriceCard({
         product={entity.product as InLineProduct}
         buttonType={true}
       >
-        <Box
-          className="box"
-          sx={{
-            bgcolor: isLight ? "#F2F2F2" : "rgba(196, 196, 196, 0.3)",
-            p: 0.8,
-            borderEndEndRadius: 10,
-            display: "inline-block",
-            maxWidth: "55%",
-          }}
-        >
-          <Typography
-            className="storeName"
-            fontWeight={400}
-            color="text.extra"
-            noWrap
+        <Stack alignItems="start">
+          <Box
+            className="box"
+            sx={{
+              bgcolor: isLight ? "#F2F2F2" : "rgba(196, 196, 196, 0.3)",
+              p: 0.8,
+              borderEndEndRadius: 10,
+              display: "inline-block",
+              maxWidth: "55%",
+            }}
           >
-            {store.name}
-            {entity.seller ? ` | ${entity.seller}` : null}
-          </Typography>
-        </Box>
+            <Typography
+              className="storeName"
+              fontWeight={400}
+              color="text.extra"
+              noWrap
+            >
+              {store.name}
+              {entity.seller ? ` | ${entity.seller}` : null}
+            </Typography>
+          </Box>
+        </Stack>
 
         <CardContent style={{ padding: 8 }}>
           <Stack spacing={0.5}>
