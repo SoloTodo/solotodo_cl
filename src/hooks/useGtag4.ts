@@ -34,7 +34,6 @@ export const useGtag4 = (props: Props) => {
         precio: props.offerPrice,
         send_to: constants.GA4Id,
       };
-
       (window as any).gtag("event", "page_view", params);
     };
 
@@ -44,5 +43,17 @@ export const useGtag4 = (props: Props) => {
     return () => {
       router.events.off("routeChangeComplete", addEvent);
     };
-  }, [props, router.asPath, router.events]);
+  }, [
+    props.category,
+    props.categoryId,
+    props.condition,
+    props.offerPrice,
+    props.product,
+    props.productId,
+    props.seller,
+    props.store,
+    props.storeId,
+    router.asPath,
+    router.events,
+  ]);
 };
