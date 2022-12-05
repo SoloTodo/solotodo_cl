@@ -333,6 +333,7 @@ export default function Browse({ data }: { data: string }) {
           }).value,
         };
       }),
+      send_to: constants.GA4Id,
     };
     typeof window !== "undefined" &&
       (window as any).gtag("event", "view_item_list", params);
