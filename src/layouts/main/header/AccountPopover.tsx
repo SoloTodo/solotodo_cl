@@ -162,17 +162,19 @@ export default function AccountPopover() {
             </Box>
             <Divider sx={{ borderStyle: "dashed" }} />
 
-            <Stack sx={{ p: 1, maxHeight: 200, overflow: "scroll" }}>
-              {user.budgets.map((b) => (
-                <NextLink
-                  key={b.name}
-                  href={`${PATH_MAIN.budgets}/${b.id}/edit`}
-                  passHref
-                >
-                  <MenuItem onClick={() => handleClose()}>{b.name}</MenuItem>
-                </NextLink>
-              ))}
-            </Stack>
+            {user.budgets.length !== 0 && (
+              <Stack sx={{ p: 1, maxHeight: 200, overflow: "scroll" }}>
+                {user.budgets.map((b) => (
+                  <NextLink
+                    key={b.name}
+                    href={`${PATH_MAIN.budgets}/${b.id}/edit`}
+                    passHref
+                  >
+                    <MenuItem onClick={() => handleClose()}>{b.name}</MenuItem>
+                  </NextLink>
+                ))}
+              </Stack>
+            )}
             <Stack sx={{ p: 1 }}>
               <MenuItem onClick={() => setOpenModal(true)}>
                 <b>Nueva Cotización</b>
