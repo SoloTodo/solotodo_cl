@@ -19,41 +19,20 @@ export const useGtag4 = (props: Props) => {
   const router = useRouter();
 
   useEffect(() => {
-    const addEvent = () => {
-      const params = {
-        page_location: `${constants.domain}${router.asPath}`,
-        page_path: router.asPath,
-        product: props.product,
-        product_id: props.productId,
-        category: props.category,
-        category_id: props.categoryId,
-        retailer: props.store,
-        retailer_id: props.storeId,
-        seller: props.seller,
-        condition: props.condition,
-        precio: props.offerPrice,
-        send_to: constants.GA4Id,
-      };
-      (window as any).gtag("event", "page_view", params);
+    const params = {
+      page_location: `${constants.domain}${router.asPath}`,
+      page_path: router.asPath,
+      product: props.product,
+      product_id: props.productId,
+      category: props.category,
+      category_id: props.categoryId,
+      retailer: props.store,
+      retailer_id: props.storeId,
+      seller: props.seller,
+      condition: props.condition,
+      precio: props.offerPrice,
+      send_to: constants.GA4Id,
     };
-
-    if (window.history.state.idx === 0) addEvent();
-
-    router.events.on("routeChangeComplete", addEvent);
-    return () => {
-      router.events.off("routeChangeComplete", addEvent);
-    };
-  }, [
-    props.category,
-    props.categoryId,
-    props.condition,
-    props.offerPrice,
-    props.product,
-    props.productId,
-    props.seller,
-    props.store,
-    props.storeId,
-    router.asPath,
-    router.events,
-  ]);
+    (window as any).gtag("event", "page_view", params);
+  }, [router.asPath]);
 };
