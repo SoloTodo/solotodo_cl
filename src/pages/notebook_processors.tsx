@@ -13,53 +13,28 @@ import Page from "src/components/Page";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import { PATH_MAIN } from "src/routes/paths";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useState } from "react";
 import TopBanner from "src/components/TopBanner";
 import ProductsRowGrid from "src/components/product/ProductsRowGrid";
 import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
+import { GetServerSideProps } from "next/types";
 
 type Processor = {
   id: number;
   unicode: string;
 };
 
-export default function NotebookProcessors() {
-  const router = useRouter();
-  const [page, setPage] = useState(0);
-  const [processorList, setProcessorList] = useState<Processor[]>([]);
-  const [matchingProcessor, setMatchingProcessor] = useState<Processor | null>(
-    null
-  );
-
-  useEffect(() => {
-    fetchJson(`${constants.endpoint}notebook_processors/`).then(
-      (processorList) => {
-        processorList.sort(
-          (a: { [x: string]: number }, b: { [x: string]: number }) =>
-            b["speed_score"] - a["speed_score"]
-        );
-
-        processorList = processorList.map((processor: any, idx: number) => ({
-          ...processor,
-          idx,
-        }));
-        setProcessorList(processorList);
-
-        const matchingProcessor = processorList.filter(
-          (processor: { id: number }) =>
-            processor.id.toString() === router.query?.id
-        )[0];
-        let page = 0;
-        if (matchingProcessor) {
-          page = Math.floor(matchingProcessor.idx / 15);
-          setPage(page);
-          setMatchingProcessor(matchingProcessor);
-        }
-      }
-    );
-  }, [router.query?.id]);
+export default function NotebookProcessors({
+  processorList,
+  matchingProcessor,
+  initialPage,
+}: {
+  processorList: Processor[];
+  matchingProcessor: Processor | null;
+  initialPage: number;
+}) {
+  const [page, setPage] = useState(initialPage);
 
   const columns: GridColDef[] = [
     {
@@ -146,7 +121,7 @@ export default function NotebookProcessors() {
               <ProductsRowGrid
                 title="Notebooks con el procesador"
                 url={`categories/1/browse?page_size=3&ordering=offer_price_usd&processors=${matchingProcessor.id}`}
-                sliceValue={2}
+                sliceValue={8}
                 actionHref={`/notebooks/?processors=${matchingProcessor.id}`}
               />
             )}
@@ -156,3 +131,42 @@ export default function NotebookProcessors() {
     </Page>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  try {
+    let processorList = await fetchJson(
+      `${constants.endpoint}notebook_processors/`
+    );
+    processorList.sort(
+      (a: { [x: string]: number }, b: { [x: string]: number }) =>
+        b["speed_score"] - a["speed_score"]
+    );
+
+    processorList = processorList.map((processor: any, idx: number) => ({
+      ...processor,
+      idx,
+    }));
+
+    const matchingProcessor =
+      processorList.filter(
+        (processor: { id: number }) =>
+          processor.id.toString() === context.query?.id
+      )[0] || null;
+    let initialPage = 0;
+    if (matchingProcessor) {
+      initialPage = Math.floor(matchingProcessor.idx / 15);
+    }
+
+    return {
+      props: {
+        processorList: processorList,
+        matchingProcessor: matchingProcessor,
+        initialPage: initialPage,
+      },
+    };
+  } catch {
+    return {
+      notFound: true,
+    };
+  }
+};

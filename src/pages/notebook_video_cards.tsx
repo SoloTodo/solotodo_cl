@@ -13,12 +13,12 @@ import Page from "src/components/Page";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import { PATH_MAIN } from "src/routes/paths";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useState } from "react";
 import TopBanner from "src/components/TopBanner";
 import ProductsRowGrid from "src/components/product/ProductsRowGrid";
 import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
+import { GetServerSideProps } from "next/types";
 
 type VideoCard = {
   brand_unicode: string;
@@ -43,41 +43,16 @@ type VideoCard = {
   unicode: string;
 };
 
-export default function NotebookVideoCards() {
-  const router = useRouter();
-  const [page, setPage] = useState(0);
-  const [videoCardList, setVideoCardList] = useState<VideoCard[]>([]);
-  const [matchingVideoCard, setMatchingVideoCard] = useState<VideoCard | null>(
-    null
-  );
-
-  useEffect(() => {
-    fetchJson(`${constants.endpoint}notebook_video_cards/`).then(
-      (videoCardList) => {
-        videoCardList.sort(
-          (a: { [x: string]: number }, b: { [x: string]: number }) =>
-            b["speed_score"] - a["speed_score"]
-        );
-
-        videoCardList = videoCardList.map((videoCard: any, idx: number) => ({
-          ...videoCard,
-          idx,
-        }));
-        setVideoCardList(videoCardList);
-
-        const matchingVideoCard = videoCardList.filter(
-          (videoCard: { id: number }) =>
-            videoCard.id.toString() === router.query?.id
-        )[0];
-        let page = 0;
-        if (matchingVideoCard) {
-          page = Math.floor(matchingVideoCard.idx / 15);
-          setPage(page);
-          setMatchingVideoCard(matchingVideoCard);
-        }
-      }
-    );
-  }, [router.query?.id]);
+export default function NotebookVideoCards({
+  videoCardList,
+  matchingVideoCard,
+  initialPage,
+}: {
+  videoCardList: VideoCard[];
+  matchingVideoCard: VideoCard | null;
+  initialPage: number;
+}) {
+  const [page, setPage] = useState(initialPage);
 
   const columns: GridColDef[] = [
     {
@@ -163,7 +138,7 @@ export default function NotebookVideoCards() {
               <ProductsRowGrid
                 title="Notebooks con la tarjeta de video"
                 url={`categories/1/browse?page_size=3&ordering=offer_price_usd&video_cards=${matchingVideoCard.id}`}
-                sliceValue={2}
+                sliceValue={8}
                 actionHref={`/notebooks/?video_cards=${matchingVideoCard.id}`}
               />
             )}
@@ -173,3 +148,42 @@ export default function NotebookVideoCards() {
     </Page>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  try {
+    let videoCardList = await fetchJson(
+      `${constants.endpoint}notebook_video_cards/`
+    );
+    videoCardList.sort(
+      (a: { [x: string]: number }, b: { [x: string]: number }) =>
+        b["speed_score"] - a["speed_score"]
+    );
+
+    videoCardList = videoCardList.map((videoCard: any, idx: number) => ({
+      ...videoCard,
+      idx,
+    }));
+
+    const matchingVideoCard =
+      videoCardList.filter(
+        (videoCard: { id: number }) =>
+          videoCard.id.toString() === context.query?.id
+      )[0] || null;
+    let initialPage = 0;
+    if (matchingVideoCard) {
+      initialPage = Math.floor(matchingVideoCard.idx / 15);
+    }
+
+    return {
+      props: {
+        videoCardList: videoCardList,
+        matchingVideoCard: matchingVideoCard,
+        initialPage: initialPage,
+      },
+    };
+  } catch {
+    return {
+      notFound: true,
+    };
+  }
+};
