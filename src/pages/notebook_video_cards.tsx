@@ -110,7 +110,11 @@ export default function NotebookVideoCards() {
   }
 
   useGtag3({});
-  useGtag4({});
+  useGtag4({
+    pageTitle: matchingVideoCard
+      ? `${matchingVideoCard.unicode} | Tarjetas de video de notebooks`
+      : "Tarjetas de video de notebooks",
+  });
   return (
     <Page
       title={

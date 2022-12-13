@@ -82,7 +82,7 @@ export default function Contacto() {
   };
 
   useGtag3({});
-  useGtag4({});
+  useGtag4({ pageTitle: "Contacto" });
   return (
     <Page title="Contacto">
       <Container>

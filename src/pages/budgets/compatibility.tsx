@@ -7,9 +7,9 @@ import { useGtag4 } from "src/hooks/useGtag4";
 
 export default function Compatibility() {
   useGtag3({});
-  useGtag4({});
+  useGtag4({ pageTitle: "Chequeo automático de compatibilidad" });
   return (
-    <Page title="Cotiza y compara los precios de todas las tiendas">
+    <Page title="Chequeo automático de compatibilidad">
       <Container>
         <Box margin="auto" width={{ xs: "100%", md: "70%" }}>
           <Typography gutterBottom variant="h3">

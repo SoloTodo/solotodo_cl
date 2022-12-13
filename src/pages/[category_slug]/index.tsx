@@ -310,8 +310,9 @@ export default function Browse({ data }: { data: string }) {
 
   const onResultsChange = (currentResult: { results: ProductsData[] }) => {
     const params = {
-      category: category?.name,
-      category_id: category?.id.toString(),
+      page_title: `${category.name} | SoloTodo`,
+      category: category.name,
+      category_id: category.id.toString(),
       items: currentResult.results.map((r, index) => {
         const { product_entries } = r;
         const { product, metadata } = product_entries[0];
@@ -340,7 +341,11 @@ export default function Browse({ data }: { data: string }) {
   };
 
   useGtag3({ category: category.name });
-  useGtag4({ category: category.name, categoryId: category.id.toString() });
+  useGtag4({
+    pageTitle: category.name,
+    category: category.name,
+    categoryId: category.id.toString(),
+  });
   return (
     <Page title={category.name}>
       <TopBanner category={category.name} />

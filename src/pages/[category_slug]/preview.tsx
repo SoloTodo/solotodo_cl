@@ -54,7 +54,11 @@ export default function CategoryPreview({
   };
 
   useGtag3({ category: category.name });
-  useGtag4({ category: category.name, categoryId: category.id.toString() });
+  useGtag4({
+    pageTitle: category.name,
+    category: category.name,
+    categoryId: category.id.toString(),
+  });
   return (
     <Page title={category.name}>
       <Container>
@@ -63,7 +67,12 @@ export default function CategoryPreview({
           {recentSlides.length !== 0 && "Lo más reciente"}
         </Typography>
         <RecentSlidesRow recentSlides={recentSlides} />
-        <Typography variant="h3" component="h1" color="text.subtitle" gutterBottom>
+        <Typography
+          variant="h3"
+          component="h1"
+          color="text.subtitle"
+          gutterBottom
+        >
           {category.name}
         </Typography>
         <CategorySlidesRow

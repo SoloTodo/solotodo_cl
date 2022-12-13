@@ -69,7 +69,7 @@ export default function Search() {
   ];
 
   useGtag3({});
-  useGtag4({});
+  useGtag4({ pageTitle: "Búsqueda" });
   return (
     <Page title="Búsqueda">
       <Container>

@@ -36,7 +36,7 @@ export default function ProductPage({ product }: { product: Product }) {
     productId: product.id.toString(),
   };
   useGtag3(params);
-  useGtag4(params);
+  useGtag4({ ...params, pageTitle: product.name });
   return (
     <Page title={product.name}>
       <Container>

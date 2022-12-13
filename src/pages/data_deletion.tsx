@@ -82,7 +82,7 @@ export default function DataDeletion() {
   };
 
   useGtag3({});
-  useGtag4({});
+  useGtag4({ pageTitle: "Eliminación de cuenta / datos" });
   return (
     <Page title="Eliminación de cuenta / datos">
       <Container>

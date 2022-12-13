@@ -29,7 +29,7 @@ const Home = (props: HomeProps) => {
     ];
 
   useGtag3({});
-  useGtag4({});
+  useGtag4({ pageTitle: "Cotiza y compara los precios de todas las tiendas" });
   return (
     <Page title="Cotiza y compara los precios de todas las tiendas">
       <Container>
@@ -45,7 +45,12 @@ const Home = (props: HomeProps) => {
           ribbonFormatter={(value: string) => `${parseInt(value, 10)} visitas`}
           actionHref={`/search?ordering=leads`}
         />
-        <Typography variant="h3" component="h1" color="text.subtitle" gutterBottom>
+        <Typography
+          variant="h3"
+          component="h1"
+          color="text.subtitle"
+          gutterBottom
+        >
           Categorías populares
         </Typography>
         <CategorySlidesRow categorySlides={categorySlides} />

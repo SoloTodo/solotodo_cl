@@ -61,7 +61,7 @@ export default function LegalInformation() {
   }, [router.query.tab]);
 
   useGtag3({});
-  useGtag4({});
+  useGtag4({ pageTitle: "Información legal" });
   return (
     <Page title="Información legal">
       <Container>

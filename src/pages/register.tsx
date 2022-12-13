@@ -135,7 +135,7 @@ export default function Register() {
   };
 
   useGtag3({});
-  useGtag4({});
+  useGtag4({ pageTitle: "Crea tu cuenta" });
   return (
     <Page title="Crea tu cuenta">
       <Container>

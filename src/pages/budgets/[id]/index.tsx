@@ -32,9 +32,9 @@ export default function BudgetView({ budget }: { budget: Budget }) {
   }
 
   useGtag3({});
-  useGtag4({});
+  useGtag4({ pageTitle: budget.name });
   return (
-    <Page title="Cotización">
+    <Page title={budget.name}>
       <Container>
         <TopBanner category="Hardware" />
         <HeaderBreadcrumbs

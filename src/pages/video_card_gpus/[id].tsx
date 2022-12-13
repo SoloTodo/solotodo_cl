@@ -78,7 +78,7 @@ const Title = ({ children }: { children: ReactNode }) => (
 
 export default function VideoCardGpus({ gpu }: { gpu: Gpu }) {
   useGtag3({});
-  useGtag4({});
+  useGtag4({ pageTitle: gpu.unicode });
   return (
     <Page title={gpu.unicode}>
       <Container>

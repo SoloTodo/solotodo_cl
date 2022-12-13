@@ -93,7 +93,11 @@ export default function NotebookProcessors() {
   }
 
   useGtag3({});
-  useGtag4({});
+  useGtag4({
+    pageTitle: matchingProcessor
+      ? `${matchingProcessor.unicode} | Procesadores de notebooks`
+      : "Procesadores de notebooks",
+  });
   return (
     <Page
       title={

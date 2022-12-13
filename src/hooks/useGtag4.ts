@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { constants } from "src/config";
 
 type Props = {
+  pageTitle?: string;
   product?: string;
   productId?: string;
   category?: string;
@@ -21,6 +22,7 @@ export const useGtag4 = (props: Props) => {
 
   useEffect(() => {
     const params = {
+      page_title: `${props.pageTitle} | SoloTodo`,
       page_location: `${constants.domain}${router.asPath}`,
       page_path: router.asPath,
       product: props.product,

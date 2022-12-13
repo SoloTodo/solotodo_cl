@@ -86,11 +86,11 @@ export default function BudgetEdit({
   });
 
   useGtag3({});
-  useGtag4({});
+  useGtag4({ pageTitle: budget.name });
   return (
-    <Page title="Cotización">
+    <Page title={`${budget.name} | Editar`}>
       <Container>
-      <TopBanner category="Hardware" />
+        <TopBanner category="Hardware" />
         <HeaderBreadcrumbs
           heading=""
           links={[

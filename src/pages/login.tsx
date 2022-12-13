@@ -160,7 +160,7 @@ export default function Login() {
   };
 
   useGtag3({});
-  useGtag4({});
+  useGtag4({ pageTitle: "Iniciar Sesión" });
   return (
     <Page title="Iniciar Sesión">
       <Container>
