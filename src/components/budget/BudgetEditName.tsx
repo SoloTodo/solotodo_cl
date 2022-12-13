@@ -71,7 +71,7 @@ export default function BudgetEditName({
                 color="success"
                 onClick={handleSubmit}
               >
-                Agregar
+                Guardar
               </Button>
             </Stack>
           </Stack>
