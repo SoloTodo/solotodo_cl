@@ -39,7 +39,7 @@ export default function MainFooter() {
           href: `${PATH_MAIN.legal_information}?tab=1`,
         },
         {
-          name: "Sobre nosotros",
+          name: "Política de privacidad",
           href: `${PATH_MAIN.legal_information}?tab=2`,
         },
       ],
@@ -48,8 +48,6 @@ export default function MainFooter() {
       headline: "Contacto",
       children: [
         { name: "Formulario web", href: PATH_MAIN.contacto },
-        // { name: "support@minimals.cc", href: "#" },
-        // { name: "Los Angeles, 359  Hidden Valley Road", href: "#" },
       ],
     },
   ];
