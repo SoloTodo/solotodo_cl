@@ -26,7 +26,7 @@ export default function BudgetScreenshotButton({ budget }: { budget: Budget }) {
 
   const exportToImage = () => {
     const url = `budgets/${budget.id}/export/?export_format=img`;
-
+    setExportedImageUrl("");
     toggleExportedImageModal();
 
     fetchAuth(null, url).then((response) => {
