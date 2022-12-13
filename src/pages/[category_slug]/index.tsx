@@ -438,7 +438,7 @@ export default function Browse({ data }: { data: string }) {
             PaperProps={{ sx: { backgroundColor: "transparent" } }}
           >
             <Box
-               pt={{
+              pt={{
                 xs: `${HEADER.DASHBOARD_DESKTOP_HEIGHT}px`,
                 md: `${HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT}px`,
               }}
