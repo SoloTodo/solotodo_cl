@@ -311,7 +311,7 @@ export default function Browse({ data }: { data: string }) {
   const onResultsChange = (currentResult: { results: ProductsData[] }) => {
     const params = {
       category: category?.name,
-      categoryId: category?.id.toString(),
+      category_id: category?.id.toString(),
       items: currentResult.results.map((r, index) => {
         const { product_entries } = r;
         const { product, metadata } = product_entries[0];
