@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 // @mui
 import { styled } from "@mui/material/styles";
 import { Box, Stack } from "@mui/material";
@@ -6,10 +6,11 @@ import { Box, Stack } from "@mui/material";
 import useSettings from "../../hooks/useSettings";
 import useCollapseDrawer from "../../hooks/useCollapseDrawer";
 // config
-import { HEADER, NAVBAR } from "../../config";
+import { cookiesKey, HEADER, NAVBAR } from "../../config";
 //
 import MainHeader from "./header";
 import MainFooter from "./footer";
+import Cookies from "js-cookie";
 
 // ----------------------------------------------------------------------
 
@@ -50,9 +51,18 @@ type Props = {
 export default function DashboardLayout({ children }: Props) {
   const { collapseClick, isCollapse } = useCollapseDrawer();
 
-  const { themeLayout } = useSettings();
+  const { themeLayout, themeMode, onToggleMode } = useSettings();
 
   const verticalLayout = themeLayout === "vertical";
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && !Cookies.get(cookiesKey.themeMode)) {
+      const mediaQuery = "(prefers-color-scheme: dark)";
+      const mql = window.matchMedia(mediaQuery);
+      mql.matches && themeMode === "light" && onToggleMode();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (verticalLayout) {
     return (
