@@ -16,7 +16,10 @@ import {
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import Page from "src/components/Page";
 import { constants, HEADER } from "src/config";
-import { ApiFormFieldMetadata } from "src/frontend-utils/api_form/ApiForm";
+import {
+  ApiForm,
+  ApiFormFieldMetadata,
+} from "src/frontend-utils/api_form/ApiForm";
 import ApiFormComponent from "src/frontend-utils/api_form/ApiFormComponent";
 import ApiFormSelectComponent from "src/frontend-utils/api_form/fields/select/ApiFormSelectComponent";
 import ApiFormSliderComponent from "src/frontend-utils/api_form/fields/slider/ApiFormSliderComponent";
@@ -87,6 +90,7 @@ type PropTypes = {
   categorySpecsFormLayout: CategorySpecsFormLayoutProps;
   initialData: string;
   initialResult: any;
+  fieldsMetadata: ApiFormFieldMetadata[];
 };
 
 // ----------------------------------------------------------------------
@@ -101,6 +105,7 @@ export default function Browse({ data }: { data: string }) {
     categorySpecsFormLayout,
     initialData,
     initialResult,
+    fieldsMetadata,
   }: PropTypes = JSON.parse(stringProps);
 
   const { prefExcludeRefurbished, prefStores } = useSettings();
@@ -113,61 +118,6 @@ export default function Browse({ data }: { data: string }) {
   for (const store of prefStores) {
     storesUrl += `&stores=${store}`;
   }
-
-  const fieldsMetadata: ApiFormFieldMetadata[] = [
-    {
-      fieldType: "pagination" as "pagination",
-    },
-    {
-      fieldType: "text" as "text",
-      name: "search",
-    },
-    {
-      fieldType: "price_range" as "price_range",
-      name: "offer_price_usd",
-    },
-    {
-      fieldType: "select" as "select",
-      name: "ordering",
-      choices: [
-        {
-          value: "offer_price_usd",
-          label: "Precio",
-        },
-        {
-          value: "leads",
-          label: "Popularidad",
-        },
-        {
-          value: "discount",
-          label: "Descuento",
-        },
-        ...categorySpecsFormLayout.orders.reduce((acc, o) => {
-          if (o.suggested_use === "ascending") {
-            acc.push({
-              value: o.name,
-              label: o.label,
-            });
-          } else if (o.suggested_use === "descending") {
-            acc.push({
-              value: `-${o.name}`,
-              label: o.label,
-            });
-          } else if (o.suggested_use === "both") {
-            acc.push({
-              value: o.name,
-              label: `${o.label} (menor a mayor)`,
-            });
-            acc.push({
-              value: `-${o.name}`,
-              label: `${o.label} (mayor a menor)`,
-            });
-          }
-          return acc;
-        }, []),
-      ],
-    },
-  ];
 
   const filterComponents: JSX.Element[] = [];
 
@@ -191,24 +141,12 @@ export default function Browse({ data }: { data: string }) {
         filterChoices = filterChoices || [];
       }
       if (filter.name === "grocery_categories") {
-        fieldsMetadata.push({
-          fieldType: "tree" as "tree",
-          name: filter.name,
-          multiple: false,
-          choices: filterChoices,
-        });
         fieldFilters.push(
           <AccordionDetails key={filter.id}>
             <ApiFormTreeComponent name={filter.name} label={filter.label} />
           </AccordionDetails>
         );
       } else if (filter.type === "exact") {
-        fieldsMetadata.push({
-          fieldType: "select" as "select",
-          name: filter.name,
-          multiple: Boolean(filter.choices),
-          choices: filterChoices,
-        });
         fieldFilters.push(
           <AccordionDetails key={filter.id}>
             <ApiFormSelectComponent
@@ -221,38 +159,12 @@ export default function Browse({ data }: { data: string }) {
       } else if (filter.type === "gte" || filter.type === "lte") {
         const fullName =
           filter.type === "gte" ? `${filter.name}_min` : `${filter.name}_max`;
-        fieldsMetadata.push({
-          fieldType: "select" as "select",
-          name: fullName,
-          multiple: false,
-          choices: filterChoices,
-        });
         fieldFilters.push(
           <AccordionDetails key={filter.id}>
             <ApiFormSelectComponent name={fullName} label={filter.label} />
           </AccordionDetails>
         );
       } else if (filter.type === "range") {
-        if (
-          filter.continuous_range_step !== null &&
-          filter.continuous_range_unit !== null
-        ) {
-          fieldsMetadata.push({
-            fieldType: "slider" as "slider",
-            name: filter.name,
-            step: filter.continuous_range_step,
-            unit: filter.continuous_range_unit,
-            choices: [],
-          });
-        } else {
-          fieldsMetadata.push({
-            fieldType: "slider" as "slider",
-            name: filter.name,
-            step: null,
-            unit: null,
-            choices: filterChoices.map((c) => ({ ...c, index: c.value })),
-          });
-        }
         fieldFilters.push(
           <AccordionDetails key={filter.id}>
             <ApiFormSliderComponent name={filter.name} label={filter.label} />
@@ -518,43 +430,151 @@ export const getServerSideProps = wrapper.getServerSideProps(
         const response = await fetchJson(
           `${constants.apiResourceEndpoints.category_specs_form_layouts}?category=${category.id}`
         );
-        let categorySpecsFormLayout = response[0];
-        response.forEach((res: { website: string }) => {
+        let categorySpecsFormLayout: CategorySpecsFormLayoutProps = response[0];
+        response.forEach((res: CategorySpecsFormLayoutProps) => {
           if (
             res.website ==
             `${constants.apiResourceEndpoints.websites}${constants.websiteId}/`
           )
             categorySpecsFormLayout = res;
         });
-        const queries: Record<string, string | string[]> = {
-          page_size: "20",
-          ...context.query,
-        };
-        delete queries.category_slug;
-        let queriesUrl = "";
-        let apiUrl = "";
-        for (const q of Object.keys(queries)) {
-          let apiQ = q;
-          if (apiQ.endsWith("_start")) apiQ = apiQ.replace("_start", "_min");
-          if (apiQ.endsWith("_end")) apiQ = apiQ.replace("_end", "_max");
-          if (Array.isArray(queries[q])) {
-            (queries[q] as string[]).map((v: string) => {
-              queriesUrl += `&${q}=${v}`;
-              apiUrl += `&${apiQ}=${v}`;
-            });
-          } else {
-            queriesUrl += `&${q}=${queries[q]}`;
-            apiUrl += `&${apiQ}=${queries[q]}`;
-          }
-        }
-        const results = await fetchJson(
-          `${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}${apiUrl}`
+
+        const fieldsMetadata: ApiFormFieldMetadata[] = [
+          {
+            fieldType: "pagination" as "pagination",
+          },
+          {
+            fieldType: "text" as "text",
+            name: "search",
+          },
+          {
+            fieldType: "price_range" as "price_range",
+            name: "offer_price_usd",
+          },
+          {
+            fieldType: "select" as "select",
+            name: "ordering",
+            choices: [
+              {
+                value: "offer_price_usd",
+                label: "Precio",
+              },
+              {
+                value: "leads",
+                label: "Popularidad",
+              },
+              {
+                value: "discount",
+                label: "Descuento",
+              },
+              ...categorySpecsFormLayout.orders.reduce((acc, o) => {
+                if (o.suggested_use === "ascending") {
+                  acc.push({
+                    value: o.name,
+                    label: o.label,
+                  });
+                } else if (o.suggested_use === "descending") {
+                  acc.push({
+                    value: `-${o.name}`,
+                    label: o.label,
+                  });
+                } else if (o.suggested_use === "both") {
+                  acc.push({
+                    value: o.name,
+                    label: `${o.label} (menor a mayor)`,
+                  });
+                  acc.push({
+                    value: `-${o.name}`,
+                    label: `${o.label} (mayor a menor)`,
+                  });
+                }
+                return acc;
+              }, []),
+            ],
+          },
+        ];
+
+        categorySpecsFormLayout.fieldsets.forEach((fieldset) => {
+          fieldset.filters.forEach((filter) => {
+            let filterChoices =
+              filter.choices === null
+                ? filter.choices
+                : filter.choices.map((c) => ({
+                    label: c.name,
+                    value: c.id,
+                  }));
+
+            if (filter.type === "exact") {
+              filterChoices = filterChoices || [
+                { value: 0, label: "No" },
+                { value: 1, label: "Sí" },
+              ];
+            } else {
+              filterChoices = filterChoices || [];
+            }
+            if (filter.name === "grocery_categories") {
+              fieldsMetadata.push({
+                fieldType: "tree" as "tree",
+                name: filter.name,
+                multiple: false,
+                choices: filterChoices,
+              });
+            } else if (filter.type === "exact") {
+              fieldsMetadata.push({
+                fieldType: "select" as "select",
+                name: filter.name,
+                multiple: Boolean(filter.choices),
+                choices: filterChoices,
+              });
+            } else if (filter.type === "gte" || filter.type === "lte") {
+              const fullName =
+                filter.type === "gte"
+                  ? `${filter.name}_min`
+                  : `${filter.name}_max`;
+              fieldsMetadata.push({
+                fieldType: "select" as "select",
+                name: fullName,
+                multiple: false,
+                choices: filterChoices,
+              });
+            } else if (filter.type === "range") {
+              if (
+                filter.continuous_range_step !== null &&
+                filter.continuous_range_unit !== null
+              ) {
+                fieldsMetadata.push({
+                  fieldType: "slider" as "slider",
+                  name: filter.name,
+                  step: filter.continuous_range_step,
+                  unit: filter.continuous_range_unit,
+                  choices: [],
+                });
+              } else {
+                fieldsMetadata.push({
+                  fieldType: "slider" as "slider",
+                  name: filter.name,
+                  step: null,
+                  unit: null,
+                  choices: filterChoices.map((c) => ({ ...c, index: c.value })),
+                });
+              }
+            }
+          });
+        });
+
+        const apiForm = new ApiForm(
+          fieldsMetadata,
+          `${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
         );
+        apiForm.initialize(context);
+        const results = await apiForm.submit();
+
         const string = JSON.stringify({
           category: category,
           categorySpecsFormLayout: categorySpecsFormLayout,
-          initialData: queriesUrl,
+          initialData: context.resolvedUrl,
           initialResult: results,
+          fieldsMetadata: fieldsMetadata,
         });
         return {
           props: {
