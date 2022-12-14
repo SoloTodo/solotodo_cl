@@ -1,27 +1,19 @@
-import type { GetServerSideProps } from "next";
 import { Container, Typography } from "@mui/material";
 import Page from "../components/Page";
 import ProductsRow from "src/components/product/ProductsRow";
 import { constants } from "src/config";
-import { fetchJson } from "src/frontend-utils/network/utils";
 import currency from "currency.js";
 import { Currency } from "src/frontend-utils/redux/api_resources/types";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import { useAppSelector } from "src/store/hooks";
 import RecentSlidesRow from "src/components/website-slides/RecentSlidesRow";
 import CategorySlidesRow from "src/components/website-slides/CaregorySlidesRow";
-import { Slide } from "src/components/website-slides/types";
 import { categorySlides } from "src/categorySlides";
 import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
 
-type HomeProps = {
-  recentSlides: Slide[];
-};
-
-const Home = (props: HomeProps) => {
-  const { recentSlides } = props;
+const Home = () => {
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const clp =
     apiResourceObjects[
@@ -34,10 +26,7 @@ const Home = (props: HomeProps) => {
     <Page title="Cotiza y compara los precios de todas las tiendas">
       <Container>
         <TopBanner category="Any" />
-        <Typography variant="h2" component="h1" fontWeight={400} gutterBottom>
-          Lo más reciente
-        </Typography>
-        <RecentSlidesRow recentSlides={recentSlides} />
+        <RecentSlidesRow />
         <ProductsRow
           title="Lo más visto"
           url={`products/browse/?ordering=leads&websites=${constants.websiteId}`}
@@ -74,12 +63,3 @@ const Home = (props: HomeProps) => {
 };
 
 export default Home;
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const recentSlides = await fetchJson("website_slides/?only_active_home=1");
-  return {
-    props: {
-      recentSlides: recentSlides,
-    },
-  };
-};

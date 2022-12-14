@@ -18,10 +18,10 @@ export default function RecentCard({ recentData }: { recentData: Slide }) {
   return (
     <Box
       sx={{
-        maxWidth: { xs: "90%", md: 370, lg: 390 },
+        width: { xs: 370, lg: 390 },
         height: { xs: 150, sm: 170 },
         paddingX: 2,
-        marginY: 1,
+        margin: 1,
         borderRadius: 2,
         backgroundColor: `#${recentData.asset.theme_color}`,
         position: "relative",

@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import Page from "src/components/Page";
 import ProductsRow from "src/components/product/ProductsRow";
 import {
@@ -11,8 +11,6 @@ import { wrapper } from "src/store/store";
 import currency from "currency.js";
 import { useAppSelector } from "src/store/hooks";
 import { constants } from "src/config";
-import { fetchJson } from "src/frontend-utils/network/utils";
-import { Slide } from "src/components/website-slides/types";
 import RecentSlidesRow from "src/components/website-slides/RecentSlidesRow";
 import CategorySlidesRow from "src/components/website-slides/CaregorySlidesRow";
 import useNavigation from "src/hooks/useNavigation";
@@ -23,13 +21,9 @@ import { useGtag4 } from "src/hooks/useGtag4";
 
 type CategoryPreviewProps = {
   category: Category;
-  recentSlides: Slide[];
 };
 
-export default function CategoryPreview({
-  category,
-  recentSlides,
-}: CategoryPreviewProps) {
+export default function CategoryPreview({ category }: CategoryPreviewProps) {
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const navigation = useNavigation();
   const clp =
@@ -63,10 +57,7 @@ export default function CategoryPreview({
     <Page title={category.name}>
       <Container>
         <TopBanner category={category.name} />
-        <Typography variant="h2" component="h1" fontWeight={400} gutterBottom>
-          {recentSlides.length !== 0 && "Lo más reciente"}
-        </Typography>
-        <RecentSlidesRow recentSlides={recentSlides} />
+        <RecentSlidesRow categoryId={category.id.toString()} />
         <Typography
           variant="h3"
           component="h1"
@@ -121,13 +112,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
         notFound: true,
       };
     } else {
-      const recentSlides = await fetchJson(
-        `website_slides/?categories=${category.id}&only_active_categories=1`
-      );
       return {
         props: {
           category: category,
-          recentSlides: recentSlides,
         },
       };
     }
