@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { constants } from "src/config";
@@ -31,5 +32,5 @@ export const useGtag3 = ({ category, product, store }: Props) => {
     return () => {
       router.events.off("routeChangeComplete", addEvent);
     };
-  }, [category, product, router.asPath, router.events, store]);
+  }, [router.asPath]);
 };
