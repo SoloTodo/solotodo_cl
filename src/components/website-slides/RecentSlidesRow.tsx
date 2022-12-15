@@ -37,8 +37,9 @@ export default function RecentSlidesRow({
     speed: 500,
     dots: true,
     infinite: false,
-    arrow: false,
     variableWidth: true,
+    nextArrow: <></>,
+    prevArrow: <></>,
   };
 
   return (
