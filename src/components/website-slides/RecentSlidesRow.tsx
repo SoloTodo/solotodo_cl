@@ -24,15 +24,8 @@ export default function RecentSlidesRow({
     fetchJson(url).then((res) => setRecentSlides(res));
   });
 
-  let slidesToShow = 1;
-  if (width > 1300) {
-    slidesToShow = 3;
-  } else if (width > 800) {
-    slidesToShow = 2;
-  }
-
   var settings = {
-    slidesToShow: slidesToShow,
+    slidesToShow: 1,
     slidesToScroll: 1,
     speed: 500,
     dots: true,

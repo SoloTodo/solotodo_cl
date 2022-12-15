@@ -90,7 +90,7 @@ export default function ProductCard(props: ProductProps) {
   return metadata.score === 0 && !browsePurpose && active === 0 ? null : (
     <Card
       sx={{
-        width: { xs: browsePurpose ? 300 : "90%", sm: 270, md: 288 },
+        width: { xs: 270, sm: 280, md: browsePurpose ? 288 : 292 },
         height: "100%",
         border: isLight ? "1px solid #EFEFEF" : "1px solid #303030",
         boxShadow: browsePurpose

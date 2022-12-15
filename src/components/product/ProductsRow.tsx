@@ -85,34 +85,22 @@ export default function ProductsRow({
     };
   }, [prefExcludeRefurbished, storesUrl, url]);
 
-  let slidesToShow = 1;
-  if (width > 1300) {
-    slidesToShow = 4;
-  } else if (width > 950) {
-    slidesToShow = 3;
-  } else if (width > 550) {
-    slidesToShow = 2;
-  }
-
   var settings = {
-    slidesToShow: slidesToShow,
+    slidesToShow: 1,
     slidesToScroll: 1,
     speed: 500,
     dots: true,
     infinite: false,
-    arrow: true,
-    centerMode: false,
-    centerPadding: "50px",
+    variableWidth: true,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
   };
 
-  if (slidesToShow === 1)
+  if (width < 550)
     settings = {
       ...settings,
-      arrow: false,
-      centerMode: true,
-      centerPadding: "20px",
+      nextArrow: <></>,
+      prevArrow: <></>,
     };
 
   return data.length !== 0 &&
@@ -126,11 +114,12 @@ export default function ProductsRow({
         <Slider {...settings} className={styles.slick_dots}>
           {data.slice(0, sliceValue).map((d, index) => {
             return (
-              <ProductCard
-                key={index}
-                productData={d}
-                ribbonFormatter={ribbonFormatter}
-              />
+              <Box key={index} paddingRight={3}>
+                <ProductCard
+                  productData={d}
+                  ribbonFormatter={ribbonFormatter}
+                />
+              </Box>
             );
           })}
         </Slider>

@@ -58,7 +58,6 @@ export default function ProductsRowGrid({
               <ProductCard
                 productData={d}
                 ribbonFormatter={ribbonFormatter}
-                browsePurpose={true}
               />
             </Grid>
           );
