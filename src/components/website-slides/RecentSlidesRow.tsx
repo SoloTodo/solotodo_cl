@@ -24,7 +24,7 @@ export default function RecentSlidesRow({
     fetchJson(url).then((res) => setRecentSlides(res));
   });
 
-  var settings = {
+  let settings = {
     slidesToShow: 1,
     slidesToScroll: 1,
     speed: 500,

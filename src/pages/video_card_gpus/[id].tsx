@@ -144,7 +144,7 @@ export default function VideoCardGpus({ gpu }: { gpu: Gpu }) {
           </Grid>
           <Grid item xs={12} md={8} lg={6}>
             <ProductsRowGrid
-              title="Productos similares"
+              title={`Tarjetas de video ${gpu.unicode}`}
               url={`categories/2/browse/?ordering=leads&page_size=3&ordering=offer_price_usd&gpus=${gpu.id}`}
               sliceValue={2}
               ribbonFormatter={(value: string) =>

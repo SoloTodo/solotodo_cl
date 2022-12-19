@@ -88,7 +88,7 @@ export default function ResetPassword({
           variant: "error",
           persist: true,
         });
-        router.push(PATH_MAIN.root);
+        await router.push(PATH_MAIN.root);
       }
 
       if ("new_password2" in json) {

@@ -99,7 +99,7 @@ export default function Register() {
 
   const onSubmit = async (data: FormValuesProps) => {
     try {
-      const _ = await fetchJson("rest-auth/registration/", {
+      await fetchJson("rest-auth/registration/", {
         method: "POST",
         body: JSON.stringify(data),
       });

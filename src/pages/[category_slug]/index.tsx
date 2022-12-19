@@ -52,7 +52,7 @@ import { ProductsData } from "src/components/product/types";
 import currency from "currency.js";
 
 // Server Side Rendering
-var zlib = require("zlib");
+const zlib = require("zlib");
 
 // ----------------------------------------------------------------------
 

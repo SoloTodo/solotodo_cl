@@ -85,7 +85,7 @@ export default function ProductsRow({
     };
   }, [prefExcludeRefurbished, storesUrl, url]);
 
-  var settings = {
+  let settings = {
     slidesToShow: 1,
     slidesToScroll: 1,
     speed: 500,

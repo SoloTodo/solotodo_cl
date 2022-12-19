@@ -23,7 +23,7 @@ const RootStyle = styled("div")(({ theme }) => ({
 
 export default function Page404() {
   return (
-    <Page title="404 Page Not Found" sx={{ height: 1 }}>
+    <Page title="Página no encontrada (404)" sx={{ height: 1 }}>
       <RootStyle>
         <Container component={MotionContainer}>
           <Grid
