@@ -124,22 +124,6 @@ export default function Browse({ data }: { data: string }) {
   categorySpecsFormLayout.fieldsets.forEach((fieldset) => {
     const fieldFilters: JSX.Element[] = [];
     fieldset.filters.forEach((filter) => {
-      let filterChoices =
-        filter.choices === null
-          ? filter.choices
-          : filter.choices.map((c) => ({
-              label: c.name,
-              value: c.id,
-            }));
-
-      if (filter.type === "exact") {
-        filterChoices = filterChoices || [
-          { value: 0, label: "No" },
-          { value: 1, label: "Sí" },
-        ];
-      } else {
-        filterChoices = filterChoices || [];
-      }
       if (filter.name === "grocery_categories") {
         fieldFilters.push(
           <AccordionDetails key={filter.id}>
