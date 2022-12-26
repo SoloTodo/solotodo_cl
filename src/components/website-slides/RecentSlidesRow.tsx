@@ -19,8 +19,8 @@ export default function RecentSlidesRow({
 
   useEffect(() => {
     const url = categoryId
-      ? `website_slides/?categories=${categoryId}&only_active_categories=1`
-      : "website_slides/?only_active_home=1";
+      ? `website_slides/?categories=${categoryId}&only_active_categories=1&ordering=category_priority`
+      : "website_slides/?only_active_home=1&ordering=home_priority";
     fetchJson(url).then((res) => setRecentSlides(res));
   });
 
