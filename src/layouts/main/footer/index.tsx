@@ -171,7 +171,7 @@ export default function MainFooter() {
             Diseñado por Elias Arias
           </Typography>
           <IconButton
-            href="https://www.instagram.com/eliasisdead/"
+            href="https://www.instagram.com/imgoldenboi/?igshid=YmMyMTA2M2Y%3D"
             color="inherit"
           >
             <InstagramIcon />
