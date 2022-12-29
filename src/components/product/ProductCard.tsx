@@ -48,10 +48,13 @@ export default function ProductCard(props: ProductProps) {
   const { product_entries } = productData;
 
   const options = product_entries.map((e, index) => {
-    const categoryId = apiResourceObjects[e.product.category].id;
+    const category = apiResourceObjects[e.product.category];
+    if (typeof category === "undefined") {
+      return {};
+    }
     const specName = (
       constants.categoryBrowseParameters as Record<number, any>
-    )[categoryId];
+    )[category.id];
     return {
       label:
         typeof specName === "undefined"
@@ -62,7 +65,7 @@ export default function ProductCard(props: ProductProps) {
   });
 
   const { product, metadata } = product_entries[active];
-  const category = apiResourceObjects[product.category] as Category;
+  const category = apiResourceObjects[product.category] as Category | undefined;
 
   const tags: string[] = product.specs.tags ? product.specs.tags : [];
 
@@ -71,9 +74,11 @@ export default function ProductCard(props: ProductProps) {
   );
   const offerPrice = priceCurrency ? priceCurrency.offer_price : 0;
 
-  const template = categoryBrowseResult
-    ? category.browse_result_template
-    : category.short_description_template;
+  const template = category
+    ? categoryBrowseResult
+      ? category.browse_result_template
+      : category.short_description_template
+    : null;
 
   const formatSpecs = () => {
     let html = "";
@@ -85,7 +90,7 @@ export default function ProductCard(props: ProductProps) {
     return { __html: html };
   };
 
-  const categoryWithVariants = category.id === 6 || category.id === 14;
+  const categoryWithVariants = category?.id === 6 || category?.id === 14;
 
   return metadata.score === 0 && !browsePurpose && active === 0 ? null : (
     <Card
