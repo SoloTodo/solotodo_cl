@@ -22,6 +22,7 @@ import { calcEntityPrice } from "src/utils/calcEntityPrice";
 import SoloTodoLeadLink from "../SoloTodoLeadLink";
 import ProductOrStoreRatingDrawer from "./ProductOrStoreRatingDrawer";
 import { RatedStore } from "./types";
+import {conditions} from "../../frontend-utils/conditions";
 
 export default function ProductPriceCard({
   entity,
@@ -39,6 +40,8 @@ export default function ProductPriceCard({
   )[store.id];
   const theme = useTheme();
   const isLight = theme.palette.mode === "light";
+
+  const conditionLabel = conditions.find(x => x['value'] === entity.condition)?.label
 
   return (
     <Card
@@ -132,7 +135,7 @@ export default function ProductPriceCard({
             {entity.condition !== "https://schema.org/NewCondition" && (
               <Stack sx={{ alignItems: "end" }}>
                 <Chip
-                  label="Reacondicionado"
+                  label={conditionLabel || 'Desconocido'}
                   size="small"
                   sx={{
                     borderRadius: 0.5,
