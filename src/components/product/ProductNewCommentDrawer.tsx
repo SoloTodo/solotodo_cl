@@ -12,7 +12,7 @@ import { Product } from "src/frontend-utils/types/product";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAppSelector } from "src/store/hooks";
 import {
-  selectApiResourceObjects,
+  getApiResourceObject,
   useApiResourceObjects,
 } from "src/frontend-utils/redux/api_resources/apiResources";
 import { FormProvider, RHFRadioGroup, RHFTextField } from "../hook-form";
@@ -28,6 +28,7 @@ import { useRef } from "react";
 import { useUser } from "src/frontend-utils/redux/user";
 import { fetchAuth } from "src/frontend-utils/nextjs/utils";
 import { constants } from "src/config";
+import useSettings from "src/hooks/useSettings";
 
 type FormValuesProps = {
   was_product_received: string;
@@ -52,7 +53,12 @@ export default function ProductNewCommentDrawer({
   const { enqueueSnackbar } = useSnackbar();
   const user = useAppSelector(useUser);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
-  const storeChoices = selectApiResourceObjects(apiResourceObjects, "stores");
+  const { prefStores } = useSettings();
+
+  const storeChoices = prefStores.map((p) => {
+    const store = getApiResourceObject(apiResourceObjects, "stores", p);
+    return { label: store.name, value: store.id };
+  });
 
   const defaultValues = {
     was_product_received: "",
