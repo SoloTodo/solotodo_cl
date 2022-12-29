@@ -19,7 +19,7 @@ import {
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import CloseIcon from "@mui/icons-material/Close";
-import { addDays, subDays } from "date-fns";
+import { addDays, differenceInMonths, isValid, subDays } from "date-fns";
 import { Product } from "src/frontend-utils/types/product";
 import { constants } from "src/config";
 import { fetchJson } from "src/frontend-utils/network/utils";
@@ -56,6 +56,9 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
   useEffect(() => {
     const myAbortController = new AbortController();
     if (startDate === null || endDate === null) return;
+    if (!isValid(startDate) || !isValid(endDate)) return;
+    if (startDate.getFullYear() < 2010) return;
+
     setLoading(true);
 
     let storesUrl = "";
@@ -147,11 +150,26 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
   }, [endDate, prefExcludeRefurbished, prefStores, product.id, startDate]);
 
   let days: Date[] = [];
-  if (startDate !== null && endDate !== null) {
+  if (
+    startDate !== null &&
+    endDate !== null &&
+    startDate.getFullYear() >= 2010
+  ) {
     let day = startDate;
+    const monthsDiff = differenceInMonths(new Date(), startDate);
+    const t =
+      monthsDiff > 48
+        ? 30 * 4
+        : monthsDiff > 24
+        ? 30
+        : monthsDiff > 12
+        ? 7
+        : value === "detalle"
+        ? 2
+        : 1;
     while (day <= endDate) {
       days.push(day);
-      day = addDays(day, 1);
+      day = addDays(day, t);
       day.setHours(0, 0, 0);
     }
   }
@@ -280,7 +298,9 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
                     label="Desde"
                     value={startDate}
                     minDate={
-                      value === "detalle" ? subDays(startDate!, 60) : null
+                      value === "detalle"
+                        ? subDays(startDate!, 60)
+                        : new Date(2010, 1, 1)
                     }
                     maxDate={endDate || new Date()}
                     inputFormat="dd/MM/yyyy"
