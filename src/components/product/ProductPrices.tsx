@@ -160,8 +160,8 @@ export default function ProductPrices({
     return () => {
       myAbortController.abort();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    apiResourceObjects,
     category.id,
     category.name,
     ordering,
