@@ -54,11 +54,12 @@ export default function ProductStaffActionButton({
         }}
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
-          <MenuItem onClick={() => {}}>
+          <MenuItem>
             <a
               href={`${constants.endpoint}metamodel/instances/${product.instance_model_id}`}
               target="_blank"
               rel="noreferrer"
+              style={{ width: "100%" }}
             >
               Editar producto
             </a>
@@ -69,6 +70,7 @@ export default function ProductStaffActionButton({
               href={`${constants.backendUrl}products/${product.id}`}
               target="_blank"
               rel="noreferrer"
+              style={{ width: "100%" }}
             >
               Ver en backend
             </a>
