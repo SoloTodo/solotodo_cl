@@ -87,7 +87,10 @@ export default function VideoCardGpus({ gpu }: { gpu: Gpu }) {
           heading=""
           links={[
             { name: "Home", href: PATH_MAIN.root },
-            { name: "Tarjetas de video", href: `${PATH_MAIN.root}video_card` },
+            {
+              name: "Tarjetas de videos",
+              href: `${PATH_MAIN.root}video_cards`,
+            },
             { name: gpu.unicode },
           ]}
         />
@@ -133,13 +136,13 @@ export default function VideoCardGpus({ gpu }: { gpu: Gpu }) {
               3DMark Fire Strike: {gpu.tdmark_fire_strike_score}
             </Typography>
             <Typography>
-              3DMark Time Spy: {gpu.tdmark_fire_strike_score}
+              3DMark Time Spy: {gpu.tdmark_time_spy_score}
             </Typography>
             <Typography>
-              3DMark Port Royal (Ray tracing): {gpu.tdmark_fire_strike_score}
+              3DMark Port Royal (Ray tracing): {gpu.tdmark_port_royal_score}
             </Typography>
             <Typography>
-              3DMark VR Room Orange (VR): {gpu.tdmark_fire_strike_score}
+              3DMark VR Room Orange (VR): {gpu.tdmark_vr_room_orange_score}
             </Typography>
           </Grid>
           <Grid item xs={12} md={8} lg={6}>
