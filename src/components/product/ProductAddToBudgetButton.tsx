@@ -130,7 +130,9 @@ export default function ProductAddToBudgetButton({
                   key={b.id}
                   onClick={() => addToBudgetWithNotification(b as Budget)}
                 >
-                  {b.name}
+                  <Typography variant="inherit" noWrap>
+                    {b.name}
+                  </Typography>
                 </MenuItem>
               ))}
             </Box>
