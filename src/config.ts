@@ -233,7 +233,7 @@ export const constants = {
     11: "Tarjeta Cencosud",
     18: "Tarjeta Ripley",
     30: "Tarjeta Abcdin",
-    // 43: "Tarjeta Lider",
+    43: "Tarjeta Lider BCI",
     87: "Tarjeta Hites",
   },
 };
