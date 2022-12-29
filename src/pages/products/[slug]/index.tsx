@@ -15,13 +15,13 @@ import { Product } from "src/frontend-utils/types/product";
 import { Category } from "src/frontend-utils/types/store";
 import { PATH_MAIN } from "src/routes/paths";
 import { useAppSelector } from "src/store/hooks";
-import ReactDisqusComments from "react-disqus-comments";
 import ProductPrices from "src/components/product/ProductPrices";
 import ProductDescription from "src/components/product/ProductDescription";
 import ProductWarnings from "src/components/product/ProductWarnings";
 import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
+import ProductDisques from "src/components/product/ProductDisques";
 
 export default function ProductPage({ product }: { product: Product }) {
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
@@ -90,12 +90,7 @@ export default function ProductPage({ product }: { product: Product }) {
           openNewCommentDrawer={openNewCommentDrawer}
           setOpenNewCommentDrawer={setOpenNewCommentDrawer}
         />
-        <ReactDisqusComments
-          shortname={constants.disqusShortName}
-          identifier={product.id.toString()}
-          title={product.name}
-          url={`https://www.solotodo.com/products/${product.id}`}
-        />
+        <ProductDisques product={product} />
       </Container>
     </Page>
   );

@@ -170,7 +170,11 @@ export default function AccountPopover() {
                     href={`${PATH_MAIN.budgets}/${b.id}/edit`}
                     passHref
                   >
-                    <MenuItem onClick={() => handleClose()}>{b.name}</MenuItem>
+                    <MenuItem onClick={() => handleClose()}>
+                      <Typography variant="inherit" noWrap>
+                        {b.name}
+                      </Typography>
+                    </MenuItem>
                   </NextLink>
                 ))}
               </Stack>

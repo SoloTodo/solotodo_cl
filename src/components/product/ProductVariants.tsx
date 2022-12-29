@@ -7,7 +7,7 @@ import { fetchJson } from "src/frontend-utils/network/utils";
 import { useAppSelector } from "src/store/hooks";
 import { useUser } from "src/frontend-utils/redux/user";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
-import { Stack } from "@mui/material";
+import { Grid } from "@mui/material";
 import ProductAxisChoices from "./ProductAxisChoices";
 import { PricingEntriesProps } from "./types";
 
@@ -103,18 +103,19 @@ export default function ProductVariants({
   const labelFields = bucketSettings.axes.map((axis) => axis.labelField);
 
   return (
-    <Stack spacing={2}>
+    <Grid container spacing={2} overflow="scroll">
       {axes.map((axis) => (
-        <ProductAxisChoices
-          key={axis.label}
-          axis={axis}
-          product={product}
-          pricingEntries={pricingEntries}
-          otherLabelFields={labelFields.filter(
-            (labelField) => labelField !== axis.labelField
-          )}
-        />
+        <Grid item key={axis.label}>
+          <ProductAxisChoices
+            axis={axis}
+            product={product}
+            pricingEntries={pricingEntries}
+            otherLabelFields={labelFields.filter(
+              (labelField) => labelField !== axis.labelField
+            )}
+          />
+        </Grid>
       ))}
-    </Stack>
+    </Grid>
   );
 }
