@@ -103,7 +103,7 @@ export default function ProductVariants({
   const labelFields = bucketSettings.axes.map((axis) => axis.labelField);
 
   return (
-    <Grid container spacing={2} overflow="scroll">
+    <Grid container rowGap={2} direction="column" overflow="scroll">
       {axes.map((axis) => (
         <Grid item key={axis.label}>
           <ProductAxisChoices
