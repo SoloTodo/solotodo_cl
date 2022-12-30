@@ -19,21 +19,30 @@ import ProductsRowGrid from "src/components/product/ProductsRowGrid";
 import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
 import { GetServerSideProps } from "next/types";
+import UZIP from "uzip";
+
+// Server Side Rendering
+const zlib = require("zlib");
 
 type Processor = {
   id: number;
   unicode: string;
 };
 
-export default function NotebookProcessors({
-  processorList,
-  matchingProcessor,
-  initialPage,
-}: {
+type PropTypes = {
   processorList: Processor[];
   matchingProcessor: Processor | null;
   initialPage: number;
-}) {
+};
+
+export default function NotebookProcessors({ data }: { data: string }) {
+  const byteArray = Buffer.from(data, "base64");
+  const outBuff = UZIP.inflate(byteArray);
+  const stringProps = new TextDecoder().decode(outBuff);
+
+  const { processorList, matchingProcessor, initialPage }: PropTypes =
+    JSON.parse(stringProps);
+
   const [page, setPage] = useState(initialPage);
 
   const columns: GridColDef[] = [
@@ -157,11 +166,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       initialPage = Math.floor(matchingProcessor.idx / 15);
     }
 
+    const string = JSON.stringify({
+      processorList: processorList,
+      matchingProcessor: matchingProcessor,
+      initialPage: initialPage,
+    });
     return {
       props: {
-        processorList: processorList,
-        matchingProcessor: matchingProcessor,
-        initialPage: initialPage,
+        data: zlib.deflateSync(string).toString("base64"),
       },
     };
   } catch {
