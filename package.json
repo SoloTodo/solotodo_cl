@@ -33,7 +33,6 @@
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
     "next": "12.1.6",
-    "next-redux-wrapper": "^7.0.5",
     "nookies": "^2.5.2",
     "notistack": "^2.0.5",
     "nprogress": "^0.2.0",
@@ -55,7 +54,8 @@
     "uuid": "^8.3.2",
     "uzip": "^0.20201231.0",
     "yup": "^0.32.11",
-    "zlib": "^1.0.5"
+    "zlib": "^1.0.5",
+    "zlibjs": "^0.3.1"
   },
   "devDependencies": {
     "@types/atob": "^2.1.2",

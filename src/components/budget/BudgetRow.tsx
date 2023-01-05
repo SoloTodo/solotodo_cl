@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Entry } from "./types";
 import { PricingEntriesProps } from "../product/types";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import {
   getApiResourceObjects,
   useApiResourceObjects,

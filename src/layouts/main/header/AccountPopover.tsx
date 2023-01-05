@@ -18,7 +18,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MenuPopover from "../../../components/MenuPopover";
 import { IconButtonAnimate } from "../../../components/animate";
 import { useAuth } from "src/frontend-utils/nextjs/JWTContext";
-import { useAppDispatch, useAppSelector } from "src/store/hooks";
+import { useAppDispatch, useAppSelector } from "src/frontend-utils/redux/hooks";
 import userSlice, { useUser } from "src/frontend-utils/redux/user";
 // // routes
 import { PATH_AUTH, PATH_MAIN } from "../../../routes/paths";

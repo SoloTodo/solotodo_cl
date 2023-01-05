@@ -11,7 +11,7 @@ import {
 import { Category, Store } from "src/frontend-utils/types/store";
 import useSettings from "src/hooks/useSettings";
 import CustomTable from "src/sections/CustomTable";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import { PricingEntriesProps } from "../product/types";
 import SoloTodoLeadLink from "../SoloTodoLeadLink";
 import { Budget, Entry } from "./types";

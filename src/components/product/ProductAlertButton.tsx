@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Box, Button, Modal, Stack, Typography } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import { useUser } from "src/frontend-utils/redux/user";
 import { useSnackbar } from "notistack";
 import { fetchJson } from "src/frontend-utils/network/utils";

@@ -12,7 +12,7 @@ import { constants } from "src/config";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import { Entity, InLineProduct } from "src/frontend-utils/types/entity";
 import { Category, Store } from "src/frontend-utils/types/store";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import { modalStyle } from "src/styles/modal";
 import LeadLink from "./LeadLink";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";

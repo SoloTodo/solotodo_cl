@@ -4,9 +4,9 @@ import { useSnackbar } from "notistack";
 import { useEffect } from "react";
 import Page from "src/components/Page";
 import { fetchJson } from "src/frontend-utils/network/utils";
-import { wrapper } from "src/store/store";
+import { MyNextPageContext } from "src/frontend-utils/redux/with-redux-store";
 
-export default function VerifyEmail() {
+function VerifyEmail() {
   const { enqueueSnackbar } = useSnackbar();
   const router = useRouter();
 
@@ -25,38 +25,41 @@ export default function VerifyEmail() {
   );
 }
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (st) => async (context) => {
-    const user = st.getState().user;
-    if (user) {
-      context.res.writeHead(302, {
-        Location: "/",
-      });
-      context.res.end();
-    }
-
-    let response = null;
-    try {
-      response = await fetchJson("rest-auth/registration/verify-email/", {
-        method: "post",
-        body: JSON.stringify({ key: context.query["key"] }),
-      });
-    } catch {
-      context.res.writeHead(302, {
-        Location: "/",
-      });
-      context.res.end();
-    }
-
-    if (response && response["detail"].toUpperCase() === "OK") {
-      context.res.writeHead(302, {
-        Location: "/login?post_verify=1",
-      });
-      context.res.end();
-    }
-
-    return {
-      props: {},
-    };
+VerifyEmail.getInitialProps = async (context: MyNextPageContext) => {
+  const reduxStore = context.reduxStore;
+  const user = reduxStore.getState().user;
+  if (context.res && user) {
+    context.res.writeHead(302, {
+      Location: "/",
+    });
+    context.res.end();
+    return;
   }
-);
+
+  let response = null;
+  try {
+    response = await fetchJson("rest-auth/registration/verify-email/", {
+      method: "post",
+      body: JSON.stringify({ key: context.query["key"] }),
+    });
+  } catch {
+    if (context.res) {
+      context.res.writeHead(302, {
+        Location: "/",
+      });
+      context.res.end();
+      return;
+    }
+  }
+
+  if (context.res && response && response["detail"].toUpperCase() === "OK") {
+    context.res.writeHead(302, {
+      Location: "/login?post_verify=1",
+    });
+    context.res.end();
+  }
+
+  return;
+};
+
+export default VerifyEmail;

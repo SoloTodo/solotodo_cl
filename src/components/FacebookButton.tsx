@@ -7,7 +7,7 @@ import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/ap
 import userSlice from "src/frontend-utils/redux/user";
 import useSettings from "src/hooks/useSettings";
 import { PATH_MAIN } from "src/routes/paths";
-import { useAppDispatch, useAppSelector } from "src/store/hooks";
+import { useAppDispatch, useAppSelector } from "src/frontend-utils/redux/hooks";
 import FacebookLogin, { ReactFacebookLoginInfo } from "react-facebook-login";
 import { constants } from "src/config";
 import styles from "../styles/FacebookButton.module.css";

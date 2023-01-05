@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useAuth } from "src/frontend-utils/nextjs/JWTContext";
 import { fetchAuth } from "src/frontend-utils/nextjs/utils";
 import userSlice from "src/frontend-utils/redux/user";
-import { useAppDispatch } from "src/store/hooks";
+import { useAppDispatch } from "src/frontend-utils/redux/hooks";
 import { modalStyle } from "src/styles/modal";
 import { Budget } from "./types";
 

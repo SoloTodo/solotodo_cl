@@ -7,9 +7,8 @@ import {
 } from "src/frontend-utils/redux/api_resources/apiResources";
 import { Currency } from "src/frontend-utils/redux/api_resources/types";
 import { Category } from "src/frontend-utils/types/store";
-import { wrapper } from "src/store/store";
 import currency from "currency.js";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import { constants } from "src/config";
 import RecentSlidesRow from "src/components/website-slides/RecentSlidesRow";
 import CategorySlidesRow from "src/components/website-slides/CaregorySlidesRow";
@@ -18,12 +17,13 @@ import { NavigationItemProps } from "src/contexts/NavigationContext";
 import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
+import { MyNextPageContext } from "src/frontend-utils/redux/with-redux-store";
 
 type CategoryPreviewProps = {
   category: Category;
 };
 
-export default function CategoryPreview({ category }: CategoryPreviewProps) {
+function CategoryPreview({ category }: CategoryPreviewProps) {
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const navigation = useNavigation();
   const clp =
@@ -100,23 +100,30 @@ export default function CategoryPreview({ category }: CategoryPreviewProps) {
   );
 }
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (st) => async (context) => {
-    const apiResourceObjects = st.getState().apiResourceObjects;
-    const categories = getApiResourceObjects(apiResourceObjects, "categories");
-    const category = categories.find(
-      (c) => (c as Category).slug === context.params?.category_slug
-    );
-    if (typeof category === "undefined") {
-      return {
-        notFound: true,
-      };
+CategoryPreview.getInitialProps = async (context: MyNextPageContext) => {
+  const reduxStore = context.reduxStore;
+  const apiResourceObjects = reduxStore.getState().apiResourceObjects;
+  const categories = getApiResourceObjects(apiResourceObjects, "categories");
+  const category = categories.find(
+    (c) => (c as Category).slug === context.query?.category_slug
+  );
+  if (typeof category === "undefined") {
+    if (context.res) {
+      context.res.writeHead(302, {
+        Location: "/404",
+      });
+      context.res.end();
+      return;
     } else {
       return {
-        props: {
-          category: category,
-        },
+        statusCode: 404,
       };
     }
+  } else {
+    return {
+      category: category,
+    };
   }
-);
+};
+
+export default CategoryPreview;

@@ -33,7 +33,7 @@ import {
   PricingData,
 } from "./types";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import useSettings from "src/hooks/useSettings";
 import { modalStyle } from "src/styles/modal";
