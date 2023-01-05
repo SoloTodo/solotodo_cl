@@ -53,7 +53,7 @@ import { MyNextPageContext } from "src/frontend-utils/redux/with-redux-store";
 import { GetServerSidePropsContext } from "next/types";
 import cookie from "cookie";
 import { getSettings } from "src/utils/settings";
-import { isServer } from "src/frontend-utils/nextjs/utils";
+
 const zlib = require("zlib");
 
 // ----------------------------------------------------------------------
@@ -368,7 +368,7 @@ function Browse({ data }: { data: string }) {
 }
 
 Browse.getInitialProps = async (context: MyNextPageContext) => {
-  // try {
+  try {
     if (
       context.req &&
       context.query.page_size &&
@@ -403,8 +403,7 @@ Browse.getInitialProps = async (context: MyNextPageContext) => {
       context.req ? context.req.headers.cookie || "" : document.cookie
     );
     const settings = getSettings(cookies);
-    const prefExcludeRefurbished = settings.prefExcludeRefurbished;
-    const prefStores = settings.prefStores;
+    const { prefExcludeRefurbished, prefStores } = settings;
     let storesUrl = "";
     for (const store of prefStores) {
       storesUrl += `&stores=${store}`;
@@ -579,14 +578,19 @@ Browse.getInitialProps = async (context: MyNextPageContext) => {
       });
       return { data: zlib.deflateSync(string).toString("base64") };
     }
-  // } catch {
-  //   context.res?.writeHead(302, {
-  //     Location: "/404",
-  //   });
-  //   context.res?.end();
-  //   console.log("ACAAA");
-  //   return;
-  // }
+  } catch {
+    if (context.res) {
+      context.res.writeHead(302, {
+        Location: "/404",
+      });
+      context.res.end();
+      return;
+    } else {
+      return {
+        statusCode: 404,
+      };
+    }
+  }
 };
 
 export default Browse;
