@@ -52,6 +52,7 @@ import currency from "currency.js";
 import { MyNextPageContext } from "src/frontend-utils/redux/with-redux-store";
 import cookie from "cookie";
 import { getSettings } from "src/utils/settings";
+import { useCheckStatusCode } from "src/hooks/useCheckStatusCode";
 
 const zlib = require("zlib");
 
@@ -96,7 +97,9 @@ type PropTypes = {
 
 // ----------------------------------------------------------------------
 
-function Browse({ data }: { data: string }) {
+function Browse({ data, statusCode }: { data: string; statusCode?: number }) {
+  useCheckStatusCode(statusCode);
+
   const byteArray = Buffer.from(data, "base64");
   const outBuff = UZIP.inflate(byteArray);
   const stringProps = new TextDecoder().decode(outBuff);
@@ -160,7 +163,10 @@ function Browse({ data }: { data: string }) {
     });
     filterComponents.push(
       <Grid item xs={12} key={fieldset.label}>
-        <Accordion sx={{ bgcolor: "transparent" }}>
+        <Accordion
+          sx={{ bgcolor: "transparent" }}
+          defaultExpanded={filterComponents.length === 0}
+        >
           <AccordionSummary id={fieldset.label} expandIcon={<ExpandMoreIcon />}>
             {fieldset.label}
           </AccordionSummary>

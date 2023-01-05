@@ -18,12 +18,16 @@ import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
 import { MyNextPageContext } from "src/frontend-utils/redux/with-redux-store";
+import { useCheckStatusCode } from "src/hooks/useCheckStatusCode";
 
 type CategoryPreviewProps = {
   category: Category;
+  statusCode?: number;
 };
 
-function CategoryPreview({ category }: CategoryPreviewProps) {
+function CategoryPreview({ category, statusCode }: CategoryPreviewProps) {
+  useCheckStatusCode(statusCode);
+
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const navigation = useNavigation();
   const clp =
