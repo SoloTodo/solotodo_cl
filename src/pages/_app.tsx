@@ -2,7 +2,7 @@ import "../styles/globals.css";
 import { ReactElement, ReactNode } from "react";
 import Head from "next/head";
 import type { AppProps } from "next/app";
-import { GetServerSidePropsContext, NextPage } from "next/types";
+import { NextPage } from "next/types";
 import cookie from "cookie";
 import { SettingsProvider } from "../contexts/SettingsContext";
 import { getSettings } from "../utils/settings";
@@ -106,14 +106,14 @@ MyApp.getInitialProps = async (context: MyAppContext) => {
 
   try {
     user = await jwtFetch(
-      ctx as unknown as GetServerSidePropsContext,
+      ctx,
       "users/me/"
     );
   } catch (err: any) {
     // Invalid token or some other network error, invalidate the
     // possible auth cookie
     ctx.res?.setHeader("error", err.message);
-    deleteAuthTokens(ctx as unknown as GetServerSidePropsContext);
+    deleteAuthTokens(ctx);
   }
 
   const resources = [
