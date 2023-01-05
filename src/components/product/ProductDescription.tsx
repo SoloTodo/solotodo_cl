@@ -1,6 +1,6 @@
 import { Product } from "src/frontend-utils/types/product";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import { Typography } from "@mui/material";
 import styles from "../../styles/ProductPage.module.css";
 import stylesDark from "../../styles/ProductPageDark.module.css";

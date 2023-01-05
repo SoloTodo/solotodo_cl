@@ -14,7 +14,7 @@ import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/ap
 import { Product } from "src/frontend-utils/types/product";
 import { Category } from "src/frontend-utils/types/store";
 import { PATH_MAIN } from "src/routes/paths";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import ProductPrices from "src/components/product/ProductPrices";
 import ProductDescription from "src/components/product/ProductDescription";
 import ProductWarnings from "src/components/product/ProductWarnings";

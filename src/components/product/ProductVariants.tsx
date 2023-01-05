@@ -4,7 +4,7 @@ import { Category } from "src/frontend-utils/types/store";
 import { useEffect, useState } from "react";
 import { Entity } from "src/frontend-utils/types/entity";
 import { fetchJson } from "src/frontend-utils/network/utils";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import { useUser } from "src/frontend-utils/redux/user";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import { Grid } from "@mui/material";

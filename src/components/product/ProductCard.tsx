@@ -16,7 +16,7 @@ import Image from "../Image";
 import currency from "currency.js";
 import { ProductsData } from "./types";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import { useState } from "react";
 import { constants } from "src/config";
 import Handlebars from "handlebars";

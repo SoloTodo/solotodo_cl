@@ -1,6 +1,5 @@
 import "../styles/globals.css";
 import { ReactElement, ReactNode } from "react";
-import App from "next/app";
 import Head from "next/head";
 import type { AppProps } from "next/app";
 import { GetServerSidePropsContext, NextPage } from "next/types";
@@ -12,7 +11,6 @@ import Layout from "../layouts";
 import { SettingsValueProps } from "../components/settings/type";
 import ProgressBar from "../components/ProgressBar";
 import { AuthProvider } from "../frontend-utils/nextjs/JWTContext";
-import { wrapper } from "../store/store";
 import NotistackProvider from "../components/NotistackProvider";
 import { deleteAuthTokens, jwtFetch } from "src/frontend-utils/nextjs/utils";
 import userSlice from "src/frontend-utils/redux/user";
@@ -28,6 +26,12 @@ import { fetchJson } from "src/frontend-utils/network/utils";
 import apiResourceObjectsSlice from "src/frontend-utils/redux/api_resources/apiResources";
 import { ChartStyle } from "src/components/chart";
 import { Store } from "src/frontend-utils/types/store";
+import { Provider } from "react-redux";
+import { AnyAction, Store as ReduxStore } from "redux";
+import withReduxStore, {
+  MyAppContext,
+} from "src/frontend-utils/redux/with-redux-store";
+import App from "next/app";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -36,106 +40,24 @@ type NextPageWithLayout = NextPage & {
 interface MyAppProps extends AppProps {
   navigation: NavigationProps[];
   settings: SettingsValueProps;
+  reduxStore: ReduxStore<any, AnyAction>;
   Component: NextPageWithLayout;
 }
 
-class MyApp extends App<MyAppProps> {
-  public static getInitialProps = wrapper.getInitialAppProps(
-    (store) => async (context) => {
-      const cookies = cookie.parse(
-        context.ctx.req ? context.ctx.req.headers.cookie || "" : document.cookie
-      );
+function MyApp({
+  Component,
+  pageProps,
+  settings,
+  navigation,
+  reduxStore,
+}: MyAppProps) {
+  return (
+    <>
+      <Head>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
 
-      const settings = getSettings(cookies);
-
-      const ctx = context.ctx;
-
-      if (!ctx.req) {
-        return { pageProps: {}, settings };
-      }
-
-      let user = null;
-
-      try {
-        user = await jwtFetch(
-          ctx as unknown as GetServerSidePropsContext,
-          "users/me/"
-        );
-      } catch (err: any) {
-        // Invalid token or some other network error, invalidate the
-        // possible auth cookie
-        ctx.res?.setHeader("error", err.message);
-        deleteAuthTokens(ctx as unknown as GetServerSidePropsContext);
-      }
-
-      const navigation = await fetchJson(
-        `${constants.apiResourceEndpoints.countries}${constants.chileId}/navigation/`
-      );
-
-      const resources = [
-        "categories",
-        "countries",
-        "store_types",
-        "currencies",
-        "stores",
-        "store_types",
-      ];
-      const resources_query = resources.reduce((acc, r) => {
-        return (acc = `${acc}&names=${r}`);
-      }, "");
-
-      try {
-        const apiResources = await fetchJson(`resources/?${resources_query}`);
-        store.dispatch(
-          apiResourceObjectsSlice.actions.addApiResourceObjects(apiResources)
-        );
-        if (settings.prefStores.length == 0) {
-          settings.prefStores = (apiResources as Store[])
-            .filter(
-              (s) =>
-                s.url.includes("stores") &&
-                s.country === constants.defaultCountryUrl &&
-                s.last_activation
-            )
-            .map((f) => f.id.toString());
-        }
-        if (user) {
-          store.dispatch(userSlice.actions.setUser(user));
-
-          settings.prefExcludeRefurbished = Boolean(
-            user.preferred_exclude_refurbished
-          );
-          const userStores = user.preferred_stores.reduce(
-            (acc: string[], a: string) => {
-              const s = apiResources.find(
-                (r: { url: string }) => r.url === a
-              ) as Store;
-              if (s && s.country === constants.defaultCountryUrl) {
-                acc.push(s.id.toString());
-              }
-              return acc;
-            },
-            []
-          );
-          settings.prefStores = userStores;
-        }
-      } catch (err: any) {
-        ctx.res?.setHeader("error", err.message);
-      }
-
-      return { pageProps: {}, settings, navigation };
-    }
-  );
-
-  public render() {
-    const { Component, pageProps, settings, navigation } = this.props;
-
-    return (
-      <>
-        <Head>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-        </Head>
-
+      <Provider store={reduxStore}>
         <SettingsProvider defaultSettings={settings}>
           <ThemeProvider>
             <NotistackProvider>
@@ -157,9 +79,97 @@ class MyApp extends App<MyAppProps> {
             </NotistackProvider>
           </ThemeProvider>
         </SettingsProvider>
-      </>
-    );
-  }
+      </Provider>
+    </>
+  );
 }
 
-export default wrapper.withRedux(MyApp);
+MyApp.getInitialProps = async (context: MyAppContext) => {
+  const cookies = cookie.parse(
+    context.ctx.req ? context.ctx.req.headers.cookie || "" : document.cookie
+  );
+
+  const settings = getSettings(cookies);
+
+  const navigation = await fetchJson(
+    `${constants.apiResourceEndpoints.countries}${constants.chileId}/navigation/`
+  );
+
+  const ctx = context.ctx;
+
+  if (!ctx.req) {
+    const appProps = await App.getInitialProps(context);
+    return { ...appProps, settings, navigation };
+  }
+
+  let user = null;
+
+  try {
+    user = await jwtFetch(
+      ctx as unknown as GetServerSidePropsContext,
+      "users/me/"
+    );
+  } catch (err: any) {
+    // Invalid token or some other network error, invalidate the
+    // possible auth cookie
+    ctx.res?.setHeader("error", err.message);
+    deleteAuthTokens(ctx as unknown as GetServerSidePropsContext);
+  }
+
+  const resources = [
+    "categories",
+    "countries",
+    "store_types",
+    "currencies",
+    "stores",
+    "store_types",
+  ];
+  const resources_query = resources.reduce((acc, r) => {
+    return (acc = `${acc}&names=${r}`);
+  }, "");
+
+  try {
+    const reduxStore = ctx.reduxStore;
+    const apiResources = await fetchJson(`resources/?${resources_query}`);
+    reduxStore.dispatch(
+      apiResourceObjectsSlice.actions.addApiResourceObjects(apiResources)
+    );
+    if (settings.prefStores.length == 0) {
+      settings.prefStores = (apiResources as Store[])
+        .filter(
+          (s) =>
+            s.url.includes("stores") &&
+            s.country === constants.defaultCountryUrl &&
+            s.last_activation
+        )
+        .map((f) => f.id.toString());
+    }
+    if (user) {
+      reduxStore.dispatch(userSlice.actions.setUser(user));
+
+      settings.prefExcludeRefurbished = Boolean(
+        user.preferred_exclude_refurbished
+      );
+      const userStores = user.preferred_stores.reduce(
+        (acc: string[], a: string) => {
+          const s = apiResources.find(
+            (r: { url: string }) => r.url === a
+          ) as Store;
+          if (s && s.country === constants.defaultCountryUrl) {
+            acc.push(s.id.toString());
+          }
+          return acc;
+        },
+        []
+      );
+      settings.prefStores = userStores;
+    }
+  } catch (err: any) {
+    ctx.res?.setHeader("error", err.message);
+  }
+
+  const appProps = await App.getInitialProps(context);
+  return { ...appProps, settings, navigation };
+};
+
+export default withReduxStore(MyApp);

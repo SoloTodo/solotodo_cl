@@ -8,7 +8,7 @@ import {
   useApiResourceObjects,
 } from "src/frontend-utils/redux/api_resources/apiResources";
 import useSettings from "src/hooks/useSettings";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import { PATH_MAIN } from "src/routes/paths";
 import { constants } from "src/config";
 import ApiFormSelectComponent from "src/frontend-utils/api_form/fields/select/ApiFormSelectComponent";

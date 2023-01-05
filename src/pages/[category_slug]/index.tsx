@@ -31,10 +31,9 @@ import {
 import { Category } from "src/frontend-utils/types/store";
 import useSettings from "src/hooks/useSettings";
 import { PATH_MAIN } from "src/routes/paths";
-import { wrapper } from "src/store/store";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ApiFormPriceRangeComponent from "src/frontend-utils/api_form/fields/price_range/ApiFormPriceRangeComponent";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import { Currency } from "src/frontend-utils/redux/api_resources/types";
 import ApiFormTextComponent from "src/frontend-utils/api_form/fields/text/ApiFormTextComponent";
 import ApiFormPaginationComponent from "src/frontend-utils/api_form/fields/pagination/ApiFormPaginationComponent";
@@ -50,8 +49,11 @@ import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
 import { ProductsData } from "src/components/product/types";
 import currency from "currency.js";
+import { MyNextPageContext } from "src/frontend-utils/redux/with-redux-store";
+import { GetServerSidePropsContext } from "next/types";
+import cookie from "cookie";
+import { getSettings } from "src/utils/settings";
 
-// Server Side Rendering
 const zlib = require("zlib");
 
 // ----------------------------------------------------------------------
@@ -95,10 +97,11 @@ type PropTypes = {
 
 // ----------------------------------------------------------------------
 
-export default function Browse({ data }: { data: string }) {
+function Browse({ data }: { data: string }) {
   const byteArray = Buffer.from(data, "base64");
   const outBuff = UZIP.inflate(byteArray);
   const stringProps = new TextDecoder().decode(outBuff);
+  const props = JSON.parse(stringProps);
 
   const {
     category,
@@ -106,7 +109,7 @@ export default function Browse({ data }: { data: string }) {
     initialData,
     initialResult,
     fieldsMetadata,
-  }: PropTypes = JSON.parse(stringProps);
+  }: PropTypes = props;
 
   const { prefExcludeRefurbished, prefStores } = useSettings();
   const theme = useTheme();
@@ -364,212 +367,230 @@ export default function Browse({ data }: { data: string }) {
   );
 }
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (st) => async (context) => {
-    try {
-      if (context.query.page_size && Number(context.query.page_size) > 50) {
-        const query = context.query;
-        delete query.category_slug;
-        delete query.page_size;
-        delete query.page;
-        let queryUrl = "";
-        for (const q of Object.keys(query)) {
-          if (Array.isArray(query[q])) {
-            (query[q] as string[]).map((v: string) => {
-              queryUrl += `${q}=${v}&`;
-            });
-          } else {
-            queryUrl += `${q}=${query[q]}&`;
-          }
+Browse.getInitialProps = async (context: MyNextPageContext) => {
+  try {
+    if (
+      context.req &&
+      context.query.page_size &&
+      Number(context.query.page_size) > 50
+    ) {
+      const category_slug = context.query?.category_slug;
+      const query = context.query;
+      delete query.category_slug;
+      delete query.page_size;
+      delete query.page;
+      let queryUrl = "";
+      for (const q of Object.keys(query)) {
+        if (Array.isArray(query[q])) {
+          (query[q] as string[]).map((v: string) => {
+            queryUrl += `${q}=${v}&`;
+          });
+        } else {
+          queryUrl += `${q}=${query[q]}&`;
         }
-        queryUrl += "page_size=50";
-        return {
-          redirect: {
-            permanent: false,
-            destination: `/${context.params?.category_slug}?${queryUrl}`,
-          },
-        };
       }
-      const prefExcludeRefurbished = context.req.cookies.prefExcludeRefurbished;
-      const preStoresCookie = context.req.cookies.prefStores;
-      const prefStores = preStoresCookie ? preStoresCookie.split("|") : [];
-      let storesUrl = "";
-      for (const store of prefStores) {
-        storesUrl += `&stores=${store}`;
-      }
+      queryUrl += "page_size=50";
 
-      const apiResourceObjects = st.getState().apiResourceObjects;
-      const categories = getApiResourceObjects(
-        apiResourceObjects,
-        "categories"
-      );
-      const category = categories.find(
-        (c) => (c as Category).slug === context.params?.category_slug
-      );
-      if (typeof category === "undefined") {
-        return {
-          notFound: true,
-        };
-      } else {
-        const response = await fetchJson(
-          `${constants.apiResourceEndpoints.category_specs_form_layouts}?category=${category.id}`
-        );
-        let categorySpecsFormLayout: CategorySpecsFormLayoutProps = response[0];
-        response.forEach((res: CategorySpecsFormLayoutProps) => {
-          if (
-            res.website ==
-            `${constants.apiResourceEndpoints.websites}${constants.websiteId}/`
-          )
-            categorySpecsFormLayout = res;
+      context.res?.writeHead(302, {
+        Location: `/${category_slug}?${queryUrl}`,
+      });
+      context.res?.end();
+      return;
+    }
+
+    const reduxStore = context.reduxStore;
+    const cookies = cookie.parse(
+      context.req ? context.req.headers.cookie || "" : document.cookie
+    );
+    const settings = getSettings(cookies);
+    const { prefExcludeRefurbished, prefStores } = settings;
+    let storesUrl = "";
+    for (const store of prefStores) {
+      storesUrl += `&stores=${store}`;
+    }
+
+    const apiResourceObjects = reduxStore.getState().apiResourceObjects;
+    const categories = getApiResourceObjects(apiResourceObjects, "categories");
+    const category = categories.find(
+      (c) => (c as Category).slug === context.query?.category_slug
+    );
+    if (typeof category === "undefined") {
+      if (context.res) {
+        context.res.writeHead(302, {
+          Location: "/404",
         });
+        context.res.end();
+        return;
+      } else {
+        return {
+          statusCode: 404,
+        };
+      }
+    } else {
+      const response = await fetchJson(
+        `${constants.apiResourceEndpoints.category_specs_form_layouts}?category=${category.id}`
+      );
+      let categorySpecsFormLayout: CategorySpecsFormLayoutProps = response[0];
+      response.forEach((res: CategorySpecsFormLayoutProps) => {
+        if (
+          res.website ==
+          `${constants.apiResourceEndpoints.websites}${constants.websiteId}/`
+        )
+          categorySpecsFormLayout = res;
+      });
 
-        const fieldsMetadata: ApiFormFieldMetadata[] = [
-          {
-            fieldType: "pagination" as "pagination",
-          },
-          {
-            fieldType: "text" as "text",
-            name: "search",
-          },
-          {
-            fieldType: "price_range" as "price_range",
-            name: "offer_price_usd",
-          },
-          {
-            fieldType: "select" as "select",
-            name: "ordering",
-            choices: [
-              {
-                value: "offer_price_usd",
-                label: "Precio",
-              },
-              {
-                value: "leads",
-                label: "Popularidad",
-              },
-              {
-                value: "discount",
-                label: "Descuento",
-              },
-              ...categorySpecsFormLayout.orders.reduce((acc, o) => {
-                if (o.suggested_use === "ascending") {
-                  acc.push({
-                    value: o.name,
-                    label: o.label,
-                  });
-                } else if (o.suggested_use === "descending") {
-                  acc.push({
-                    value: `-${o.name}`,
-                    label: o.label,
-                  });
-                } else if (o.suggested_use === "both") {
-                  acc.push({
-                    value: o.name,
-                    label: `${o.label} (menor a mayor)`,
-                  });
-                  acc.push({
-                    value: `-${o.name}`,
-                    label: `${o.label} (mayor a menor)`,
-                  });
-                }
-                return acc;
-              }, []),
-            ],
-          },
-        ];
-
-        categorySpecsFormLayout.fieldsets.forEach((fieldset) => {
-          fieldset.filters.forEach((filter) => {
-            let filterChoices =
-              filter.choices === null
-                ? filter.choices
-                : filter.choices.map((c) => ({
-                    label: c.name,
-                    value: c.id,
-                  }));
-
-            if (filter.type === "exact") {
-              filterChoices = filterChoices || [
-                { value: 0, label: "No" },
-                { value: 1, label: "Sí" },
-              ];
-            } else {
-              filterChoices = filterChoices || [];
-            }
-            if (filter.name === "grocery_categories") {
-              fieldsMetadata.push({
-                fieldType: "tree" as "tree",
-                name: filter.name,
-                multiple: false,
-                choices: filterChoices,
-              });
-            } else if (filter.type === "exact") {
-              fieldsMetadata.push({
-                fieldType: "select" as "select",
-                name: filter.name,
-                multiple: Boolean(filter.choices),
-                choices: filterChoices,
-              });
-            } else if (filter.type === "gte" || filter.type === "lte") {
-              const fullName =
-                filter.type === "gte"
-                  ? `${filter.name}_min`
-                  : `${filter.name}_max`;
-              fieldsMetadata.push({
-                fieldType: "select" as "select",
-                name: fullName,
-                multiple: false,
-                choices: filterChoices,
-              });
-            } else if (filter.type === "range") {
-              if (
-                filter.continuous_range_step !== null &&
-                filter.continuous_range_unit !== null
-              ) {
-                fieldsMetadata.push({
-                  fieldType: "slider" as "slider",
-                  name: filter.name,
-                  step: filter.continuous_range_step,
-                  unit: filter.continuous_range_unit,
-                  choices: [],
+      const fieldsMetadata: ApiFormFieldMetadata[] = [
+        {
+          fieldType: "pagination" as "pagination",
+        },
+        {
+          fieldType: "text" as "text",
+          name: "search",
+        },
+        {
+          fieldType: "price_range" as "price_range",
+          name: "offer_price_usd",
+        },
+        {
+          fieldType: "select" as "select",
+          name: "ordering",
+          choices: [
+            {
+              value: "offer_price_usd",
+              label: "Precio",
+            },
+            {
+              value: "leads",
+              label: "Popularidad",
+            },
+            {
+              value: "discount",
+              label: "Descuento",
+            },
+            ...categorySpecsFormLayout.orders.reduce((acc, o) => {
+              if (o.suggested_use === "ascending") {
+                acc.push({
+                  value: o.name,
+                  label: o.label,
                 });
-              } else {
-                fieldsMetadata.push({
-                  fieldType: "slider" as "slider",
-                  name: filter.name,
-                  step: null,
-                  unit: null,
-                  choices: filterChoices.map((c) => ({ ...c, index: c.value })),
+              } else if (o.suggested_use === "descending") {
+                acc.push({
+                  value: `-${o.name}`,
+                  label: o.label,
+                });
+              } else if (o.suggested_use === "both") {
+                acc.push({
+                  value: o.name,
+                  label: `${o.label} (menor a mayor)`,
+                });
+                acc.push({
+                  value: `-${o.name}`,
+                  label: `${o.label} (mayor a menor)`,
                 });
               }
+              return acc;
+            }, []),
+          ],
+        },
+      ];
+
+      categorySpecsFormLayout.fieldsets.forEach((fieldset) => {
+        fieldset.filters.forEach((filter) => {
+          let filterChoices =
+            filter.choices === null
+              ? filter.choices
+              : filter.choices.map((c) => ({
+                  label: c.name,
+                  value: c.id,
+                }));
+
+          if (filter.type === "exact") {
+            filterChoices = filterChoices || [
+              { value: 0, label: "No" },
+              { value: 1, label: "Sí" },
+            ];
+          } else {
+            filterChoices = filterChoices || [];
+          }
+          if (filter.name === "grocery_categories") {
+            fieldsMetadata.push({
+              fieldType: "tree" as "tree",
+              name: filter.name,
+              multiple: false,
+              choices: filterChoices,
+            });
+          } else if (filter.type === "exact") {
+            fieldsMetadata.push({
+              fieldType: "select" as "select",
+              name: filter.name,
+              multiple: Boolean(filter.choices),
+              choices: filterChoices,
+            });
+          } else if (filter.type === "gte" || filter.type === "lte") {
+            const fullName =
+              filter.type === "gte"
+                ? `${filter.name}_min`
+                : `${filter.name}_max`;
+            fieldsMetadata.push({
+              fieldType: "select" as "select",
+              name: fullName,
+              multiple: false,
+              choices: filterChoices,
+            });
+          } else if (filter.type === "range") {
+            if (
+              filter.continuous_range_step !== null &&
+              filter.continuous_range_unit !== null
+            ) {
+              fieldsMetadata.push({
+                fieldType: "slider" as "slider",
+                name: filter.name,
+                step: filter.continuous_range_step,
+                unit: filter.continuous_range_unit,
+                choices: [],
+              });
+            } else {
+              fieldsMetadata.push({
+                fieldType: "slider" as "slider",
+                name: filter.name,
+                step: null,
+                unit: null,
+                choices: filterChoices.map((c) => ({ ...c, index: c.value })),
+              });
             }
-          });
+          }
         });
+      });
 
-        const apiForm = new ApiForm(
-          fieldsMetadata,
-          `${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
-        );
-        apiForm.initialize(context);
-        const results = await apiForm.submit();
+      const apiForm = new ApiForm(
+        fieldsMetadata,
+        `${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
+      );
+      apiForm.initialize(context as unknown as GetServerSidePropsContext);
+      const results = await apiForm.submit();
 
-        const string = JSON.stringify({
-          category: category,
-          categorySpecsFormLayout: categorySpecsFormLayout,
-          initialData: context.resolvedUrl,
-          initialResult: results,
-          fieldsMetadata: fieldsMetadata,
-        });
-        return {
-          props: {
-            data: zlib.deflateSync(string).toString("base64"),
-          },
-        };
-      }
-    } catch {
+      const string = JSON.stringify({
+        category: category,
+        categorySpecsFormLayout: categorySpecsFormLayout,
+        initialData: context.asPath,
+        initialResult: results,
+        fieldsMetadata: fieldsMetadata,
+      });
+      return { data: zlib.deflateSync(string).toString("base64") };
+    }
+  } catch {
+    if (context.res) {
+      context.res.writeHead(302, {
+        Location: "/404",
+      });
+      context.res.end();
+      return;
+    } else {
       return {
-        notFound: true,
+        statusCode: 404,
       };
     }
   }
-);
+};
+
+export default Browse;

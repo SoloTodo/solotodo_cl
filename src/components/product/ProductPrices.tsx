@@ -18,7 +18,7 @@ import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/ap
 import { Entity } from "src/frontend-utils/types/entity";
 import { Product } from "src/frontend-utils/types/product";
 import { Category, Store } from "src/frontend-utils/types/store";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import ProductPriceCard from "./ProductPriceCard";
 import { RatedStore } from "./types";
 import MessageIcon from "@mui/icons-material/Message";

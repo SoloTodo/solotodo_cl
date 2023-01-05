@@ -5,7 +5,7 @@ import { constants } from "src/config";
 import currency from "currency.js";
 import { Currency } from "src/frontend-utils/redux/api_resources/types";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import RecentSlidesRow from "src/components/website-slides/RecentSlidesRow";
 import CategorySlidesRow from "src/components/website-slides/CaregorySlidesRow";
 import { categorySlides } from "src/categorySlides";

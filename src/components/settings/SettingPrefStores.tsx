@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useAppDispatch, useAppSelector } from "src/store/hooks";
+import { useAppDispatch, useAppSelector } from "src/frontend-utils/redux/hooks";
 import {
   getApiResourceObjects,
   useApiResourceObjects,

@@ -7,7 +7,6 @@ import { Budget } from "src/components/budget/types";
 import { PATH_MAIN } from "src/routes/paths";
 import { constants } from "src/config";
 import { fetchAuth, jwtFetch } from "src/frontend-utils/nextjs/utils";
-import { wrapper } from "src/store/store";
 import { useEffect, useState } from "react";
 import { PricingEntriesProps } from "src/components/product/types";
 import useSettings from "src/hooks/useSettings";
@@ -18,16 +17,13 @@ import {
   getApiResourceObjects,
   useApiResourceObjects,
 } from "src/frontend-utils/redux/api_resources/apiResources";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
+import { MyNextPageContext } from "src/frontend-utils/redux/with-redux-store";
 
-export default function BudgetEdit({
-  initialBudget,
-}: {
-  initialBudget: Budget;
-}) {
+function BudgetEdit({ initialBudget }: { initialBudget: Budget }) {
   const { prefExcludeRefurbished, prefStores } = useSettings();
   const [budget, setBudget] = useState(initialBudget);
   const [pricingEntries, setPricingEntries] = useState<
@@ -116,34 +112,43 @@ export default function BudgetEdit({
   );
 }
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (st) => async (context) => {
-    try {
-      const budget = await jwtFetch(
-        context,
-        `${constants.apiResourceEndpoints.budgets}${context.params?.id}/`
-      );
-      const user = st.getState().user;
-      if (!user || (!user.is_superuser && budget.user.id !== user.id)) {
+BudgetEdit.getInitialProps = async (context: MyNextPageContext) => {
+  try {
+    const reduxStore = context.reduxStore;
+    const budget = await jwtFetch(
+      context,
+      `${constants.apiResourceEndpoints.budgets}${context.query?.id}/`
+    );
+    const user = reduxStore.getState().user;
+    if (!user || (!user.is_superuser && budget.user.id !== user.id)) {
+      if (context.res) {
+        context.res.writeHead(302, {
+          Location: "/",
+        });
+        context.res.end();
+        return;
+      } else {
         return {
-          redirect: {
-            permanent: false,
-            destination: "/",
-          },
+          statusCode: 404,
         };
       }
+    }
+    return {
+      initialBudget: budget,
+    };
+  } catch {
+    if (context.res) {
+      context.res.writeHead(302, {
+        Location: "/login?budget_sign_in_required=True",
+      });
+      context.res.end();
+      return;
+    } else {
       return {
-        props: {
-          initialBudget: budget,
-        },
-      };
-    } catch {
-      return {
-        redirect: {
-          permanent: false,
-          destination: "/login?budget_sign_in_required=True",
-        },
+        statusCode: 404,
       };
     }
   }
-);
+};
+
+export default BudgetEdit;

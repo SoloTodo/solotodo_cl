@@ -25,6 +25,7 @@
     "@types/react-slick": "^0.23.10",
     "apexcharts": "^3.35.3",
     "atob": "^2.1.2",
+    "browserify-zlib": "^0.2.0",
     "cookie": "^0.5.0",
     "currency.js": "^2.0.4",
     "date-fns": "^2.28.0",
@@ -33,7 +34,6 @@
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
     "next": "12.1.6",
-    "next-redux-wrapper": "^7.0.5",
     "nookies": "^2.5.2",
     "notistack": "^2.0.5",
     "nprogress": "^0.2.0",
@@ -54,8 +54,7 @@
     "slick-carousel": "^1.8.1",
     "uuid": "^8.3.2",
     "uzip": "^0.20201231.0",
-    "yup": "^0.32.11",
-    "zlib": "^1.0.5"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/atob": "^2.1.2",

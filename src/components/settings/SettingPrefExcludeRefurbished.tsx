@@ -2,7 +2,7 @@ import { FormControlLabel, FormGroup, Switch } from "@mui/material";
 import { fetchAuth } from "src/frontend-utils/nextjs/utils";
 import userSlice, { useUser } from "src/frontend-utils/redux/user";
 import useSettings from "src/hooks/useSettings";
-import { useAppDispatch, useAppSelector } from "src/store/hooks";
+import { useAppDispatch, useAppSelector } from "src/frontend-utils/redux/hooks";
 
 export default function SettingPrefExcludeRefurbished() {
   const dispatch = useAppDispatch();

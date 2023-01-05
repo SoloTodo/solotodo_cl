@@ -10,7 +10,7 @@ import {
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { Product } from "src/frontend-utils/types/product";
 import userSlice, { useUser } from "src/frontend-utils/redux/user";
-import { useAppDispatch, useAppSelector } from "src/store/hooks";
+import { useAppDispatch, useAppSelector } from "src/frontend-utils/redux/hooks";
 import { MouseEventHandler, useState } from "react";
 import { fetchAuth } from "src/frontend-utils/nextjs/utils";
 import { useAuth } from "src/frontend-utils/nextjs/JWTContext";

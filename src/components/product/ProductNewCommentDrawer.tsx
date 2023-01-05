@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Product } from "src/frontend-utils/types/product";
 import CloseIcon from "@mui/icons-material/Close";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import {
   getApiResourceObject,
   useApiResourceObjects,

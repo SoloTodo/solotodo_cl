@@ -2,7 +2,7 @@ import { Button, Stack, Typography } from "@mui/material";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import { Rating } from "src/frontend-utils/types/ratings";
 import { PATH_MAIN } from "src/routes/paths";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import { fDateTime } from "src/utils/formatTime";
 
 const ratingValues: Record<number, string> = {
