@@ -50,7 +50,6 @@ import { useGtag4 } from "src/hooks/useGtag4";
 import { ProductsData } from "src/components/product/types";
 import currency from "currency.js";
 import { MyNextPageContext } from "src/frontend-utils/redux/with-redux-store";
-import { GetServerSidePropsContext } from "next/types";
 import cookie from "cookie";
 import { getSettings } from "src/utils/settings";
 
@@ -566,7 +565,7 @@ Browse.getInitialProps = async (context: MyNextPageContext) => {
         fieldsMetadata,
         `${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
       );
-      apiForm.initialize(context as unknown as GetServerSidePropsContext);
+      apiForm.initialize(context);
       const results = await apiForm.submit();
 
       const string = JSON.stringify({
