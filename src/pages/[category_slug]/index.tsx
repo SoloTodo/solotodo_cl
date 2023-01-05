@@ -54,6 +54,7 @@ import { GetServerSidePropsContext } from "next/types";
 import cookie from "cookie";
 import { getSettings } from "src/utils/settings";
 import { isServer } from "src/frontend-utils/nextjs/utils";
+const zlib = require("zlib");
 
 // ----------------------------------------------------------------------
 
@@ -97,16 +98,11 @@ type PropTypes = {
 // ----------------------------------------------------------------------
 
 function Browse({ data }: { data: string }) {
-  let props;
-  if (isServer) {
-    // TODO: check window undefined
-    const byteArray = Buffer.from(data, "base64");
-    const outBuff = UZIP.inflate(byteArray);
-    const stringProps = new TextDecoder().decode(outBuff);
-    props = JSON.parse(stringProps);
-  } else {
-    props = data;
-  }
+  const byteArray = Buffer.from(data, "base64");
+  const outBuff = UZIP.inflate(byteArray);
+  const stringProps = new TextDecoder().decode(outBuff);
+  const props = JSON.parse(stringProps);
+
   const {
     category,
     categorySpecsFormLayout,
@@ -574,26 +570,14 @@ Browse.getInitialProps = async (context: MyNextPageContext) => {
       apiForm.initialize(context as unknown as GetServerSidePropsContext);
       const results = await apiForm.submit();
 
-      const data = {
+      const string = JSON.stringify({
         category: category,
         categorySpecsFormLayout: categorySpecsFormLayout,
         initialData: context.asPath,
         initialResult: results,
         fieldsMetadata: fieldsMetadata,
-      };
-      if (context.req) {
-        // Server Side Rendering
-        const Zlib = require('zlib');
-
-        console.log('PASO')
-        const strting = JSON.stringify(data)
-        const deflate = new Zlib.RawDeflate(strting);
-        return {
-          data: deflate.toString("base64"),
-        };
-      } else {
-        return { data: data };
-      }
+      });
+      return { data: zlib.deflateSync(string).toString("base64") };
     }
   // } catch {
   //   context.res?.writeHead(302, {
