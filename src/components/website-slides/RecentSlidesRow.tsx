@@ -22,11 +22,11 @@ export default function RecentSlidesRow({
       ? `website_slides/?categories=${categoryId}&only_active_categories=1&ordering=category_priority`
       : "website_slides/?only_active_home=1&ordering=home_priority";
     fetchJson(url).then((res) => setRecentSlides(res));
-  }, []);
+  }, [categoryId]);
 
   let settings = {
-    slidesToShow: 1,
-    slidesToScroll: 1,
+    slidesToShow: 2,
+    slidesToScroll: 2,
     speed: 500,
     dots: true,
     infinite: false,
@@ -34,6 +34,15 @@ export default function RecentSlidesRow({
     nextArrow: <></>,
     prevArrow: <></>,
   };
+
+  if (width < 850)
+    settings = {
+      ...settings,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      nextArrow: <></>,
+      prevArrow: <></>,
+    };
 
   return (
     <>
