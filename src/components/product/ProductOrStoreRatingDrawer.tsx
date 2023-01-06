@@ -77,6 +77,9 @@ export default function ProductOrStoreRatingDrawer({
         rowsPerPage={5}
         onPageChange={(_e, v) => setPage(v + 1)}
         component="div"
+        labelDisplayedRows={({ from, to, count }) =>
+          `${from}–${to} de ${count !== -1 ? count : `más que ${to}`}`
+        }
       />
       {onNewComment && <ProductNewCommentButton onClick={onNewComment} />}
     </Stack>
