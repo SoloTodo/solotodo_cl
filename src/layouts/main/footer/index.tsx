@@ -21,6 +21,7 @@ import SocialsButton from "../../../components/SocialsButton";
 import useSettings from "src/hooks/useSettings";
 import NavigationDrawer from "../header/NavigationDrawer";
 import useResponsive from "src/hooks/useResponsive";
+import { format } from "date-fns";
 
 export default function MainFooter() {
   const settings = useSettings();
@@ -46,9 +47,7 @@ export default function MainFooter() {
     },
     {
       headline: "Contacto",
-      children: [
-        { name: "Formulario web", href: PATH_MAIN.contacto },
-      ],
+      children: [{ name: "Formulario web", href: PATH_MAIN.contacto }],
     },
   ];
 
@@ -118,12 +117,14 @@ export default function MainFooter() {
               direction={{ xs: "column", md: "row" }}
               justifyContent="space-between"
             >
-              {isDesktop && <Stack key="Navega" spacing={2}>
-                <Typography component="p" variant="overline">
-                  Navega
-                </Typography>
-                <NavigationDrawer inFooter />
-              </Stack>}
+              {isDesktop && (
+                <Stack key="Navega" spacing={2}>
+                  <Typography component="p" variant="overline">
+                    Navega
+                  </Typography>
+                  <NavigationDrawer inFooter />
+                </Stack>
+              )}
               {LINKS.map((list) => (
                 <Stack key={list.headline} spacing={2}>
                   <Typography component="p" variant="overline">
@@ -156,7 +157,8 @@ export default function MainFooter() {
             textAlign: "center",
           }}
         >
-          SOLOTODO 2022 | Todos los derechos reservados | Santiago de Chile
+          SOLOTODO {format(new Date(), "yyyy")} | Todos los derechos reservados
+          | Santiago de Chile
         </Typography>
         <Stack
           direction="row"
