@@ -1,24 +1,32 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-export const useDfpSlot = (category: string, divId: string, isMobile: Boolean) => {
+export const useDfpSlot = (
+  category: string,
+  divId: string,
+  isMobile: Boolean
+) => {
   const router = useRouter();
   const [transition, setTransition] = useState(false);
+
+  const removeSlot = () => {
+    const { googletag } = window as any;
+    googletag.cmd.push(function () {
+      googletag.destroySlots();
+    });
+  };
 
   useEffect(() => {
     const setTransitionStarted = () => {
       setTransition(true);
-      const { googletag } = window as any;
-      googletag.cmd.push(function () {
-        googletag.destroySlots();
-      });
+      removeSlot();
     };
 
     const setTransitionComplete = () => {
       setTransition(false);
     };
 
-    if (!transition) {
+    if (!transition && window) {
       const googletag = (window as any).googletag || {};
       googletag.cmd.push(function () {
         googletag.destroySlots();
@@ -26,17 +34,17 @@ export const useDfpSlot = (category: string, divId: string, isMobile: Boolean) =
       const sizes = isMobile ? [320, 50] : [[728, 90], [970, 90]];
 
       googletag.cmd.push(function () {
-        googletag
-          .defineSlot(
-            "/21667261583/top_banner",
-            sizes,
-            divId
-          )
-          .setTargeting("category", [category])
-          .addService(googletag.pubads());
-        googletag.pubads().enableSingleRequest();
-        googletag.enableServices();
-        googletag.display(divId);
+        try {
+          googletag
+            .defineSlot("/21667261583/top_banner", sizes, divId)
+            .setTargeting("category", [category])
+            .addService(googletag.pubads());
+          googletag.pubads().enableSingleRequest();
+          googletag.enableServices();
+          googletag.display(divId);
+        } catch {
+          removeSlot();
+        }
       });
     }
 
