@@ -86,8 +86,8 @@ export default function ProductsRow({
   }, [prefExcludeRefurbished, storesUrl, url]);
 
   let settings = {
-    slidesToShow: 1,
-    slidesToScroll: 1,
+    slidesToShow: 3,
+    slidesToScroll: 3,
     speed: 500,
     dots: true,
     infinite: false,
@@ -96,9 +96,18 @@ export default function ProductsRow({
     prevArrow: <SamplePrevArrow />,
   };
 
-  if (width < 550)
+  if (width < 1100)
     settings = {
       ...settings,
+      slidesToShow: 2,
+      slidesToScroll: 2,
+    };
+
+  if (width < 710)
+    settings = {
+      ...settings,
+      slidesToShow: 1,
+      slidesToScroll: 1,
       nextArrow: <></>,
       prevArrow: <></>,
     };

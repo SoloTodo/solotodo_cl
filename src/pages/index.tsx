@@ -29,8 +29,8 @@ const Home = () => {
         <RecentSlidesRow />
         <ProductsRow
           title="Lo más visto"
-          url={`products/browse/?ordering=leads&websites=${constants.websiteId}`}
-          sliceValue={10}
+          url={`products/browse/?page_size=15&ordering=leads&websites=${constants.websiteId}`}
+          sliceValue={15}
           ribbonFormatter={(value: string) => `${parseInt(value, 10)} visitas`}
           actionHref={`/search?ordering=leads`}
         />
@@ -45,8 +45,8 @@ const Home = () => {
         <CategorySlidesRow categorySlides={categorySlides} />
         <ProductsRow
           title="Ofertas del día"
-          url={`products/browse/?ordering=discount&websites=${constants.websiteId}`}
-          sliceValue={10}
+          url={`products/browse/?page_size=15&ordering=discount&websites=${constants.websiteId}`}
+          sliceValue={15}
           ribbonFormatter={(value: string) =>
             `Bajó ${currency(value, {
               separator: ".",
