@@ -105,10 +105,7 @@ MyApp.getInitialProps = async (context: MyAppContext) => {
   let user = null;
 
   try {
-    user = await jwtFetch(
-      ctx,
-      "users/me/"
-    );
+    user = await jwtFetch(ctx, "users/me/");
   } catch (err: any) {
     // Invalid token or some other network error, invalidate the
     // possible auth cookie
@@ -134,15 +131,25 @@ MyApp.getInitialProps = async (context: MyAppContext) => {
     reduxStore.dispatch(
       apiResourceObjectsSlice.actions.addApiResourceObjects(apiResources)
     );
+    const activeChileanStores = (apiResources as Store[]).reduce(
+      (acc: string[], a) => {
+        if (
+          a.url.includes("stores") &&
+          a.country === constants.defaultCountryUrl &&
+          a.last_activation
+        ) {
+          acc.push(a.id.toString());
+        }
+        return acc;
+      },
+      []
+    );
     if (settings.prefStores.length == 0) {
-      settings.prefStores = (apiResources as Store[])
-        .filter(
-          (s) =>
-            s.url.includes("stores") &&
-            s.country === constants.defaultCountryUrl &&
-            s.last_activation
-        )
-        .map((f) => f.id.toString());
+      settings.prefStores = activeChileanStores;
+    } else {
+      settings.prefStores = settings.prefStores.filter((s) =>
+        activeChileanStores.includes(s)
+      );
     }
     if (user) {
       reduxStore.dispatch(userSlice.actions.setUser(user));

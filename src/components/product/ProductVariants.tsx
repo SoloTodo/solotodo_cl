@@ -5,11 +5,11 @@ import { useEffect, useState } from "react";
 import { Entity } from "src/frontend-utils/types/entity";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import { useAppSelector } from "src/frontend-utils/redux/hooks";
-import { useUser } from "src/frontend-utils/redux/user";
 import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import { Grid } from "@mui/material";
 import ProductAxisChoices from "./ProductAxisChoices";
 import { PricingEntriesProps } from "./types";
+import useSettings from "src/hooks/useSettings";
 
 type ProductVariantsProps = {
   product: Product;
@@ -29,8 +29,8 @@ export default function ProductVariants({
   product,
   category,
 }: ProductVariantsProps) {
-  const user = useAppSelector(useUser);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
+  const { prefExcludeRefurbished, prefStores } = useSettings();
   const [pricingEntries, setPrincingEntries] = useState<PricingEntriesProps[]>(
     []
   );
@@ -44,9 +44,6 @@ export default function ProductVariants({
 
     const fields = bucketSettings.fields;
     const bucketUrl = `products/${product.id}/bucket/?fields=${fields}`;
-    const stores = user
-      ? user.preferred_stores.map((s) => apiResourceObjects[s])
-      : [];
 
     fetchJson(bucketUrl, { signal: myAbortController.signal })
       .then((products) => {
@@ -56,9 +53,11 @@ export default function ProductVariants({
           pricingEntriesUrl += `ids=${product.id}&`;
         }
 
-        for (const store of stores) {
-          pricingEntriesUrl += `stores=${store.id}&`;
+        for (const store of prefStores) {
+          pricingEntriesUrl += `&stores=${store}`;
         }
+
+        pricingEntriesUrl += `&exclude_refurbished=${prefExcludeRefurbished}`;
 
         fetchJson(pricingEntriesUrl, { signal: myAbortController.signal })
           .then((response) => {
@@ -84,7 +83,13 @@ export default function ProductVariants({
     return () => {
       myAbortController.abort();
     };
-  }, [apiResourceObjects, bucketSettings, product.id, user]);
+  }, [
+    apiResourceObjects,
+    bucketSettings,
+    prefExcludeRefurbished,
+    prefStores,
+    product.id,
+  ]);
 
   if (!bucketSettings || pricingEntries.length === 0) return null;
 
