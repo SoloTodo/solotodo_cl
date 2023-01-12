@@ -4,14 +4,7 @@ import { Rating } from "src/frontend-utils/types/ratings";
 import { PATH_MAIN } from "src/routes/paths";
 import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import { fDateTime } from "src/utils/formatTime";
-
-const ratingValues: Record<number, string> = {
-  1: "Muy malo",
-  2: "Malo",
-  3: "Normal",
-  4: "Muy bueno",
-  5: "Excelente",
-};
+import { ratingValues } from "src/utils/ratingValues";
 
 export default function ProductComment({
   rating,
