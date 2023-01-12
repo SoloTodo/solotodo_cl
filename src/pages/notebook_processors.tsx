@@ -60,6 +60,7 @@ export default function NotebookProcessors({ data }: { data: string }) {
     { field: "thread_count_value", headerName: "Hilos", flex: 0.5 },
     { field: "frequency_unicode", headerName: "Frecuencia", flex: 1 },
     { field: "turbo_frequency_unicode", headerName: "Frec. turbo", flex: 1 },
+    { field: "speed_score", headerName: "Velocidad", flex: 1 },
   ];
 
   function CustomPagination() {
@@ -71,7 +72,7 @@ export default function NotebookProcessors({ data }: { data: string }) {
         color="primary"
         count={pageCount}
         page={page + 1}
-        onChange={(event, value) => apiRef.current.setPage(value - 1)}
+        onChange={(_event, value) => apiRef.current.setPage(value - 1)}
       />
     );
   }
