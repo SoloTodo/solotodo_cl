@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import NextLink from "next/link";
 import {
   Stack,
@@ -11,6 +11,7 @@ import {
   ListItemText,
   Link,
   useTheme,
+  Grid,
 } from "@mui/material";
 import { NavigationProps } from "src/contexts/NavigationContext";
 import useNavigation from "src/hooks/useNavigation";
@@ -26,6 +27,7 @@ export default function NavigationDrawer({ inFooter = false }) {
   const theme = useTheme();
   const isLight = theme.palette.mode === "light";
   const isDesktop = useResponsive("up", "lg");
+  const isMobile = useResponsive("down", "md");
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [menu, setMenu] = useState<NavigationProps | null>(null);
@@ -68,6 +70,15 @@ export default function NavigationDrawer({ inFooter = false }) {
     </Link>
   ));
 
+  const CustomList = ({ children }: { children: ReactNode }) =>
+    isMobile ? (
+      <List dense>{children}</List>
+    ) : (
+      <List dense component={Grid} container direction="row">
+        {children}
+      </List>
+    );
+
   return (
     <>
       {inFooter ? (
@@ -88,7 +99,7 @@ export default function NavigationDrawer({ inFooter = false }) {
         </>
       )}
       <Drawer
-        anchor="left"
+        anchor={isMobile ? "left" : "top"}
         open={openMenu}
         onClose={closeDrawer}
         PaperProps={{ sx: { backgroundColor: "transparent" } }}
@@ -101,24 +112,29 @@ export default function NavigationDrawer({ inFooter = false }) {
           bgcolor="transparent"
         />
         <Box
-          width={{ xs: 250, lg: 300 }}
+          width={isMobile ? { xs: 250, lg: 300 } : "100%"}
           bgcolor={isLight ? "background.default" : "background.paper"}
           overflow="auto"
         >
-          <List>
+          <CustomList>
             {navigation.map((s, index) => (
               <ListItemButton
                 key={index}
-                sx={{ textTransform: "capitalize", paddingY: 2 }}
+                sx={{ textTransform: "capitalize", paddingY: isMobile ? 2 : 4 }}
                 onClick={() => openDrawer(index)}
               >
-                <ListItemText primaryTypographyProps={{ typography: "body1" }}>
+                <ListItemText primaryTypographyProps={{ typography: "h5" }}>
                   {s.name}
                 </ListItemText>
-                <Box component={Iconify} icon={"eva:arrow-ios-forward-fill"} />
+                {isMobile && (
+                  <Box
+                    component={Iconify}
+                    icon={"eva:arrow-ios-forward-fill"}
+                  />
+                )}
               </ListItemButton>
             ))}
-          </List>
+          </CustomList>
         </Box>
         <Box
           flexGrow={1}
@@ -126,7 +142,7 @@ export default function NavigationDrawer({ inFooter = false }) {
         />
       </Drawer>
       <Drawer
-        anchor="left"
+        anchor={isMobile ? "left" : "top"}
         open={open}
         onClose={closeDrawer}
         PaperProps={{ sx: { backgroundColor: "transparent" } }}
@@ -139,62 +155,101 @@ export default function NavigationDrawer({ inFooter = false }) {
           bgcolor="transparent"
         />
         <Box
-          width={{ xs: 250, lg: 300 }}
+          width={isMobile ? { xs: 250, lg: 300 } : "100%"}
           bgcolor={isLight ? "background.default" : "background.paper"}
           overflow="auto"
         >
-          <List dense>
+          <CustomList>
             {menu?.sections.map((s, index) => (
-              <div key={index}>
+              <Box
+                key={index}
+                sx={{
+                  width: isMobile ? "100%" : 250,
+                  paddingTop: 4,
+                  paddingLeft: 4,
+                }}
+              >
                 {s.path === "/" ? (
-                  <ListItemButton sx={{ textTransform: "capitalize" }} disabled>
+                  <Link
+                    sx={{ textTransform: "capitalize" }}
+                    underline="none"
+                    color="text.disabled"
+                  >
                     <ListItemText
-                      primaryTypographyProps={{ typography: "body1" }}
+                      primaryTypographyProps={{
+                        typography: "h5",
+                        fontWeight: 500,
+                      }}
                     >
                       {s.name}
                     </ListItemText>
-                  </ListItemButton>
+                  </Link>
                 ) : (
                   <NextLink href={`${s.path}/preview`} passHref>
-                    <ListItemButton
-                      sx={{ textTransform: "capitalize" }}
+                    <Link
+                      sx={{
+                        textTransform: "capitalize",
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                      color="text.absolute"
                       onClick={closeDrawer}
                     >
                       <ListItemText
-                        primaryTypographyProps={{ typography: "body1" }}
+                        primaryTypographyProps={{
+                          typography: "h5",
+                          fontWeight: 500,
+                        }}
                       >
                         {s.name}
                       </ListItemText>
-                      <Box
-                        component={Iconify}
-                        icon={"eva:arrow-ios-forward-fill"}
-                      />
-                    </ListItemButton>
+                      {isMobile && (
+                        <Box
+                          component={Iconify}
+                          icon={"eva:arrow-ios-forward-fill"}
+                        />
+                      )}
+                    </Link>
                   </NextLink>
                 )}
                 <List dense sx={{ padding: 0 }}>
                   {s.items.map((i) => (
-                    <ListItem key={`${s.name}-${i.name}`}>
+                    <ListItem
+                      key={`${s.name}-${i.name}`}
+                      sx={{ paddingLeft: 0, paddingTop: 1 }}
+                    >
                       <NextLink href={i.path} passHref>
-                        <ListItemButton onClick={closeDrawer}>
-                          <ListItemText>{i.name}</ListItemText>
-                        </ListItemButton>
+                        <Link onClick={closeDrawer} color="text.subtitle">
+                          <ListItemText
+                            primaryTypographyProps={{
+                              typography: "body1",
+                            }}
+                          >
+                            {i.name}
+                          </ListItemText>
+                        </Link>
                       </NextLink>
                     </ListItem>
                   ))}
-                  <ListItem key={s.name}>
+                  <ListItem key={s.name} sx={{ paddingLeft: 0, paddingTop: 1 }}>
                     <NextLink href={s.path} passHref>
-                      <ListItemButton onClick={closeDrawer}>
-                        <ListItemText sx={{ color: "primary.main" }}>
+                      <Link onClick={closeDrawer}>
+                        <ListItemText
+                          primaryTypographyProps={{
+                            typography: "body1",
+                          }}
+                        >
                           Ver todos
                         </ListItemText>
-                      </ListItemButton>
+                      </Link>
                     </NextLink>
                   </ListItem>
                 </List>
-              </div>
+              </Box>
             ))}
-          </List>
+          </CustomList>
+          <Box pt={4} />
         </Box>
         <Box
           flexGrow={1}
