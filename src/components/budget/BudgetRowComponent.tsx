@@ -129,7 +129,7 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
                     name="Tienda"
                     fullWidth
                     inputProps={{ sx: { padding: 1 } }}
-                    value={budgetEntry.selected_store || ""}
+                    value={matchingEntity.store || ""}
                     onChange={handleStoreSelect}
                   >
                     {filteredEntities.map((entity) => {

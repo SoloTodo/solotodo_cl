@@ -49,7 +49,7 @@ export default function BudgetRow({
 
   const matchingEntity = filteredEntities.filter(
     (entity) => entity.store === budgetEntry.selected_store
-  )[0];
+  )[0] || filteredEntities[0];
   const selectedProductHref = matchingPricingEntry
     ? `/products/${matchingPricingEntry.product.id}`
     : "";
