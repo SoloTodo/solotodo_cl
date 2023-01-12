@@ -232,19 +232,24 @@ export default function NavigationDrawer({ inFooter = false }) {
                       </NextLink>
                     </ListItem>
                   ))}
-                  <ListItem key={s.name} sx={{ paddingLeft: 0, paddingTop: 1 }}>
-                    <NextLink href={s.path} passHref>
-                      <Link onClick={closeDrawer}>
-                        <ListItemText
-                          primaryTypographyProps={{
-                            typography: "body1",
-                          }}
-                        >
-                          Ver todos
-                        </ListItemText>
-                      </Link>
-                    </NextLink>
-                  </ListItem>
+                  {s.path !== "/" && (
+                    <ListItem
+                      key={s.name}
+                      sx={{ paddingLeft: 0, paddingTop: 1 }}
+                    >
+                      <NextLink href={s.path} passHref>
+                        <Link onClick={closeDrawer}>
+                          <ListItemText
+                            primaryTypographyProps={{
+                              typography: "body1",
+                            }}
+                          >
+                            Ver todos
+                          </ListItemText>
+                        </Link>
+                      </NextLink>
+                    </ListItem>
+                  )}
                 </List>
               </Box>
             ))}
