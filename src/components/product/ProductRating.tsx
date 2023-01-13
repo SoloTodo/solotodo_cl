@@ -21,13 +21,16 @@ export default function ProductRating({
   product,
   openNewCommentDrawer,
   setOpenNewCommentDrawer,
+  openMoreCommentsDrawer,
+  setOpenMoreCommentsDrawer,
 }: {
   product: Product;
   openNewCommentDrawer: boolean;
   setOpenNewCommentDrawer: Function;
+  openMoreCommentsDrawer: boolean;
+  setOpenMoreCommentsDrawer: Function;
 }) {
   const [ratingsData, setRatingsData] = useState<Rating[]>([]);
-  const [openMoreCommentsDrawer, setOpenMoreCommentsDrawer] = useState(false);
 
   useEffect(() => {
     const myAbortController = new AbortController();
@@ -55,7 +58,10 @@ export default function ProductRating({
               <Typography variant="h5" color="text.extra" fontWeight={700}>
                 {product.name}
               </Typography>
-              <ProductRatingSummary productOrStore={product} />
+              <ProductRatingSummary
+                productOrStore={product}
+                setOpenMoreCommentsDrawer={setOpenMoreCommentsDrawer}
+              />
               <Grid container>
                 {ratingsData.map((result, index) => (
                   <Grid key={index} item xs={12} md={6}>

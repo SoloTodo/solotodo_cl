@@ -28,6 +28,7 @@ import Handlebars from "handlebars";
 export default function ProductPage({ product }: { product: Product }) {
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const [openNewCommentDrawer, setOpenNewCommentDrawer] = useState(false);
+  const [openMoreCommentsDrawer, setOpenMoreCommentsDrawer] = useState(false);
   const [description, setDescription] = useState("");
 
   const category = apiResourceObjects[product.category] as Category;
@@ -115,7 +116,10 @@ export default function ProductPage({ product }: { product: Product }) {
                 {product.name}
               </Typography>
               <ProductWarnings product={product} />
-              <ProductRatingSummary productOrStore={product} />
+              <ProductRatingSummary
+                productOrStore={product}
+                setOpenMoreCommentsDrawer={setOpenMoreCommentsDrawer}
+              />
               <ProductVariants product={product} category={category} />
               <ProductBenchmarks product={product} category={category} />
               <ProductDescription product={product} />
@@ -133,6 +137,8 @@ export default function ProductPage({ product }: { product: Product }) {
           product={product}
           openNewCommentDrawer={openNewCommentDrawer}
           setOpenNewCommentDrawer={setOpenNewCommentDrawer}
+          openMoreCommentsDrawer={openMoreCommentsDrawer}
+          setOpenMoreCommentsDrawer={setOpenMoreCommentsDrawer}
         />
         <ProductDisques product={product} />
       </Container>
