@@ -71,7 +71,7 @@ export default function Search() {
   useGtag3({});
   useGtag4({ pageTitle: "Búsqueda" });
   return (
-    <Page title="Búsqueda">
+    <Page title={`${router.query.search} | Búsqueda`}>
       <Container>
         <TopBanner category="any" />
         <HeaderBreadcrumbs

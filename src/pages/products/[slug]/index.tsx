@@ -1,6 +1,6 @@
 import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import Image from "src/components/Image";
 import Page from "src/components/Page";
@@ -22,12 +22,22 @@ import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
 import ProductDisques from "src/components/product/ProductDisques";
+import Head from "next/head";
+import Handlebars from "handlebars";
 
 export default function ProductPage({ product }: { product: Product }) {
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const [openNewCommentDrawer, setOpenNewCommentDrawer] = useState(false);
+  const [description, setDescription] = useState("");
 
   const category = apiResourceObjects[product.category] as Category;
+
+  useEffect(() => {
+    const templateHandler = Handlebars.compile(
+      category.short_description_template
+    );
+    setDescription(templateHandler(product.specs));
+  }, [category.short_description_template, product.specs]);
 
   const params = {
     category: category.name,
@@ -39,6 +49,40 @@ export default function ProductPage({ product }: { product: Product }) {
   useGtag4({ ...params, pageTitle: product.name });
   return (
     <Page title={product.name}>
+      <Head>
+        <title key="title">{product.name} - SoloTodo</title>
+        <meta property="og:type" content="product" />
+        <link
+          rel="canonical"
+          href={`${constants.domain}/products/${product.id}-${product.slug}`}
+        />
+        <meta
+          property="og:url"
+          content={`${constants.domain}/products/${product.id}-${product.slug}`}
+        />
+        <meta property="og:title" content={product.name} />
+        <meta
+          name="description"
+          property="og:description"
+          content={description}
+        />
+        <meta
+          property="og:image"
+          content={`${constants.endpoint}products/${product.id}/picture/?image_format=JPEG&quality=80&width=1200&height=650`}
+          key="og_image"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="650" />
+        <meta
+          property="product:brand"
+          content={product.specs.brand_unicode.toString()}
+        />
+        <meta property="product:condition" content="new" />
+        <meta
+          property="product:retailer_item_id"
+          content={product.id.toString()}
+        />
+      </Head>
       <Container>
         <TopBanner category={category.name} />
         <HeaderBreadcrumbs

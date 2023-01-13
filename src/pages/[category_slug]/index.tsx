@@ -53,6 +53,7 @@ import { MyNextPageContext } from "src/frontend-utils/redux/with-redux-store";
 import cookie from "cookie";
 import { getSettings } from "src/utils/settings";
 import { useCheckStatusCode } from "src/hooks/useCheckStatusCode";
+import Head from "next/head";
 
 const zlib = require("zlib");
 
@@ -252,8 +253,19 @@ function Browse({ data, statusCode }: { data: string; statusCode?: number }) {
   });
   return (
     <Page title={category.name}>
-      <TopBanner category={category.name} />
+      <Head>
+        <meta
+          property="og:title"
+          content={`Catálogo de ${category.name} - SoloTodo`}
+        />
+        <meta
+          name="description"
+          property="og:description"
+          content={`Cotiza y ahorra comparando los precios de todos los ${category.name.toLowerCase()} disponibles en el mercado`}
+        />
+      </Head>
       <Container>
+        <TopBanner category={category.name} />
         <HeaderBreadcrumbs
           heading=""
           links={[
