@@ -120,7 +120,10 @@ export default function NavigationDrawer({ inFooter = false }) {
             {navigation.map((s, index) => (
               <ListItemButton
                 key={index}
-                sx={{ textTransform: "capitalize", paddingY: isMobile ? 2 : 4 }}
+                sx={{
+                  textTransform: "capitalize",
+                  paddingY: isMobile ? 2 : 4,
+                }}
                 onClick={() => openDrawer(index)}
               >
                 <ListItemText primaryTypographyProps={{ typography: "h5" }}>
@@ -192,8 +195,11 @@ export default function NavigationDrawer({ inFooter = false }) {
                         display: "flex",
                         flexDirection: "row",
                         alignItems: "center",
+                        ":hover": {
+                          color: "secondary.main",
+                        },
                       }}
-                      color="text.absolute"
+                      color="text.title"
                       onClick={closeDrawer}
                     >
                       <ListItemText
@@ -220,7 +226,15 @@ export default function NavigationDrawer({ inFooter = false }) {
                       sx={{ paddingLeft: 0, paddingTop: 1 }}
                     >
                       <NextLink href={i.path} passHref>
-                        <Link onClick={closeDrawer} color="text.subtitle">
+                        <Link
+                          onClick={closeDrawer}
+                          color="text.subtitle"
+                          sx={{
+                            ":hover": {
+                              color: "secondary.main",
+                            },
+                          }}
+                        >
                           <ListItemText
                             primaryTypographyProps={{
                               typography: "body1",
@@ -238,7 +252,14 @@ export default function NavigationDrawer({ inFooter = false }) {
                       sx={{ paddingLeft: 0, paddingTop: 1 }}
                     >
                       <NextLink href={s.path} passHref>
-                        <Link onClick={closeDrawer}>
+                        <Link
+                          onClick={closeDrawer}
+                          sx={{
+                            ":hover": {
+                              color: "secondary.main",
+                            },
+                          }}
+                        >
                           <ListItemText
                             primaryTypographyProps={{
                               typography: "body1",

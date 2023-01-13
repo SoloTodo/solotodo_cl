@@ -168,7 +168,7 @@ const palette = {
   light: {
     ...COMMON,
     mode: 'light',
-    text: { primary: alpha("#202020", 0.7), secondary: GREY[600], extra: "#3B5D81", subtitle: "#4F4F4F", absolute: "#000", dim: alpha("#000", 0.8), disabled: GREY[500] },
+    text: { primary: alpha("#202020", 0.7), secondary: GREY[600], extra: "#3B5D81", subtitle: "#4F4F4F", absolute: "#000", dim: alpha("#000", 0.8), disabled: GREY[500], title: GREY[800]},
     background: { paper: "#fff", default: "#F7F7F7", neutral: GREY[200] },
     action: { active: GREY[600], ...COMMON.action },
     header: "#EDEDED"
@@ -176,7 +176,7 @@ const palette = {
   dark: {
     ...COMMON,
     mode: 'dark',
-    text: { primary: '#fff', secondary: GREY[500], extra: "#fff", subtitle: "#fff", absolute: "#fff", dim: alpha("#fff", 0.8), disabled: GREY[600] },
+    text: { primary: '#fff', secondary: GREY[500], extra: "#fff", subtitle: "#fff", absolute: "#fff", dim: alpha("#fff", 0.8), disabled: GREY[600], title: alpha("#fff", 0.6)},
     background: { paper: GREY[900], default: GREY[800], neutral: alpha("#000000", 0.3) },
     action: { active: GREY[500], ...COMMON.action },
     header: alpha("#000000", 0.3)
