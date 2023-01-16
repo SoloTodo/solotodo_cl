@@ -110,6 +110,7 @@ export default function NavigationDrawer({ inFooter = false }) {
             md: `${HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT}px`,
           }}
           bgcolor="transparent"
+          onClick={closeDrawer}
         />
         <Box
           width={isMobile ? { xs: 250, lg: 300 } : "100%"}
@@ -156,6 +157,7 @@ export default function NavigationDrawer({ inFooter = false }) {
             md: `${HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT}px`,
           }}
           bgcolor="transparent"
+          onClick={closeDrawer}
         />
         <Box
           width={isMobile ? { xs: 250, lg: 300 } : "100%"}
