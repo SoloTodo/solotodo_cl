@@ -9,7 +9,7 @@ export default function ProductRatingSummary({
   setOpenMoreCommentsDrawer,
 }: {
   productOrStore: Product | Store;
-  setOpenMoreCommentsDrawer: Function;
+  setOpenMoreCommentsDrawer?: Function;
 }) {
   const [ratingsData, setRatingsData] = useState<{
     average: number;
@@ -33,8 +33,11 @@ export default function ProductRatingSummary({
   return (
     <Stack direction="row">
       <Button
-        onClick={() => setOpenMoreCommentsDrawer(true)}
+        onClick={() =>
+          setOpenMoreCommentsDrawer ? setOpenMoreCommentsDrawer(true) : {}
+        }
         sx={{ justifyContent: "start", padding: 0, paddingRight: 1 }}
+        disabled={!setOpenMoreCommentsDrawer}
       >
         <Stack spacing={1} direction="row">
           <Rating
