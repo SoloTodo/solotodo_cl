@@ -51,7 +51,6 @@ export default function ProductPage({ product }: { product: Product }) {
   return (
     <Page title={product.name}>
       <Head>
-        <title key="title">{product.name} - SoloTodo</title>
         <meta property="og:type" content="product" />
         <link
           rel="canonical"
