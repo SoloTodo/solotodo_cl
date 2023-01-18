@@ -35,7 +35,7 @@ export default function ProductPage({ product }: { product: Product }) {
 
   useEffect(() => {
     const templateHandler = Handlebars.compile(
-      category.short_description_template
+      category.short_description_template || category.name
     );
     setDescription(templateHandler(product.specs));
   }, [category.short_description_template, product.specs]);
