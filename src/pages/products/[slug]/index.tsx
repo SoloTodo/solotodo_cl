@@ -38,7 +38,7 @@ export default function ProductPage({ product }: { product: Product }) {
       category.short_description_template || category.name
     );
     setDescription(templateHandler(product.specs));
-  }, [category.short_description_template, product.specs]);
+  }, [category.name, category.short_description_template, product.specs]);
 
   const params = {
     category: category.name,
