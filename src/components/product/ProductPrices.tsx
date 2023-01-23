@@ -160,7 +160,7 @@ export default function ProductPrices({
     return () => {
       myAbortController.abort();
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     category.id,
     category.name,
@@ -182,7 +182,7 @@ export default function ProductPrices({
 
   const setRefurbushedReminderCookie = () => {
     Cookies.set(cookiesKey.refurbishedReminder, "active", {
-      expires: cookiesExpires * 10,
+      expires: cookiesExpires,
     });
     setOpenModal(false);
   };

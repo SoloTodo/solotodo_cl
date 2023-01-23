@@ -1,7 +1,17 @@
-import Cookies from 'js-cookie';
-import { ReactNode, createContext, Dispatch, SetStateAction, useEffect, useState } from 'react';
+import Cookies from "js-cookie";
+import {
+  ReactNode,
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 // utils
-import getColorPresets, { colorPresets, defaultPreset } from '../utils/getColorPresets';
+import getColorPresets, {
+  colorPresets,
+  defaultPreset,
+} from "../utils/getColorPresets";
 // @type
 import {
   ThemeMode,
@@ -10,9 +20,9 @@ import {
   ThemeColorPresets,
   SettingsContextProps,
   SettingsValueProps,
-} from '../components/settings/type';
+} from "../components/settings/type";
 // config
-import { defaultSettings, cookiesKey, cookiesExpires } from '../config';
+import { defaultSettings, cookiesKey, cookiesExpires } from "../config";
 
 // ----------------------------------------------------------------------
 
@@ -54,21 +64,23 @@ function SettingsProvider({
   const onToggleMode = () => {
     setSettings({
       ...settings,
-      themeMode: settings.themeMode === 'light' ? 'dark' : 'light',
+      themeMode: settings.themeMode === "light" ? "dark" : "light",
     });
   };
 
   const onChangeDirection = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSettings({
       ...settings,
-      themeDirection: (event.target as HTMLInputElement).value as ThemeDirection,
+      themeDirection: (event.target as HTMLInputElement)
+        .value as ThemeDirection,
     });
   };
 
   const onChangeColor = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSettings({
       ...settings,
-      themeColorPresets: (event.target as HTMLInputElement).value as ThemeColorPresets,
+      themeColorPresets: (event.target as HTMLInputElement)
+        .value as ThemeColorPresets,
     });
   };
 
@@ -95,6 +107,7 @@ function SettingsProvider({
       themeColorPresets: initialState.themeColorPresets,
       prefExcludeRefurbished: initialState.prefExcludeRefurbished,
       prefStores: initialState.prefStores,
+      prefStoresLastUpdate: initialState.prefStoresLastUpdate,
     });
   };
 
@@ -103,14 +116,15 @@ function SettingsProvider({
       ...settings,
       prefExcludeRefurbished: !settings.prefExcludeRefurbished,
     });
-  }
+  };
 
   const onChangeStores = (newStores: string[]) => {
     setSettings({
       ...settings,
       prefStores: newStores,
+      prefStoresLastUpdate: new Date()?.toISOString(),
     });
-  }
+  };
 
   return (
     <SettingsContext.Provider
@@ -154,9 +168,13 @@ function useSettingCookies(
   const [settings, setSettings] = useState<SettingsValueProps>(defaultSettings);
 
   const onChangeSetting = () => {
-    Cookies.set(cookiesKey.themeMode, settings.themeMode, { expires: cookiesExpires });
+    Cookies.set(cookiesKey.themeMode, settings.themeMode, {
+      expires: cookiesExpires,
+    });
 
-    Cookies.set(cookiesKey.themeDirection, settings.themeDirection, { expires: cookiesExpires });
+    Cookies.set(cookiesKey.themeDirection, settings.themeDirection, {
+      expires: cookiesExpires,
+    });
 
     Cookies.set(cookiesKey.themeColorPresets, settings.themeColorPresets, {
       expires: cookiesExpires,
@@ -166,17 +184,35 @@ function useSettingCookies(
       expires: cookiesExpires,
     });
 
-    Cookies.set(cookiesKey.themeStretch, JSON.stringify(settings.themeStretch), {
+    Cookies.set(
+      cookiesKey.themeStretch,
+      JSON.stringify(settings.themeStretch),
+      {
+        expires: cookiesExpires,
+      }
+    );
+
+    Cookies.set(
+      cookiesKey.prefExcludeRefurbished,
+      JSON.stringify(settings.prefExcludeRefurbished),
+      {
+        expires: cookiesExpires,
+      }
+    );
+
+    Cookies.set(cookiesKey.prefStores, settings.prefStores.join("|"), {
       expires: cookiesExpires,
     });
 
-    Cookies.set(cookiesKey.prefExcludeRefurbished, JSON.stringify(settings.prefExcludeRefurbished), {
-      expires: cookiesExpires,
-    });
-
-    Cookies.set(cookiesKey.prefStores, settings.prefStores.join('|'), {
-      expires: cookiesExpires,
-    });
+    Cookies.set(
+      cookiesKey.prefStoresLastUpdate,
+      typeof settings.prefStoresLastUpdate === "undefined"
+        ? ""
+        : settings.prefStoresLastUpdate,
+      {
+        expires: cookiesExpires,
+      }
+    );
   };
 
   useEffect(() => {

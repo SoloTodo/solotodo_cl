@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useAppDispatch, useAppSelector } from "src/frontend-utils/redux/hooks";
+import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import {
   getApiResourceObjects,
   useApiResourceObjects,
@@ -18,16 +18,12 @@ import {
 import { constants } from "src/config";
 import { Store } from "src/frontend-utils/types/store";
 import useSettings from "src/hooks/useSettings";
-import userSlice, { useUser } from "src/frontend-utils/redux/user";
-import { fetchAuth } from "src/frontend-utils/nextjs/utils";
 import { useSnackbar } from "notistack";
 import { modalStyle } from "src/styles/modal";
 
 export default function SettingPrefStores() {
-  const dispatch = useAppDispatch();
   const { prefStores, onChangeStores } = useSettings();
   const { enqueueSnackbar } = useSnackbar();
-  const user = useAppSelector(useUser);
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const [open, setOpen] = useState(false);
   const [selectedStoreIds, setSelectedStoresIds] =
@@ -63,17 +59,6 @@ export default function SettingPrefStores() {
       });
       setSelectedStoresIds(prefStores);
     } else {
-      if (user) {
-        const userChanges = {
-          preferred_stores: selectedStoreIds.map(
-            (i) => `${constants.apiResourceEndpoints.stores}${i}/`
-          ),
-        };
-        fetchAuth(null, "users/me/", {
-          method: "PATCH",
-          body: JSON.stringify(userChanges),
-        }).then((user) => dispatch(userSlice.actions.setUser(user)));
-      }
       onChangeStores(selectedStoreIds);
       enqueueSnackbar("Cambios guardados");
       setOpen(false);

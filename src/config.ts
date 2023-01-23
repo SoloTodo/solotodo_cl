@@ -29,7 +29,7 @@ export const ICON = {
 // SETTINGS
 // ----------------------------------------------------------------------
 
-export const cookiesExpires = 3;
+export const cookiesExpires = 30;
 
 export const cookiesKey = {
   themeMode: "themeMode",
@@ -39,6 +39,7 @@ export const cookiesKey = {
   themeStretch: "themeStretch",
   prefExcludeRefurbished: "prefExcludeRefurbished",
   prefStores: "prefStores",
+  prefStoresLastUpdate: "prefStoresLastUpdate",
   refurbishedReminder: "refurbishedReminder"
 };
 
@@ -50,6 +51,7 @@ export const defaultSettings: SettingsValueProps = {
   themeStretch: true,
   prefExcludeRefurbished: false,
   prefStores: [],
+  prefStoresLastUpdate: "",
 };
 
 // CONSTANTS

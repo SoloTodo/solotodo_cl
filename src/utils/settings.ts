@@ -1,4 +1,5 @@
 // next
+import { formatISO, isValid } from "date-fns";
 import { NextApiRequestCookies } from "next/dist/server/api-utils";
 // config
 import { defaultSettings, cookiesKey } from "../config";
@@ -21,14 +22,19 @@ export const getSettings = (cookies: NextApiRequestCookies) => {
     getData(cookies[cookiesKey.themeLayout]) || defaultSettings.themeLayout;
 
   const themeStretch =
-    getData(cookies[cookiesKey.themeStretch]) || defaultSettings.themeStretch;
+    getDataBool(cookies[cookiesKey.themeStretch]) ??
+    defaultSettings.themeStretch;
 
   const prefExcludeRefurbished =
-    getData(cookies[cookiesKey.prefExcludeRefurbished]) ||
+    getDataBool(cookies[cookiesKey.prefExcludeRefurbished]) ??
     defaultSettings.prefExcludeRefurbished;
 
   const prefStores =
-    getDataArray(cookies[cookiesKey.prefStores]) || defaultSettings.prefStores;
+    getDataArray(cookies[cookiesKey.prefStores]) ?? defaultSettings.prefStores;
+
+  const prefStoresLastUpdate =
+    getDataDate(cookies[cookiesKey.prefStoresLastUpdate]) ||
+    defaultSettings.prefStoresLastUpdate;
 
   return {
     themeMode,
@@ -38,19 +44,24 @@ export const getSettings = (cookies: NextApiRequestCookies) => {
     themeStretch,
     prefExcludeRefurbished,
     prefStores,
+    prefStoresLastUpdate,
   };
 };
 
 // ----------------------------------------------------------------------
 
 const getData = (value: string) => {
+  if (value === "undefined" || !value) {
+    return undefined;
+  }
+  return value;
+};
+
+const getDataBool = (value: string) => {
   if (value === "true" || value === "false") {
     return JSON.parse(value);
   }
-  if (value === "undefined" || !value) {
-    return "";
-  }
-  return value;
+  return undefined;
 };
 
 const getDataArray = (value: string) => {
@@ -58,4 +69,12 @@ const getDataArray = (value: string) => {
     return [];
   }
   return value.split("|");
+};
+
+const getDataDate = (value: string) => {
+  if (value === "undefined" || !value || !isValid(new Date(value))) {
+    return formatISO(new Date(1970, 1, 1));
+  } else {
+    return formatISO(new Date(value));
+  }
 };

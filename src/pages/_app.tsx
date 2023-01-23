@@ -32,6 +32,7 @@ import withReduxStore, {
   MyAppContext,
 } from "src/frontend-utils/redux/with-redux-store";
 import App from "next/app";
+import { isAfter } from "date-fns";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -132,44 +133,36 @@ MyApp.getInitialProps = async (context: MyAppContext) => {
       apiResourceObjectsSlice.actions.addApiResourceObjects(apiResources)
     );
     const activeChileanStores = (apiResources as Store[]).reduce(
-      (acc: string[], a) => {
+      (acc: Store[], a) => {
         if (
           a.url.includes("stores") &&
           a.country === constants.defaultCountryUrl &&
           a.last_activation
         ) {
-          acc.push(a.id.toString());
+          acc.push(a);
         }
         return acc;
       },
       []
     );
-    if (settings.prefStores.length == 0) {
-      settings.prefStores = activeChileanStores;
-    } else {
-      settings.prefStores = settings.prefStores.filter((s) =>
-        activeChileanStores.includes(s)
-      );
+    let stores = activeChileanStores.map((s) => s.id.toString());
+    if (settings.prefStores.length !== 0) {
+      stores = activeChileanStores
+        .filter(
+          (s) =>
+            settings.prefStores.includes(s.id.toString()) ||
+            (s.last_activation !== null &&
+              settings.prefStoresLastUpdate &&
+              isAfter(
+                new Date(s.last_activation),
+                new Date(settings.prefStoresLastUpdate)
+              ))
+        )
+        .map((r) => r.id.toString()); 
     }
+    settings.prefStores = stores;
     if (user) {
       reduxStore.dispatch(userSlice.actions.setUser(user));
-
-      settings.prefExcludeRefurbished = Boolean(
-        user.preferred_exclude_refurbished
-      );
-      const userStores = user.preferred_stores.reduce(
-        (acc: string[], a: string) => {
-          const s = apiResources.find(
-            (r: { url: string }) => r.url === a
-          ) as Store;
-          if (s && s.country === constants.defaultCountryUrl) {
-            acc.push(s.id.toString());
-          }
-          return acc;
-        },
-        []
-      );
-      settings.prefStores = userStores;
     }
   } catch (err: any) {
     ctx.res?.setHeader("error", err.message);

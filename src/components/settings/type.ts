@@ -7,6 +7,7 @@ export type ThemeLayout = 'vertical' | 'horizontal';
 export type ThemeStretch = boolean;
 export type PrefExcludeRefurbished = boolean;
 export type PrefStores = string[];
+export type PrefStoresLastUpdate = string | undefined;
 
 type ColorVariants = {
   name: string;
@@ -26,6 +27,7 @@ export type SettingsValueProps = {
   themeLayout: ThemeLayout;
   prefExcludeRefurbished: PrefExcludeRefurbished;
   prefStores: PrefStores;
+  prefStoresLastUpdate: PrefStoresLastUpdate;
 };
 
 export type SettingsContextProps = {
@@ -36,6 +38,7 @@ export type SettingsContextProps = {
   themeStretch: boolean;
   prefExcludeRefurbished: boolean;
   prefStores: PrefStores;
+  prefStoresLastUpdate: PrefStoresLastUpdate;
   setColor: ColorVariants;
   colorOption: {
     name: string;

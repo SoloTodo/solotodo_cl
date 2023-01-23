@@ -40,23 +40,6 @@ export default function FacebookButton() {
               saveAuthTokens(null, res);
               authFetch("users/me/", {}).then((user) => {
                 dispatch(userSlice.actions.setUser(user));
-                if (
-                  Boolean(settings.prefExcludeRefurbished) !==
-                  Boolean(user.preferred_exclude_refurbished)
-                ) {
-                  settings.onToggleExcludeRefurbished();
-                }
-                const userStores = user.preferred_stores.reduce(
-                  (acc: string[], a: string) => {
-                    const store = apiResourceObjects[a] as Store;
-                    if (store && store.country === constants.defaultCountryUrl) {
-                      acc.push(store.id.toString());
-                    }
-                    return acc;
-                  },
-                  []
-                );
-                settings.onChangeStores(userStores);
                 const nextPath =
                   typeof router.query.next == "string"
                     ? router.query.next
