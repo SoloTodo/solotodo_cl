@@ -237,5 +237,6 @@ export const constants = {
     30: "Tarjeta Abcdin",
     43: "Tarjeta Lider BCI",
     87: "Tarjeta Hites",
+    3032: "Precio cupón",
   },
 };
