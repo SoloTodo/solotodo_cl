@@ -47,7 +47,6 @@ export default function ProductPage({ product }: { product: Product }) {
   };
   useGtag3(params);
   useGtag4({ ...params, pageTitle: product.name });
-  console.log(description);
   return (
     <Page
       title={product.name}
