@@ -12,7 +12,6 @@ import { categorySlides } from "src/categorySlides";
 import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
-import Head from "next/head";
 
 const Home = () => {
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
@@ -24,18 +23,22 @@ const Home = () => {
   useGtag3({});
   useGtag4({ pageTitle: "Cotiza y compara los precios de todas las tiendas" });
   return (
-    <Page title="Cotiza y compara los precios de todas las tiendas">
-      <Head>
-        <meta
-          property="og:title"
-          content={`Cotiza y ahorra cotizando todos tus productos de tecnología en un sólo lugar - SoloTodo`}
-        />
-        <meta
-          name="description"
-          property="og:description"
-          content={`Ahorra tiempo y dinero cotizando celulares, notebooks, etc. en un sólo lugar y comparando el precio de todas las tiendas.`}
-        />
-      </Head>
+    <Page
+      title="Cotiza y compara los precios de todas las tiendas"
+      meta={
+        <>
+          <meta
+            property="og:title"
+            content={`Cotiza y ahorra cotizando todos tus productos de tecnología en un sólo lugar - SoloTodo`}
+          />
+          <meta
+            name="description"
+            property="og:description"
+            content={`Ahorra tiempo y dinero cotizando celulares, notebooks, etc. en un sólo lugar y comparando el precio de todas las tiendas.`}
+          />
+        </>
+      }
+    >
       <Container>
         <TopBanner category="Any" />
         <RecentSlidesRow />

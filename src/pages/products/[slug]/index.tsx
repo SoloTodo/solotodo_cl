@@ -22,7 +22,6 @@ import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
 import ProductDisques from "src/components/product/ProductDisques";
-import Head from "next/head";
 import Handlebars from "handlebars";
 
 export default function ProductPage({ product }: { product: Product }) {
@@ -48,41 +47,46 @@ export default function ProductPage({ product }: { product: Product }) {
   };
   useGtag3(params);
   useGtag4({ ...params, pageTitle: product.name });
+  console.log(description);
   return (
-    <Page title={product.name}>
-      <Head>
-        <meta property="og:type" content="product" />
-        <link
-          rel="canonical"
-          href={`${constants.domain}/products/${product.id}-${product.slug}`}
-        />
-        <meta
-          property="og:url"
-          content={`${constants.domain}/products/${product.id}-${product.slug}`}
-        />
-        <meta property="og:title" content={product.name} />
-        <meta
-          name="description"
-          property="og:description"
-          content={description}
-        />
-        <meta
-          property="og:image"
-          content={`${constants.endpoint}products/${product.id}/picture/?image_format=JPEG&quality=80&width=1200&height=650`}
-          key="og_image"
-        />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="650" />
-        <meta
-          property="product:brand"
-          content={product.specs.brand_unicode.toString()}
-        />
-        <meta property="product:condition" content="new" />
-        <meta
-          property="product:retailer_item_id"
-          content={product.id.toString()}
-        />
-      </Head>
+    <Page
+      title={product.name}
+      meta={
+        <>
+          <meta property="og:type" content="product" />
+          <link
+            rel="canonical"
+            href={`${constants.domain}/products/${product.id}-${product.slug}`}
+          />
+          <meta
+            property="og:url"
+            content={`${constants.domain}/products/${product.id}-${product.slug}`}
+          />
+          <meta property="og:title" content={product.name} />
+          <meta
+            name="description"
+            property="og:description"
+            content={description}
+          />
+          <meta
+            property="og:image"
+            content={`${constants.endpoint}products/${product.id}/picture/?image_format=JPEG&quality=80&width=1200&height=650`}
+            key="og_image"
+          />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="650" />
+          <meta
+            property="product:brand"
+            content={product.specs.brand_unicode.toString()}
+          />
+          <meta property="product:condition" content="new" />
+          <meta
+            property="product:retailer_item_id"
+            content={product.id.toString()}
+          />
+        </>
+      }
+    >
       <Container>
         <TopBanner category={category.name} />
         <HeaderBreadcrumbs

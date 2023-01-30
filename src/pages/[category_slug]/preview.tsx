@@ -19,7 +19,6 @@ import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
 import { MyNextPageContext } from "src/frontend-utils/redux/with-redux-store";
 import { useCheckStatusCode } from "src/hooks/useCheckStatusCode";
-import Head from "next/head";
 
 type CategoryPreviewProps = {
   category: Category;
@@ -59,18 +58,22 @@ function CategoryPreview({ category, statusCode }: CategoryPreviewProps) {
     categoryId: category.id.toString(),
   });
   return (
-    <Page title={category.name}>
-      <Head>
-        <meta
-          property="og:title"
-          content={`Catálogo de ${category.name} - SoloTodo`}
-        />
-        <meta
-          name="description"
-          property="og:description"
-          content={`Cotiza y ahorra comparando los precios de todos los ${category.name.toLowerCase()} disponibles en el mercado`}
-        />
-      </Head>
+    <Page
+      title={category.name}
+      meta={
+        <>
+          <meta
+            property="og:title"
+            content={`Catálogo de ${category.name} - SoloTodo`}
+          />
+          <meta
+            name="description"
+            property="og:description"
+            content={`Cotiza y ahorra comparando los precios de todos los ${category.name.toLowerCase()} disponibles en el mercado`}
+          />
+        </>
+      }
+    >
       <Container>
         <TopBanner category={category.name} />
         <RecentSlidesRow categoryId={category.id.toString()} />

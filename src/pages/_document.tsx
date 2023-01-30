@@ -63,10 +63,10 @@ export default class MyDocument extends Document {
             name="title"
             content="Cotiza y ahorra cotizando todos tus productos de tecnología en un sólo lugar - SoloTodo"
           />
-          <meta
+          {/* <meta
             name="description"
             content="Ahorra tiempo y dinero cotizando celulares, notebooks, etc. en un sólo lugar y comparando el precio de todas las tiendas."
-          />
+          /> */}
           <meta name="keywords" content="solotodo" />
           <meta name="author" content="SoloTodo" />
 
