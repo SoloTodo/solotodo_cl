@@ -160,12 +160,13 @@ ProductPage.getInitialProps = async (context: MyNextPageContext) => {
       `${constants.apiResourceEndpoints.products}${productId}/`
     );
     if (slug !== product.slug) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: `/products/${product.id}-${product.slug}`,
-        },
-      };
+      context.res &&
+        context.res.setHeader(
+          "Location",
+          `/products/${product.id}-${product.slug}`
+        );
+      context.res && (context.res.statusCode = 302);
+      context.res && context.res.end();
     }
     const reduxStore = context.reduxStore;
     const apiResourceObjects = reduxStore.getState().apiResourceObjects;
