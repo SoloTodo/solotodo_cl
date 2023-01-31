@@ -1,6 +1,5 @@
 import { Box, Container, Grid, Stack, Typography } from "@mui/material";
-import { GetServerSideProps } from "next";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import Image from "src/components/Image";
 import Page from "src/components/Page";
@@ -23,21 +22,25 @@ import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
 import ProductDisques from "src/components/product/ProductDisques";
 import Handlebars from "handlebars";
+import { MyNextPageContext } from "src/frontend-utils/redux/with-redux-store";
+import { useCheckStatusCode } from "src/hooks/useCheckStatusCode";
 
-export default function ProductPage({ product }: { product: Product }) {
+function ProductPage({
+  product,
+  description,
+  statusCode,
+}: {
+  product: Product;
+  description: string;
+  statusCode?: number;
+}) {
+  useCheckStatusCode(statusCode);
+
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const [openNewCommentDrawer, setOpenNewCommentDrawer] = useState(false);
   const [openMoreCommentsDrawer, setOpenMoreCommentsDrawer] = useState(false);
-  const [description, setDescription] = useState("");
 
   const category = apiResourceObjects[product.category] as Category;
-
-  useEffect(() => {
-    const templateHandler = Handlebars.compile(
-      category.short_description_template || category.name
-    );
-    setDescription(templateHandler(product.specs));
-  }, [category.name, category.short_description_template, product.specs]);
 
   const params = {
     category: category.name,
@@ -148,9 +151,9 @@ export default function ProductPage({ product }: { product: Product }) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+ProductPage.getInitialProps = async (context: MyNextPageContext) => {
   try {
-    const initSlug = context.params?.slug as String;
+    const initSlug = context.query?.slug as String;
     const [productId, ...givenSlugParts] = initSlug.split("-");
     const slug = givenSlugParts.join("-");
     const product = await fetchJson(
@@ -164,14 +167,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         },
       };
     }
+    const reduxStore = context.reduxStore;
+    const apiResourceObjects = reduxStore.getState().apiResourceObjects;
+    const category = apiResourceObjects[product.category];
+    const templateHandler = Handlebars.compile(
+      category.short_description_template || category.name
+    );
+    const description = templateHandler(product.specs);
     return {
-      props: {
-        product: product,
-      },
+      product: product,
+      description: description,
     };
   } catch {
     return {
-      notFound: true,
+      statusCode: 404,
     };
   }
 };
+
+export default ProductPage;
