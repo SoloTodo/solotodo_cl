@@ -89,34 +89,34 @@ export const constants = {
       {
         label: "3DMark Time Spy",
         field: "gpu_tdmark_time_spy_score",
-        maxValue: 13000,
+        maxValue: 30000,
       },
       {
         label: "3DMark Port Royal (Ray tracing)",
         field: "gpu_tdmark_port_royal_score",
-        maxValue: 8900,
+        maxValue: 27000,
       },
       {
         label: "3DMark VR Room Orange (VR)",
         field: "gpu_tdmark_vr_room_orange_score",
-        maxValue: 11000,
+        maxValue: 17000,
       },
     ],
     3: [
       {
         label: "PCMark 10",
         field: "pcmark_10_score",
-        maxValue: 7000,
+        maxValue: 9000,
       },
       {
         label: "Cinebench R20 (Multi core)",
         field: "cinebench_r20_multi_score",
-        maxValue: 14000,
+        maxValue: 15000,
       },
       {
         label: "Passmark",
         field: "passmark_score",
-        maxValue: 60000,
+        maxValue: 80000,
       },
     ],
     6: [
