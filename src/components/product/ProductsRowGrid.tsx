@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import { fetchJson } from "src/frontend-utils/network/utils";
 import useSettings from "src/hooks/useSettings";
@@ -45,24 +45,26 @@ export default function ProductsRowGrid({
   return data.length !== 0 &&
     data[0].product_entries[0].metadata.score === 0 ? null : (
     <Block title={title} actionHref={actionHref ? actionHref : "#"}>
-      <Grid
-        container
-        spacing={{ xs: 2, lg: 3 }}
-        justifyContent="start"
-        wrap="nowrap"
-        overflow="auto"
-      >
-        {data.slice(0, sliceValue).map((d, index) => {
-          return (
-            <Grid item key={index} xs={12}>
-              <ProductCard
-                productData={d}
-                ribbonFormatter={ribbonFormatter}
-              />
-            </Grid>
-          );
-        })}
-      </Grid>
+      <Box paddingTop={2}>
+        <Grid
+          container
+          spacing={{ xs: 2, lg: 3 }}
+          justifyContent="start"
+          wrap="nowrap"
+          overflow="auto"
+        >
+          {data.slice(0, sliceValue).map((d, index) => {
+            return (
+              <Grid item key={index} xs={12}>
+                <ProductCard
+                  productData={d}
+                  ribbonFormatter={ribbonFormatter}
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
+      </Box>
     </Block>
   );
 }
