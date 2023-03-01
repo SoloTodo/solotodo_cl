@@ -238,5 +238,6 @@ export const constants = {
     43: "Tarjeta Lider BCI",
     87: "Tarjeta Hites",
     3032: "Precio cupón",
+    12: "Tarjeta BancoEstado"
   },
 };
