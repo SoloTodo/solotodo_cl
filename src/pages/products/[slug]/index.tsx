@@ -180,9 +180,14 @@ ProductPage.getInitialProps = async (context: MyNextPageContext) => {
       description: description,
     };
   } catch {
-    return {
-      statusCode: 404,
-    };
+    if (context.res) {
+      context.res.statusCode = 404
+      context.res.end()
+    } else {
+      return {
+        statusCode: 404,
+      };
+    }
   }
 };
 
