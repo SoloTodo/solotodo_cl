@@ -12,6 +12,7 @@ import {
   InputAdornment,
   ClickAwayListener,
   useTheme,
+  IconButton,
 } from "@mui/material";
 // next
 import NextLink from "next/link";
@@ -152,10 +153,12 @@ export default function DashboardHeader({
         placeholder="Busca un producto"
         endAdornment={
           <InputAdornment position="end">
-            <Iconify
-              icon={"eva:search-fill"}
-              sx={{ color: "text.disabled", width: 20, height: 20 }}
-            />
+            <IconButton onClick={handleSubmit(onSubmit)} size="small">
+              <Iconify
+                icon={"eva:search-fill"}
+                sx={{ color: "text.disabled", width: 20, height: 20 }}
+              />
+            </IconButton>
           </InputAdornment>
         }
         sx={{
