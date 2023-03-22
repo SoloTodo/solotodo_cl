@@ -69,8 +69,11 @@ export default function FacebookButton() {
           padding: '12px 24px',
           border: 'none',
           borderRadius: '4px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          display: 'block'
         }}
-      />
+      >Facebook</FacebookLogin>
     </Box>
   );
 }
