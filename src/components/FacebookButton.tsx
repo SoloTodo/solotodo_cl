@@ -3,25 +3,21 @@ import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import { useAuth } from "src/frontend-utils/nextjs/JWTContext";
 import { fetchAuth, saveAuthTokens } from "src/frontend-utils/nextjs/utils";
-import { useApiResourceObjects } from "src/frontend-utils/redux/api_resources/apiResources";
 import userSlice from "src/frontend-utils/redux/user";
-import useSettings from "src/hooks/useSettings";
 import { PATH_MAIN } from "src/routes/paths";
 import { useAppDispatch, useAppSelector } from "src/frontend-utils/redux/hooks";
-import FacebookLogin, { ReactFacebookLoginInfo } from "react-facebook-login";
+import FacebookLogin, {
+  SuccessResponse
+} from '@greatsumini/react-facebook-login';
 import { constants } from "src/config";
-import styles from "../styles/FacebookButton.module.css";
-import { Store } from "src/frontend-utils/types/store";
 
 export default function FacebookButton() {
   const { enqueueSnackbar } = useSnackbar();
-  const settings = useSettings();
-  const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { authFetch } = useAuth();
 
-  const responseFacebook = (response: ReactFacebookLoginInfo) => {
+  const responseFacebook = (response:SuccessResponse) => {
     if (response.accessToken) {
       fetchAuth(null, "rest-auth/facebook/", {
         method: "POST",
@@ -65,10 +61,15 @@ export default function FacebookButton() {
       <FacebookLogin
         appId={constants.facebookAppId}
         fields="name,email"
-        callback={responseFacebook}
-        textButton="FACEBOOK"
-        redirectUri={`${constants.domain}/login`}
-        cssClass={styles.kep_login_facebook}
+        onSuccess={responseFacebook}
+        style={{
+          backgroundColor: '#4267b2',
+          color: '#fff',
+          fontSize: '16px',
+          padding: '12px 24px',
+          border: 'none',
+          borderRadius: '4px',
+        }}
       />
     </Box>
   );
