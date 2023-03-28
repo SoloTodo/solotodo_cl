@@ -44,9 +44,13 @@ type FormValuesProps = {
 export default function ProductNewCommentDrawer({
   product,
   onClose,
+  fullWidth,
+  initialStore,
 }: {
   product: Product;
   onClose: VoidFunction;
+  fullWidth?: boolean;
+  initialStore?: string;
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -60,13 +64,17 @@ export default function ProductNewCommentDrawer({
     return { label: store.name, value: store.id };
   });
 
+  const initialChoice =
+    storeChoices.find(({ label, value }) => value === Number(initialStore)) ||
+    storeChoices[0];
+
   const defaultValues = {
     was_product_received: "",
     store_comments: "",
     store_rating: "",
     product_comments: "",
     product_rating: "",
-    store: storeChoices[0],
+    store: initialChoice,
     email_or_phone: user ? user.email : "",
     purchase_proof: null,
   };
@@ -159,10 +167,16 @@ export default function ProductNewCommentDrawer({
   };
 
   return (
-    <Stack spacing={3} width={{ xs: "100%", sm: 400 }} padding={2}>
-      <IconButton style={{ alignSelf: "end" }} onClick={onClose}>
-        <CloseIcon />
-      </IconButton>
+    <Stack
+      spacing={3}
+      width={{ xs: "100%", sm: fullWidth ? "100%" : 400 }}
+      padding={2}
+    >
+      {!fullWidth && (
+        <IconButton style={{ alignSelf: "end" }} onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
+      )}
       <Typography variant="h5" fontWeight={600}>
         {product.name}
       </Typography>
