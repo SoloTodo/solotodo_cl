@@ -134,7 +134,7 @@ export default function ProductPriceCard({
 
         <CardContent style={{ padding: 8 }}>
           <Stack spacing={0.5}>
-            <Stack direction="row" spacing={0.5} sx={{ justifyContent: "end" }}>
+            <Stack direction="row" spacing={0.5}>
               {entity.condition !== "https://schema.org/NewCondition" && (
                 <Chip
                   label={conditionLabel || "Desconocido"}
