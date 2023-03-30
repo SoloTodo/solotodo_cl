@@ -22,7 +22,7 @@ import { calcEntityPrice } from "src/utils/calcEntityPrice";
 import SoloTodoLeadLink from "../SoloTodoLeadLink";
 import ProductOrStoreRatingDrawer from "./ProductOrStoreRatingDrawer";
 import { RatedStore } from "./types";
-import {conditions} from "../../frontend-utils/conditions";
+import { conditions } from "../../frontend-utils/conditions";
 
 export default function ProductPriceCard({
   entity,
@@ -41,7 +41,9 @@ export default function ProductPriceCard({
   const theme = useTheme();
   const isLight = theme.palette.mode === "light";
 
-  const conditionLabel = conditions.find(x => x['value'] === entity.condition)?.label
+  const conditionLabel = conditions.find(
+    (x) => x["value"] === entity.condition
+  )?.label;
 
   return (
     <Card
@@ -132,10 +134,10 @@ export default function ProductPriceCard({
 
         <CardContent style={{ padding: 8 }}>
           <Stack spacing={0.5}>
-            {entity.condition !== "https://schema.org/NewCondition" && (
-              <Stack sx={{ alignItems: "end" }}>
+            <Stack direction="row" spacing={0.5} sx={{ justifyContent: "end" }}>
+              {entity.condition !== "https://schema.org/NewCondition" && (
                 <Chip
-                  label={conditionLabel || 'Desconocido'}
+                  label={conditionLabel || "Desconocido"}
                   size="small"
                   sx={{
                     borderRadius: 0.5,
@@ -145,8 +147,22 @@ export default function ProductPriceCard({
                     backgroundColor: "#FFF0E7",
                   }}
                 />
-              </Stack>
-            )}
+              )}
+              {entity.best_coupon &&
+                store.id === constants.tiendaOficialLgId && (
+                  <Chip
+                    label="Cupón SoloTodo"
+                    size="small"
+                    sx={{
+                      borderRadius: 0.5,
+                      fontSize: "12px",
+                      fontWeight: 400,
+                      color: "#CD6131",
+                      backgroundColor: "#FFF0E7",
+                    }}
+                  />
+                )}
+            </Stack>
             <Stack
               direction="row"
               spacing={{ xs: 1, md: 2 }}
