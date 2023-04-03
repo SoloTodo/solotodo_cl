@@ -227,17 +227,4 @@ export const constants = {
       bucketProductLabelField: 'color_unicode'
     }
   },
-  storeOfferPriceLabel: {
-    5: "Tarjeta la Polar",
-    9: "Tarjeta CMR",
-    67: "Tarjeta CMR",
-    170: "Tarjeta CMR",
-    11: "Tarjeta Cencosud",
-    18: "Tarjeta Ripley",
-    30: "Tarjeta Abcdin",
-    43: "Tarjeta Lider BCI",
-    87: "Tarjeta Hites",
-    3032: "Precio cupón",
-    12: "Tarjeta BancoEstado"
-  },
 };
