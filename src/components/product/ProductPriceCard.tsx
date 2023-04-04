@@ -22,7 +22,7 @@ import { calcEntityPrice } from "src/utils/calcEntityPrice";
 import SoloTodoLeadLink from "../SoloTodoLeadLink";
 import ProductOrStoreRatingDrawer from "./ProductOrStoreRatingDrawer";
 import { RatedStore } from "./types";
-import {conditions} from "../../frontend-utils/conditions";
+import { conditions } from "../../frontend-utils/conditions";
 
 export default function ProductPriceCard({
   entity,
@@ -35,13 +35,16 @@ export default function ProductPriceCard({
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const store = apiResourceObjects[entity.store] as Store;
   const category = apiResourceObjects[entity.category];
-  const offerPriceLabel = (
-    constants.storeOfferPriceLabel as Record<number, string | undefined>
-  )[store.id];
   const theme = useTheme();
   const isLight = theme.palette.mode === "light";
 
-  const conditionLabel = conditions.find(x => x['value'] === entity.condition)?.label
+  const conditionLabel = conditions.find(
+    (x) => x["value"] === entity.condition
+  )?.label;
+
+  const offerPrice = calcEntityPrice(entity, "offer_price");
+  const normalPrice = Number(entity.active_registry!.normal_price);
+  const equalPrice = offerPrice === normalPrice;
 
   return (
     <Card
@@ -132,10 +135,10 @@ export default function ProductPriceCard({
 
         <CardContent style={{ padding: 8 }}>
           <Stack spacing={0.5}>
-            {entity.condition !== "https://schema.org/NewCondition" && (
-              <Stack sx={{ alignItems: "end" }}>
+            <Stack direction="row" spacing={0.5}>
+              {entity.condition !== "https://schema.org/NewCondition" && (
                 <Chip
-                  label={conditionLabel || 'Desconocido'}
+                  label={conditionLabel || "Desconocido"}
                   size="small"
                   sx={{
                     borderRadius: 0.5,
@@ -145,48 +148,68 @@ export default function ProductPriceCard({
                     backgroundColor: "#FFF0E7",
                   }}
                 />
-              </Stack>
-            )}
-            <Stack
-              direction="row"
-              spacing={{ xs: 1, md: 2 }}
-              justifyContent="space-around"
-            >
+              )}
+              {entity.best_coupon &&
+                store.id === constants.tiendaOficialLgId && (
+                  <Chip
+                    label="Cupón SoloTodo"
+                    size="small"
+                    sx={{
+                      borderRadius: 0.5,
+                      fontSize: "12px",
+                      fontWeight: 400,
+                      color: "#CD6131",
+                      backgroundColor: "#FFF0E7",
+                    }}
+                  />
+                )}
+            </Stack>
+            <Stack direction="row" spacing={{ xs: 1, md: 2 }} paddingLeft={0.5}>
               <Stack>
                 <Typography
                   variant="h6"
                   color="text.secondary"
                   fontWeight={400}
                 >
-                  {offerPriceLabel ? offerPriceLabel : "Precio efectivo"}
+                  {equalPrice
+                    ? "Con todo medio de pago"
+                    : store.preferred_payment_method ?? "Precio efectivo"}
                 </Typography>
                 <Typography variant="h2" color="text.extra" fontWeight={400}>
-                  {currency(calcEntityPrice(entity, "offer_price"), {
+                  {currency(offerPrice, {
                     separator: ".",
                     precision: 0,
                   }).format()}
                 </Typography>
               </Stack>
-              <Divider
-                orientation="vertical"
-                flexItem
-                sx={{ border: "1px solid #7B7B7B" }}
-              />
-              <Stack>
-                <Typography
-                  variant="h6"
-                  color="text.secondary"
-                  fontWeight={400}
-                >
-                  Precio normal
-                </Typography>
-                <Typography variant="h2" color="text.extra" fontWeight={400}>
-                  {currency(entity.active_registry!.normal_price, {
-                    separator: ".",
-                    precision: 0,
-                  }).format()}
-                </Typography>
-              </Stack>
+              {!equalPrice && (
+                <>
+                  <Divider
+                    orientation="vertical"
+                    flexItem
+                    sx={{ border: "1px solid #7B7B7B" }}
+                  />
+                  <Stack>
+                    <Typography
+                      variant="h6"
+                      color="text.secondary"
+                      fontWeight={400}
+                    >
+                      Precio normal
+                    </Typography>
+                    <Typography
+                      variant="h2"
+                      color="text.extra"
+                      fontWeight={400}
+                    >
+                      {currency(normalPrice, {
+                        separator: ".",
+                        precision: 0,
+                      }).format()}
+                    </Typography>
+                  </Stack>
+                </>
+              )}
             </Stack>
           </Stack>
           <Typography variant="body2" color="text.secondary">
