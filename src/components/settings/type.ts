@@ -39,6 +39,7 @@ export type SettingsContextProps = {
   prefExcludeRefurbished: boolean;
   prefStores: PrefStores;
   prefStoresLastUpdate: PrefStoresLastUpdate;
+  unfilteredPrefStores: PrefStores;
   setColor: ColorVariants;
   colorOption: {
     name: string;

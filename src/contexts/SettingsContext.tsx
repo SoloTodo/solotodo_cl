@@ -22,7 +22,12 @@ import {
   SettingsValueProps,
 } from "../components/settings/type";
 // config
-import { defaultSettings, cookiesKey, cookiesExpires } from "../config";
+import {
+  defaultSettings,
+  cookiesKey,
+  cookiesExpires,
+  constants,
+} from "../config";
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +44,7 @@ const initialState: SettingsContextProps = {
   onChangeStores: () => {},
   setColor: defaultPreset,
   colorOption: [],
+  unfilteredPrefStores: [],
 };
 
 const SettingsContext = createContext(initialState);
@@ -130,6 +136,10 @@ function SettingsProvider({
     <SettingsContext.Provider
       value={{
         ...settings,
+        unfilteredPrefStores: settings.prefStores,
+        prefStores: settings.prefStores.filter(
+          (s) => !constants.blacklistStores.includes(Number(s))
+        ),
         // Mode
         onChangeMode,
         onToggleMode,

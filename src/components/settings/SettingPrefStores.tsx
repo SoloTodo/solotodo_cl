@@ -22,12 +22,12 @@ import { useSnackbar } from "notistack";
 import { modalStyle } from "src/styles/modal";
 
 export default function SettingPrefStores() {
-  const { prefStores, onChangeStores } = useSettings();
+  const { unfilteredPrefStores, onChangeStores } = useSettings();
   const { enqueueSnackbar } = useSnackbar();
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const [open, setOpen] = useState(false);
   const [selectedStoreIds, setSelectedStoresIds] =
-    useState<string[]>(prefStores);
+    useState<string[]>(unfilteredPrefStores);
 
   const allStores = (
     getApiResourceObjects(apiResourceObjects, "stores") as Store[]
@@ -57,7 +57,7 @@ export default function SettingPrefStores() {
       enqueueSnackbar("Debes seleccionar al menos una tienda", {
         variant: "error",
       });
-      setSelectedStoresIds(prefStores);
+      setSelectedStoresIds(unfilteredPrefStores);
     } else {
       onChangeStores(selectedStoreIds);
       enqueueSnackbar("Cambios guardados");
