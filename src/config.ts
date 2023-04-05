@@ -40,7 +40,7 @@ export const cookiesKey = {
   prefExcludeRefurbished: "prefExcludeRefurbished",
   prefStores: "prefStores",
   prefStoresLastUpdate: "prefStoresLastUpdate",
-  refurbishedReminder: "refurbishedReminder"
+  refurbishedReminder: "refurbishedReminder",
 };
 
 export const defaultSettings: SettingsValueProps = {
@@ -60,12 +60,12 @@ export const constants = {
   ...apiSettings,
   chileId: 1,
   defaultCountryUrl: apiSettings.apiResourceEndpoints.countries + "1/",
-  detailPurposeUrl: apiSettings.endpoint + 'category_template_purposes/1/',
+  detailPurposeUrl: apiSettings.endpoint + "category_template_purposes/1/",
   disqusShortName: "solotodo3",
-  domain: 'https://www.solotodo.cl',
-  GA3Id: 'UA-11970222-11',
-  GA4Id: 'G-0687ZFVHJ3',
-  facebookAppId: '567644670062006',
+  domain: "https://www.solotodo.cl",
+  GA3Id: "UA-11970222-11",
+  GA4Id: "G-0687ZFVHJ3",
+  facebookAppId: "567644670062006",
   websiteId: 2,
   benchmarkCategories: {
     1: [
@@ -219,12 +219,13 @@ export const constants = {
   },
   categoryBrowseParameters: {
     6: {
-      bucketField: 'specs.base_model_internal_storage_ram_key',
-      bucketProductLabelField: 'color_unicode'
+      bucketField: "specs.base_model_internal_storage_ram_key",
+      bucketProductLabelField: "color_unicode",
     },
     14: {
-      bucketField: 'specs.base_model_internal_storage_cell_connectivity_key',
-      bucketProductLabelField: 'color_unicode'
-    }
+      bucketField: "specs.base_model_internal_storage_cell_connectivity_key",
+      bucketProductLabelField: "color_unicode",
+    },
   },
+  blacklistStores: [5],
 };

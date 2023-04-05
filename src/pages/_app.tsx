@@ -158,7 +158,7 @@ MyApp.getInitialProps = async (context: MyAppContext) => {
                 new Date(settings.prefStoresLastUpdate)
               ))
         )
-        .map((r) => r.id.toString()); 
+        .map((r) => r.id.toString());
     }
     settings.prefStores = stores;
     if (user) {
