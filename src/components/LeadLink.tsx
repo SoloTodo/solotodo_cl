@@ -125,6 +125,9 @@ export default function LeadLink(props: LeadLinkProps) {
         entity.external_url
       )}%5D%5D`;
       target = "_self";
+    } else if (store.id === constants.winpyStoreId) {
+      url = `${entity.external_url}?ref=sltd`;
+      target = "_self";
     } else if (
       store.id === constants.falabellaStoreId ||
       store.id === constants.sodimacStoreId ||
