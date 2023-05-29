@@ -55,6 +55,7 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
 
   useEffect(() => {
     const myAbortController = new AbortController();
+    if (!open) return
     if (startDate === null || endDate === null) return;
     if (!isValid(startDate) || !isValid(endDate)) return;
     if (startDate.getFullYear() < 2010) return;
@@ -147,7 +148,7 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
     return () => {
       myAbortController.abort();
     };
-  }, [endDate, prefExcludeRefurbished, prefStores, product.id, startDate]);
+  }, [open, endDate, prefExcludeRefurbished, prefStores, product.id, startDate]);
 
   let days: Date[] = [];
   if (
