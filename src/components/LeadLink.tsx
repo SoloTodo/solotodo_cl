@@ -120,6 +120,13 @@ export default function LeadLink(props: LeadLinkProps) {
         entity.active_registry!.id
       }${urlSuffix}`;
       target = "_top";
+    } else if (store.id === constants.asusStoreId) {
+      url = `https://ad.soicos.com/-1o4e?dl=${encodeURIComponent(
+        entity.external_url
+      )}&trackerID=${soicosPrefix || ""}${
+        entity.active_registry!.id
+      }${urlSuffix}`;
+      target = "_top";
     } else if (store.id === constants.hpOnlineStoreId) {
       url = `https://www.awin1.com/cread.php?awinmid=15305&awinaffid=641001&clickref=&p=%5B%5B${encodeURIComponent(
         entity.external_url
