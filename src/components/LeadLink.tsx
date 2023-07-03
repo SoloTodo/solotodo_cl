@@ -135,17 +135,17 @@ export default function LeadLink(props: LeadLinkProps) {
     } else if (store.id === constants.winpyStoreId) {
       url = `${entity.external_url}?ref=sltd`;
       target = "_self";
-    } else if (
-      store.id === constants.falabellaStoreId ||
-      store.id === constants.sodimacStoreId ||
-      store.id === constants.tottusStoreId
-    ) {
-      url = `https://ad.soicos.com/-1gD6?dl=${encodeURIComponent(
-        entity.external_url
-      )}&trackerID=${soicosPrefix || ""}${
-        entity.active_registry!.id
-      }${urlSuffix}`;
-      target = "_self";
+    // } else if (
+    //   store.id === constants.falabellaStoreId ||
+    //   store.id === constants.sodimacStoreId ||
+    //   store.id === constants.tottusStoreId
+    // ) {
+    //   url = `https://ad.soicos.com/-1gD6?dl=${encodeURIComponent(
+    //     entity.external_url
+    //   )}&trackerID=${soicosPrefix || ""}${
+    //     entity.active_registry!.id
+    //   }${urlSuffix}`;
+    //   target = "_self";
     } else if (
       store.id === constants.entelStoreId ||
       store.id === constants.tiendaEntelStoreId
