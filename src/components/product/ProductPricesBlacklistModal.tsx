@@ -43,6 +43,7 @@ export default function ProductPricesBlacklistModal(
                             (a, b) =>
                                 calcEntityPrice(a, 'offer_price') - calcEntityPrice(b, 'offer_price')
                         ).map(entity => <ProductPriceCard
+                                key={entity.id}
                                 entity={entity}
                                 ratedStores={ratedStores}
                             />
