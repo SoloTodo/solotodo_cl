@@ -34,6 +34,7 @@ import { calcEntityPrice } from "src/utils/calcEntityPrice";
 import { modalStyle } from "src/styles/modal";
 import WarningIcon from "@mui/icons-material/Warning";
 import currency from "currency.js";
+import ProductPricesBlacklistModal from "./ProductPricesBlacklistModal";
 
 type ProductPricesProps = {
   product: Product;
@@ -51,8 +52,7 @@ export default function ProductPrices({
     useSettings();
   const user = useAppSelector(useUser);
   const [openModal, setOpenModal] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [entities, setEntities] = useState<Entity[]>([]);
+  const [entities, setEntities] = useState<Entity[] | null>(null);
   const [ratedStores, setRatedStores] = useState<Record<string, RatedStore>>(
     {}
   );
@@ -68,7 +68,6 @@ export default function ProductPrices({
     for (const store of prefStores) {
       storesUrl += `&stores=${store}`;
     }
-    setLoading(true);
     fetchJson(
       `${constants.apiResourceEndpoints.products}available_entities/?ids=${product.id}&exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`,
       { signal: myAbortController.signal }
@@ -150,10 +149,6 @@ export default function ProductPrices({
                 })),
                 send_to: constants.GA4Id,
               });
-            setLoading(false);
-          })
-          .catch((_) => {
-            setLoading(false);
           });
       })
       .catch((_) => {});
@@ -170,6 +165,27 @@ export default function ProductPrices({
     product.id,
     product.name,
   ]);
+
+  let whitelistedEntities:Entity[] | null = null;
+  let blacklistedEntities:Entity[] | null = null;
+
+  if (entities) {
+    whitelistedEntities = entities.filter(entity => {
+      const store : Store = apiResourceObjects[entity.store] as Store
+      return !constants.blacklistStores.includes(store.id)
+    })
+    blacklistedEntities = entities.filter(entity => {
+      const store : Store = apiResourceObjects[entity.store] as Store
+      return constants.blacklistStores.includes(store.id)
+    })
+
+    // If no whitelisted entities are found, display the blacklisted ones to
+    // prevent confusion
+    if (whitelistedEntities.length == 0 && blacklistedEntities.length > 0) {
+      whitelistedEntities = blacklistedEntities;
+      blacklistedEntities = []
+    }
+  }
 
   const hideRifurbished = () => {
     onToggleExcludeRefurbished();
@@ -188,14 +204,14 @@ export default function ProductPrices({
   };
 
   const entitiesButtons = () => {
-    if (loading && entities.length === 0) {
+    if (whitelistedEntities === null) {
       return (
         <Box textAlign="center" paddingTop={2}>
           <CircularProgress color="inherit" />
         </Box>
       );
     }
-    if (entities.length > 5) {
+    if (whitelistedEntities.length > 5) {
       return (
         <Button
           variant="outlined"
@@ -206,7 +222,7 @@ export default function ProductPrices({
           {showMore ? "VER MENOS PRECIOS" : "VER MÁS PRECIOS"}
         </Button>
       );
-    } else if (entities.length === 0) {
+    } else if (whitelistedEntities.length === 0) {
       return (
         <Typography>Este producto no está disponible actualmente</Typography>
       );
@@ -238,7 +254,7 @@ export default function ProductPrices({
         </FormControl>
       </Stack>
       <Stack direction="column" spacing={1}>
-        {entities
+        {(whitelistedEntities || [])
           .sort(
             (a, b) =>
               calcEntityPrice(a, ordering) - calcEntityPrice(b, ordering)
@@ -255,6 +271,9 @@ export default function ProductPrices({
       </Stack>
       <Stack direction="column" spacing={1}>
         {entitiesButtons()}
+        <ProductPricesBlacklistModal
+         blacklistEntities={blacklistedEntities}
+         ratedStores={ratedStores}/>
         <Divider />
         {user && user.is_staff && (
           <ProductStaffActionButton product={product} />
@@ -265,7 +284,7 @@ export default function ProductPrices({
         <ProductPriceHistory product={product} />
         <ProductAlertButton
           productId={product.id}
-          available={entities.length !== 0}
+          available={entities !== null && entities.length !== 0}
         />
         <Button
           variant="contained"

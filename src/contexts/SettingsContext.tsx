@@ -137,9 +137,7 @@ function SettingsProvider({
       value={{
         ...settings,
         unfilteredPrefStores: settings.prefStores,
-        prefStores: settings.prefStores.filter(
-          (s) => !constants.blacklistStores.includes(Number(s))
-        ),
+        prefStores: settings.prefStores,
         // Mode
         onChangeMode,
         onToggleMode,
