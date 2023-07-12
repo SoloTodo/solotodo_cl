@@ -12,7 +12,7 @@ export default function RatingCard({ rating }: { rating: Rating }) {
           {ratingValues[rating.store_rating]}
         </Typography>
         <Typography variant="body1" color="text.secondary">
-          {fDateTime(rating.approval_date!)}
+          {fDateTime(rating.creation_date)}
         </Typography>
       </Stack>
 

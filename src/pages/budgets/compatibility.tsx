@@ -56,9 +56,7 @@ export default function Compatibility() {
                 notebook
               </li>
               <li>
-                Que el tipo de RAM sea la correcta (DDR3 o DDR4). Nota: Para
-                plataformas Intel de sexta generación se advierte que es
-                preferible el uso de rams DDR3L.
+                Que el tipo de RAM sea la correcta (DDR4 o DDR5).
               </li>
               <li>Que los discos duros entren en el gabinete</li>
               <li>
@@ -101,10 +99,6 @@ export default function Compatibility() {
               <li>
                 Si el gabinete es slim entonces solo es compatible con tarjetas
                 de video low profile
-              </li>
-              <li>
-                En el caso de incluir SSDs M.2 que la placa madre tenga el
-                conector necesario
               </li>
               <li>
                 Si el gabiente tiene los espacios necesarios para un cooler

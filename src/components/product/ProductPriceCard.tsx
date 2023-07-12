@@ -212,7 +212,7 @@ export default function ProductPriceCard({
               )}
             </Stack>
           </Stack>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" marginTop={1}>
             {category.id === constants.cellPhoneCategoryId
               ? entity.cell_plan
                 ? entity.cell_plan.name
