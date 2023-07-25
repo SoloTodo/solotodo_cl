@@ -36,11 +36,11 @@ import useSettings from "src/hooks/useSettings";
 import {PATH_AUTH, PATH_MAIN} from "src/routes/paths";
 import {useApiResourceObjects} from "src/frontend-utils/redux/api_resources/apiResources";
 import {useSnackbar} from "notistack";
-import {GoogleLogin} from '@react-oauth/google';
 import FacebookButton from "src/components/FacebookButton";
 import TopBanner from "src/components/TopBanner";
 import {useGtag3} from "src/hooks/useGtag3";
 import {useGtag4} from "src/hooks/useGtag4";
+import GoogleButton from "../components/GoogleButton";
 
 // ----------------------------------------------------------------------
 
@@ -254,13 +254,7 @@ export default function Login() {
                                     <Typography variant="h5" color="text.secondary">
                                         Si lo prefieres, puedes ingresar con
                                     </Typography>
-                                    <GoogleLogin onSuccess={credentialResponse => {
-                                        console.log(credentialResponse);
-                                    }}
-                                                 onError={() => {
-                                                     console.log('Login Failed');
-                                                 }}
-                                    />
+                                    <GoogleButton />
                                     <FacebookButton/>
                                 </Stack>
                             </FormProvider>
