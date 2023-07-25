@@ -4,6 +4,7 @@ import Head from "next/head";
 import type { AppProps } from "next/app";
 import { NextPage } from "next/types";
 import cookie from "cookie";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { SettingsProvider } from "../contexts/SettingsContext";
 import { getSettings } from "../utils/settings";
 import ThemeProvider from "../theme";
@@ -63,19 +64,21 @@ function MyApp({
           <ThemeProvider>
             <NotistackProvider>
               <AuthProvider>
-                <CollapseDrawerProvider>
-                  <MotionLazyContainer>
-                    <ThemeColorPresets>
-                      <NavigationProvider initialNavigation={navigation}>
-                        <ChartStyle />
-                        <ProgressBar />
-                        <Layout>
-                          <Component {...pageProps} />
-                        </Layout>
-                      </NavigationProvider>
-                    </ThemeColorPresets>
-                  </MotionLazyContainer>
-                </CollapseDrawerProvider>
+                <GoogleOAuthProvider clientId='667454460630-kh9ftl1coegf5k0v7ueigor8gg95q6qd.apps.googleusercontent.com'>
+                  <CollapseDrawerProvider>
+                    <MotionLazyContainer>
+                      <ThemeColorPresets>
+                        <NavigationProvider initialNavigation={navigation}>
+                          <ChartStyle />
+                          <ProgressBar />
+                          <Layout>
+                            <Component {...pageProps} />
+                          </Layout>
+                        </NavigationProvider>
+                      </ThemeColorPresets>
+                    </MotionLazyContainer>
+                  </CollapseDrawerProvider>
+                </GoogleOAuthProvider>
               </AuthProvider>
             </NotistackProvider>
           </ThemeProvider>
