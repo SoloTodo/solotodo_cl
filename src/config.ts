@@ -66,6 +66,7 @@ export const constants = {
   GA3Id: "UA-11970222-11",
   GA4Id: "G-0687ZFVHJ3",
   facebookAppId: "567644670062006",
+  googleClientId: '667454460630-kh9ftl1coegf5k0v7ueigor8gg95q6qd.apps.googleusercontent.com',
   websiteId: 2,
   benchmarkCategories: {
     1: [

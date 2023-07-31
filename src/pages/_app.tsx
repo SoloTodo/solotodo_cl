@@ -64,7 +64,7 @@ function MyApp({
           <ThemeProvider>
             <NotistackProvider>
               <AuthProvider>
-                <GoogleOAuthProvider clientId='667454460630-kh9ftl1coegf5k0v7ueigor8gg95q6qd.apps.googleusercontent.com'>
+                <GoogleOAuthProvider clientId={constants.googleClientId}>
                   <CollapseDrawerProvider>
                     <MotionLazyContainer>
                       <ThemeColorPresets>
