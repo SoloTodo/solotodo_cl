@@ -33,6 +33,7 @@ import FacebookButton from "src/components/FacebookButton";
 import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
+import GoogleButton from "../components/GoogleButton";
 
 // ----------------------------------------------------------------------
 
@@ -264,6 +265,7 @@ export default function Register() {
                   <Typography variant="h5" color="text.secondary">
                     Si lo prefieres, puedes crear tu cuenta con
                   </Typography>
+                  <GoogleButton />
                   <FacebookButton />
                 </Stack>
               </FormProvider>

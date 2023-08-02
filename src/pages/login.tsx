@@ -254,7 +254,7 @@ export default function Login() {
                                     <Typography variant="h5" color="text.secondary">
                                         Si lo prefieres, puedes ingresar con
                                     </Typography>
-                                    {/*<GoogleButton />*/}
+                                    <GoogleButton />
                                     <FacebookButton/>
                                 </Stack>
                             </FormProvider>
