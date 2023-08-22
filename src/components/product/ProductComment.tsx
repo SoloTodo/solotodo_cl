@@ -23,7 +23,7 @@ export default function ProductComment({
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {isStore
-            ? fDateTime(rating.approval_date!)
+            ? fDateTime(rating.creation_date)
             : apiResourceObjects[rating.store].name}
         </Typography>
       </Stack>
