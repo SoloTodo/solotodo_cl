@@ -304,11 +304,13 @@ export default function ProductNewCommentDrawer({
             </FormHelperText>
           )}
 
-          <Typography variant="caption" color="text.secondary">
-            Boleta, factura, correo de confirmación, o cualquier foto o
-            documento que verifique que compraste el producto en esa tienda.
-            Tiene que aparecer el nombre del producto y de la tienda. Puede ser
-            una foto, archivo PDF, o lo que prefieras.
+          <Typography variant="caption" color="text.secondary" mt={2}>
+            Boleta, factura, correo o documento que verifique que
+            compraste el producto en esa tienda.
+          </Typography>
+          <br />
+          <Typography variant="caption" color="text.secondary" fontWeight='bold' mt={2}>
+            Tiene que aparecer el nombre del producto y de la tienda.
           </Typography>
         </div>
         <Box textAlign="center" paddingTop={5}>
