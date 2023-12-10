@@ -128,7 +128,7 @@ export default function LeadLink(props: LeadLinkProps) {
             }${urlSuffix}`;
             target = "_top";
         } else if (store.id === constants.dlPhoneId) {
-            url = `https://ad.soicos.com/-1q1B?dl=${encodeURIComponent(
+            url = `https://ad.soicos.com/-1q1C?dl=${encodeURIComponent(
                 entity.external_url
             )}&trackerID=${soicosPrefix || ""}${
                 entity.active_registry!.id
