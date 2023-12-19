@@ -167,6 +167,9 @@ export default function LeadLink(props: LeadLinkProps) {
         } else if (store.id === constants.tiendaOficialLgId) {
             url = entity.external_url.replace("lg.com", "lgonline.cl");
             target = "_blank";
+        } else if (store.id === constants.gestionYEquiposId) {
+            const separator = entity.external_url.includes('?') ? '&' : '?'
+            url = `${entity.external_url}${separator}utm_source=solotodo&utm_medium=web&utm_campaign=comparador-solo-todo`
         } else {
             url = entity.external_url;
             target = "_blank";
