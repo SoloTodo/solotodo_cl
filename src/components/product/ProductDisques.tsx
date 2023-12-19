@@ -1,5 +1,5 @@
 import useSettings from "src/hooks/useSettings";
-import ReactDisqusComments from "react-disqus-comments";
+import { DiscussionEmbed } from 'disqus-react';
 import { constants } from "src/config";
 import { Product } from "src/frontend-utils/types/product";
 import { useEffect, useState } from "react";
@@ -10,12 +10,16 @@ export default function ProductDisques({ product }: { product: Product }) {
 
   useEffect(() => setMode(themeMode), [themeMode]);
 
+  const config = {
+      url: `https://www.solotodo.com/products/${product.id}`,
+      identifier: product.id.toString(),
+      title: product.name
+  }
+
   return mode === themeMode ? (
-    <ReactDisqusComments
+    <DiscussionEmbed
       shortname={constants.disqusShortName}
-      identifier={product.id.toString()}
-      title={product.name}
-      url={`https://www.solotodo.com/products/${product.id}`}
+      config={config}
     />
   ) : null;
 }

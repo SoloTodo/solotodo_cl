@@ -1,4 +1,4 @@
-backend:
+solotodo:
   component: "@sls-next/serverless-component@3.7.0"
   inputs:
     bucketName: "solotodo-cl"

@@ -1,6 +1,6 @@
 import { Box, Container, Divider, Typography } from "@mui/material";
 import Page from "src/components/Page";
-import ReactDisqusComments from "react-disqus-comments";
+import { DiscussionEmbed } from 'disqus-react';
 import { constants } from "src/config";
 import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
@@ -8,6 +8,10 @@ import { useGtag4 } from "src/hooks/useGtag4";
 export default function Compatibility() {
   useGtag3({});
   useGtag4({ pageTitle: "Chequeo automático de compatibilidad" });
+  const config = {
+      url: 'https://www.solotodo.com/budgets/compatibility',
+      identifier: 'budget_compatibility',
+  }
   return (
     <Page title="Chequeo automático de compatibilidad">
       <Container>
@@ -116,10 +120,9 @@ export default function Compatibility() {
             eliminada.
           </Typography>
         </Box>
-        <ReactDisqusComments
+        <DiscussionEmbed
           shortname={constants.disqusShortName}
-          identifier="budget_compatibility"
-          url="https://www.solotodo.com/budgets/compatibility/"
+          config={config}
         />
       </Container>
     </Page>

@@ -14,7 +14,7 @@ import Page from "src/components/Page";
 import { constants } from "src/config";
 import { jwtFetch } from "src/frontend-utils/nextjs/utils";
 import { PATH_MAIN } from "src/routes/paths";
-import ReactDisqusComments from "react-disqus-comments";
+import { DiscussionEmbed } from 'disqus-react';
 import TopBanner from "src/components/TopBanner";
 import { useGtag3 } from "src/hooks/useGtag3";
 import { useGtag4 } from "src/hooks/useGtag4";
@@ -62,11 +62,13 @@ export default function BudgetView({ budget }: { budget: Budget }) {
                 />
               </Stack>
               <Divider />
-              <ReactDisqusComments
-                shortname={constants.disqusShortName}
-                identifier={`budget_${budget.id}`}
-                url={`https://www.solotodo.com/budgets/${budget.id}`}
-              />
+                <DiscussionEmbed
+                  shortname={constants.disqusShortName}
+                  config={{
+                      identifier: `budget_${budget.id}`,
+                      url: `https://www.solotodo.com/budgets/${budget.id}`
+                  }}
+                />
             </>
           ) : null}
         </Stack>
