@@ -46,6 +46,15 @@ export default function ProductPriceCard({
   const normalPrice = Number(entity.active_registry!.normal_price);
   const equalPrice = offerPrice === normalPrice;
 
+  let offerPriceLabel = 'Precio efectivo';
+  if (equalPrice) {
+      offerPriceLabel = 'Con todo medio de pago'
+  } else if (entity.best_coupon) {
+      offerPriceLabel = 'Precio cupón'
+  } else if (store.preferred_payment_method) {
+      offerPriceLabel = store.preferred_payment_method
+  }
+
   return (
     <Card
       sx={{
@@ -171,9 +180,7 @@ export default function ProductPriceCard({
                   color="text.secondary"
                   fontWeight={400}
                 >
-                  {equalPrice
-                    ? "Con todo medio de pago"
-                    : store.preferred_payment_method ?? "Precio efectivo"}
+                  {offerPriceLabel}
                 </Typography>
                 <Typography variant="h2" color="text.extra" fontWeight={400}>
                   {currency(offerPrice, {
