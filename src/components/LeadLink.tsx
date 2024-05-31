@@ -164,6 +164,15 @@ export default function LeadLink(props: LeadLinkProps) {
                 entity.active_registry!.id
             }${urlSuffix}`;
             target = "_top";
+        } else if (
+            store.id === constants.samsungStoreId
+        ) {
+            url = `https://ad.soicos.com/-1rTI?dl=${encodeURIComponent(
+                entity.external_url
+            )}&trackerID=${soicosPrefix || ""}${
+                entity.active_registry!.id
+            }${urlSuffix}`;
+            target = "_top";
         // } else if (store.id === constants.tiendaOficialLgId) {
         //     url = entity.external_url.replace("www.lg.com", "lgredirect.solotodo.com");
         //     target = "_blank";
