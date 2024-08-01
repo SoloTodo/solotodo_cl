@@ -55,8 +55,8 @@ export default function LeadLink(props: LeadLinkProps) {
       urlSuffix = `_${uuid}`;
     }
 
-    let url = undefined;
-    let target = undefined;
+    let url: string | undefined = undefined;
+    let target: string | undefined = undefined;
 
     if (targetUrl) {
       url = targetUrl;

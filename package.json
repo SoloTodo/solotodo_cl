@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "npx components-v1"
+    "deploy": "sst deploy --stage prod"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
@@ -24,11 +24,12 @@
     "@react-hook/window-size": "^3.1.1",
     "@react-oauth/google": "^0.11.0",
     "@reduxjs/toolkit": "^1.8.2",
-    "@sls-next/serverless-component": "^3.7.0",
     "@types/react-slick": "^0.23.10",
     "add": "^2.0.6",
     "apexcharts": "^3.35.3",
     "atob": "^2.1.2",
+    "aws-cdk-lib": "^2.150.0",
+    "aws-sdk": "^2.1665.0",
     "browserify-zlib": "^0.2.0",
     "cookie": "^0.5.0",
     "currency.js": "^2.0.4",
@@ -53,9 +54,9 @@
     "react-lazy-load-image-component": "^1.5.4",
     "react-redux": "^8.0.2",
     "react-slick": "^0.29.0",
-    "serverless": "^3.38.0",
     "simplebar-react": "^2.4.1",
     "slick-carousel": "^1.8.1",
+    "sst": "^2.43.4",
     "uuid": "^8.3.2",
     "uzip": "^0.20201231.0",
     "yup": "^0.32.11"

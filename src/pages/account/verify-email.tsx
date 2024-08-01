@@ -13,7 +13,7 @@ function VerifyEmail() {
   useEffect(() => {
     enqueueSnackbar(
       "Ocurrió un error al verificar tu correo, por favor verifica el link que seguiste. Si el problema persiste contáctanos!",
-      { persist: true, variant: "error" }
+      { persist: true, variant: "error" },
     );
     router.push("/");
   }, [enqueueSnackbar, router]);
@@ -52,7 +52,7 @@ VerifyEmail.getInitialProps = async (context: MyNextPageContext) => {
     }
   }
 
-  if (context.res && response && response["detail"].toUpperCase() === "OK") {
+  if (context.res && response) {
     context.res.writeHead(302, {
       Location: "/login?post_verify=1",
     });

@@ -1,6 +1,0 @@
-solotodo:
-  component: "@sls-next/serverless-component@3.7.0"
-  inputs:
-    bucketName: "solotodo-cl"
-    cloudfront:
-      distributionId: "E3PK5PZ8QVTI8Y"

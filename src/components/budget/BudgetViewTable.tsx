@@ -15,6 +15,7 @@ import { useAppSelector } from "src/frontend-utils/redux/hooks";
 import { PricingEntriesProps } from "../product/types";
 import SoloTodoLeadLink from "../SoloTodoLeadLink";
 import { Budget, Entry } from "./types";
+import { Entity } from "../../frontend-utils/types/entity";
 
 export default function BudgetViewTable({
   initialBudget,
@@ -29,7 +30,7 @@ export default function BudgetViewTable({
   const apiResourceObjects = useAppSelector(useApiResourceObjects);
   const categories = getApiResourceObjects(
     apiResourceObjects,
-    "categories"
+    "categories",
   ) as Category[];
   const stores = getApiResourceObjects(apiResourceObjects, "stores") as Store[];
 
@@ -63,7 +64,7 @@ export default function BudgetViewTable({
         .then((response) => {
           const pricingEntries: PricingEntriesProps[] = response.results;
           pricingEntries.sort((a, b) =>
-            a.product.name <= b.product.name ? -1 : 1
+            a.product.name <= b.product.name ? -1 : 1,
           );
           setPricingEntries(pricingEntries);
         })
@@ -85,7 +86,7 @@ export default function BudgetViewTable({
     let url = `budgets/${budget.id}/export/?export_format=xls`;
 
     fetchAuth(null, url).then(
-      (response) => (window.location = response.content)
+      (response) => (window.location = response.content),
     );
   };
 
@@ -97,7 +98,7 @@ export default function BudgetViewTable({
       }
       const pricingEntry =
         pricingEntries.filter(
-          (entry) => entry.product.url === budgetEntry.selected_product
+          (entry) => entry.product.url === budgetEntry.selected_product,
         )[0] || null;
 
       if (!pricingEntry) {
@@ -106,7 +107,7 @@ export default function BudgetViewTable({
 
       const matchingEntity =
         pricingEntry.entities.filter(
-          (entity) => entity.store === budgetEntry.selected_store
+          (entity) => entity.store === budgetEntry.selected_store,
         )[0] || null;
 
       if (
@@ -117,37 +118,37 @@ export default function BudgetViewTable({
           new currency(matchingEntity.active_registry.offer_price, {
             separator: ".",
             precision: 0,
-          })
+          }),
         );
       }
     }
   }
 
   const filteredEntries = budget.entries.filter(
-    (entry) => entry.selected_product
+    (entry) => entry.selected_product,
   );
 
   const getMatchingEntity = (budgetEntry: Entry) => {
     const store = stores.filter(
-      (store) => store.url === budgetEntry.selected_store
+      (store) => store.url === budgetEntry.selected_store,
     )[0];
 
-    let matchingPricingEntry = null;
+    let matchingPricingEntry: PricingEntriesProps | null = null;
 
     if (budgetEntry.selected_product && pricingEntries) {
       matchingPricingEntry =
         pricingEntries.filter(
           (productEntry) =>
-            productEntry.product.url === budgetEntry.selected_product
+            productEntry.product.url === budgetEntry.selected_product,
         )[0] || null;
     }
 
-    let matchingEntity = null;
+    let matchingEntity: Entity | null = null;
 
     if (matchingPricingEntry && store) {
       matchingEntity =
         matchingPricingEntry.entities.filter(
-          (entity) => entity.store === store.url
+          (entity) => entity.store === store.url,
         )[0] || null;
     }
 
@@ -166,7 +167,7 @@ export default function BudgetViewTable({
       headerName: "Producto",
       renderCell: (params: { row: Entry }) => {
         const product = budget.products_pool.filter(
-          (product) => product.url === params.row.selected_product
+          (product) => product.url === params.row.selected_product,
         )[0];
         if (product) {
           return (
@@ -188,10 +189,10 @@ export default function BudgetViewTable({
       headerName: "Tienda",
       renderCell: (params: { row: Entry }) => {
         const product = budget.products_pool.filter(
-          (product) => product.url === params.row.selected_product
+          (product) => product.url === params.row.selected_product,
         )[0];
         const store = stores.filter(
-          (store) => store.url === params.row.selected_store
+          (store) => store.url === params.row.selected_store,
         )[0];
         const m = getMatchingEntity(params.row);
         return store ? (
