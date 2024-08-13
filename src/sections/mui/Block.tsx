@@ -44,7 +44,7 @@ export function Block({
             {title}
           </Typography>
         )}
-        <NextLink href={actionHref} as={actionHref} passHref>
+        <NextLink href={actionHref} as={actionHref} passHref legacyBehavior>
           <Link color={"text.extra"}>
             <Typography variant="h5">Ver más</Typography>
           </Link>

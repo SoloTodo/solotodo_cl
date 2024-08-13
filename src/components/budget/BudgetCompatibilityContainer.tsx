@@ -21,7 +21,7 @@ export default function BudgetCompatibilityContainer({
     <>
       <Alert severity="info">
         Lea sobre el uso de la herramienta de compatibilidad en&nbsp;
-        <NextLink href="/budgets/compatibility" passHref>
+        <NextLink href="/budgets/compatibility" passHref legacyBehavior>
           <Link>este link</Link>
         </NextLink>
         . (tl;dr: La herramienta no es perfecta y no verifica todos los casos,

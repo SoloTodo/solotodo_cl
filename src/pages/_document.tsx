@@ -53,12 +53,6 @@ export default class MyDocument extends Document {
 
           {/* <link rel="manifest" href="/manifest.json" /> */}
 
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap"
-            rel="stylesheet"
-          />
-
           <meta
             name="title"
             content="Cotiza y ahorra cotizando todos tus productos de tecnología en un sólo lugar - SoloTodo"
@@ -109,12 +103,11 @@ MyDocument.getInitialProps = async (ctx) => {
   ctx.renderPage = () =>
     originalRenderPage({
       // eslint-disable-next-line react/display-name
-      enhanceApp: (App) => (props) =>
-        (
-          <CacheProvider value={cache}>
-            <App {...props} />
-          </CacheProvider>
-        ),
+      enhanceApp: (App) => (props) => (
+        <CacheProvider value={cache}>
+          <App {...props} />
+        </CacheProvider>
+      ),
     });
 
   const initialProps = await Document.getInitialProps(ctx);

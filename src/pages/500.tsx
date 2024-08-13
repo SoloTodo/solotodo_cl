@@ -48,7 +48,7 @@ export default function Page500() {
                   Ocurrió un error, por favor intenta denuevo más tarde
                 </Typography>
                 <br />
-                <NextLink href="/">
+                <NextLink href="/" legacyBehavior>
                   <Button
                     size="large"
                     variant="contained"
@@ -75,8 +75,8 @@ export default function Page500() {
                 <Image
                   src={"/BasicMoves2.png"}
                   alt={"Página no encontrada"}
-                  width={"257px"}
-                  height={"395px"}
+                  width={257}
+                  height={395}
                 />
               </m.div>
             </Grid>

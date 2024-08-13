@@ -50,7 +50,7 @@ export default function NotebookProcessors({ data }: { data: string }) {
       field: "unicode",
       headerName: "Nombre",
       renderCell: (params: GridValueGetterParams) => (
-        <NextLink href={`notebooks?processors=${params.row.id}`} passHref>
+        <NextLink href={`notebooks?processors=${params.row.id}`} passHref legacyBehavior>
           <Link>{params.row.unicode}</Link>
         </NextLink>
       ),

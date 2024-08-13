@@ -47,7 +47,7 @@ export default function Page404() {
                   la url esté mal escrita
                 </Typography>
                 <br />
-                <NextLink href="/">
+                <NextLink href="/" legacyBehavior>
                   <Button
                     size="large"
                     variant="contained"
@@ -74,8 +74,8 @@ export default function Page404() {
                 <Image
                   src={"/BasicMoves2.png"}
                   alt={"Página no encontrada"}
-                  width={"257px"}
-                  height={"395px"}
+                  width={257}
+                  height={395}
                 />
               </m.div>
             </Grid>

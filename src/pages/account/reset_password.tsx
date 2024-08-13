@@ -51,7 +51,7 @@ export default function ResetPassword() {
                   onGetEmail={(value) => setEmail(value)}
                 />
 
-                <NextLink href={PATH_AUTH.login} passHref>
+                <NextLink href={PATH_AUTH.login} passHref legacyBehavior>
                   <Button
                     fullWidth
                     size="large"
@@ -76,7 +76,7 @@ export default function ResetPassword() {
                   Por favor revisa tu email.
                 </Typography>
 
-                <NextLink href={PATH_AUTH.login} passHref>
+                <NextLink href={PATH_AUTH.login} passHref legacyBehavior>
                   <Button
                     size="large"
                     variant="contained"

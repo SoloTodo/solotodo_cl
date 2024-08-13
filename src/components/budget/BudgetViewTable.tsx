@@ -175,7 +175,7 @@ export default function BudgetViewTable({
               href={`/products/[slug]?slug=${product.id}`}
               as={`/products/${product.id}`}
               passHref
-            >
+              legacyBehavior>
               <Link color="info.main">{product.name}</Link>
             </NextLink>
           );

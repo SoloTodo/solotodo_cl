@@ -175,7 +175,7 @@ export default function LegalInformation() {
                 <NextLink
                   href="https://chrome.google.com/webstore/detail/solotodo/dnacbdkmnedgahgcogbeecmgjlmkjgpf"
                   passHref
-                >
+                  legacyBehavior>
                   <Link variant="h5" fontWeight={400}>
                     este link
                   </Link>
@@ -353,7 +353,7 @@ export default function LegalInformation() {
                 o cualquier información identificable del mismo (alertas de
                 cambios de precio, cotizaciones, etc) se puede solicitar a
                 través del{" "}
-                <NextLink href="/data_deletion" passHref>
+                <NextLink href="/data_deletion" passHref legacyBehavior>
                   <Link variant="h5" fontWeight={400}>
                     formulario de contacto de SoloTodo
                   </Link>

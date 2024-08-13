@@ -59,7 +59,7 @@ export default function NotebookVideoCards({
       field: "unicode",
       headerName: "Nombre",
       renderCell: (params: GridValueGetterParams) => (
-        <NextLink href={`notebooks?video_cards=${params.row.id}`} passHref>
+        <NextLink href={`notebooks?video_cards=${params.row.id}`} passHref legacyBehavior>
           <Link>{params.row.unicode}</Link>
         </NextLink>
       ),

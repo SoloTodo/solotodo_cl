@@ -68,7 +68,7 @@ export default function MainFooter() {
           sx={{ textAlign: { xs: "center", md: "left" } }}
         >
           <Grid item xs={11} sx={{ mb: 3 }}>
-            <NextLink href={PATH_MAIN.root} passHref>
+            <NextLink href={PATH_MAIN.root} passHref legacyBehavior>
               <Link>
                 <Image
                   alt={"Logo"}
@@ -131,7 +131,7 @@ export default function MainFooter() {
                     {list.headline}
                   </Typography>
                   {list.children.map((link) => (
-                    <NextLink key={link.name} href={link.href} passHref>
+                    <NextLink key={link.name} href={link.href} passHref legacyBehavior>
                       <Link
                         color="inherit"
                         variant="body2"

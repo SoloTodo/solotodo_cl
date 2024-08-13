@@ -229,14 +229,14 @@ export default function Login() {
                                     sx={{my: 2, px: 4}}
                                     spacing={1}
                                 >
-                                    <NextLink href={PATH_AUTH.reset_password} passHref>
+                                    <NextLink href={PATH_AUTH.reset_password} passHref legacyBehavior>
                                         <Link variant="h5" fontWeight={400} color="info.main">
                                             ¿Olvidaste tu contraseña?
                                         </Link>
                                     </NextLink>
                                     <Typography variant="h6" fontWeight={400}>
                                         ¿Necesitas una cuenta?{" "}
-                                        <NextLink href={PATH_AUTH.register} passHref>
+                                        <NextLink href={PATH_AUTH.register} passHref legacyBehavior>
                                             <Link color="info.main">Regístrate</Link>
                                         </NextLink>
                                     </Typography>

@@ -88,7 +88,7 @@ export default function ProductAxisChoices({
               key={index}
               href={`/products/[slug]?slug=${choice.redirectUrlData.id}-${choice.redirectUrlData.slug}`}
               as={`/products/${choice.redirectUrlData.id}-${choice.redirectUrlData.slug}`}
-            >
+              legacyBehavior>
               <Button variant="outlined">{choice.labelValue}</Button>
             </Link>
           );

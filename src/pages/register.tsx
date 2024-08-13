@@ -247,7 +247,7 @@ export default function Register() {
                 >
                   <Typography variant="h6" fontWeight={400}>
                     ¿Ya tienes una cuenta?{" "}
-                    <NextLink href={PATH_AUTH.login} passHref>
+                    <NextLink href={PATH_AUTH.login} passHref legacyBehavior>
                       <Link color="info.main">Inicia sesión</Link>
                     </NextLink>
                   </Typography>

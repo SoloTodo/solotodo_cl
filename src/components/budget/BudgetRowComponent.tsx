@@ -73,7 +73,7 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
           href={`/browse?category_slug=${category.slug}`}
           as={`/${category.slug}`}
           passHref
-        >
+          legacyBehavior>
           <Link color="info.main">{category.name}</Link>
         </NextLink>
       </Box>
@@ -106,7 +106,7 @@ export default function BudgetRowComponent(props: BudgetRowComponentProps) {
               </Select>
             </Grid>
             <Grid item xs={3} md={1} lg={1.5}>
-              <NextLink href={selectedProductHref} passHref>
+              <NextLink href={selectedProductHref} passHref legacyBehavior>
                 <Button
                   variant="contained"
                   color="info"

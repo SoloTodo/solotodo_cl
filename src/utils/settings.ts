@@ -8,32 +8,34 @@ import { defaultSettings, cookiesKey } from "../config";
 
 export const getSettings = (cookies: NextApiRequestCookies) => {
   const themeMode =
-    getData(cookies[cookiesKey.themeMode]) || defaultSettings.themeMode;
+    getData(cookies[cookiesKey.themeMode] || "") || defaultSettings.themeMode;
 
   const themeDirection =
-    getData(cookies[cookiesKey.themeDirection]) ||
+    getData(cookies[cookiesKey.themeDirection] || "") ||
     defaultSettings.themeDirection;
 
   const themeColorPresets =
-    getData(cookies[cookiesKey.themeColorPresets]) ||
+    getData(cookies[cookiesKey.themeColorPresets] || "") ||
     defaultSettings.themeColorPresets;
 
   const themeLayout =
-    getData(cookies[cookiesKey.themeLayout]) || defaultSettings.themeLayout;
+    getData(cookies[cookiesKey.themeLayout] || "") ||
+    defaultSettings.themeLayout;
 
   const themeStretch =
-    getDataBool(cookies[cookiesKey.themeStretch]) ??
+    getDataBool(cookies[cookiesKey.themeStretch] || "") ??
     defaultSettings.themeStretch;
 
   const prefExcludeRefurbished =
-    getDataBool(cookies[cookiesKey.prefExcludeRefurbished]) ??
+    getDataBool(cookies[cookiesKey.prefExcludeRefurbished] || "") ??
     defaultSettings.prefExcludeRefurbished;
 
   const prefStores =
-    getDataArray(cookies[cookiesKey.prefStores]) ?? defaultSettings.prefStores;
+    getDataArray(cookies[cookiesKey.prefStores] || "") ??
+    defaultSettings.prefStores;
 
   const prefStoresLastUpdate =
-    getDataDate(cookies[cookiesKey.prefStoresLastUpdate]) ||
+    getDataDate(cookies[cookiesKey.prefStoresLastUpdate] || "") ||
     defaultSettings.prefStoresLastUpdate;
 
   return {

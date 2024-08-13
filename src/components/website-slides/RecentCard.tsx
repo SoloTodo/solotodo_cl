@@ -27,7 +27,7 @@ export default function RecentCard({ recentData }: { recentData: Slide }) {
         position: "relative",
       }}
     >
-      <NextLink href={recentData.destination_url} passHref>
+      <NextLink href={recentData.destination_url} passHref legacyBehavior>
         <Link underline="none">
           <Stack
             alignItems="flex-start"

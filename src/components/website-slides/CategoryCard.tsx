@@ -32,7 +32,7 @@ export default function CategoryCard({
         position: "relative",
       }}
     >
-      <NextLink href={path} passHref>
+      <NextLink href={path} passHref legacyBehavior>
         <Link underline="none">
           <Stack
             alignItems="flex-start"

@@ -4,7 +4,7 @@ import Head from "next/head";
 import type { AppProps } from "next/app";
 import { NextPage } from "next/types";
 import cookie from "cookie";
-import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { SettingsProvider } from "../contexts/SettingsContext";
 import { getSettings } from "../utils/settings";
 import ThemeProvider from "../theme";
@@ -33,6 +33,7 @@ import withReduxStore, {
   MyAppContext,
 } from "src/frontend-utils/redux/with-redux-store";
 import App from "next/app";
+import { Roboto } from "next/font/google";
 import { isAfter } from "date-fns";
 
 type NextPageWithLayout = NextPage & {
@@ -46,6 +47,8 @@ interface MyAppProps extends AppProps {
   Component: NextPageWithLayout;
 }
 
+const roboto = Roboto({ weight: ["400", "500", "700"], subsets: ["latin"] });
+
 function MyApp({
   Component,
   pageProps,
@@ -58,10 +61,9 @@ function MyApp({
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-
       <Provider store={reduxStore}>
         <SettingsProvider defaultSettings={settings}>
-          <ThemeProvider>
+          <ThemeProvider fontFamily={roboto}>
             <NotistackProvider>
               <AuthProvider>
                 <GoogleOAuthProvider clientId={constants.googleClientId}>
@@ -90,13 +92,13 @@ function MyApp({
 
 MyApp.getInitialProps = async (context: MyAppContext) => {
   const cookies = cookie.parse(
-    context.ctx.req ? context.ctx.req.headers.cookie || "" : document.cookie
+    context.ctx.req ? context.ctx.req.headers.cookie || "" : document.cookie,
   );
 
   const settings = getSettings(cookies);
 
   const navigation = await fetchJson(
-    `${constants.apiResourceEndpoints.countries}${constants.chileId}/navigation/`
+    `${constants.apiResourceEndpoints.countries}${constants.chileId}/navigation/`,
   );
 
   const ctx = context.ctx;
@@ -133,7 +135,7 @@ MyApp.getInitialProps = async (context: MyAppContext) => {
     const reduxStore = ctx.reduxStore;
     const apiResources = await fetchJson(`resources/?${resources_query}`);
     reduxStore.dispatch(
-      apiResourceObjectsSlice.actions.addApiResourceObjects(apiResources)
+      apiResourceObjectsSlice.actions.addApiResourceObjects(apiResources),
     );
     const activeChileanStores = (apiResources as Store[]).reduce(
       (acc: Store[], a) => {
@@ -146,7 +148,7 @@ MyApp.getInitialProps = async (context: MyAppContext) => {
         }
         return acc;
       },
-      []
+      [],
     );
     let stores = activeChileanStores.map((s) => s.id.toString());
     if (settings.prefStores.length !== 0) {
@@ -158,8 +160,8 @@ MyApp.getInitialProps = async (context: MyAppContext) => {
               settings.prefStoresLastUpdate &&
               isAfter(
                 new Date(s.last_activation),
-                new Date(settings.prefStoresLastUpdate)
-              ))
+                new Date(settings.prefStoresLastUpdate),
+              )),
         )
         .map((r) => r.id.toString());
     }

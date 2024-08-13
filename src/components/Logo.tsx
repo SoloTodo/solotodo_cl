@@ -60,7 +60,7 @@ const Logo = forwardRef<any, Props>(({ disabledLink = false, sx }, ref) => {
     return <>{logo}</>;
   }
 
-  return <NextLink href="/">{logo}</NextLink>;
+  return <NextLink href="/" legacyBehavior>{logo}</NextLink>;
 });
 
 Logo.displayName = "Logo";

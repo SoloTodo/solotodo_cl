@@ -95,178 +95,176 @@ export default function AccountPopover() {
     }
   };
 
-  return (
-    <>
-      {isDesktop ? (
-        <Button
-          onClick={handleOpen}
-          color="secondary"
-          sx={{
-            ...(open && { bgcolor: "action.selected" }),
-          }}
-          startIcon={<AccountCircleIcon />}
-        >
-          <Typography color="text.primary">Perfil</Typography>
-          {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-        </Button>
-      ) : (
-        <IconButtonAnimate
-          onClick={handleOpen}
-          color="secondary"
-          sx={{
-            width: 40,
-            height: 40,
-            ...(open && { bgcolor: "action.selected" }),
-          }}
-        >
-          <AccountCircleIcon />
-        </IconButtonAnimate>
-      )}
-
-      <MenuPopover
-        open={Boolean(open)}
-        anchorEl={open}
-        onClose={() => setOpen(null)}
+  return <>
+    {isDesktop ? (
+      <Button
+        onClick={handleOpen}
+        color="secondary"
         sx={{
-          p: 0,
-          mt: 1.5,
-          ml: 0.75,
-          "& .MuiMenuItem-root": {
-            typography: "body2",
-            borderRadius: 0.75,
-          },
+          ...(open && { bgcolor: "action.selected" }),
+        }}
+        startIcon={<AccountCircleIcon />}
+      >
+        <Typography color="text.primary">Perfil</Typography>
+        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+      </Button>
+    ) : (
+      <IconButtonAnimate
+        onClick={handleOpen}
+        color="secondary"
+        sx={{
+          width: 40,
+          height: 40,
+          ...(open && { bgcolor: "action.selected" }),
         }}
       >
-        {user && user.email !== undefined ? (
-          <>
-            <Box sx={{ my: 1.5, px: 2.5 }}>
-              {user.first_name && user.last_name && (
-                <Typography variant="subtitle2" noWrap>
-                  {`${user.first_name} ${user.last_name}`}
-                </Typography>
-              )}
-              <Typography
-                variant={
-                  user.first_name && user.last_name ? "body2" : "subtitle2"
-                }
-                sx={{
-                  color:
-                    user.first_name && user.last_name
-                      ? "text.secondary"
-                      : "text.primary",
-                }}
-                noWrap
-              >
-                {user.email}
+        <AccountCircleIcon />
+      </IconButtonAnimate>
+    )}
+
+    <MenuPopover
+      open={Boolean(open)}
+      anchorEl={open}
+      onClose={() => setOpen(null)}
+      sx={{
+        p: 0,
+        mt: 1.5,
+        ml: 0.75,
+        "& .MuiMenuItem-root": {
+          typography: "body2",
+          borderRadius: 0.75,
+        },
+      }}
+    >
+      {user && user.email !== undefined ? (
+        <>
+          <Box sx={{ my: 1.5, px: 2.5 }}>
+            {user.first_name && user.last_name && (
+              <Typography variant="subtitle2" noWrap>
+                {`${user.first_name} ${user.last_name}`}
               </Typography>
-            </Box>
-            <Divider sx={{ borderStyle: "dashed" }} />
-
-            {user.budgets.length !== 0 && (
-              <Stack sx={{ p: 1, maxHeight: 200, overflow: "scroll" }}>
-                {user.budgets.map((b) => (
-                  <NextLink
-                    key={b.name}
-                    href={`${PATH_MAIN.budgets}/${b.id}/edit`}
-                    passHref
-                  >
-                    <MenuItem onClick={() => handleClose()}>
-                      <Typography variant="inherit" noWrap>
-                        {b.name}
-                      </Typography>
-                    </MenuItem>
-                  </NextLink>
-                ))}
-              </Stack>
             )}
-            <Stack sx={{ p: 1 }}>
-              <MenuItem onClick={() => setOpenModal(true)}>
-                <b>Nueva Cotización</b>
-              </MenuItem>
-            </Stack>
+            <Typography
+              variant={
+                user.first_name && user.last_name ? "body2" : "subtitle2"
+              }
+              sx={{
+                color:
+                  user.first_name && user.last_name
+                    ? "text.secondary"
+                    : "text.primary",
+              }}
+              noWrap
+            >
+              {user.email}
+            </Typography>
+          </Box>
+          <Divider sx={{ borderStyle: "dashed" }} />
 
-            <Divider sx={{ borderStyle: "dashed" }} />
-
-            <Stack sx={{ p: 1 }}>
-              {MENU_OPTIONS.map((option) => (
-                <NextLink key={option.label} href={option.linkTo} passHref>
+          {user.budgets.length !== 0 && (
+            <Stack sx={{ p: 1, maxHeight: 200, overflow: "scroll" }}>
+              {user.budgets.map((b) => (
+                <NextLink
+                  key={b.name}
+                  href={`${PATH_MAIN.budgets}/${b.id}/edit`}
+                  passHref
+                  legacyBehavior>
                   <MenuItem onClick={() => handleClose()}>
-                    {option.label}
+                    <Typography variant="inherit" noWrap>
+                      {b.name}
+                    </Typography>
                   </MenuItem>
                 </NextLink>
               ))}
             </Stack>
-
-            <Divider sx={{ borderStyle: "dashed" }} />
-
-            <MenuItem sx={{ m: 1 }} onClick={onLogout}>
-              Cerrar Sesión
+          )}
+          <Stack sx={{ p: 1 }}>
+            <MenuItem onClick={() => setOpenModal(true)}>
+              <b>Nueva Cotización</b>
             </MenuItem>
+          </Stack>
 
-            <Modal open={openModal} onClose={handleModalClose}>
-              <Box sx={style}>
-                <Stack spacing={1}>
-                  <Typography
-                    id="modal-modal-title"
-                    variant="h3"
-                    component="h2"
-                  >
-                    Crear nueva cotización
-                  </Typography>
-                  <TextField
-                    name="name"
-                    label="Nombre"
-                    fullWidth
-                    onChange={(e) => setValue(e.target.value)}
-                  />
-                </Stack>
-                <br />
-                <Stack direction="row-reverse" spacing={1}>
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    onClick={handleModalClose}
-                  >
-                    Cerrar
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="success"
-                    onClick={onSubmit}
-                  >
-                    Crear
-                  </Button>
-                </Stack>
-              </Box>
-            </Modal>
-          </>
-        ) : (
-          <>
-            <MenuItem
-              sx={{ m: 1 }}
-              onClick={() => {
-                setOpen(null);
-                router.push(
-                  `/login?next=${encodeURIComponent(router.asPath || "")}`
-                );
-              }}
-            >
-              Iniciar Sesión
-            </MenuItem>
-            <MenuItem
-              sx={{ m: 1 }}
-              onClick={() => {
-                setOpen(null);
-                router.push(
-                  `/register?next=${encodeURIComponent(router.asPath || "")}`
-                );
-              }}
-            >
-              Registrarse
-            </MenuItem>
-          </>
-        )}
-      </MenuPopover>
-    </>
-  );
+          <Divider sx={{ borderStyle: "dashed" }} />
+
+          <Stack sx={{ p: 1 }}>
+            {MENU_OPTIONS.map((option) => (
+              <NextLink key={option.label} href={option.linkTo} passHref legacyBehavior>
+                <MenuItem onClick={() => handleClose()}>
+                  {option.label}
+                </MenuItem>
+              </NextLink>
+            ))}
+          </Stack>
+
+          <Divider sx={{ borderStyle: "dashed" }} />
+
+          <MenuItem sx={{ m: 1 }} onClick={onLogout}>
+            Cerrar Sesión
+          </MenuItem>
+
+          <Modal open={openModal} onClose={handleModalClose}>
+            <Box sx={style}>
+              <Stack spacing={1}>
+                <Typography
+                  id="modal-modal-title"
+                  variant="h3"
+                  component="h2"
+                >
+                  Crear nueva cotización
+                </Typography>
+                <TextField
+                  name="name"
+                  label="Nombre"
+                  fullWidth
+                  onChange={(e) => setValue(e.target.value)}
+                />
+              </Stack>
+              <br />
+              <Stack direction="row-reverse" spacing={1}>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={handleModalClose}
+                >
+                  Cerrar
+                </Button>
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={onSubmit}
+                >
+                  Crear
+                </Button>
+              </Stack>
+            </Box>
+          </Modal>
+        </>
+      ) : (
+        <>
+          <MenuItem
+            sx={{ m: 1 }}
+            onClick={() => {
+              setOpen(null);
+              router.push(
+                `/login?next=${encodeURIComponent(router.asPath || "")}`
+              );
+            }}
+          >
+            Iniciar Sesión
+          </MenuItem>
+          <MenuItem
+            sx={{ m: 1 }}
+            onClick={() => {
+              setOpen(null);
+              router.push(
+                `/register?next=${encodeURIComponent(router.asPath || "")}`
+              );
+            }}
+          >
+            Registrarse
+          </MenuItem>
+        </>
+      )}
+    </MenuPopover>
+  </>;
 }

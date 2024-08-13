@@ -108,79 +108,122 @@ export default function ProductCard(props: ProductProps) {
       <CardActionArea sx={{ height: "100%" }}>
         <Stack height="100%">
           <NextLink href={`/products/${product.id}-${product.slug}`} passHref>
-            <a>
-              <Box sx={{ position: "relative" }}>
-                <Box bgcolor="#fff">
-                  {ribbonFormatter && (
-                    <Box
-                      sx={{
-                        bgcolor: "#3C5D82",
-                        p: 0.8,
-                        borderEndEndRadius: 10,
-                        display: "inline-block",
-                      }}
-                    >
-                      <Typography variant="h5" fontWeight={440} color="#fff">
-                        {ribbonFormatter(metadata.score)}
-                      </Typography>
-                    </Box>
-                  )}
-                  <Image
-                    ratio="16/9"
-                    src={
-                      loading || isLoaded
-                        ? "https://zone-assets-api.vercel.app/assets/img_placeholder.svg"
-                        : `${product.url}picture/?width=300&height=200`
-                    }
-                    alt={
-                      loading || isLoaded
-                        ? "https://zone-assets-api.vercel.app/assets/img_placeholder.svg"
-                        : `${product.url}picture/?width=300&height=200`
-                    }
-                    loading="eager"
-                    onLoad={() => setIsLoaded(false)}
-                    paddingY={1}
+
+            <Box sx={{ position: "relative" }}>
+              <Box bgcolor="#fff">
+                {ribbonFormatter && (
+                  <Box
                     sx={{
-                      borderBottom: "1px solid #EFEFEF",
+                      bgcolor: "#3C5D82",
+                      p: 0.8,
+                      borderEndEndRadius: 10,
+                      display: "inline-block",
                     }}
-                  />
-                </Box>
-                <CardContent sx={{ p: "1rem" }}>
-                  <Stack
-                    direction="row"
-                    spacing={1}
-                    height={24}
-                    sx={{ overflow: "auto", flexWrap: "nowrap" }}
                   >
-                    {tags.map((t, index) => (
-                      <CustomChip key={index} label={t} />
-                    ))}
-                  </Stack>
+                    <Typography variant="h5" fontWeight={440} color="#fff">
+                      {ribbonFormatter(metadata.score)}
+                    </Typography>
+                  </Box>
+                )}
+                <Image
+                  ratio="16/9"
+                  src={
+                    loading || isLoaded
+                      ? "https://zone-assets-api.vercel.app/assets/img_placeholder.svg"
+                      : `${product.url}picture/?width=300&height=200`
+                  }
+                  alt={
+                    loading || isLoaded
+                      ? "https://zone-assets-api.vercel.app/assets/img_placeholder.svg"
+                      : `${product.url}picture/?width=300&height=200`
+                  }
+                  loading="eager"
+                  onLoad={() => setIsLoaded(false)}
+                  paddingY={1}
+                  sx={{
+                    borderBottom: "1px solid #EFEFEF",
+                  }}
+                />
+              </Box>
+              <CardContent sx={{ p: "1rem" }}>
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  height={24}
+                  sx={{ overflow: "auto", flexWrap: "nowrap" }}
+                >
+                  {tags.map((t, index) => (
+                    <CustomChip key={index} label={t} />
+                  ))}
+                </Stack>
+                <Typography
+                  marginBottom={browsePurpose ? 3 : 1}
+                  variant="h5"
+                  component="div"
+                  color="text.primary"
+                  fontWeight={500}
+                  height={45}
+                  sx={{
+                    paddingTop: 1,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: "-webkit-box",
+                    WebkitLineClamp: "2",
+                    WebkitBoxOrient: "vertical",
+                  }}
+                >
+                  {product.name}
+                </Typography>
+                {categoryBrowseResult && (
                   <Typography
-                    marginBottom={browsePurpose ? 3 : 1}
-                    variant="h5"
+                    variant="h2"
                     component="div"
-                    color="text.primary"
-                    fontWeight={500}
-                    height={45}
+                    color="text.dim"
                     sx={{
-                      paddingTop: 1,
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      display: "-webkit-box",
-                      WebkitLineClamp: "2",
-                      WebkitBoxOrient: "vertical",
+                      paddingBottom: 2,
                     }}
                   >
-                    {product.name}
+                    {currency(offerPrice, {
+                      separator: ".",
+                      precision: 0,
+                    }).format()}
                   </Typography>
-                  {categoryBrowseResult && (
+                )}
+                <div
+                  className={
+                    browsePurpose ? styles.product_specs : "short-description"
+                  }
+                  dangerouslySetInnerHTML={formatSpecs()}
+                  style={
+                    categoryBrowseResult
+                      ? {
+                          lineHeight: "14px",
+                          fontSize: "12px",
+                        }
+                      : {
+                          lineHeight: "14px",
+                          fontSize: "12px",
+                          height: 29,
+                          color: "#757b80",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          display: "-webkit-box",
+                          WebkitLineClamp: "2",
+                          WebkitBoxOrient: "vertical",
+                        }
+                  }
+                />
+                {!categoryBrowseResult && (
+                  <>
+                    <Box height={browsePurpose ? 40 : 20} />
                     <Typography
                       variant="h2"
                       component="div"
                       color="text.dim"
                       sx={{
-                        paddingBottom: 2,
+                        position: "absolute",
+                        bottom: 0,
+                        paddingBottom: 1,
                       }}
                     >
                       {currency(offerPrice, {
@@ -188,54 +231,11 @@ export default function ProductCard(props: ProductProps) {
                         precision: 0,
                       }).format()}
                     </Typography>
-                  )}
-                  <div
-                    className={
-                      browsePurpose ? styles.product_specs : "short-description"
-                    }
-                    dangerouslySetInnerHTML={formatSpecs()}
-                    style={
-                      categoryBrowseResult
-                        ? {
-                            lineHeight: "14px",
-                            fontSize: "12px",
-                          }
-                        : {
-                            lineHeight: "14px",
-                            fontSize: "12px",
-                            height: 29,
-                            color: "#757b80",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            display: "-webkit-box",
-                            WebkitLineClamp: "2",
-                            WebkitBoxOrient: "vertical",
-                          }
-                    }
-                  />
-                  {!categoryBrowseResult && (
-                    <>
-                      <Box height={browsePurpose ? 40 : 20} />
-                      <Typography
-                        variant="h2"
-                        component="div"
-                        color="text.dim"
-                        sx={{
-                          position: "absolute",
-                          bottom: 0,
-                          paddingBottom: 1,
-                        }}
-                      >
-                        {currency(offerPrice, {
-                          separator: ".",
-                          precision: 0,
-                        }).format()}
-                      </Typography>
-                    </>
-                  )}
-                </CardContent>
-              </Box>
-            </a>
+                  </>
+                )}
+              </CardContent>
+            </Box>
+
           </NextLink>
           <Box flexGrow={1} />
           {categoryWithVariants || !browsePurpose ? (

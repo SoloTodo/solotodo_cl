@@ -211,7 +211,7 @@ export default function DashboardHeader({
               spacing={{ xs: 0.5, sm: 3 }}
             >
               {settings.themeMode === "dark" ? (
-                <NextLink href={PATH_MAIN.root} passHref>
+                <NextLink href={PATH_MAIN.root} passHref legacyBehavior>
                   <Link>
                     <Image
                       alt={"Logo"}
@@ -222,7 +222,7 @@ export default function DashboardHeader({
                   </Link>
                 </NextLink>
               ) : (
-                <NextLink href={PATH_MAIN.root} passHref>
+                <NextLink href={PATH_MAIN.root} passHref legacyBehavior>
                   <Link>
                     <Image
                       alt={"Logo"}
