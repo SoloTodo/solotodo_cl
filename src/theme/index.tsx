@@ -40,7 +40,7 @@ export default function ThemeProvider({ children, fontFamily }: Props) {
       shadows: isLight ? shadows.light : shadows.dark,
       customShadows: isLight ? customShadows.light : customShadows.dark,
     }),
-    [isLight, themeDirection],
+    [isLight, themeDirection, fontFamily.style.fontFamily],
   );
 
   const theme = createTheme(themeOptions);
