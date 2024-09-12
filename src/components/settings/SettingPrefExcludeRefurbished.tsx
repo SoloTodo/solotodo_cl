@@ -11,7 +11,7 @@ export default function SettingPrefExcludeRefurbished() {
         disableTypography
         checked={!prefExcludeRefurbished}
         control={<Switch color="primary" />}
-        label="Reacondicionados"
+        label="Seminuevos"
         labelPlacement="start"
       />
     </FormGroup>

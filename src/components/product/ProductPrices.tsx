@@ -191,7 +191,7 @@ export default function ProductPrices({
     onToggleExcludeRefurbished();
     setOpenModal(false);
     enqueueSnackbar(
-      "Se han escondido los productos reacondicionados exitosamente. Puedes volver a mostrarlos en el menú superior del sitio",
+      "Se han escondido los productos seminuevos exitosamente. Puedes volver a mostrarlos en el menú superior del sitio",
       { persist: true }
     );
   };
@@ -303,11 +303,11 @@ export default function ProductPrices({
               <Stack direction="row" spacing={1} alignItems="baseline">
                 <WarningIcon color="warning" />
                 <Typography variant="h2" fontWeight={600}>
-                  Producto Reacondicionado
+                  Producto Seminuevo
                 </Typography>
               </Stack>
               <Typography variant="h6" fontWeight={600}>
-                Este producto contiene precios de artículos reacondicionados.
+                Este producto contiene precios de artículos seminuevos (reacondicionados, usados, etc).
                 ¿Quieres continuar viendo estas opciones?
               </Typography>
             </Stack>
@@ -318,7 +318,7 @@ export default function ProductPrices({
                 color="inherit"
                 onClick={hideRifurbished}
               >
-                ESCONDER REACONDICIONADOS
+                ESCONDER SEMINUEVOS
               </Button>
               <Button
                 variant="outlined"
