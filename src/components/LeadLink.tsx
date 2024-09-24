@@ -64,13 +64,13 @@ export default function LeadLink(props: LeadLinkProps) {
         url += "&uuid=" + uuid;
       }
       target = "_blank";
-      // } else if (store.id === constants.abcdinStoreId) {
-      //     url = `https://ad.soicos.com/-149x?dl=${encodeURIComponent(
-      //         entity.external_url
-      //     )}&trackerID=${soicosPrefix || ""}${
-      //         entity.active_registry!.id
-      //     }${urlSuffix}`;
-      //     target = "_top";
+      } else if (store.id === constants.abcdinStoreId) {
+          url = `https://ad.soicos.com/-149x?dl=${encodeURIComponent(
+              entity.external_url
+          )}&trackerID=${soicosPrefix || ""}${
+              entity.active_registry!.id
+          }${urlSuffix}`;
+          target = "_top";
     } else if (store.id === constants.parisStoreId) {
       url = `https://ad.soicos.com/-149A?dl=${encodeURIComponent(
         entity.external_url,
