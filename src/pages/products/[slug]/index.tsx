@@ -1,5 +1,6 @@
 import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import Image from "src/components/Image";
 import Page from "src/components/Page";
@@ -24,6 +25,7 @@ import ProductDisques from "src/components/product/ProductDisques";
 import Handlebars from "handlebars";
 import { MyNextPageContext } from "src/frontend-utils/redux/with-redux-store";
 import { useCheckStatusCode } from "src/hooks/useCheckStatusCode";
+import styles from './product.module.scss'
 
 function ProductPage({
   product,
@@ -137,6 +139,11 @@ function ProductPage({
               setOpenNewCommentDrawer={setOpenNewCommentDrawer}
             />
           </Grid>
+          {product.ai_description && <Grid item xs={12}>
+            <div>
+              <ReactMarkdown className={styles.ai_description}>{product.ai_description}</ReactMarkdown>
+            </div>
+          </Grid>}
         </Grid>
         <ProductRating
           product={product}
