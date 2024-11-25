@@ -26,6 +26,7 @@ import Handlebars from "handlebars";
 import { MyNextPageContext } from "src/frontend-utils/redux/with-redux-store";
 import { useCheckStatusCode } from "src/hooks/useCheckStatusCode";
 import styles from './product.module.scss'
+import ProductAiDescription from "../../../components/product/ProductAiDescription";
 
 function ProductPage({
   product,
@@ -139,11 +140,7 @@ function ProductPage({
               setOpenNewCommentDrawer={setOpenNewCommentDrawer}
             />
           </Grid>
-          {product.ai_description && <Grid item xs={12}>
-            <div>
-              <ReactMarkdown className={styles.ai_description}>{product.ai_description}</ReactMarkdown>
-            </div>
-          </Grid>}
+          <ProductAiDescription product={product} />
         </Grid>
         <ProductRating
           product={product}

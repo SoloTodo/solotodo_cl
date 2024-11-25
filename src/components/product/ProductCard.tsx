@@ -22,6 +22,7 @@ import { constants } from "src/config";
 import Handlebars from "handlebars";
 import styles from "../../styles/ProductPage.module.css";
 import { Category } from "src/frontend-utils/types/store";
+import React from "react";
 
 type ProductProps = {
   productData: ProductsData;
@@ -213,6 +214,16 @@ export default function ProductCard(props: ProductProps) {
                         }
                   }
                 />
+                <div className={
+                    browsePurpose ? styles.product_specs : "short-description"
+                  }>
+                  {product.ai_browse_highlights && <dl>
+                    {product.ai_browse_highlights.map(ai_browse_highlight => <React.Fragment key={ai_browse_highlight.label}>
+                      <dt>{ai_browse_highlight.label}</dt>
+                      <dd>{ai_browse_highlight.value}</dd>
+                    </React.Fragment>)}
+                  </dl>}
+                </div>
                 {!categoryBrowseResult && (
                   <>
                     <Box height={browsePurpose ? 40 : 20} />
