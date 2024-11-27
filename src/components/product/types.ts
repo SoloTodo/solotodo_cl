@@ -16,18 +16,13 @@ type metadata = {
   prices_per_currency: PricesPerCurrency[];
 };
 
-type ExtendedProductBrowseHighlight = {
-  label: string,
-  value: string
-}
-
 type ExtendedProduct = Product & {
   brand_id: number;
   brand_name: string;
   name_analyzed: string;
   specs: Record<string, any>;
   ai_description: string | null;
-  ai_browse_highlights: ExtendedProductBrowseHighlight[] | null
+  ai_browse_highlights: Record<string, string> | null
 };
 
 export type ProductsData = {

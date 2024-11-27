@@ -218,9 +218,9 @@ export default function ProductCard(props: ProductProps) {
                     browsePurpose ? styles.product_specs : "short-description"
                   }>
                   {product.ai_browse_highlights && <dl>
-                    {product.ai_browse_highlights.map(ai_browse_highlight => <React.Fragment key={ai_browse_highlight.label}>
-                      <dt>{ai_browse_highlight.label}</dt>
-                      <dd>{ai_browse_highlight.value}</dd>
+                    {Object.entries(product.ai_browse_highlights).map(entry => <React.Fragment key={entry[0]}>
+                      <dt>{entry[0]}</dt>
+                      <dd>{entry[1]}</dd>
                     </React.Fragment>)}
                   </dl>}
                 </div>
