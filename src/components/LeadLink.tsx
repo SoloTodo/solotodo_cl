@@ -176,6 +176,13 @@ export default function LeadLink(props: LeadLinkProps) {
     } else if (store.id === constants.gestionYEquiposId) {
       const separator = entity.external_url.includes("?") ? "&" : "?";
       url = `${entity.external_url}${separator}utm_source=solotodo&utm_medium=web&utm_campaign=comparador-solo-todo`;
+    } else if (store.id === constants.laPolarStoreId) {
+      url = `https://ad.soicos.com/-1tIF?dl=${encodeURIComponent(
+        entity.external_url,
+      )}&trackerID=${soicosPrefix || ""}${
+        entity.active_registry!.id
+      }${urlSuffix}`;
+      target = "_top";
     } else {
       url = entity.external_url;
       target = "_blank";
