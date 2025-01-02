@@ -64,129 +64,129 @@ export default function LeadLink(props: LeadLinkProps) {
         url += "&uuid=" + uuid;
       }
       target = "_blank";
-      } else if (store.id === constants.abcdinStoreId) {
-          url = `https://ad.soicos.com/-149x?dl=${encodeURIComponent(
-              entity.external_url
-          )}&trackerID=${soicosPrefix || ""}${
-              entity.active_registry!.id
-          }${urlSuffix}`;
-          target = "_top";
-    } else if (store.id === constants.parisStoreId) {
-      url = `https://ad.soicos.com/-149A?dl=${encodeURIComponent(
-        entity.external_url,
-      )}&trackerID=${soicosPrefix || ""}${
-        entity.active_registry!.id
-      }${urlSuffix}`;
-      target = "_top";
-    } else if (store.id === constants.lenovoChileStoreId) {
-      url = `https://ad.soicos.com/-15Dd?dl=${encodeURIComponent(
-        entity.external_url,
-      )}&trackerID=${soicosPrefix || ""}${
-        entity.active_registry!.id
-      }${urlSuffix}`;
-      target = "_top";
-    } else if (store.id === constants.reuseStoreId) {
-      url = `https://ad.soicos.com/-1i2E?dl=${encodeURIComponent(
-        entity.external_url,
-      )}&trackerID=${soicosPrefix || ""}${
-        entity.active_registry!.id
-      }${urlSuffix}`;
-      target = "_top";
-    } else if (store.id === constants.fensaStoreId) {
-      url = `https://ad.soicos.com/-1jF3?dl=${encodeURIComponent(
-        entity.external_url,
-      )}&trackerID=${soicosPrefix || ""}${
-        entity.active_registry!.id
-      }${urlSuffix}`;
-      target = "_top";
-    } else if (store.id === constants.easyId) {
-      url = `https://ad.soicos.com/-1mfo?dl=${encodeURIComponent(
-        entity.external_url,
-      )}&trackerID=${soicosPrefix || ""}${
-        entity.active_registry!.id
-      }${urlSuffix}`;
-      target = "_top";
-    } else if (store.id === constants.huaweiShopStoreId) {
-      url = `https://ad.soicos.com/-1cEy?dl=${encodeURIComponent(
-        entity.external_url,
-      )}&trackerID=${soicosPrefix || ""}${
-        entity.active_registry!.id
-      }${urlSuffix}`;
-      target = "_top";
-    } else if (store.id === constants.philipsStoreId) {
-      url = `https://ad.soicos.com/-1n4o?dl=${encodeURIComponent(
-        entity.external_url,
-      )}&trackerID=${soicosPrefix || ""}${
-        entity.active_registry!.id
-      }${urlSuffix}`;
-      target = "_top";
-    } else if (store.id === constants.asusStoreId) {
-      url = `https://ad.soicos.com/-1o4e?dl=${encodeURIComponent(
-        entity.external_url,
-      )}&trackerID=${soicosPrefix || ""}${
-        entity.active_registry!.id
-      }${urlSuffix}`;
-      target = "_top";
-    } else if (store.id === constants.dlPhoneId) {
-      url = `https://ad.soicos.com/-1q1C?dl=${encodeURIComponent(
-        entity.external_url,
-      )}&trackerID=${soicosPrefix || ""}${
-        entity.active_registry!.id
-      }${urlSuffix}`;
-      target = "_top";
-    } else if (store.id === constants.hpOnlineStoreId) {
-      url = `https://www.awin1.com/cread.php?awinmid=15305&awinaffid=641001&clickref=&p=%5B%5B${encodeURIComponent(
-        entity.external_url,
-      )}%5D%5D`;
-      target = "_self";
-    } else if (store.id === constants.winpyStoreId) {
-      url = `${entity.external_url}?ref=sltd`;
-      target = "_self";
-      // } else if (
-      //   store.id === constants.falabellaStoreId ||
-      //   store.id === constants.sodimacStoreId ||
-      //   store.id === constants.tottusStoreId
-      // ) {
-      //   url = `https://ad.soicos.com/-1gD6?dl=${encodeURIComponent(
-      //     entity.external_url
+      // } else if (store.id === constants.abcdinStoreId) {
+      //   url = `https://ad.soicos.com/-149x?dl=${encodeURIComponent(
+      //       entity.external_url
+      //   )}&trackerID=${soicosPrefix || ""}${
+      //       entity.active_registry!.id
+      //   }${urlSuffix}`;
+      //   target = "_top";
+      } else if (store.id === constants.parisStoreId) {
+        url = `https://ad.soicos.com/-149A?dl=${encodeURIComponent(
+          entity.external_url,
+        )}&trackerID=${soicosPrefix || ""}${
+          entity.active_registry!.id
+        }${urlSuffix}`;
+        target = "_top";
+      } else if (store.id === constants.lenovoChileStoreId) {
+        url = `https://ad.soicos.com/-15Dd?dl=${encodeURIComponent(
+          entity.external_url,
+        )}&trackerID=${soicosPrefix || ""}${
+          entity.active_registry!.id
+        }${urlSuffix}`;
+        target = "_top";
+      } else if (store.id === constants.reuseStoreId) {
+        url = `https://ad.soicos.com/-1i2E?dl=${encodeURIComponent(
+          entity.external_url,
+        )}&trackerID=${soicosPrefix || ""}${
+          entity.active_registry!.id
+        }${urlSuffix}`;
+        target = "_top";
+      } else if (store.id === constants.fensaStoreId) {
+        url = `https://ad.soicos.com/-1jF3?dl=${encodeURIComponent(
+          entity.external_url,
+        )}&trackerID=${soicosPrefix || ""}${
+          entity.active_registry!.id
+        }${urlSuffix}`;
+        target = "_top";
+      } else if (store.id === constants.easyId) {
+        url = `https://ad.soicos.com/-1mfo?dl=${encodeURIComponent(
+          entity.external_url,
+        )}&trackerID=${soicosPrefix || ""}${
+          entity.active_registry!.id
+        }${urlSuffix}`;
+        target = "_top";
+      } else if (store.id === constants.huaweiShopStoreId) {
+        url = `https://ad.soicos.com/-1cEy?dl=${encodeURIComponent(
+          entity.external_url,
+        )}&trackerID=${soicosPrefix || ""}${
+          entity.active_registry!.id
+        }${urlSuffix}`;
+        target = "_top";
+      } else if (store.id === constants.philipsStoreId) {
+        url = `https://ad.soicos.com/-1n4o?dl=${encodeURIComponent(
+          entity.external_url,
+        )}&trackerID=${soicosPrefix || ""}${
+          entity.active_registry!.id
+        }${urlSuffix}`;
+        target = "_top";
+      } else if (store.id === constants.asusStoreId) {
+        url = `https://ad.soicos.com/-1o4e?dl=${encodeURIComponent(
+          entity.external_url,
+        )}&trackerID=${soicosPrefix || ""}${
+          entity.active_registry!.id
+        }${urlSuffix}`;
+        target = "_top";
+      } else if (store.id === constants.dlPhoneId) {
+        url = `https://ad.soicos.com/-1q1C?dl=${encodeURIComponent(
+          entity.external_url,
+        )}&trackerID=${soicosPrefix || ""}${
+          entity.active_registry!.id
+        }${urlSuffix}`;
+        target = "_top";
+      } else if (store.id === constants.hpOnlineStoreId) {
+        url = `https://www.awin1.com/cread.php?awinmid=15305&awinaffid=641001&clickref=&p=%5B%5B${encodeURIComponent(
+          entity.external_url,
+        )}%5D%5D`;
+        target = "_self";
+      } else if (store.id === constants.winpyStoreId) {
+        url = `${entity.external_url}?ref=sltd`;
+        target = "_self";
+        // } else if (
+        //   store.id === constants.falabellaStoreId ||
+        //   store.id === constants.sodimacStoreId ||
+        //   store.id === constants.tottusStoreId
+        // ) {
+        //   url = `https://ad.soicos.com/-1gD6?dl=${encodeURIComponent(
+        //     entity.external_url
+        //   )}&trackerID=${soicosPrefix || ""}${
+        //     entity.active_registry!.id
+        //   }${urlSuffix}`;
+        //   target = "_self";
+      } else if (
+        store.id === constants.entelStoreId ||
+        store.id === constants.tiendaEntelStoreId
+      ) {
+        url = `https://ad.soicos.com/-1eK1?dl=${encodeURIComponent(
+          entity.external_url,
+        )}&trackerID=${soicosPrefix || ""}${
+          entity.active_registry!.id
+        }${urlSuffix}`;
+        target = "_top";
+      } else if (store.id === constants.samsungStoreId) {
+        url = `https://ad.soicos.com/-1rTI?dl=${encodeURIComponent(
+          entity.external_url,
+        )}&trackerID=${soicosPrefix || ""}${
+          entity.active_registry!.id
+        }${urlSuffix}`;
+        target = "_top";
+        // } else if (store.id === constants.tiendaOficialLgId) {
+        //     url = entity.external_url.replace("www.lg.com", "lgredirect.solotodo.com");
+        //     target = "_blank";
+      } else if (store.id === constants.gestionYEquiposId) {
+        const separator = entity.external_url.includes("?") ? "&" : "?";
+        url = `${entity.external_url}${separator}utm_source=solotodo&utm_medium=web&utm_campaign=comparador-solo-todo`;
+      // } else if (store.id === constants.laPolarStoreId) {
+      //   url = `https://ad.soicos.com/-1tIF?dl=${encodeURIComponent(
+      //     entity.external_url,
       //   )}&trackerID=${soicosPrefix || ""}${
       //     entity.active_registry!.id
       //   }${urlSuffix}`;
-      //   target = "_self";
-    } else if (
-      store.id === constants.entelStoreId ||
-      store.id === constants.tiendaEntelStoreId
-    ) {
-      url = `https://ad.soicos.com/-1eK1?dl=${encodeURIComponent(
-        entity.external_url,
-      )}&trackerID=${soicosPrefix || ""}${
-        entity.active_registry!.id
-      }${urlSuffix}`;
-      target = "_top";
-    } else if (store.id === constants.samsungStoreId) {
-      url = `https://ad.soicos.com/-1rTI?dl=${encodeURIComponent(
-        entity.external_url,
-      )}&trackerID=${soicosPrefix || ""}${
-        entity.active_registry!.id
-      }${urlSuffix}`;
-      target = "_top";
-      // } else if (store.id === constants.tiendaOficialLgId) {
-      //     url = entity.external_url.replace("www.lg.com", "lgredirect.solotodo.com");
-      //     target = "_blank";
-    } else if (store.id === constants.gestionYEquiposId) {
-      const separator = entity.external_url.includes("?") ? "&" : "?";
-      url = `${entity.external_url}${separator}utm_source=solotodo&utm_medium=web&utm_campaign=comparador-solo-todo`;
-    } else if (store.id === constants.laPolarStoreId) {
-      url = `https://ad.soicos.com/-1tIF?dl=${encodeURIComponent(
-        entity.external_url,
-      )}&trackerID=${soicosPrefix || ""}${
-        entity.active_registry!.id
-      }${urlSuffix}`;
-      target = "_top";
-    } else {
-      url = entity.external_url;
-      target = "_blank";
-    }
+      //   target = "_top";
+      } else {
+        url = entity.external_url;
+        target = "_blank";
+      }
 
     return {
       href: url,
