@@ -135,9 +135,9 @@ export default function LeadLink(props: LeadLinkProps) {
         }${urlSuffix}`;
         target = "_top";
       } else if (store.id === constants.hpOnlineStoreId) {
-        url = `https://www.awin1.com/cread.php?awinmid=15305&awinaffid=641001&clickref=&p=%5B%5B${encodeURIComponent(
+        url = `https://www.anrdoezrs.net/click-100936223-17014553?url=${encodeURIComponent(
           entity.external_url,
-        )}%5D%5D`;
+        )}`;
         target = "_self";
       } else if (store.id === constants.winpyStoreId) {
         url = `${entity.external_url}?ref=sltd`;
