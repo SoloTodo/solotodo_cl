@@ -24,6 +24,7 @@ import ProductDisques from "src/components/product/ProductDisques";
 import Handlebars from "handlebars";
 import { MyNextPageContext } from "src/frontend-utils/redux/with-redux-store";
 import { useCheckStatusCode } from "src/hooks/useCheckStatusCode";
+import CategoryAIDisclaimer from "../../../components/category/CategoryAIDisclaimer";
 
 function ProductPage({
   product,
@@ -99,6 +100,7 @@ function ProductPage({
             { name: product.name },
           ]}
         />
+        <CategoryAIDisclaimer category={category} />
         <Grid container spacing={3} justifyContent="space-between">
           <Grid item xs={12} sm={12} md={4}>
             <Box

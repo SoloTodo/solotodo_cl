@@ -53,7 +53,7 @@ import { MyNextPageContext } from "src/frontend-utils/redux/with-redux-store";
 import cookie from "cookie";
 import { getSettings } from "src/utils/settings";
 import { useCheckStatusCode } from "src/hooks/useCheckStatusCode";
-import Head from "next/head";
+import CategoryAIDisclaimer from "../../components/category/CategoryAIDisclaimer";
 
 const zlib = require("zlib");
 
@@ -281,6 +281,7 @@ function Browse({ data, statusCode }: { data: string; statusCode?: number }) {
             { name: category.name },
           ]}
         />
+        <CategoryAIDisclaimer category={category} />
         <ApiFormComponent
           endpoint={`${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`}
           fieldsMetadata={fieldsMetadata}
