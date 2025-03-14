@@ -19,7 +19,7 @@ export default function CategoryAIDisclaimer({category} : CategoryAIDisclaimerPr
         if (!categoryAiDisclaimerDismissed) {
             setDisplayAlert(true)
         }
-    }, [])
+    }, [cookieName])
 
     if (!category.is_ai_managed || !displayAlert) {
         return null
