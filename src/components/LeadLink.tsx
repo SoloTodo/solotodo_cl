@@ -153,16 +153,16 @@ export default function LeadLink(props: LeadLinkProps) {
         //     entity.active_registry!.id
         //   }${urlSuffix}`;
         //   target = "_self";
-      } else if (
-        store.id === constants.entelStoreId ||
-        store.id === constants.tiendaEntelStoreId
-      ) {
-        url = `https://ad.soicos.com/-1eK1?dl=${encodeURIComponent(
-          entity.external_url,
-        )}&trackerID=${soicosPrefix || ""}${
-          entity.active_registry!.id
-        }${urlSuffix}`;
-        target = "_top";
+      // } else if (
+      //   store.id === constants.entelStoreId ||
+      //   store.id === constants.tiendaEntelStoreId
+      // ) {
+      //   url = `https://ad.soicos.com/-1eK1?dl=${encodeURIComponent(
+      //     entity.external_url,
+      //   )}&trackerID=${soicosPrefix || ""}${
+      //     entity.active_registry!.id
+      //   }${urlSuffix}`;
+      //   target = "_top";
       } else if (store.id === constants.samsungStoreId) {
         url = `https://ad.soicos.com/-1rTI?dl=${encodeURIComponent(
           entity.external_url,
