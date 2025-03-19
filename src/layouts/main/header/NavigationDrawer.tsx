@@ -189,7 +189,7 @@ export default function NavigationDrawer({ inFooter = false }) {
                   </ListItemText>
                 </Link>
               ) : (
-                <NextLink href={`${s.path}/preview`} passHref legacyBehavior>
+                <NextLink href={`${s.path}`} passHref legacyBehavior>
                   <Link
                     sx={{
                       textTransform: "capitalize",

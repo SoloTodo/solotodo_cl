@@ -274,10 +274,6 @@ function Browse({ data, statusCode }: { data: string; statusCode?: number }) {
           heading=""
           links={[
             { name: "Home", href: PATH_MAIN.root },
-            {
-              name: "Tecnología",
-              href: `${PATH_MAIN.root}${category.slug}/preview`,
-            },
             { name: category.name },
           ]}
         />
