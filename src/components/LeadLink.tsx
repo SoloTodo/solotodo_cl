@@ -135,7 +135,7 @@ export default function LeadLink(props: LeadLinkProps) {
         }${urlSuffix}`;
         target = "_top";
       } else if (store.id === constants.hpOnlineStoreId) {
-        url = `https://www.anrdoezrs.net/click-100936223-17014553?url=${encodeURIComponent(
+        url = `https://www.anrdoezrs.net/click-100936223-17014100?url=${encodeURIComponent(
           entity.external_url,
         )}`;
         target = "_self";
