@@ -15,7 +15,7 @@ export const categorySlides: NavigationItemProps[] = [
   },
   {
     name: "Smartphones 5G",
-    path: "/cells?min_network_generation_start=1123014",
+    path: "/celulares?min_network_generation_start=1123014",
     picture: "https://media.solotodo.com/media/nav_items/5g_W16hqGL.png",
     subtitle: "Conéctate a la red más rápida",
   },
