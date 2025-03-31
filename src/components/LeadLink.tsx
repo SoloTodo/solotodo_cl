@@ -183,6 +183,9 @@ export default function LeadLink(props: LeadLinkProps) {
       //     entity.active_registry!.id
       //   }${urlSuffix}`;
       //   target = "_top";
+      } else if (store.id === constants.sindelenStoreId) {
+        const separator = entity.external_url.includes("?") ? "&" : "?";
+        url = `${entity.external_url}${separator}utm_source=solotodo`;
       } else {
         url = entity.external_url;
         target = "_blank";
