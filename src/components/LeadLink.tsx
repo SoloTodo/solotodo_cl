@@ -170,6 +170,14 @@ export default function LeadLink(props: LeadLinkProps) {
           entity.active_registry!.id
         }${urlSuffix}`;
         target = "_top";
+      } else if (store.id === constants.sodimacStoreId) {
+        url = `https://ad.soicos.com/-1uCE?dl=${encodeURIComponent(
+          entity.external_url,
+        )}&trackerID=${soicosPrefix || ""}${
+          entity.active_registry!.id
+        }${urlSuffix}`;
+        target = "_top";
+
         // } else if (store.id === constants.tiendaOficialLgId) {
         //     url = entity.external_url.replace("www.lg.com", "lgredirect.solotodo.com");
         //     target = "_blank";
