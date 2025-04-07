@@ -120,30 +120,6 @@ export const constants = {
         maxValue: 80000,
       },
     ],
-    6: [
-      {
-        label: "Rendimiento general",
-        field: "general_score",
-        maxValue: 1000,
-      },
-      {
-        label: "Rendimiento en gaming",
-        field: "soc_gpu_gfx_bench_score",
-        maxValue: 10000,
-      },
-    ],
-    14: [
-      {
-        label: "Rendimiento general",
-        field: "general_score",
-        maxValue: 1000,
-      },
-      {
-        label: "Juegos (GFX Bench)",
-        field: "soc_gpu_gfx_bench_score",
-        maxValue: 1000,
-      },
-    ],
   },
   bucketCategories: {
     6: {

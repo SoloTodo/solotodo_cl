@@ -177,20 +177,16 @@ export default function LeadLink(props: LeadLinkProps) {
           entity.active_registry!.id
         }${urlSuffix}`;
         target = "_top";
-
-        // } else if (store.id === constants.tiendaOficialLgId) {
-        //     url = entity.external_url.replace("www.lg.com", "lgredirect.solotodo.com");
-        //     target = "_blank";
+      } else if (store.id === constants.abcStoreId) {
+        url = `https://ad.soicos.com/-1uEJ?dl=${encodeURIComponent(
+          entity.external_url,
+        )}&trackerID=${soicosPrefix || ""}${
+          entity.active_registry!.id
+        }${urlSuffix}`;
+        target = "_top";
       } else if (store.id === constants.gestionYEquiposId) {
         const separator = entity.external_url.includes("?") ? "&" : "?";
         url = `${entity.external_url}${separator}utm_source=solotodo&utm_medium=web&utm_campaign=comparador-solo-todo`;
-      // } else if (store.id === constants.laPolarStoreId) {
-      //   url = `https://ad.soicos.com/-1tIF?dl=${encodeURIComponent(
-      //     entity.external_url,
-      //   )}&trackerID=${soicosPrefix || ""}${
-      //     entity.active_registry!.id
-      //   }${urlSuffix}`;
-      //   target = "_top";
       } else if (store.id === constants.sindelenStoreId) {
         const separator = entity.external_url.includes("?") ? "&" : "?";
         url = `${entity.external_url}${separator}utm_source=solotodo`;

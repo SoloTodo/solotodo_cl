@@ -438,7 +438,7 @@ Browse.getInitialProps = async (context: MyNextPageContext) => {
           Location: "/404",
         });
         context.res.end();
-        return;
+        return {};
       } else {
         return {
           statusCode: 404,
@@ -446,7 +446,7 @@ Browse.getInitialProps = async (context: MyNextPageContext) => {
       }
     } else {
       const response = await fetchJson(
-        `${constants.apiResourceEndpoints.category_specs_form_layouts}?category=${category.id}`
+        `${constants.apiResourceEndpoints.category_specs_form_layouts}?category=${category.id}&website=${constants.websiteId}`
       );
       let categorySpecsFormLayout: CategorySpecsFormLayoutProps = response[0];
       response.forEach((res: CategorySpecsFormLayoutProps) => {
