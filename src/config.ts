@@ -204,5 +204,5 @@ export const constants = {
       bucketProductLabelField: "color_unicode",
     },
   },
-  blacklistStores: [9, 87, 181],
+  blacklistStores: [9, 87, 181, 67],
 };
