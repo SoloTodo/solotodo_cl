@@ -187,8 +187,8 @@ export const constants = {
         },
         {
           label: "Modelo",
-          labelField: "commercial_name",
-          orderingField: "commercial_name",
+          labelField: "commercial_model",
+          orderingField: "commercial_model",
           directLink: true,
         },
       ],
