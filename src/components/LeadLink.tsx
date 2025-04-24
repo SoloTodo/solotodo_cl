@@ -180,6 +180,11 @@ export default function LeadLink(props: LeadLinkProps) {
           entity.active_registry!.id
         }${urlSuffix}`;
         target = "_top";
+      } else if (store.id === constants.tiendaOficialLgId) {
+        url = `https://track.go4aluna.co/click?pid=503&offer_id=3274&path=${encodeURIComponent(
+          entity.external_url,
+        )}`;
+        target = "_top";
       } else if (store.id === constants.gestionYEquiposId) {
         const separator = entity.external_url.includes("?") ? "&" : "?";
         url = `${entity.external_url}${separator}utm_source=solotodo&utm_medium=web&utm_campaign=comparador-solo-todo`;
