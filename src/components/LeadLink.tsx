@@ -191,6 +191,9 @@ export default function LeadLink(props: LeadLinkProps) {
       } else if (store.id === constants.sindelenStoreId) {
         const separator = entity.external_url.includes("?") ? "&" : "?";
         url = `${entity.external_url}${separator}utm_source=solotodo`;
+      } else if (store.id === constants.tiendaMovistarID) {
+        const separator = entity.external_url.includes("?") ? "&" : "?";
+        url = `${entity.external_url}${separator}utm_source=SOLOTODO&utm_medium=SOLOTODO&utm_campaign=CL_FULL-PRICE_COL-SOLOTODO-B2C_28-04-25_SOLOTODO`;
       } else {
         url = entity.external_url;
         target = "_blank";
