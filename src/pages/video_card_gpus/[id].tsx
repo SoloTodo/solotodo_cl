@@ -88,8 +88,8 @@ export default function VideoCardGpus({ gpu }: { gpu: Gpu }) {
           links={[
             { name: "Home", href: PATH_MAIN.root },
             {
-              name: "Tarjetas de videos",
-              href: `${PATH_MAIN.root}video_cards`,
+              name: "Tarjetas de video",
+              href: `${PATH_MAIN.root}tarjetas_de_video`,
             },
             { name: gpu.unicode },
           ]}
@@ -153,7 +153,7 @@ export default function VideoCardGpus({ gpu }: { gpu: Gpu }) {
               ribbonFormatter={(value: string) =>
                 `Visitas: ${parseInt(value, 10)}`
               }
-              actionHref={`/video_cards/?gpus=${gpu.id}`}
+              actionHref={`/tarjetas_de_video/?gpus=${gpu.id}`}
             />
           </Grid>
         </Grid>
