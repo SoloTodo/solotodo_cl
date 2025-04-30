@@ -70,8 +70,11 @@ export default function Search() {
 
   useGtag3({});
   useGtag4({ pageTitle: "Búsqueda" });
+
+  const title = router.query.search ? `${router.query.search} | Búsqueda` : 'Búsqueda'
+
   return (
-    <Page title={`${router.query.search} | Búsqueda`}>
+    <Page title={title}>
       <Container>
         <TopBanner category="any" />
         <HeaderBreadcrumbs
@@ -85,9 +88,11 @@ export default function Search() {
           <Grid container spacing={{ xs: 2, md: 3 }} alignItems="center">
             <Grid item xs={12}>
               <Typography variant="h2">Resultados de la búsqueda</Typography>
+              {router.query.search &&
               <Typography variant="body2">
                 Palabras clave: {router.query.search}
               </Typography>
+              }
             </Grid>
             <Grid item md={3} width="100%">
               <ApiFormSelectComponent
