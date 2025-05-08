@@ -435,6 +435,7 @@ Browse.getInitialProps = async (context: MyNextPageContext) => {
     const category = categories.find(
       (c) => (c as Category).slug === context.query?.category_slug
     );
+    console.log(category)
     if (typeof category === "undefined") {
       if (context.res) {
         context.res.writeHead(302, {

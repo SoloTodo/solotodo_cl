@@ -3,6 +3,7 @@ import { useState } from "react";
 import HeaderBreadcrumbs from "src/components/HeaderBreadcrumbs";
 import Image from "src/components/Image";
 import Page from "src/components/Page";
+import AIProductSummary from  "src/components/product/AIProductSummary";
 import ProductBenchmarks from "src/components/product/ProductBenchmarks";
 import ProductRating from "src/components/product/ProductRating";
 import ProductRatingSummary from "src/components/product/ProductRatingSummary";
@@ -128,6 +129,7 @@ function ProductPage({
               <ProductVariants product={product} category={category} />
               <ProductBenchmarks product={product} category={category} />
               <ProductDescription product={product} />
+              <AIProductSummary product={product} />
             </Stack>
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3}>
