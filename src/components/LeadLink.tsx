@@ -159,13 +159,13 @@ export default function LeadLink(props: LeadLinkProps) {
           entity.active_registry!.id
         }${urlSuffix}`;
         target = "_top";
-      // } else if (store.id === constants.sodimacStoreId) {
-      //   url = `https://ad.soicos.com/-1uCE?dl=${encodeURIComponent(
-      //     entity.external_url,
-      //   )}&trackerID=${soicosPrefix || ""}${
-      //     entity.active_registry!.id
-      //   }${urlSuffix}`;
-      //   target = "_top";
+      } else if (store.id === constants.sodimacStoreId && constants.sodimacWhitelistedKeys.includes(entity.key) && parseFloat(entity.active_registry?.offer_price || '0') > 100000) {
+        url = `https://ad.soicos.com/-1uCE?dl=${encodeURIComponent(
+          entity.external_url,
+        )}&trackerID=${soicosPrefix || ""}${
+          entity.active_registry!.id
+        }${urlSuffix}`;
+        target = "_top";
       } else if (store.id === constants.abcStoreId) {
         url = `https://ad.soicos.com/-1uEJ?dl=${encodeURIComponent(
           entity.external_url,

@@ -170,14 +170,24 @@ export default function ProductPrices({
   let blacklistedEntities:Entity[] | null = null;
 
   if (entities) {
-    whitelistedEntities = entities.filter(entity => {
+    whitelistedEntities = []
+    blacklistedEntities = []
+
+    for (const entity of entities) {
       const store : Store = apiResourceObjects[entity.store] as Store
-      return !constants.blacklistStores.includes(store.id)
-    })
-    blacklistedEntities = entities.filter(entity => {
-      const store : Store = apiResourceObjects[entity.store] as Store
-      return constants.blacklistStores.includes(store.id)
-    })
+      let isBlacklisted = false;
+      if (constants.blacklistStores.includes(store.id)) {
+        isBlacklisted = true
+      } else if (store.id === constants.sodimacId && (!constants.sodimacWhitelistedKeys.includes(entity.key) || parseFloat(entity.active_registry?.offer_price || '0') <= 100000 )) {
+        isBlacklisted = true
+      }
+
+      if (isBlacklisted) {
+        blacklistedEntities.push(entity)
+      } else {
+        whitelistedEntities.push(entity)
+      }
+    }
 
     // If no whitelisted entities are found, display the blacklisted ones to
     // prevent confusion
