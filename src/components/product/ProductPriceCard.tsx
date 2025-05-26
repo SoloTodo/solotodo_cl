@@ -159,7 +159,7 @@ export default function ProductPriceCard({
                 />
               )}
               {entity.best_coupon &&
-                store.id === constants.tiendaOficialLgId && (
+                  (store.id === constants.tiendaOficialLgId || store.id === constants.spDigitalID) && (
                   <Chip
                     label="Cupón SoloTodo"
                     size="small"
