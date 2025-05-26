@@ -21,7 +21,7 @@ export const categorySlides: NavigationItemProps[] = [
   },
   {
     name: "Tarjetas de video gamer",
-    path: "/video_cards?tdmark_time_spy_score_start=3500",
+    path: "/tarjetas_de_video?tdmark_time_spy_score_start=6000",
     picture: "https://media.solotodo.com/media/nav_items/rtx_JhrQICd.png",
     subtitle: "Las mejores tarjetas de video para tu PC",
   },
