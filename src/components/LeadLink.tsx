@@ -5,6 +5,7 @@ import { Entity } from "src/frontend-utils/types/entity";
 import { Store } from "src/frontend-utils/types/store";
 import { registerLead } from "src/utils/registerLead";
 import { v4 as uuidv4 } from "uuid";
+import {endpoint} from "../endpoint";
 
 type LeadLinkProps = {
   children: ReactNode;
@@ -194,6 +195,10 @@ export default function LeadLink(props: LeadLinkProps) {
       } else if (store.id === constants.tiendaMovistarID) {
         const separator = entity.external_url.includes("?") ? "&" : "?";
         url = `${entity.external_url}${separator}utm_source=SOLOTODO&utm_medium=SOLOTODO&utm_campaign=CL_FULL-PRICE_COL-SOLOTODO-B2C_28-04-25_SOLOTODO`;
+      } else if (store.id === constants.mercadoLibreId) {
+        url = `${endpoint}entities/meli_redirect/?url=${encodeURIComponent(
+          entity.external_url,
+        )}`;
       } else {
         url = entity.external_url;
         target = "_blank";
