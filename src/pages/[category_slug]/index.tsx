@@ -28,7 +28,7 @@ import {
   getApiResourceObjects,
   useApiResourceObjects,
 } from "src/frontend-utils/redux/api_resources/apiResources";
-import { Category } from "src/frontend-utils/types/store";
+import { Category, Subcategory } from "src/frontend-utils/types/store";
 import useSettings from "src/hooks/useSettings";
 import { PATH_MAIN } from "src/routes/paths";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -90,6 +90,7 @@ type CategorySpecsFormLayoutProps = {
 
 type PropTypes = {
   category: Category;
+  subcategory?: Subcategory;
   categorySpecsFormLayout: CategorySpecsFormLayoutProps;
   initialData: string;
   initialResult: any;
@@ -108,6 +109,7 @@ function Browse({ data, statusCode }: { data: string; statusCode?: number }) {
 
   const {
     category,
+      subcategory,
     categorySpecsFormLayout,
     initialData,
     initialResult,
@@ -213,10 +215,12 @@ function Browse({ data, statusCode }: { data: string; statusCode?: number }) {
     </Grid>
   );
 
+  const subcategoryOrCategoryName = subcategory ? subcategory.name : category.name
+
   const onResultsChange = (currentResult: { results: ProductsData[] }) => {
     const params = {
-      page_title: `${category.name} | SoloTodo`,
-      category: category.name,
+      page_title: `${subcategoryOrCategoryName} | SoloTodo`,
+      category: subcategoryOrCategoryName,
       category_id: category.id.toString(),
       items: currentResult.results.map((r, index) => {
         const { product_entries } = r;
@@ -245,25 +249,39 @@ function Browse({ data, statusCode }: { data: string; statusCode?: number }) {
       (window as any).gtag("event", "view_item_list", params);
   };
 
+  const subcategoryEndpointParams = subcategory ? `&${subcategory.params}` : ''
+
   useGtag3({ category: category.name });
   useGtag4({
-    pageTitle: category.name,
+    pageTitle: subcategoryOrCategoryName,
     category: category.name,
     categoryId: category.id.toString(),
   });
+
+  const headerLinks : {name: string; href?: string}[] = [
+    { name: "Home", href: PATH_MAIN.root },
+  ]
+
+  if (subcategory) {
+    headerLinks.push({ name: category.name, href: '/' + category.slug },)
+    headerLinks.push({ name: subcategory.name})
+  } else {
+    headerLinks.push({ name: category.name })
+  }
+
   return (
     <Page
-      title={category.name}
+      title={subcategoryOrCategoryName}
       meta={
         <>
           <meta
             property="og:title"
-            content={`Catálogo de ${category.name} - SoloTodo`}
+            content={`Catálogo de ${subcategoryOrCategoryName} - SoloTodo`}
           />
           <meta
             name="description"
             property="og:description"
-            content={`Cotiza y ahorra comparando los precios de todos los ${category.name.toLowerCase()} disponibles en el mercado`}
+            content={`Cotiza y ahorra comparando los precios de todos los ${subcategoryOrCategoryName.toLowerCase()} disponibles en el mercado`}
           />
         </>
       }
@@ -272,14 +290,11 @@ function Browse({ data, statusCode }: { data: string; statusCode?: number }) {
         <TopBanner category={category.name} />
         <HeaderBreadcrumbs
           heading=""
-          links={[
-            { name: "Home", href: PATH_MAIN.root },
-            { name: category.name },
-          ]}
+          links={headerLinks}
         />
         <CategoryAIDisclaimer category={category} />
         <ApiFormComponent
-          endpoint={`${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`}
+          endpoint={`${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${subcategoryEndpointParams}${storesUrl}`}
           fieldsMetadata={fieldsMetadata}
           initialState={{
             initialData: new URLSearchParams(initialData),
@@ -290,7 +305,7 @@ function Browse({ data, statusCode }: { data: string; statusCode?: number }) {
           <Grid container spacing={{ xs: 2, md: 3 }} alignItems="center">
             <Grid item xs={12} lg={3}>
               <Typography variant="h2" color="text.extra">
-                {category.name}
+                {subcategoryOrCategoryName}
               </Typography>
             </Grid>
             {useMediaQuery(theme.breakpoints.up("lg")) ? (
@@ -387,12 +402,12 @@ function Browse({ data, statusCode }: { data: string; statusCode?: number }) {
 
 Browse.getInitialProps = async (context: MyNextPageContext) => {
   try {
+    const category_slug = context.query?.category_slug;
     if (
       context.req &&
       context.query.page_size &&
       Number(context.query.page_size) > 50
     ) {
-      const category_slug = context.query?.category_slug;
       const query = context.query;
       delete query.category_slug;
       delete query.page_size;
@@ -428,10 +443,21 @@ Browse.getInitialProps = async (context: MyNextPageContext) => {
     }
 
     const apiResourceObjects = reduxStore.getState().apiResourceObjects;
-    const categories = getApiResourceObjects(apiResourceObjects, "categories");
-    const category = categories.find(
-      (c) => (c as Category).slug === context.query?.category_slug
-    );
+    const categories = getApiResourceObjects(apiResourceObjects, "categories") as Category[];
+    const subcategories = getApiResourceObjects(apiResourceObjects, "subcategories") as Subcategory[];
+
+    const subcategory = subcategories.find(subcategory => subcategory.slug === category_slug)
+    const category = categories.find(c => {
+      if (c.slug === category_slug) {
+        return true
+      }
+      if (subcategory && subcategory.category == c.url) {
+        return true
+      }
+      return false
+    });
+
+
     if (typeof category === "undefined") {
       if (context.res) {
         context.res.writeHead(302, {
@@ -580,15 +606,19 @@ Browse.getInitialProps = async (context: MyNextPageContext) => {
         });
       });
 
-      const apiForm = new ApiForm(
-        fieldsMetadata,
-        `${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
-      );
+      let endpoint = `${category.url}browse/?exclude_refurbished=${prefExcludeRefurbished}${storesUrl}`
+      if (subcategory) {
+        endpoint += '&' + subcategory.params
+      }
+      console.log(endpoint)
+
+      const apiForm = new ApiForm(fieldsMetadata, endpoint);
       apiForm.initialize(context);
       const results = await apiForm.submit();
 
       const string = JSON.stringify({
         category: category,
+        subcategory: subcategory,
         categorySpecsFormLayout: categorySpecsFormLayout,
         initialData: context.asPath,
         initialResult: results,

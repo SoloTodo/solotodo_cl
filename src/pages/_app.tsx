@@ -126,6 +126,7 @@ MyApp.getInitialProps = async (context: MyAppContext) => {
     "currencies",
     "stores",
     "store_types",
+      "subcategories"
   ];
   const resources_query = resources.reduce((acc, r) => {
     return (acc = `${acc}&names=${r}`);
