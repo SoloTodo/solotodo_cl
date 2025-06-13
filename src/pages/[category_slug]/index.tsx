@@ -270,18 +270,18 @@ function Browse({ data, statusCode }: { data: string; statusCode?: number }) {
   }
 
   return (
-    <Page
-      title={subcategoryOrCategoryName}
-      meta={
-        <>
-          <meta
-            property="og:title"
-            content={`Catálogo de ${subcategoryOrCategoryName} - SoloTodo`}
+        <Page
+            title={'Cotiza y compara ' + subcategoryOrCategoryName}
+            meta={
+              <>
+                <meta
+                    property="og:title"
+                    content={'Cotiza y compara ' + subcategoryOrCategoryName + ' | SoloTodo.cl'}
           />
           <meta
             name="description"
             property="og:description"
-            content={`Cotiza y ahorra comparando los precios de todos los ${subcategoryOrCategoryName.toLowerCase()} disponibles en el mercado`}
+            content={subcategory && subcategory.meta_tag_description ? subcategory.meta_tag_description : `Cotiza y ahorra comparando los precios de todos los ${subcategoryOrCategoryName.toLowerCase()} disponibles en el mercado`}
           />
         </>
       }
