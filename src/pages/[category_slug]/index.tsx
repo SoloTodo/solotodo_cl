@@ -281,7 +281,7 @@ function Browse({ data, statusCode }: { data: string; statusCode?: number }) {
           <meta
             name="description"
             property="og:description"
-            content={subcategory && subcategory.meta_tag_description ? subcategory.meta_tag_description : `Cotiza y ahorra comparando los precios de todos los ${subcategoryOrCategoryName.toLowerCase()} disponibles en el mercado`}
+            content={subcategory?.meta_tag_description || category.meta_tag_description || `Cotiza y ahorra comparando los precios de todos los ${subcategoryOrCategoryName.toLowerCase()} disponibles en el mercado`}
           />
         </>
       }
