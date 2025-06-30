@@ -63,7 +63,7 @@ export default class MyDocument extends Document {
           /> */}
                     <meta name="keywords" content="solotodo"/>
                     <meta name="author" content="SoloTodo"/>
-
+                    <script async src={`https://www.googletagmanager.com/gtag/js?id=${constants.GA4Id}`}></script>
                     <script
                         async
                         src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"
