@@ -38,7 +38,6 @@ import {useApiResourceObjects} from "src/frontend-utils/redux/api_resources/apiR
 import {useSnackbar} from "notistack";
 import FacebookButton from "src/components/FacebookButton";
 import TopBanner from "src/components/TopBanner";
-import {useGtag3} from "src/hooks/useGtag3";
 import {useGtag4} from "src/hooks/useGtag4";
 import GoogleButton from "../components/GoogleButton";
 
@@ -142,7 +141,6 @@ export default function Login() {
             });
     };
 
-    useGtag3({});
     useGtag4({pageTitle: "Iniciar Sesión"});
     return (
         <Page title="Iniciar Sesión">
@@ -254,7 +252,7 @@ export default function Login() {
                                     <Typography variant="h5" color="text.secondary">
                                         Si lo prefieres, puedes ingresar con
                                     </Typography>
-                                    <GoogleButton />
+                                    <GoogleButton/>
                                     <FacebookButton/>
                                 </Stack>
                             </FormProvider>
