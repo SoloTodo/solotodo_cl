@@ -304,18 +304,18 @@ export default function ProductPriceHistory({ product }: { product: Product }) {
                         : new Date(2010, 1, 1)
                     }
                     maxDate={endDate || new Date()}
-                    inputFormat="dd/MM/yyyy"
+                    // inputFormat="dd/MM/yyyy"
                     onChange={(newValue) => setStartDate(newValue)}
-                    renderInput={(params) => <TextField {...params} />}
+                    // renderInput={(params) => <TextField {...params} />}
                   />
                   <DesktopDatePicker
                     label="hasta"
                     value={endDate}
-                    minDate={startDate}
+                    minDate={startDate || undefined}
                     maxDate={new Date()}
-                    inputFormat="dd/MM/yyyy"
+                    // inputFormat="dd/MM/yyyy"
                     onChange={(newValue) => setEndDate(newValue)}
-                    renderInput={(params) => <TextField {...params} />}
+                    // renderInput={(params) => <TextField {...params} />}
                   />
                 </Stack>
               </LocalizationProvider>

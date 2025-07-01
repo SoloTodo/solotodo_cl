@@ -59,7 +59,7 @@ export default function ComponentsOverrides(theme: Theme) {
     Lists(theme),
     Table(theme),
     Paper(theme),
-    Alert(theme),
+    // Alert(theme),
     Switch(theme),
     Select(theme),
     Button(theme),

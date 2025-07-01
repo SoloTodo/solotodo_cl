@@ -9,19 +9,19 @@ export const categorySlides: NavigationItemProps[] = [
   },
     {
     name: "PS5",
-    path: "/consoles?families=1182932",
+    path: "/consolas?families=1182932",
     picture: "https://media.solotodo.com/media/nav_items/ps5.png",
     subtitle: "Lo más reciente de Sony",
   },
   {
     name: "Smartphones 5G",
-    path: "/cells?min_network_generation_start=1123014",
+    path: "/celulares?min_network_generation_start=1123014",
     picture: "https://media.solotodo.com/media/nav_items/5g_W16hqGL.png",
     subtitle: "Conéctate a la red más rápida",
   },
   {
     name: "Tarjetas de video gamer",
-    path: "/video_cards?tdmark_time_spy_score_start=3500",
+    path: "/tarjetas_de_video?tdmark_time_spy_score_start=6000",
     picture: "https://media.solotodo.com/media/nav_items/rtx_JhrQICd.png",
     subtitle: "Las mejores tarjetas de video para tu PC",
   },

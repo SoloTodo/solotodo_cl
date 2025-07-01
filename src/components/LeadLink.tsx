@@ -5,6 +5,7 @@ import { Entity } from "src/frontend-utils/types/entity";
 import { Store } from "src/frontend-utils/types/store";
 import { registerLead } from "src/utils/registerLead";
 import { v4 as uuidv4 } from "uuid";
+import {endpoint} from "../endpoint";
 
 type LeadLinkProps = {
   children: ReactNode;
@@ -64,13 +65,13 @@ export default function LeadLink(props: LeadLinkProps) {
         url += "&uuid=" + uuid;
       }
       target = "_blank";
-      } else if (store.id === constants.abcdinStoreId) {
-        url = `https://ad.soicos.com/-149x?dl=${encodeURIComponent(
-            entity.external_url
-        )}&trackerID=${soicosPrefix || ""}${
-            entity.active_registry!.id
-        }${urlSuffix}`;
-        target = "_top";
+      // } else if (store.id === constants.abcdinStoreId) {
+      //   url = `https://ad.soicos.com/-149x?dl=${encodeURIComponent(
+      //       entity.external_url
+      //   )}&trackerID=${soicosPrefix || ""}${
+      //       entity.active_registry!.id
+      //   }${urlSuffix}`;
+      //   target = "_top";
       } else if (store.id === constants.parisStoreId) {
         url = `https://ad.soicos.com/-149A?dl=${encodeURIComponent(
           entity.external_url,
@@ -135,34 +136,23 @@ export default function LeadLink(props: LeadLinkProps) {
         }${urlSuffix}`;
         target = "_top";
       } else if (store.id === constants.hpOnlineStoreId) {
-        url = `https://www.anrdoezrs.net/click-100936223-17014553?url=${encodeURIComponent(
+        url = `https://www.anrdoezrs.net/click-100936223-17014100?url=${encodeURIComponent(
           entity.external_url,
         )}`;
         target = "_self";
       } else if (store.id === constants.winpyStoreId) {
         url = `${entity.external_url}?ref=sltd`;
         target = "_self";
-        // } else if (
-        //   store.id === constants.falabellaStoreId ||
-        //   store.id === constants.sodimacStoreId ||
-        //   store.id === constants.tottusStoreId
-        // ) {
-        //   url = `https://ad.soicos.com/-1gD6?dl=${encodeURIComponent(
-        //     entity.external_url
-        //   )}&trackerID=${soicosPrefix || ""}${
-        //     entity.active_registry!.id
-        //   }${urlSuffix}`;
-        //   target = "_self";
-      } else if (
-        store.id === constants.entelStoreId ||
-        store.id === constants.tiendaEntelStoreId
-      ) {
-        url = `https://ad.soicos.com/-1eK1?dl=${encodeURIComponent(
-          entity.external_url,
-        )}&trackerID=${soicosPrefix || ""}${
-          entity.active_registry!.id
-        }${urlSuffix}`;
-        target = "_top";
+      // } else if (
+      //   store.id === constants.entelStoreId ||
+      //   store.id === constants.tiendaEntelStoreId
+      // ) {
+      //   url = `https://ad.soicos.com/-1eK1?dl=${encodeURIComponent(
+      //     entity.external_url,
+      //   )}&trackerID=${soicosPrefix || ""}${
+      //     entity.active_registry!.id
+      //   }${urlSuffix}`;
+      //   target = "_top";
       } else if (store.id === constants.samsungStoreId) {
         url = `https://ad.soicos.com/-1rTI?dl=${encodeURIComponent(
           entity.external_url,
@@ -170,19 +160,47 @@ export default function LeadLink(props: LeadLinkProps) {
           entity.active_registry!.id
         }${urlSuffix}`;
         target = "_top";
-        // } else if (store.id === constants.tiendaOficialLgId) {
-        //     url = entity.external_url.replace("www.lg.com", "lgredirect.solotodo.com");
-        //     target = "_blank";
-      } else if (store.id === constants.gestionYEquiposId) {
-        const separator = entity.external_url.includes("?") ? "&" : "?";
-        url = `${entity.external_url}${separator}utm_source=solotodo&utm_medium=web&utm_campaign=comparador-solo-todo`;
-      } else if (store.id === constants.laPolarStoreId) {
-        url = `https://ad.soicos.com/-1tIF?dl=${encodeURIComponent(
+      } else if (store.id === constants.sodimacStoreId && constants.sodimacWhitelistedKeys.includes(entity.key) && parseFloat(entity.active_registry?.offer_price || '0') > 100000) {
+        url = `https://ad.soicos.com/-1uCE?dl=${encodeURIComponent(
           entity.external_url,
         )}&trackerID=${soicosPrefix || ""}${
           entity.active_registry!.id
         }${urlSuffix}`;
         target = "_top";
+      } else if (store.id === constants.abcStoreId) {
+        url = `https://ad.soicos.com/-1uEJ?dl=${encodeURIComponent(
+          entity.external_url,
+        )}&trackerID=${soicosPrefix || ""}${
+          entity.active_registry!.id
+        }${urlSuffix}`;
+        target = "_top";
+      } else if (store.id === constants.osojiStoreId) {
+        url = `https://ad.soicos.com/-1uxx?dl=${encodeURIComponent(
+          entity.external_url,
+        )}&trackerID=${soicosPrefix || ""}${
+          entity.active_registry!.id
+        }${urlSuffix}`;
+        target = "_top";
+      } else if (store.id === constants.tiendaOficialLgId) {
+        url = `https://track.go4aluna.co/click?pid=503&offer_id=3274&path=${encodeURIComponent(
+          entity.external_url,
+        )}`;
+        target = "_top";
+      } else if (store.id === constants.gestionYEquiposId) {
+        const separator = entity.external_url.includes("?") ? "&" : "?";
+        url = `${entity.external_url}${separator}utm_source=solotodo&utm_medium=web&utm_campaign=comparador-solo-todo`;
+      } else if (store.id === constants.sindelenStoreId) {
+        const separator = entity.external_url.includes("?") ? "&" : "?";
+        url = `${entity.external_url}${separator}utm_source=solotodo`;
+      } else if (store.id === constants.tiendaMovistarID) {
+        const separator = entity.external_url.includes("?") ? "&" : "?";
+        url = `${entity.external_url}${separator}utm_source=SOLOTODO&utm_medium=SOLOTODO&utm_campaign=CL_FULL-PRICE_COL-SOLOTODO-B2C_28-04-25_SOLOTODO`;
+      } else if (store.id === constants.falabellaStoreId) {
+        url = `${entity.external_url}?mkid=SO_PST_PRO_1403`;
+      } else if (store.id === constants.mercadoLibreId) {
+        url = `${endpoint}entities/meli_redirect/?url=${encodeURIComponent(
+          entity.external_url,
+        )}`;
       } else {
         url = entity.external_url;
         target = "_blank";
