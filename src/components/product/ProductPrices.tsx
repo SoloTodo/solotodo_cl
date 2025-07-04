@@ -179,8 +179,6 @@ export default function ProductPrices({
             let isBlacklisted = false;
             if (constants.blacklistStores.includes(store.id)) {
                 isBlacklisted = true
-            } else if (store.id === constants.sodimacId && (!constants.sodimacWhitelistedKeys.includes(entity.key) || parseFloat(entity.active_registry?.offer_price || '0') <= 100000)) {
-                isBlacklisted = true
             }
 
             if (isBlacklisted) {
