@@ -182,9 +182,7 @@ export default function LeadLink(props: LeadLinkProps) {
             }${urlSuffix}`;
             target = "_top";
         } else if (store.id === constants.tiendaOficialLgId) {
-            url = `https://track.go4aluna.co/click?pid=503&offer_id=3274&path=${encodeURIComponent(
-                entity.external_url,
-            )}`;
+            url = `https://track.go4aluna.co/click?pid=503&offer_id=3274&sub3=${encodeURIComponent(entity.external_url)}&l=1745415715`
             target = "_top";
         } else if (store.id === constants.gestionYEquiposId) {
             const separator = entity.external_url.includes("?") ? "&" : "?";
